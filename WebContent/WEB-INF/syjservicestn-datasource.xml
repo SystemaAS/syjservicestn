@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--/////////////////
+   data sources
+   /////////////////
+-->  
+<beans>  
+  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">        
+    <property name="jndiName"><value>java:comp/env/jdbc/syjservicesDS</value></property>
+  </bean>
+</beans>

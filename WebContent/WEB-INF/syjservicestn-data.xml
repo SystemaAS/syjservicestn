@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--  
+   - data layer components  
+ -->
+<beans>  
+  <!--///////////////////
+      DAO layer
+     ///////////////////
+  -->
+  <!-- Application User 
+   <bean id="applicationUserDao" class="no.logiq.webedidemo.model.dao.ApplicationUserDaoImpl" singleton="false">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+   <bean id="documentDeliveryDao" class="no.logiq.webedidemo.model.dao.DocumentDeliveryDaoImpl" singleton="false">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  -->
+  
+  <!-- Domain Dao:s Services -->
+  <bean id="cundfDaoServices" class="no.systema.jservices.model.dao.services.CundfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  <bean id="bridfDaoServices" class="no.systema.jservices.model.dao.services.BridfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
+  
+  <!-- TVINN - Domain Dao:s Services -->
+  <bean id="sadl_KundensVarRegDaoServices" class="no.systema.jservices.tvinn.sad.sadexport.model.dao.services.Sadl_KundensVarRegDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
+  
+  
+  
+  <!--///////////////////
+        NativeExtractor 
+      ///////////////////
+   -->  
+    <bean id="nativeExtractor" class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor" lazy-init="true"/>
+ 
+  <!--/////////////////
+        jdbc templates
+      /////////////////
+   -->     
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">        
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+  </bean>
+ </beans>

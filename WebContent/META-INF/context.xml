@@ -1,0 +1,31 @@
+<!-- The contents of this file will be loaded for each web application -->
+
+<Context debug="1" reloadable="true">
+  
+  <!-- This refers to the Resource (conf/context.xml) in Tomcat Server -->
+  <ResourceLink global="jdbc/syjservicesDS" name="jdbc/syjservicesDS" type="javax.sql.DataSource"/>
+  
+  <!-- 
+  ============================================================================== 
+  This must reside in the customer's tomcat server ../conf/context.xml	
+  Be sure to have the jt400.jar (JDBC) in the tomcat server's ../lib directory
+  Below: Example on Systemas gw.systema.no Tomcat installation
+  ==============================================================================
+  <Resource name="jdbc/syjservicesDS" auth="Container"
+		driverClassName="com.ibm.as400.access.AS400JDBCDriver"
+        factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
+        type="javax.sql.DataSource"
+        url="jdbc:as400://10.13.1.22;naming=system;socket timeout=15000"
+        username="systema"
+        password="straffe12"
+        maxIdle="10"
+        maxTotal="80"
+        maxWaitMillis="1"
+        removeAbandonedTimeout="60"
+        removeAbandonedOnBorrow="true"
+        removeAbandonedOnMaintenance="true" />
+	 -->
+
+  
+</Context>
+
