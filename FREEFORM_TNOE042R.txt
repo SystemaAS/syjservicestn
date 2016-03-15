@@ -1,0 +1,195 @@
+FBRIDF     IF   E           K DISK    USROPN           
+FSADL      IF   E             DISK    USROPN           
+ *-----------------------------------------------------
+ * Variables common to all CGIs                        
+ *-----------------------------------------------------
+ /copy SYSPEDS/qrpgsrcpy,prototypeb                    
+ /copy SYSPEDS/qrpgsrcpy,usec                          
+ /copy SYSPEDS/qrpgsrcpy,variables3                    
+ *  Prototype for 'JSONFIX'                            
+d jsonfix         pr                  extpgm('JSONFIX')
+d jsonstring_                         like(jsonstring) 
+ *  Prototype for 'INCGI'                              
+d incgi           pr                  extproc('INCGI') 
+d bistdl_                             like(bistdl)     
+ *  Prototype for variabel program                     
+D Varpgm          Pr                  ExtPgm(BILIBL)   
+ * Varible for                                         
+D WSUSER          S             10                     
+D JSONstring      s          32000                     
+D Error           S            150                     
+D AntLest         S              9  0                  
+d myrows          s             10i 0                  
+d  X              S              5  0                  
+d  WERR           S              1                     
+d  W              S             20                                           
+                                                                             
+ *get input-string                                                           
+ /copy syspeds/qrpgsrcpy,prolog3                                             
+   /free                                                                     
+                                                                             
+   // Parse input                                                            
+    exsr Parse;                                                              
+   // Open files etc                                                         
+    exsr Init;                                                               
+                                                                             
+  gethtmlifs(                                                                
+  '/syspeddev/html/JSON.html':                                               
+  '/CGITAG/');                                                               
+  wrtsection('top');                                                         
+                                                                             
+  //.........................................................................
+  //skriv JSON-Object start (alltid '{' + x ant param. m/komma mellom (IKKE k
+  //.........................................................................
+                                                                             
+   JSONstring='{'                                                            
+   +'ČuserČ : Č'+%trim(WSUSER)+'Č, '                                         
+   +'ČerrMsgČ : Č'+%trim(Error)+'Č, ';                                       
+  //JSONfix escaper " i tekst,  for deretter ň bytte Č->"           
+                                                                    
+  jsonfix ( jsonstring );                                           
+                                                                    
+  updhtmlvar2('JSONstring'                                          
+             :%addr(jsonstring)                                     
+             :%len(jsonstring));                                    
+  wrtsection('JSONlin');                                            
+                                                                    
+  //................................................................
+  // Skriv JSON-LISTE Start (en liste er EN parameter(fra [ til   ) 
+  //................................................................
+  jsonstring ='"kundvaradd" : [';                                   
+                                                                    
+  updhtmlvar2('JSONstring'                                          
+             :%addr(jsonstring)                                     
+             :%len(jsonstring));                                    
+  wrtsection('JSONlin');                                            
+                                                                    
+  if error = *blanks;                                               
+    // HŠmta til array                                              
+    exsr sradd;                                                     
+    // Avsluta                                                      
+    exsr avslut;                                                    
+ endif;                                
+ // ...................................
+ // Skriv JSON-Liste/Array  Avslutning 
+ // ...................................
+ jsonstring =']';                      
+ updhtmlvar2('JSONstring'              
+            :%addr(jsonstring)         
+            :%len(jsonstring));        
+ wrtsection('JSONlin');                
+ // ...................................
+ // Skriv JSON-string Avsluttning      
+ // ...................................
+ jsonstring ='}';                      
+ updhtmlvar2('JSONstring'              
+            :%addr(jsonstring)         
+            :%len(jsonstring));        
+ wrtsection('JSONlin');                
+                                       
+ // Quit                               
+ exsr exit;                            
+                                       
+ //====================================
+ // Close output html and quit         
+ //====================================
+  begsr exit;                              
+    // Lukk fil                            
+    close bridf;                           
+    if *in50 = *off;                       
+    close sadl;                            
+    endif;                                 
+                                           
+    // Do not delete the call to wrtsection
+    // to ensure that all output html that 
+    wrtsection('*fini');                   
+    // Quit                                
+    *inlr = *on;                           
+    return;                                
+  endsr;                                   
+  //***************************************
+  begsr parse;                             
+  //***************************************
+  // Get input                             
+    wsuser    = zhbgetvar('USER');         
+    slstat    = zhbgetvar('SLSTAT');       
+    w         = zhbgetvar('SLKNR');        
+    slknr     = c2n2(w);                   
+    slalfa    = zhbgetvar('SLALFA');       
+    sltxt     = zhbgetvar('SLTXT');        
+   sloppl    = zhbgetvar('SLOPPL'); 
+   w         = zhbgetvar('SLVEKT'); 
+   slvekt    = c2n2(w);             
+   w         = zhbgetvar('SLTANR'); 
+   sltanr    = c2n2(w);             
+   sltar     = zhbgetvar('SLTAR');  
+   slpva     = zhbgetvar('SLPVA');  
+   w         = zhbgetvar('SLSATS'); 
+   slsats    = c2n2(w);             
+   sltn      = zhbgetvar('SLTN');   
+   SLKDAĂ    = zhbgetvar('SLKDAE'); 
+   SLKDSĂ    = zhbgetvar('SLKDSE'); 
+   SLTO      = zhbgetvar('SLTO');   
+   SLCREF    = zhbgetvar('SLCREF'); 
+                                    
+ endsr;                             
+ //*********************************
+ begsr init;                        
+ //*********************************
+   open bridf;                      
+   // Test innlogging               
+   chain wsuser bridf;  //SQL OSCAR            
+   *in50 = not %found;              
+    if *in50 = *off;                                   
+      if bilibl = *blanks;                             
+        incgi ( bistdl );                              
+      else;                                            
+                                                       
+        Monitor;                                       
+              Varpgm();                                
+            On-Error;                                  
+              //                                       
+            EndMon;                                    
+                                                       
+      endif;                                           
+   //Dummy read for feltbeskrivelser, kuttes ut i java 
+    open sadl;                                         
+    if *in50 = *on;                                    
+    read sadl;                                         
+    endif;                                             
+    else;                                              
+                                                       
+      error = 'Invalid userID';                        
+    endif;                                             
+                                                       
+  endsr;                                               
+   // _________________________________________________
+   // Addera post till fil                         SRADD        
+   // """"""""""""""""""""""""""""""""""""""""""""""""""        
+      begsr sradd;                                              
+                                                                
+     exec sql                                                   
+                                                                
+     INSERT INTO SADL                                           
+     (SLSTAT, SLKNR, SLALFA, SLTXT, SLOPPL, SLVEKT, SLTANR,     
+     SLTAR, SLPVA, SLSATS, SLTN, SLKDAĂ, SLKDSĂ, SLTO, SLCREF)  
+     VALUES(:SLSTAT, :SLKNR, :SLALFA, :SLTXT, :SLOPPL, :SLVEKT, 
+     :SLTANR, :SLTAR, :SLPVA, :SLSATS, :SLTN, :SLKDAĂ, :SLKDSĂ, 
+     :SLTO, :SLCREF);                                           
+                                                                
+  endsr;                                                        
+   // __________________________________________________        
+   // Avsluta                                     AVSLUT        
+   // """"""""""""""""""""""""""""""""""""""""""""""""""        
+      begsr avslut;                                             
+     JSONstring=*blanks;                                        
+  JSONstring=%trim(JSONstring)+'{'                              
+     +'ČresultČ : Č'+ 'ok' + 'Č}';                              
+    jsonfix (JSONstring);                                       
+  updhtmlvar2('JSONstring'                                      
+             :%addr(jsonstring)                                 
+             :%len(jsonstring));
+    wrtsection ('JSONlin');     
+                                
+  endsr;                        
+ /end-free                      
