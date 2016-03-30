@@ -44,18 +44,22 @@ public class KodtlikDaoServicesImpl implements KodtlikDaoServices {
 	 * @param userName
 	 * @return
 	 */
-	/*
-	public String findById(String userName){
-		String sql = "SELECT * FROM kodtlik WHERE bibrid = ?";
-		String name = null;
+	
+	public List<KodtlikDao> findById(StringBuffer errorStackTrace, String id){
+		List<KodtlikDao> retval = new ArrayList<KodtlikDao>();
 		try{
-			name = (String)jdbcTemplate.queryForObject( sql, new Object[] { userName }, String.class);
+			String sql= "select * from kodtlik where klikod = ?";
+			retval = this.jdbcTemplate.query( sql, new Object[] { id }, new KodtlikMapper());
 		}catch(Exception e){
-			//nothing
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
 		}
-		return name;
+		return retval;
 	}
-	*/
+	
 	
 	
 	/**                                                                                                  

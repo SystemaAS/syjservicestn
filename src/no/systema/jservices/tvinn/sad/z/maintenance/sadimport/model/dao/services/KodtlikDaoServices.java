@@ -1,6 +1,8 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services;
 import java.util.*;
 
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlikDao;
+
 /**
  * 
  * @author oscardelatorre
@@ -8,5 +10,8 @@ import java.util.*;
  * 
  */
 public interface KodtlikDaoServices {
-	public List getList(StringBuffer errorStackTrace);
+	public List<KodtlikDao> getList(StringBuffer errorStackTrace);
+	public List<KodtlikDao> findById(StringBuffer errorStackTrace, String id);
+	//DMLs
+	//TODO
 }
