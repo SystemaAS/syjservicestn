@@ -11,7 +11,10 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
  */
 public interface KodtlikDaoServices {
 	public List<KodtlikDao> getList(StringBuffer errorStackTrace);
-	public List<KodtlikDao> findById(StringBuffer errorStackTrace, String id);
+	public List<KodtlikDao> findById(String id, StringBuffer errorStackTrace);
 	//DMLs
-	//TODO
+	public int insert(KodtlikDao dao, StringBuffer errorStackTrace);
+	public int update(KodtlikDao dao, StringBuffer errorStackTrace);
+	public int delete(KodtlikDao dao, StringBuffer errorStackTrace);
+	
 }

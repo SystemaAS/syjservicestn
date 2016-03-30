@@ -15,7 +15,7 @@ public class KodtlikDao implements Serializable {
 	public void setKlista (String value){ this.klista = value;   }   
 	public String getKlista (){ return this.klista;   }              
 
-	private String kliuni = "";                                
+	private String kliuni = "LIKO"; //always                                
 	public void setKliuni (String value){ this.kliuni = value;   }   
 	public String getKliuni (){ return this.kliuni;   }              
 

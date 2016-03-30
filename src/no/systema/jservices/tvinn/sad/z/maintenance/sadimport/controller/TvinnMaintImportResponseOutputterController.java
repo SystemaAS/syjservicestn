@@ -36,6 +36,8 @@ import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
+//rules
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SYFT19R_U;
 
 
 
@@ -97,7 +99,7 @@ public class TvinnMaintImportResponseOutputterController {
 				//do SELECT
 				logger.info("Before SELECT ...");
 				if(dao.getKlikod()!=null && !"".equals(dao.getKlikod())){
-					list = this.kodtlikDaoServices.findById(dbErrorStackTrace, dao.getKlikod());
+					list = this.kodtlikDaoServices.findById(dao.getKlikod(), dbErrorStackTrace);
 				}else{
 					list = this.kodtlikDaoServices.getList(dbErrorStackTrace);
 				}
@@ -131,10 +133,18 @@ public class TvinnMaintImportResponseOutputterController {
 	}
 	
 	/**
+	 * 
 	 * Update Database DML operations
+	 * File: 		KODTLIK
+	 * PGM:		SYFT19
+	 * Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 
+	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSYFT19R_U.do?user=OSCAR&mode=U/A/D
+	 *
 	 * @param session
 	 * @param request
 	 * @return
+	 * 
 	 */
 	@RequestMapping(value="syjsSYFT19R_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
@@ -146,7 +156,7 @@ public class TvinnMaintImportResponseOutputterController {
 			logger.info("Inside syjsSYFT19R_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
-			
+			String mode = request.getParameter("mode");
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
             //DEBUG --> logger.info("USERNAME:" + userName + "XX");
@@ -154,28 +164,48 @@ public class TvinnMaintImportResponseOutputterController {
 			String status = "ok";
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
+			//bind attributes is any
+			KodtlikDao dao = new KodtlikDao();
+			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+            binder.bind(request);
+            //rules
+            SYFT19R_U rulerLord = new SYFT19R_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
-				//bind attributes is any
-				KodtlikDao dao = new KodtlikDao();
-				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
-	            binder.bind(request);
-	            
-				//do SELECT
-				logger.info("Before UPDATE/ADD/REMOVE ...");
-				//TODO!!! COVI
-				/*List list = this.kodtlikDaoServices.getList(dbErrorStackTrace);
-				//process result
-				if (list!=null){
-					//write the final JSON output
-					sb.append(jsonWriter.setJsonResult_SYFT19R_GetList(userName, list));
+				if(rulerLord.isValidInput(dao, userName, mode)){
+					logger.info("Before UPDATE ...");
+					List<KodtlikDao> list = new ArrayList<KodtlikDao>();
+					int dmlRetval = 0;
+					//do ADD
+					if("A".equals(mode)){
+						list = this.kodtlikDaoServices.findById(dao.getKlikod(), dbErrorStackTrace);
+						//check if there is already such a code. If it does, stop the update
+						if(list!=null && list.size()>0){
+							//write JSON error output
+							errMsg = "ERROR on UPDATE: Code exists already";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+						}else{
+							dmlRetval = this.kodtlikDaoServices.insert(dao, dbErrorStackTrace);
+						}
+					}else if("U".equals(mode)){
+						 //dmlRetval = this.kodtlikDaoServices.update(dao, dbErrorStackTrace);
+					}else if("D".equals(mode)){
+						 //dmlRetval = this.kodtlikDaoServices.delete(dao, dbErrorStackTrace);
+					}
+					//check returns from dml operations
+					if(dmlRetval<0){
+						//write JSON error output
+						errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}	
 				}else{
 					//write JSON error output
-					errMsg = "ERROR on SELECT *: list is NULL?  Try to check: <DaoServices>.getList";
+					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.update";
 					status = "error";
-					logger.info("After SELECT * :" + " " + status + errMsg );
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-				}*/
+				}
 			}else{
 				//write JSON error output
 				errMsg = "ERROR on UPDATE";
@@ -193,8 +223,6 @@ public class TvinnMaintImportResponseOutputterController {
 		}
 		return sb.toString();
 	}
-
-	
 	
 	//----------------
 	//WIRED SERVICES
