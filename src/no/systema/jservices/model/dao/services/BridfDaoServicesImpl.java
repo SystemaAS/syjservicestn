@@ -35,10 +35,11 @@ public class BridfDaoServicesImpl implements BridfDaoServices {
 	 * @return
 	 */
 	public String findNameById(String userName){
-		String sql = "SELECT bibrid FROM bridf WHERE bibrid = ?";
+		String sql = "SELECT LTRIM(RTRIM(bibrid)) bibrid FROM bridf WHERE bibrid = ?";
 		String name = null;
 		try{
 			name = (String)jdbcTemplate.queryForObject( sql, new Object[] { userName }, String.class);
+			
 		}catch(Exception e){
 			//nothing
 		}

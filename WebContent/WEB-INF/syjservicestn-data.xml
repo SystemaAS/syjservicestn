@@ -25,12 +25,16 @@
   </bean>
   
   
-  <!-- TVINN - Domain Dao:s Services -->
+  <!-- TVINN - EXPORT: Domain Dao's Services -->
   <bean id="sadl_KundensVarRegDaoServices" class="no.systema.jservices.tvinn.sad.sadexport.model.dao.services.Sadl_KundensVarRegDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
   
+  <!-- TVINN MAINTENANCE - IMPORT: Domain Dao's Services -->
+  <bean id="kodtlikDaoServicesImpl" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlikDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   <!--///////////////////
