@@ -28,17 +28,17 @@ public class JsonTvinnMaintImportResponseWriter {
 		for(KodtlikDao record : list){
 			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
 			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD); 
-			sb.append(JsonConstants.JSON_QUOTES + "klista" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlista()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_QUOTES + record.getKlistaPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlista()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + "kluni" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKliuni()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_QUOTES + record.getKliuniPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKliuni()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + "klikod" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlikod()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_QUOTES + record.getKlikodPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlikod()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + "klinav" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlinav()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_QUOTES + record.getKlinavPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlinav()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + "klisto" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlisto()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_QUOTES + record.getKlistoPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlisto()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + "klixxx" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlixxx()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_QUOTES + record.getKlixxxPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlixxx()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
 			counter++;
 		}
