@@ -38,4 +38,25 @@ public class SYFT19R_U {
 		}
 		return retval;
 	}
+	/**
+	 * 
+	 * @param dao
+	 * @param user
+	 * @param mode
+	 * @return
+	 */
+	public boolean isValidInputForDelete(KodtlikDao dao, String user, String mode){
+		boolean retval = true;
+		if( (user!=null && !"".equals(user)) && (mode!=null && !"".equals(mode)) ){
+			//check dao
+			if( dao.getKlikod()!=null && !"".equals(dao.getKlikod()) ){
+				//OK
+			}else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
 }

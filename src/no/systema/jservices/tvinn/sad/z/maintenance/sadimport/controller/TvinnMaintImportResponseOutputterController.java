@@ -172,40 +172,57 @@ public class TvinnMaintImportResponseOutputterController {
             SYFT19R_U rulerLord = new SYFT19R_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
-				if(rulerLord.isValidInput(dao, userName, mode)){
-					logger.info("Before UPDATE ...");
-					List<KodtlikDao> list = new ArrayList<KodtlikDao>();
-					int dmlRetval = 0;
-					//do ADD
-					if("A".equals(mode)){
-						list = this.kodtlikDaoServices.findById(dao.getKlikod(), dbErrorStackTrace);
-						//check if there is already such a code. If it does, stop the update
-						if(list!=null && list.size()>0){
-							//write JSON error output
-							errMsg = "ERROR on UPDATE: Code exists already";
-							status = "error";
-							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-						}else{
-							dmlRetval = this.kodtlikDaoServices.insert(dao, dbErrorStackTrace);
-						}
-					}else if("U".equals(mode)){
-						 //dmlRetval = this.kodtlikDaoServices.update(dao, dbErrorStackTrace);
-					}else if("D".equals(mode)){
-						 //dmlRetval = this.kodtlikDaoServices.delete(dao, dbErrorStackTrace);
-					}
-					//check returns from dml operations
-					if(dmlRetval<0){
+				int dmlRetval = 0;
+				if("D".equals(mode)){
+					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+						dmlRetval = this.kodtlikDaoServices.delete(dao, dbErrorStackTrace);
+					}else{
 						//write JSON error output
-						errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-					}	
+					}
 				}else{
+				  if(rulerLord.isValidInput(dao, userName, mode)){
+						logger.info("Before UPDATE ...");
+						List<KodtlikDao> list = new ArrayList<KodtlikDao>();
+						
+						//do ADD
+						if("A".equals(mode)){
+							list = this.kodtlikDaoServices.findById(dao.getKlikod(), dbErrorStackTrace);
+							//check if there is already such a code. If it does, stop the update
+							if(list!=null && list.size()>0){
+								//write JSON error output
+								errMsg = "ERROR on UPDATE: Code exists already";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}else{
+								dmlRetval = this.kodtlikDaoServices.insert(dao, dbErrorStackTrace);
+							}
+						}else if("U".equals(mode)){
+							 dmlRetval = this.kodtlikDaoServices.update(dao, dbErrorStackTrace);
+						}
+						
+				  }else{
+						//write JSON error output
+						errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.update";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				  }
+				}
+				//----------------------------------
+				//check returns from dml operations
+				//----------------------------------
+				if(dmlRetval<0){
 					//write JSON error output
-					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.update";
+					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
 					status = "error";
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}else{
+					//OK UPDATE
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
 				}
+				
 			}else{
 				//write JSON error output
 				errMsg = "ERROR on UPDATE";

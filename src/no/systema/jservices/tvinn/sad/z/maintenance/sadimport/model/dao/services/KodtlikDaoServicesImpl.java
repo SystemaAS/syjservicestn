@@ -95,7 +95,7 @@ public class KodtlikDaoServicesImpl implements KodtlikDaoServices {
 		
 		StringBuffer sql = new StringBuffer();
 		//DEBUG --> logger.info("mydebug");
-		sql.append(" UPDATE kodtlik SET klinav = ?, klisto = ?, klixxx = ?) ");
+		sql.append(" UPDATE kodtlik SET klinav = ?, klisto = ?, klixxx = ? ");
 		sql.append(" WHERE klikod = ? ");
 		//params
 		retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlinav(), dao.getKlisto(), dao.getKlixxx(), dao.getKlikod() } );
