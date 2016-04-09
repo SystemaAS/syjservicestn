@@ -20,7 +20,7 @@
     <param-value>
     	/WEB-INF/syjservicestn-servlet.xml,
         /WEB-INF/syjservicestn-service.xml,
-        /WEB-INF/syjservicestn-data.xml,
+        /WEB-INF/syjservicestn-data-service.xml,
         /WEB-INF/syjservicestn-datasource.xml
     </param-value> 
   </context-param>

@@ -6,7 +6,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 /**
  * 
  * @author oscardelatorre
- * @date Feb 11, 2016
+ * @date Apr 6, 2016
  * 
  */
-public interface KodtlikDaoServices extends IDaoServices { }
+public interface KodtlbDaoServices extends IDaoServices { }

@@ -31,10 +31,7 @@ import javax.servlet.http.HttpSession;
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlikDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlikDaoServices;
-import no.systema.jservices.model.dao.entities.CusdfDao;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.main.util.JsonSpecialCharactersManager;
-import no.systema.main.util.constants.JsonConstants;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
 //rules
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SYFT19R_U;
@@ -55,8 +52,8 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.S
  */
 
 @Controller
-public class TvinnMaintImportResponseOutputterController {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController.class.getName());
+public class TvinnMaintImportResponseOutputterController_SYFT19R {
+	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SYFT19R.class.getName());
 	
 	/**
 	 * FreeForm Source:

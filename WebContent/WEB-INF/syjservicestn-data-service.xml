@@ -4,7 +4,7 @@
  -->
 <beans>  
   <!--///////////////////
-      DAO layer
+      DAO-Service layer
      ///////////////////
   -->
   <!-- Application User 
@@ -32,10 +32,15 @@
   
   
   <!-- TVINN MAINTENANCE - IMPORT: Domain Dao's Services -->
-  <bean id="kodtlikDaoServicesImpl" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlikDaoServicesImpl">
+  <bean id="kodtlikDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlikDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <bean id="kodtlbDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlbDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  <bean id="kodtsiDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtsiDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   <!--///////////////////
         NativeExtractor 
