@@ -133,7 +133,6 @@ public class JsonTvinnMaintImportResponseWriter {
 			sb.append(JsonConstants.JSON_QUOTES + record.getKsovlPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKsovl()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
 			sb.append(JsonConstants.JSON_QUOTES + record.getKsuserPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKsuser()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
 			counter++;
 		}
