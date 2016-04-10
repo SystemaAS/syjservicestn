@@ -98,11 +98,14 @@ public class KodtsiDaoServicesImpl implements KodtsiDaoServices {
 		    
 			KodtsiDao dao = (KodtsiDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE kodtsi SET ksiuni=?, ksinav = ?, ksixxx = ?, ksovl = ?, ksuser = ? ");
+			
+			sql.append(" UPDATE kodtsi SET ksinav = ?, ksixxx = ?, ksovl = ?, ksuser = ? ");
 			sql.append(" WHERE ksisig = ? ");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKsiuni(), dao.getKsinav(), dao.getKsixxx(), dao.getKsovl(), dao.getKsuser() } );
+			//DEBUG --> 
+			logger.info("mydebug");
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKsinav(), dao.getKsixxx(), dao.getKsovl(), dao.getKsuser(), dao.getKsisig() } );
+			
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
