@@ -32,8 +32,19 @@ public class MainSqlTester {
 			 if(!conn.isClosed()){
 				 System.out.println("<"+ conn + "> " + "Connection OK!");
 				 //SQL-statements
-				
+				 
+				 String sql = "select * from syspedf/kodtlb";
+				 PreparedStatement stmt = conn.prepareStatement(sql);
+				 //stmt.setString(1, "%");
+				 ResultSet rs = stmt.executeQuery();
+				 while (rs.next()) {
+					 String field2 = rs.getString(7);
+					 
+					 System.out.println(field2);
+				 }
+				 
 				 //SQL 1 (Christer)
+				 /*
 				 String sql = "select knavn, adr1, adr2, postnr, adr3 from syspedf/cundf  where knavn like ?";
 				 PreparedStatement stmt = conn.prepareStatement(sql);
 				 stmt.setString(1, "%");
@@ -45,7 +56,8 @@ public class MainSqlTester {
 					 String field4 = rs.getString(4);
 					 //String field2 = rs.getString("fieldname");
 					 System.out.println(field1 + ":" + field2 + ":" + field3 + ":" + field4);
-				 }
+				 }*/
+				 
 				 
 				 //SQL 2 (Svein)
 				 /*String sql = "select faavd, fabeln, faopd, fali from sampledb/fakt where fabeln <= ? ";

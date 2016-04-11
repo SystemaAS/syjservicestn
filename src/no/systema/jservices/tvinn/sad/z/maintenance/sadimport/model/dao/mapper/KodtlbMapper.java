@@ -26,7 +26,7 @@ public class KodtlbMapper implements RowMapper {
     	dao.setKlbkt(rs.getString(4));
     	dao.setKlbnav(rs.getString(5));
     	dao.setKlbfok(rs.getString(6));
-    	dao.setKlbprm(rs.getString(7));
+    	dao.setKlbprm(rs.getDouble((7));
     	dao.setKlbfrk(rs.getString(8));
     	dao.setKlbxxx(rs.getString(9));
     	
