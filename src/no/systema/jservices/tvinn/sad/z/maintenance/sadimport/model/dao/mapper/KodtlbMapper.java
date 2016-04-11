@@ -7,6 +7,8 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * 

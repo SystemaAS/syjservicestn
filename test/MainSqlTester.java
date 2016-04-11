@@ -33,14 +33,13 @@ public class MainSqlTester {
 				 System.out.println("<"+ conn + "> " + "Connection OK!");
 				 //SQL-statements
 				 
-				 String sql = "select * from syspedf/kodtlb";
+				 String sql = "select char(klbprm) from syspedf/kodtlb";
 				 PreparedStatement stmt = conn.prepareStatement(sql);
 				 //stmt.setString(1, "%");
 				 ResultSet rs = stmt.executeQuery();
 				 while (rs.next()) {
-					 String field2 = rs.getString(7);
-					 
-					 System.out.println(field2);
+					 Float field1 = rs.getFloat(1);
+					 System.out.println(field1);
 				 }
 				 
 				 //SQL 1 (Christer)

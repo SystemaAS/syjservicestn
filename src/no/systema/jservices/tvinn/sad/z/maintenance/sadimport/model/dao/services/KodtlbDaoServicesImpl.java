@@ -28,7 +28,11 @@ public class KodtlbDaoServicesImpl implements KodtlbDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append("select * from kodtlb");
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" SELECT klbsta, klbuni, klbkod, klbkt, klbnav, klbfok, CHAR(klbprm) klbprm, klbfrk, klbxxx ");
+			sql.append(" FROM kodtlb");
 			logger.info(sql.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), new KodtlbMapper());
 		}catch(Exception e){

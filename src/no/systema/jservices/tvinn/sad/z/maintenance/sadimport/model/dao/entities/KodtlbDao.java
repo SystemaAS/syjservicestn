@@ -1,6 +1,7 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities;
 import java.io.Serializable;
 
+import java.math.BigDecimal;
 /**
  * All variables must be initialized to empty strings and NOT to NULL values
  * This is because the db-inserts that will be done in all fields of the db-table
