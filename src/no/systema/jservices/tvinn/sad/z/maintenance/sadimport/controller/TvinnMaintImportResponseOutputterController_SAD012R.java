@@ -64,7 +64,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 	 * 
 	 * @return
 	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD012R.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD012R.do?user=OSCAR&klikod=D
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD012R.do?user=OSCAR&klbkod=D
 	 * 
 	 */
 	@RequestMapping(value="syjsSAD012R.do", method={RequestMethod.GET, RequestMethod.POST})
