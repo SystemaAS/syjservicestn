@@ -47,6 +47,16 @@ public class KodtlbDao implements Serializable {
 	public void setKlbprm (String value){ this.klbprm = value;   }   
 	public String getKlbprm (){ return this.klbprm;   }              
 
+	private Double klbprmNum = 0.0D; 
+	public void setKlbprmNum (Double value){ this.klbprmNum = value;   }   
+	public Double getKlbprmNum (){
+		if(klbprm!=null && !"".equals(klbprm)){
+			String tmp = this.klbprm.replace(",", ".");
+			this.klbprmNum = Double.parseDouble(tmp);
+		}
+		return this.klbprmNum;  
+	}              
+
 	private String klbfrk = ""; 
 	public String getKlbfrkPropertyName (){ return "klbfrk"; }
 	public void setKlbfrk (String value){ this.klbfrk = value;   }   

@@ -79,7 +79,7 @@ public class KodtlbDaoServicesImpl implements KodtlbDaoServices {
 			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlbsta(), dao.getKlbuni(), dao.getKlbkod(), dao.getKlbkt(), 
-					dao.getKlbnav(), dao.getKlbfok(), dao.getKlbprm(), dao.getKlbfrk(), dao.getKlbxxx() } );
+					dao.getKlbnav(), dao.getKlbfok(), dao.getKlbprmNum(), dao.getKlbfrk(), dao.getKlbxxx() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -105,7 +105,7 @@ public class KodtlbDaoServicesImpl implements KodtlbDaoServices {
 			sql.append(" UPDATE kodtlb SET klbkt=?, klbnav = ?, klbfok = ?, klbprm = ?, klbfrk = ?, klbxxx = ? ");
 			sql.append(" WHERE klbkod = ? ");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlbkt(), dao.getKlbnav(), dao.getKlbfok(), dao.getKlbprm(), dao.getKlbfrk(), dao.getKlbxxx(), dao.getKlbkod() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlbkt(), dao.getKlbnav(), dao.getKlbfok(), dao.getKlbprmNum(), dao.getKlbfrk(), dao.getKlbxxx(), dao.getKlbkod() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
