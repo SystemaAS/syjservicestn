@@ -90,7 +90,22 @@ public class JsonTvinnMaintImportResponseWriter {
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
 			sb.append(JsonConstants.JSON_QUOTES + record.getKlbfrkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlbfrk()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getKlbxxxPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKlbxxx()).trim() + JsonConstants.JSON_QUOTES);
+			//----------------------------------------------------------------------------
+			//START klbxxx:
+			//this field MUST NOT be trimmed! klbxxx can contain leading spaces for sure!
+			//----------------------------------------------------------------------------
+			if(record.getKlbxxx()!=null && record.getKlbxxx().startsWith(" ")){
+				if(this.jsonFixMgr.isValidContentWithLeadingSpaces(record.getKlbxxx())){
+					record.setKlbxxx(this.jsonFixMgr.trimEnd(record.getKlbxxx()));
+				}else{
+					record.setKlbxxx(this.jsonFixMgr.cleanRecord(record.getKlbxxx()).trim());
+				}
+			}else{
+				record.setKlbxxx(this.jsonFixMgr.cleanRecord(record.getKlbxxx()).trim());
+			}
+			sb.append(JsonConstants.JSON_QUOTES + record.getKlbxxxPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + record.getKlbxxx() + JsonConstants.JSON_QUOTES);
+			//END klbxxx
+			
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
 			counter++;
 		}

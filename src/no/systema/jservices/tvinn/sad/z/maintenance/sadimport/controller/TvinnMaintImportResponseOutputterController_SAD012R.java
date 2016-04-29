@@ -167,6 +167,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 			KodtlbDao dao = new KodtlbDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
+            logger.info("KLBXXX:" + dao.getKlbxxx());
             //rules
             SAD012R_U rulerLord = new SAD012R_U();
 			//Start processing now
