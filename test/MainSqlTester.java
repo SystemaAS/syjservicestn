@@ -33,12 +33,12 @@ public class MainSqlTester {
 				 System.out.println("<"+ conn + "> " + "Connection OK!");
 				 //SQL-statements
 				 
-				 String sql = "select char(klbprm) from syspedf/kodtlb";
+				 String sql = "select DECFLOAT(klbprm) from syspedf/kodtlb";
 				 PreparedStatement stmt = conn.prepareStatement(sql);
 				 //stmt.setString(1, "%");
 				 ResultSet rs = stmt.executeQuery();
 				 while (rs.next()) {
-					 Float field1 = rs.getFloat(1);
+					 String field1 = rs.getString(1);
 					 System.out.println(field1);
 				 }
 				 
