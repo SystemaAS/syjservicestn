@@ -5,6 +5,7 @@ import java.util.List;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlikDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlbDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtsiDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.CundfLikvKodeDao;
 
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
@@ -157,6 +158,41 @@ public class JsonTvinnMaintImportResponseWriter {
 		return sb.toString();
 	}
 	
+	/**
+	 * 
+	 * @param user
+	 * @param list
+	 * @return
+	 */
+	public String setJsonResult_SYFT18R_GetList(String user, List<CundfLikvKodeDao> list ){
+		StringBuffer sb = new StringBuffer();
+		//build the return JSON
+		sb.append(JsonConstants.JSON_START);
+		sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes(user) + ",");
+		sb.append(this.setFieldQuotes("errMsg") + ":" + this.setFieldQuotes("") + ",");
+		sb.append(this.setFieldQuotes("list") + ":");
+		sb.append(JsonConstants.JSON_OPEN_LIST);
+		int counter = 1;
+		for(CundfLikvKodeDao record : list){
+			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
+			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD); 
+			sb.append(JsonConstants.JSON_QUOTES + record.getFirmaPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getFirma()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getKundnrPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKundnr()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getKnavnPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKnavn()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getAdr1PropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getAdr1()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getSylikvPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getSylikv()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
+			counter++;
+		}
+		sb.append(JsonConstants.JSON_CLOSE_LIST);
+		sb.append(JsonConstants.JSON_END);
+		
+		return sb.toString();
+	}
 	/**
 	 * 
 	 * @param user
