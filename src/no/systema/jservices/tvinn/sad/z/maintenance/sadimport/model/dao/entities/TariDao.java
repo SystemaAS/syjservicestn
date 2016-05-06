@@ -83,6 +83,11 @@ public class TariDao implements Serializable {
 	public void setTaalfa (String value){ this.taalfa = value;   }   
 	public String getTaalfa (){ return this.taalfa;   }              
 	
+	private String taalfaOrig = ""; 
+	public String getTaalfaOrigPropertyName (){ return "taalfaOrig"; }
+	public void setTaalfaOrig (String value){ this.taalfaOrig = value;   }   
+	public String getTaalfaOrig (){ return this.taalfaOrig;   }              
+	
 	private String tastk = ""; 
 	public String getTastkPropertyName (){ return "tastk"; }
 	public void setTastk (String value){ this.tastk = value;   }   

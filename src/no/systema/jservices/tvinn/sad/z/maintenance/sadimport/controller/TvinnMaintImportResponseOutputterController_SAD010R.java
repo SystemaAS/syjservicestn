@@ -34,7 +34,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
 //rules
-//import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD012R_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD010R_U;
 
 
 
@@ -94,14 +94,22 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
-				logger.info("Before SELECT ...");
-				if(dao.getTatanr()!=null && !"".equals(dao.getTatanr())){
-					logger.info("findById");
-					list = this.tariDaoServices.findById(dao.getTatanr(), dbErrorStackTrace);
-				}else{
-					logger.info("getList (all)");
-					list = this.tariDaoServices.getList(dbErrorStackTrace);
-				}
+	            logger.info("Before SELECT ...");
+	            if( (dao.getTatanr()!=null && !"".equals(dao.getTatanr()))  && (dao.getTaalfa()!=null && !"".equals(dao.getTaalfa()))){
+	            	logger.info("findForUpdate");
+					list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dbErrorStackTrace);
+	            }else{
+					if( dao.getTatanr()!=null && !"".equals(dao.getTatanr()) ){
+						logger.info("findById");
+						list = this.tariDaoServices.findById(dao.getTatanr(), dbErrorStackTrace);
+					}else if( dao.getTaalfa()!=null && !"".equals(dao.getTaalfa()) ){
+						logger.info("findByAlfa");
+						list = this.tariDaoServices.findByAlfa(dao.getTaalfa(), dbErrorStackTrace);
+					}else{
+						logger.info("getList (all)");
+						list = this.tariDaoServices.getList(dbErrorStackTrace);
+					}
+	            }
 				//process result
 				if (list!=null){
 					//write the final JSON output
@@ -145,7 +153,7 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 	 * @return
 	 * 
 	 */
-	/* TODO
+	
 	@RequestMapping(value="syjsSAD010R_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsSAD012R_U( HttpSession session, HttpServletRequest request) {
@@ -165,18 +173,17 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			KodtlbDao dao = new KodtlbDao();
+			TariDao dao = new TariDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            logger.info("KLBXXX:" + dao.getKlbxxx());
             //rules
-            SAD012R_U rulerLord = new SAD012R_U();
+            SAD010R_U rulerLord = new SAD010R_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.kodtlbDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.tariDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -186,11 +193,11 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
 						logger.info("Before UPDATE ...");
-						List<KodtlbDao> list = new ArrayList<KodtlbDao>();
+						List<TariDao> list = new ArrayList<TariDao>();
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.kodtlbDaoServices.findById(dao.getKlbkod(), dbErrorStackTrace);
+							list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -198,10 +205,10 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
-								dmlRetval = this.kodtlbDaoServices.insert(dao, dbErrorStackTrace);
+								dmlRetval = this.tariDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						}else if("U".equals(mode)){
-							 dmlRetval = this.kodtlbDaoServices.update(dao, dbErrorStackTrace);
+							 dmlRetval = this.tariDaoServices.update(dao, dbErrorStackTrace);
 						}
 						
 				  }else{
@@ -241,7 +248,7 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 		}
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------

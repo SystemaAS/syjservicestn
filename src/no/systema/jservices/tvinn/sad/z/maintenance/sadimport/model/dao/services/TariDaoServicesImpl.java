@@ -32,9 +32,9 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
 			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
-			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe ");
+			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
 			sql.append(" FROM tari ");
-			sql.append(" FETCH FIRST 1000 ROWS ONLY ");
+			//TEST --> sql.append(" FETCH FIRST 1000 ROWS ONLY ");
 			
 			logger.info(sql.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), new TariMapper());
@@ -57,10 +57,64 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		try{
 			StringBuffer sql = new StringBuffer();
 			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
-			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe ");
-			sql.append(" FROM tari WHERE tatanr LIKE ?");
+			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql.append(" FROM tari ");
+			sql.append(" WHERE tatanr LIKE ?");
 			
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id + SQL_WILD_CARD }, new TariMapper());
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	
+	/**
+	 * Alfa text search for toldtariff
+	 * 
+	 */
+	public List findByAlfa (String alfa, StringBuffer errorStackTrace ){
+		List<TariDao> retval = new ArrayList<TariDao>();
+		String SQL_WILD_CARD = "%";
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
+			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql.append(" FROM tari ");
+			sql.append(" WHERE taalfa LIKE ?");
+			
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { SQL_WILD_CARD + alfa + SQL_WILD_CARD }, new TariMapper());
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param alfa
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public List findForUpdate (String id, String alfa, StringBuffer errorStackTrace ){
+		List<TariDao> retval = new ArrayList<TariDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
+			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql.append(" FROM tari ");
+			sql.append(" WHERE tatanr = ?");
+			sql.append(" AND taalfa = ?");
+			
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id, alfa }, new TariMapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -79,16 +133,14 @@ public class TariDaoServicesImpl implements TariDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/* TODO
 		try{
-			KodtlbDao dao = (KodtlbDao)daoObj;
+			TariDao dao = (TariDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO kodtlb (klbsta, klbuni, klbkod, klbkt, klbnav, klbfok, klbprm, klbfrk, klbxxx) ");
-			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ) ");
+			sql.append(" INSERT INTO tari (tatanr, taalfa, tadtr, tadato) ");
+			sql.append(" VALUES(?, ?, ?, ?) ");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlbsta(), dao.getKlbuni(), dao.getKlbkod(), dao.getKlbkt(), 
-					dao.getKlbnav(), dao.getKlbfok(), dao.getKlbprmNum(), dao.getKlbfrk(), dao.getKlbxxx() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa(), dao.getTadtr(), dao.getTadato() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -97,25 +149,26 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	/**
 	 * UPDATE
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
-		
 		int retval = 0;
-		/* TODO
 		try{
 			
-			KodtlbDao dao = (KodtlbDao)daoObj;
+			TariDao dao = (TariDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE kodtlb SET klbkt=?, klbnav = ?, klbfok = ?, klbprm = ?, klbfrk = ?, klbxxx = ? ");
-			sql.append(" WHERE klbkod = ? ");
+			sql.append(" UPDATE tari SET tadato = ?, taalfa = ? ");
+			sql.append(" WHERE tatanr = ? ");
+			sql.append(" AND taalfa = ? ");
+			//DEBUG --> 
+			logger.info(sql.toString());
+			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlbkt(), dao.getKlbnav(), dao.getKlbfok(), dao.getKlbprmNum(), dao.getKlbfrk(), dao.getKlbxxx(), dao.getKlbkod() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTadato(), dao.getTaalfa() , dao.getTatanr(), dao.getTaalfaOrig() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -124,7 +177,6 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
 		return retval;
 	}
 	/**
@@ -132,16 +184,18 @@ public class TariDaoServicesImpl implements TariDaoServices {
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/* TODO
+		
 		try{
-			KodtlbDao dao = (KodtlbDao)daoObj;
+			TariDao dao = (TariDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" DELETE from kodtlb ");
-			sql.append(" WHERE klbkod = ? ");
+			sql.append(" DELETE from tari ");
+			sql.append(" WHERE tatanr = ? ");
+			sql.append(" AND taalfa = ? ");
+			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKlbkod() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -150,7 +204,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	/**                                                                                                  

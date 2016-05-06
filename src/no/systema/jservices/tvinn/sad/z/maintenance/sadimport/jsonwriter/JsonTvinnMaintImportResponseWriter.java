@@ -239,6 +239,12 @@ public class JsonTvinnMaintImportResponseWriter {
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
 			sb.append(JsonConstants.JSON_QUOTES + record.getTaenhePropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaenhe()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTadtrPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTadtr()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTadatoPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTadato()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTadtsPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTadts()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
 			
 			sb.append(JsonConstants.JSON_QUOTES + record.getTaefkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaefk()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
