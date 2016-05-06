@@ -6,6 +6,8 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlbDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtsiDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.CundfLikvKodeDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
+
 
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
@@ -117,6 +119,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	}
 	
 	/**
+	 * SYFT10R
 	 * 
 	 * @param user
 	 * @param list
@@ -159,6 +162,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	}
 	
 	/**
+	 * SYFT18R
 	 * 
 	 * @param user
 	 * @param list
@@ -185,6 +189,58 @@ public class JsonTvinnMaintImportResponseWriter {
 			sb.append(JsonConstants.JSON_QUOTES + record.getAdr1PropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getAdr1()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
 			sb.append(JsonConstants.JSON_QUOTES + record.getSylikvPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getSylikv()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
+			counter++;
+		}
+		sb.append(JsonConstants.JSON_CLOSE_LIST);
+		sb.append(JsonConstants.JSON_END);
+		
+		return sb.toString();
+	}
+	
+	/**
+	 * SAD010R
+	 * 
+	 * @param user
+	 * @param list
+	 * @return
+	 */
+	public String setJsonResult_SAD010R_GetList(String user, List<TariDao> list ){
+		StringBuffer sb = new StringBuffer();
+		//build the return JSON
+		sb.append(JsonConstants.JSON_START);
+		sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes(user) + ",");
+		sb.append(this.setFieldQuotes("errMsg") + ":" + this.setFieldQuotes("") + ",");
+		sb.append(this.setFieldQuotes("list") + ":");
+		sb.append(JsonConstants.JSON_OPEN_LIST);
+		int counter = 1;
+		for(TariDao record : list){
+			    
+			
+			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
+			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD); 
+			sb.append(JsonConstants.JSON_QUOTES + record.getTatanrPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTatanr()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaordbPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaordb()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaordkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaordk()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaeftbPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaeftb()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaeftkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaeftk()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaefbPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaefb()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTastkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTastk()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaalfaPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaalfa()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTatxtPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTatxt()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaenhePropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaenhe()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
+			
+			sb.append(JsonConstants.JSON_QUOTES + record.getTaefkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaefk()).trim() + JsonConstants.JSON_QUOTES);
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
 			counter++;
 		}

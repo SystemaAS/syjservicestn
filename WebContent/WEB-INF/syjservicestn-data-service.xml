@@ -44,6 +44,9 @@
   <bean id="cundfLikvKodeDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.CundfLikvKodeDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <bean id="tariDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   <!--///////////////////
