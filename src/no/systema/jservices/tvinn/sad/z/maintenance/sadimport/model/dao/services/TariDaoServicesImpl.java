@@ -137,10 +137,16 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			TariDao dao = (TariDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO tari (tatanr, taalfa, tadtr, tadato) ");
-			sql.append(" VALUES(?, ?, ?, ?) ");
+			sql.append(" INSERT INTO tari (tatanr, taalfa, tadtr, tadato, taordb, taordk, taeftb, taeftk, taefb, taefk, ");
+			sql.append(" tastk, tatxt, taenhe) ");
+			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ");
+			sql.append(" ?, ?, ? ) ");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa(), dao.getTadtr(), dao.getTadato() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa(), 
+							dao.getTadtr(), dao.getTadato(), dao.getTaordb(),dao.getTaordk(),
+							dao.getTaeftb(),dao.getTaeftk(), dao.getTaefb(),dao.getTaefk(),
+							dao.getTastk(), dao.getTatxt(), dao.getTaenhe()
+							} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -161,14 +167,20 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			
 			TariDao dao = (TariDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE tari SET tadato = ?, taalfa = ? ");
+			sql.append(" UPDATE tari SET tadato = ?, taalfa = ?, taordb = ?, taordk = ?, ");
+			sql.append(" taeftb = ?, taeftk = ?, taefb = ?, taefk = ?, ");
+			sql.append(" tastk = ?, tatxt = ?, taenhe = ? ");
+			//id's
 			sql.append(" WHERE tatanr = ? ");
 			sql.append(" AND taalfa = ? ");
-			//DEBUG --> 
-			logger.info(sql.toString());
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTadato(), dao.getTaalfa() , dao.getTatanr(), dao.getTaalfaOrig() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+						dao.getTadato(), dao.getTaalfa() , dao.getTaordb(), dao.getTaordk(),
+						dao.getTaeftb(), dao.getTaeftk(), dao.getTaefb(), dao.getTaefk(),
+						dao.getTastk(), dao.getTatxt(), dao.getTaenhe(),
+						//id's
+						dao.getTatanr(), dao.getTaalfaOrig() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
