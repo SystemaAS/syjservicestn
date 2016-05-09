@@ -31,8 +31,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
-			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql = this.getSELECT_CLAUSE();
 			sql.append(" FROM tari ");
 			//TEST --> sql.append(" FETCH FIRST 1000 ROWS ONLY ");
 			
@@ -56,8 +55,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		String SQL_WILD_CARD = "%";
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
-			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql = this.getSELECT_CLAUSE();
 			sql.append(" FROM tari ");
 			sql.append(" WHERE tatanr LIKE ?");
 			
@@ -81,8 +79,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		String SQL_WILD_CARD = "%";
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
-			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql = this.getSELECT_CLAUSE();
 			sql.append(" FROM tari ");
 			sql.append(" WHERE taalfa LIKE ?");
 			
@@ -108,8 +105,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		List<TariDao> retval = new ArrayList<TariDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
-			sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts ");
+			sql = this.getSELECT_CLAUSE();
 			sql.append(" FROM tari ");
 			sql.append(" WHERE tatanr = ?");
 			sql.append(" AND taalfa = ?");
@@ -138,15 +134,20 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" INSERT INTO tari (tatanr, taalfa, tadtr, tadato, taordb, taordk, taeftb, taeftk, taefb, taefk, ");
-			sql.append(" tastk, tatxt, taenhe) ");
+			sql.append(" tastk, tatxt, taenhe, tadts, TAEØSB, TAEØSK, tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, ");
+			sql.append(" taellb, taellk ");
+			
 			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ");
-			sql.append(" ?, ?, ? ) ");
+			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ");
+			sql.append(" ?, ? ) ");
+			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa(), 
-							dao.getTadtr(), dao.getTadato(), dao.getTaordb(),dao.getTaordk(),
-							dao.getTaeftb(),dao.getTaeftk(), dao.getTaefb(),dao.getTaefk(),
-							dao.getTastk(), dao.getTatxt(), dao.getTaenhe()
-							} );
+					dao.getTadtr(), dao.getTadato(), dao.getTaordb(),dao.getTaordk(),dao.getTaeftb(),dao.getTaeftk(), dao.getTaefb(),dao.getTaefk(),
+					dao.getTastk(), dao.getTatxt(), dao.getTaenhe(), dao.getTadts(), dao.getTaeosb(), dao.getTaeosk(), dao.getTatsjb(), dao.getTatsjk(),
+					dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(), dao.getTaellb(), dao.getTaellk()
+							
+					} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -169,7 +170,9 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			StringBuffer sql = new StringBuffer();
 			sql.append(" UPDATE tari SET tadato = ?, taalfa = ?, taordb = ?, taordk = ?, ");
 			sql.append(" taeftb = ?, taeftk = ?, taefb = ?, taefk = ?, ");
-			sql.append(" tastk = ?, tatxt = ?, taenhe = ? ");
+			sql.append(" tastk = ?, tatxt = ?, taenhe = ?, tadts = ?, TAEØSB = ?, TAEØSK = ? ");
+			sql.append(" tatsjb = ?, tatsjk = ?, tatyrb = ?, tatyrk = ?, taisrb = ?, taisrk = ?, ");
+			sql.append(" taellb = ?, taellk = ? ");
 			//id's
 			sql.append(" WHERE tatanr = ? ");
 			sql.append(" AND taalfa = ? ");
@@ -178,7 +181,11 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 						dao.getTadato(), dao.getTaalfa() , dao.getTaordb(), dao.getTaordk(),
 						dao.getTaeftb(), dao.getTaeftk(), dao.getTaefb(), dao.getTaefk(),
-						dao.getTastk(), dao.getTatxt(), dao.getTaenhe(),
+						dao.getTastk(), dao.getTatxt(), dao.getTaenhe(), dao.getTadts(),
+						dao.getTaeosb(), dao.getTaeosk(), 
+						dao.getTatsjb(), dao.getTatsjk(),
+						dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(),
+						dao.getTaellb(), dao.getTaellk(),
 						//id's
 						dao.getTatanr(), dao.getTaalfaOrig() } );
 			
@@ -218,6 +225,19 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		}
 		
 		return retval;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	private StringBuffer getSELECT_CLAUSE(){
+		//Compatibility issue on special characters (ø,æ, etc)
+		//All columns with special characters (NO,SE,DK) such as ö,ä,ø, etc MUST be defined with CAPITAL LETTERS, otherwise the selection in SQL will be invalid
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
+		sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts, TAEØSB taeosb, TAEØSK taeosk, ");
+		sql.append(" tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, taellb, taellk ");
+		return sql;
 	}
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                

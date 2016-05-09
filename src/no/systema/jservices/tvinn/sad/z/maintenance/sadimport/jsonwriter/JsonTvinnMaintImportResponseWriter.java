@@ -1,7 +1,12 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter;
 
-import java.util.List;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.util.*;
 
+
+import org.apache.log4j.Logger;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlikDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlbDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtsiDao;
@@ -12,9 +17,15 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
 
-
+/**
+ * 
+ * @author oscardelatorre
+ * JSON outputter
+ * 
+ */
 public class JsonTvinnMaintImportResponseWriter {
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
+	private static Logger logger = Logger.getLogger(JsonTvinnMaintImportResponseWriter.class.getName());
 	
 	/**
 	 * 
@@ -215,38 +226,11 @@ public class JsonTvinnMaintImportResponseWriter {
 		sb.append(JsonConstants.JSON_OPEN_LIST);
 		int counter = 1;
 		for(TariDao record : list){
-			    
-			
 			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
-			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD); 
-			sb.append(JsonConstants.JSON_QUOTES + record.getTatanrPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTatanr()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaordbPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaordb()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaordkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaordk()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaeftbPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaeftb()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaeftkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaeftk()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaefbPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaefb()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTastkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTastk()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaalfaPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaalfa()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTatxtPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTatxt()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaenhePropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaenhe()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTadtrPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTadtr()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTadatoPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTadato()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			sb.append(JsonConstants.JSON_QUOTES + record.getTadtsPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTadts()).trim() + JsonConstants.JSON_QUOTES);
-			sb.append(JsonConstants.JSON_FIELD_SEPARATOR );
-			
-			sb.append(JsonConstants.JSON_QUOTES + record.getTaefkPropertyName() + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getTaefk()).trim() + JsonConstants.JSON_QUOTES);
+			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
+			//doIt
+			sb.append(this.getGettersFromRecord(record));
+			//close the list
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
 			counter++;
 		}
@@ -255,6 +239,46 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
+	
+	/**
+	 * This method replaces not-dynamic early implementations of JSON-String output.
+	 * 
+	 * @param record
+	 */
+	private String getGettersFromRecord(TariDao record){
+		StringBuffer jsonReflectionOutput = new StringBuffer();
+		try{
+			Class<?> recordClazz = record.getClass();
+			Method  theMethod = null;
+			Class<?> returnType = null;
+			int counter = 1;
+			for(Method method : recordClazz.getDeclaredMethods()){
+				//only getters
+				String getter = method.getName();
+				if(getter.startsWith("get") && !getter.endsWith("PropertyName")){
+					theMethod= recordClazz.getDeclaredMethod(method.getName());
+					returnType = theMethod.getReturnType();
+					if(returnType.equals(String.class)){
+						String field = theMethod.getName().replace("get", "").toLowerCase();
+						String value = (String)theMethod.invoke(record);
+						//logger.info(fieldName + "XX" + value);
+						if(counter>1){ jsonReflectionOutput.append(JsonConstants.JSON_FIELD_SEPARATOR ); }
+						jsonReflectionOutput.append(JsonConstants.JSON_QUOTES + field + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(value).trim() + JsonConstants.JSON_QUOTES);
+						counter ++;
+					}
+				}
+				
+			}
+			
+		}catch(Exception e){
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			logger.info(errors);
+		}
+		
+		return jsonReflectionOutput.toString();
+	}
+	
 	/**
 	 * 
 	 * @param user

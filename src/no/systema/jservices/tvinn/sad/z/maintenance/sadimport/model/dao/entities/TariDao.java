@@ -22,17 +22,17 @@ public class TariDao implements Serializable {
 	public void setTatar (String value){ this.tatar = value;   }   
 	public String getTatar (){ return this.tatar;   }              
 
-	private String tadato = "";
+	private String tadato = "0";
 	public String getTadatoPropertyName (){ return "tadato"; }
 	public void setTadato (String value){ this.tadato = value;   }   
 	public String getTadato (){ return this.tadato;   }              
 
-	private String tadts = "";
+	private String tadts = "0";
 	public String getTadtsPropertyName (){ return "tadts"; }
 	public void setTadts (String value){ this.tadts = value;   }   
 	public String getTadts (){ return this.tadts;   }              
 
-	private String tadtr = ""; 
+	private String tadtr = "0"; 
 	public String getTadtrPropertyName (){ return "tadtr"; }
 	public void setTadtr (String value){ this.tadtr = value;   }   
 	public String getTadtr (){ return this.tadtr;   }              
@@ -42,7 +42,7 @@ public class TariDao implements Serializable {
 	public void setTaordk (String value){ this.taordk = value;   }   
 	public String getTaordk (){ return this.taordk;   }              
 
-	private String taordb = ""; 
+	private String taordb = "0"; 
 	public String getTaordbPropertyName (){ return "taordb"; }
 	public void setTaordb (String value){ this.taordb = value;   }   
 	public String getTaordb (){ return this.taordb;   }              
@@ -53,7 +53,7 @@ public class TariDao implements Serializable {
 	public void setTaeftk (String value){ this.taeftk = value;   }   
 	public String getTaeftk (){ return this.taeftk;   }              
 
-	private String taeftb = ""; 
+	private String taeftb = "0"; 
 	public String getTaeftbPropertyName (){ return "taeftb"; }
 	public void setTaeftb (String value){ this.taeftb = value;   }   
 	public String getTaeftb (){ return this.taeftb;   }              
@@ -63,7 +63,7 @@ public class TariDao implements Serializable {
 	public void setTaefk (String value){ this.taefk = value;   }   
 	public String getTaefk (){ return this.taefk;   }              
 
-	private String taefb = ""; 
+	private String taefb = "0"; 
 	public String getTaefbPropertyName (){ return "taefb"; }
 	public void setTaefb (String value){ this.taefb = value;   }   
 	public String getTaefb (){ return this.taefb;   }              
@@ -123,15 +123,59 @@ public class TariDao implements Serializable {
 	public void setTakdsae (String value){ this.takdsae = value;   }   
 	public String getTakdsae (){ return this.takdsae;   }              
 	
-	private String taeoesb = ""; 
-	public String getTaeoesbPropertyName (){ return "taeoesb"; }
-	public void setTaeoesb (String value){ this.taeoesb = value;   }   
-	public String getTaeoesb (){ return this.taeoesb;   }              
+	//countries
+	private String taeosb = "0"; 
+	public String getTaeosbPropertyName (){ return "taeosb"; }
+	public void setTaeosb (String value){ this.taeosb = value;   }   
+	public String getTaeosb (){ return this.taeosb;   }              
 	
-	private String taeoesk = ""; 
-	public String getTaeoeskPropertyName (){ return "taeoesk"; }
-	public void setTaeoesk (String value){ this.taeoesk = value;   }   
-	public String getTaeoesk (){ return this.taeoesk;   }              
+	private String taeosk = ""; 
+	public String getTaeoskPropertyName (){ return "taeosk"; }
+	public void setTaeosk (String value){ this.taeosk = value;   }   
+	public String getTaeosk (){ return this.taeosk;   } 
+	
+	private String tatsjb = "0"; 
+	public String getTatsjbPropertyName (){ return "tatsjb"; }
+	public void setTatsjb (String value){ this.tatsjb = value;   }   
+	public String getTatsjb (){ return this.tatsjb;   }              
+	
+	private String tatsjk = ""; 
+	public String getTatsjkPropertyName (){ return "tatsjk"; }
+	public void setTatsjk (String value){ this.tatsjk = value;   }   
+	public String getTatsjk (){ return this.tatsjk;   }              
+	
+	private String tatyrb = "0"; 
+	public String getTatyrbPropertyName (){ return "tatyrb"; }
+	public void setTatyrb (String value){ this.tatyrb = value;   }   
+	public String getTatyrb (){ return this.tatyrb;   }              
+	
+	private String tatyrk = ""; 
+	public String getTatyrkPropertyName (){ return "tatyrk"; }
+	public void setTatyrk (String value){ this.tatyrk = value;   }   
+	public String getTatyrk (){ return this.tatyrk;   }              
+	
+	private String taisrb = "0"; 
+	public String getTaisrbPropertyName (){ return "taisrb"; }
+	public void setTaisrb (String value){ this.taisrb = value;   }   
+	public String getTaisrb (){ return this.taisrb;   }              
+	
+	private String taisrk = ""; 
+	public String getTaisrkPropertyName (){ return "taisrk"; }
+	public void setTaisrk (String value){ this.taisrk = value;   }   
+	public String getTaisrk (){ return this.taisrk;   }              
+	
+	private String taellb = "0"; 
+	public String getTaellbPropertyName (){ return "taellb"; }
+	public void setTaellb (String value){ this.taellb = value;   }   
+	public String getTaellb (){ return this.taellb;   }              
+	
+	private String taellk = ""; 
+	public String getTaellkPropertyName (){ return "taellk"; }
+	public void setTaellk (String value){ this.taellk = value;   }   
+	public String getTaellk (){ return this.taellk;   }              
+	
+	                              
+
 	
 	
 }
