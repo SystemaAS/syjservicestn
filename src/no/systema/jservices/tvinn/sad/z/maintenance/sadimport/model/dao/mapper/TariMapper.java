@@ -39,14 +39,25 @@ public class TariMapper implements RowMapper {
     	//countries
     	dao.setTaeosb(rs.getString("taeosb"));
     	dao.setTaeosk(rs.getString("taeosk"));
-    	/*dao.setTatsjb(rs.getString("tatsjb"));
+    	dao.setTatsjb(rs.getString("tatsjb"));
     	dao.setTatsjk(rs.getString("tatsjk"));
     	dao.setTatyrb(rs.getString("tatyrb"));
     	dao.setTatyrk(rs.getString("tatyrk"));
     	dao.setTaisrb(rs.getString("taisrb"));
     	dao.setTaisrk(rs.getString("taisrk"));
     	dao.setTaellb(rs.getString("taellb"));
-    	dao.setTaellk(rs.getString("taellk"));*/
+    	dao.setTaellk(rs.getString("taellk"));
+    	//
+    	dao.setTabulb(rs.getString("tabulb"));
+    	dao.setTabulk(rs.getString("tabulk"));
+    	dao.setTapolb(rs.getString("tapolb"));
+    	dao.setTapolk(rs.getString("tapolk"));
+    	dao.setTaromb(rs.getString("taromb"));
+    	dao.setTaromk(rs.getString("taromk"));
+    	dao.setTan05b(rs.getString("tan05b"));
+    	dao.setTan05k(rs.getString("tan05k"));
+    	dao.setTan06b(rs.getString("tan06b"));
+    	dao.setTan06k(rs.getString("tan06k"));
     	
     	
     	

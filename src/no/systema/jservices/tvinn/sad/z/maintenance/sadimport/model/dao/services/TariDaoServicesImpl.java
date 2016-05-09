@@ -135,17 +135,20 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" INSERT INTO tari (tatanr, taalfa, tadtr, tadato, taordb, taordk, taeftb, taeftk, taefb, taefk, ");
 			sql.append(" tastk, tatxt, taenhe, tadts, TAEØSB, TAEØSK, tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, ");
-			sql.append(" taellb, taellk ");
+			sql.append(" taellb, taellk, tabulb, tabulk, tapolb, tapolk, taromb, taromk, tan05b, tan05k, ");
+			sql.append(" tan06b, tan06k ) ");
 			
 			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ");
 			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ");
-			sql.append(" ?, ? ) ");
+			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa(), 
 					dao.getTadtr(), dao.getTadato(), dao.getTaordb(),dao.getTaordk(),dao.getTaeftb(),dao.getTaeftk(), dao.getTaefb(),dao.getTaefk(),
 					dao.getTastk(), dao.getTatxt(), dao.getTaenhe(), dao.getTadts(), dao.getTaeosb(), dao.getTaeosk(), dao.getTatsjb(), dao.getTatsjk(),
-					dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(), dao.getTaellb(), dao.getTaellk()
+					dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(), dao.getTaellb(), dao.getTaellk(),
+					dao.getTabulb(), dao.getTabulk(), dao.getTapolb(), dao.getTapolk(), dao.getTaromb(), dao.getTaromk(), dao.getTan05b(), dao.getTan05k(),
+					dao.getTan06b(), dao.getTan06k()
 							
 					} );
 			
@@ -165,14 +168,16 @@ public class TariDaoServicesImpl implements TariDaoServices {
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		try{
-			
 			TariDao dao = (TariDao)daoObj;
+			//logger.info("TURKIET BBBB" + dao.getTatyrb());
 			StringBuffer sql = new StringBuffer();
 			sql.append(" UPDATE tari SET tadato = ?, taalfa = ?, taordb = ?, taordk = ?, ");
 			sql.append(" taeftb = ?, taeftk = ?, taefb = ?, taefk = ?, ");
-			sql.append(" tastk = ?, tatxt = ?, taenhe = ?, tadts = ?, TAEØSB = ?, TAEØSK = ? ");
+			sql.append(" tastk = ?, tatxt = ?, taenhe = ?, tadts = ?, TAEØSB = ?, TAEØSK = ?, ");
 			sql.append(" tatsjb = ?, tatsjk = ?, tatyrb = ?, tatyrk = ?, taisrb = ?, taisrk = ?, ");
-			sql.append(" taellb = ?, taellk = ? ");
+			sql.append(" taellb = ?, taellk = ?, tabulb = ?, tabulk = ?, tapolb = ? , tapolk = ?, ");
+			sql.append(" taromb = ?, taromk = ?, tan05b = ?, tan05k = ?, tan06b = ?, tan06k = ? ");
+			
 			//id's
 			sql.append(" WHERE tatanr = ? ");
 			sql.append(" AND taalfa = ? ");
@@ -183,9 +188,9 @@ public class TariDaoServicesImpl implements TariDaoServices {
 						dao.getTaeftb(), dao.getTaeftk(), dao.getTaefb(), dao.getTaefk(),
 						dao.getTastk(), dao.getTatxt(), dao.getTaenhe(), dao.getTadts(),
 						dao.getTaeosb(), dao.getTaeosk(), 
-						dao.getTatsjb(), dao.getTatsjk(),
-						dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(),
-						dao.getTaellb(), dao.getTaellk(),
+						dao.getTatsjb(), dao.getTatsjk(),dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(),
+						dao.getTaellb(), dao.getTaellk(), dao.getTabulb(), dao.getTabulk(), dao.getTapolb(), dao.getTapolk(),
+						dao.getTaromb(), dao.getTaromk(), dao.getTan05b(), dao.getTan05k(), dao.getTan06b(), dao.getTan06k(),
 						//id's
 						dao.getTatanr(), dao.getTaalfaOrig() } );
 			
@@ -236,7 +241,10 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
 		sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts, TAEØSB taeosb, TAEØSK taeosk, ");
-		sql.append(" tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, taellb, taellk ");
+		sql.append(" tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, taellb, taellk, tabulb, tabulk, tapolb, tapolk, ");
+		sql.append(" taromb, taromk, tan05b, tan05k, tan06b, tan06k ");
+		
+		
 		return sql;
 	}
 	/**                                                                                                  

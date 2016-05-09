@@ -174,7 +174,107 @@ public class TariDao implements Serializable {
 	public void setTaellk (String value){ this.taellk = value;   }   
 	public String getTaellk (){ return this.taellk;   }              
 	
-	                              
+	private String tabulb = ""; 
+	public String getTabulbPropertyName (){ return "tabulb"; }
+	public void setTabulb (String value){ this.tabulb = value;   }   
+	public String getTabulb (){ return this.tabulb;   }              
+	
+	private String tabulk = ""; 
+	public String getTabulkPropertyName (){ return "tabulk"; }
+	public void setTabulk (String value){ this.tabulk = value;   }   
+	public String getTabulk (){ return this.tabulk;   }              
+	
+	private String tapolb = ""; 
+	public String getTapolbPropertyName (){ return "tapolb"; }
+	public void setTapolb (String value){ this.tapolb = value;   }   
+	public String getTapolb (){ return this.tapolb;   }              
+	
+	private String tapolk = ""; 
+	public String getTapolkPropertyName (){ return "tapolk"; }
+	public void setTapolk (String value){ this.tapolk = value;   }   
+	public String getTapolk (){ return this.tapolk;   }              
+	
+	private String taromb = ""; 
+	public String getTarombPropertyName (){ return "taromb"; }
+	public void setTaromb (String value){ this.taromb = value;   }   
+	public String getTaromb (){ return this.taromb;   }              
+	
+	private String taromk = ""; 
+	public String getTaromkPropertyName (){ return "taromk"; }
+	public void setTaromk (String value){ this.taromk = value;   }   
+	public String getTaromk (){ return this.taromk;   }              
+	
+	private String tan05b = ""; 
+	public String getTan05bPropertyName (){ return "tan05b"; }
+	public void setTan05b (String value){ this.tan05b = value;   }   
+	public String getTan05b (){ return this.tan05b;   }              
+	
+	private String tan05k = ""; 
+	public String getTan05kPropertyName (){ return "tan05k"; }
+	public void setTan05k (String value){ this.tan05k = value;   }   
+	public String getTan05k (){ return this.tan05k;   }              
+	
+	private String tan06b = ""; 
+	public String getTan06bPropertyName (){ return "tan06b"; }
+	public void setTan06b (String value){ this.tan06b = value;   }   
+	public String getTan06b (){ return this.tan06b;   }              
+	
+	private String tan06k = ""; 
+	public String getTan06kPropertyName (){ return "tan06k"; }
+	public void setTan06k (String value){ this.tan06k = value;   }   
+	public String getTan06k (){ return this.tan06k;   }              
+	
+	private String taungb = ""; 
+	public String getTaungbPropertyName (){ return "taungb"; }
+	public void setTaungb (String value){ this.taungb = value;   }   
+	public String getTaungb (){ return this.taungb;   }              
+	
+	private String taungk = ""; 
+	public String getTaungkPropertyName (){ return "taungk"; }
+	public void setTaungk (String value){ this.taungk = value;   }   
+	public String getTaungk (){ return this.taungk;   }              
+	
+	private String taslob = ""; 
+	public String getTaslobPropertyName (){ return "taslob"; }
+	public void setTaslob (String value){ this.taslob = value;   }   
+	public String getTaslob (){ return this.taslob;   }              
+	
+	private String taslok = ""; 
+	public String getTaslokPropertyName (){ return "taslok"; }
+	public void setTaslok (String value){ this.taslok = value;   }   
+	public String getTaslok (){ return this.taslok;   }              
+	
+	private String tamulb = ""; 
+	public String getTamulbPropertyName (){ return "tamulb"; }
+	public void setTamulb (String value){ this.tamulb = value;   }   
+	public String getTamulb (){ return this.tamulb;   }  
+	
+	private String tamulk = ""; 
+	public String getTamulkPropertyName (){ return "tamulk"; }
+	public void setTamulk (String value){ this.tamulk = value;   }   
+	public String getTamulk (){ return this.tamulk;   }              
+	
+	private String taoulb = ""; 
+	public String getTaoulbPropertyName (){ return "taoulb"; }
+	public void setTaoulb (String value){ this.taoulb = value;   }   
+	public String getTaoulb (){ return this.taoulb;   }              
+	
+	private String taoulk = ""; 
+	public String getTaoulkPropertyName (){ return "taoulk"; }
+	public void setTaoulk (String value){ this.taoulk = value;   }   
+	public String getTaoulk (){ return this.taoulk;   }              
+	
+	private String tagrlb = ""; 
+	public String getTagrlbPropertyName (){ return "tagrlb"; }
+	public void setTagrlb (String value){ this.tagrlb = value;   }   
+	public String getTagrlb (){ return this.tagrlb;   }              
+	
+	private String tagrlk = ""; 
+	public String getTagrlkPropertyName (){ return "tagrlk"; }
+	public void setTagrlk (String value){ this.tagrlk = value;   }   
+	public String getTagrlk (){ return this.tagrlk;   }              
+	
+	                       
 
 	
 	

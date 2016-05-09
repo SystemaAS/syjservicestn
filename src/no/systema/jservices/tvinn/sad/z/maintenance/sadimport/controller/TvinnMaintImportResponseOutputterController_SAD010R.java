@@ -144,7 +144,7 @@ public class TvinnMaintImportResponseOutputterController_SAD010R {
 	 * Update Database DML operations
 	 * File: 	TARI
 	 * PGM:		SAD010
-	 * Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * Member: 	SAD Import Maintenance - UPDATE SPECIFIC
 	 * 
 	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD010R_U.do?user=OSCAR&mode=U/A/D
 	 *
