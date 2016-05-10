@@ -58,7 +58,36 @@ public class TariMapper implements RowMapper {
     	dao.setTan05k(rs.getString("tan05k"));
     	dao.setTan06b(rs.getString("tan06b"));
     	dao.setTan06k(rs.getString("tan06k"));
-    	
+    	dao.setTan07b(rs.getString("tan07b"));
+    	dao.setTan07k(rs.getString("tan07k"));
+    	dao.setTaungb(rs.getString("taungb"));
+    	dao.setTaungk(rs.getString("taungk"));
+    	//
+    	dao.setTaslob(rs.getString("taslob"));
+    	dao.setTaslok(rs.getString("taslok"));
+    	dao.setTamulb(rs.getString("tamulb"));
+    	dao.setTamulk(rs.getString("tamulk"));
+    	dao.setTaoulb(rs.getString("taoulb"));
+    	dao.setTaoulk(rs.getString("taoulk"));
+    	dao.setTagrlb(rs.getString("tagrlb"));
+    	dao.setTagrlk(rs.getString("tagrlk"));
+    	dao.setTaferb(rs.getString("taferb"));
+    	dao.setTaferk(rs.getString("taferk"));
+    	dao.setTaistb(rs.getString("taistb"));
+    	dao.setTaistk(rs.getString("taistk"));
+    	//
+    	dao.setTamarb(rs.getString("tamarb"));
+    	dao.setTamark(rs.getString("tamark"));
+    	dao.setTan08b(rs.getString("tan08b"));
+    	dao.setTan08k(rs.getString("tan08k"));
+    	dao.setTan09b(rs.getString("tan09b"));
+    	dao.setTan09k(rs.getString("tan09k"));
+    	dao.setTan10b(rs.getString("tan10b"));
+    	dao.setTan10k(rs.getString("tan10k"));
+    	dao.setTamexb(rs.getString("tamexb"));
+    	dao.setTamexk(rs.getString("tamexk"));
+    	dao.setTavgab(rs.getString("tavgab"));
+    	dao.setTavgak(rs.getString("tavgak"));
     	
     	
         return dao;

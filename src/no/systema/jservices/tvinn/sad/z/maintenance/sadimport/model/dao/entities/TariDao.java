@@ -214,6 +214,7 @@ public class TariDao implements Serializable {
 	public void setTan05k (String value){ this.tan05k = value;   }   
 	public String getTan05k (){ return this.tan05k;   }              
 	
+	//Albania
 	private String tan06b = ""; 
 	public String getTan06bPropertyName (){ return "tan06b"; }
 	public void setTan06b (String value){ this.tan06b = value;   }   
@@ -224,6 +225,18 @@ public class TariDao implements Serializable {
 	public void setTan06k (String value){ this.tan06k = value;   }   
 	public String getTan06k (){ return this.tan06k;   }              
 	
+	//Ukraina
+	private String tan07b = ""; 
+	public String getTan07bPropertyName (){ return "tan07b"; }
+	public void setTan07b (String value){ this.tan07b = value;   }   
+	public String getTan07b (){ return this.tan07b;   }              
+	
+	private String tan07k = ""; 
+	public String getTan07kPropertyName (){ return "tan07k"; }
+	public void setTan07k (String value){ this.tan07k = value;   }   
+	public String getTan07k (){ return this.tan07k;   }              
+	
+	//Jordan
 	private String taungb = ""; 
 	public String getTaungbPropertyName (){ return "taungb"; }
 	public void setTaungb (String value){ this.taungb = value;   }   
@@ -234,6 +247,7 @@ public class TariDao implements Serializable {
 	public void setTaungk (String value){ this.taungk = value;   }   
 	public String getTaungk (){ return this.taungk;   }              
 	
+	//Tunisia
 	private String taslob = ""; 
 	public String getTaslobPropertyName (){ return "taslob"; }
 	public void setTaslob (String value){ this.taslob = value;   }   
@@ -244,6 +258,7 @@ public class TariDao implements Serializable {
 	public void setTaslok (String value){ this.taslok = value;   }   
 	public String getTaslok (){ return this.taslok;   }              
 	
+	//Min uland
 	private String tamulb = ""; 
 	public String getTamulbPropertyName (){ return "tamulb"; }
 	public void setTamulb (String value){ this.tamulb = value;   }   
@@ -254,6 +269,7 @@ public class TariDao implements Serializable {
 	public void setTamulk (String value){ this.tamulk = value;   }   
 	public String getTamulk (){ return this.tamulk;   }              
 	
+	//Ord.uland
 	private String taoulb = ""; 
 	public String getTaoulbPropertyName (){ return "taoulb"; }
 	public void setTaoulb (String value){ this.taoulb = value;   }   
@@ -274,8 +290,92 @@ public class TariDao implements Serializable {
 	public void setTagrlk (String value){ this.tagrlk = value;   }   
 	public String getTagrlk (){ return this.tagrlk;   }              
 	
+	private String taferb = ""; 
+	public String getTaferbPropertyName (){ return "taferb"; }
+	public void setTaferb (String value){ this.taferb = value;   }   
+	public String getTaferb (){ return this.taferb;   }              
+	
+	private String taferk = ""; 
+	public String getTaferkPropertyName (){ return "taferk"; }
+	public void setTaferk (String value){ this.taferk = value;   }   
+	public String getTaferk (){ return this.taferk;   }              
+	
+	private String taistb = ""; 
+	public String getTaistbPropertyName (){ return "taistb"; }
+	public void setTaistb (String value){ this.taistb = value;   }   
+	public String getTaistb (){ return this.taistb;   }              
+	
+	private String taistk = ""; 
+	public String getTaistkPropertyName (){ return "taistk"; }
+	public void setTaistk (String value){ this.taistk = value;   }   
+	public String getTaistk (){ return this.taistk;   }              
 	                       
-
+	
+	private String tamarb = ""; 
+	public String getTamarbPropertyName (){ return "tamarb"; }
+	public void setTamarb (String value){ this.tamarb = value;   }   
+	public String getTamarb (){ return this.tamarb;   }              
+	
+	private String tamark = ""; 
+	public String getTamarkPropertyName (){ return "tamark"; }
+	public void setTamark (String value){ this.tamark = value;   }   
+	public String getTamark (){ return this.tamark;   }              
+	
+	//Peru
+	private String tan08b = ""; 
+	public String getTan08bPropertyName (){ return "tan08b"; }
+	public void setTan08b (String value){ this.tan08b = value;   }   
+	public String getTan08b (){ return this.tan08b;   }              
+	
+	private String tan08k = ""; 
+	public String getTan08kPropertyName (){ return "tan08k"; }
+	public void setTan08k (String value){ this.tan08k = value;   }   
+	public String getTan08k (){ return this.tan08k;   }              
+	
+	//Montenegro
+	private String tan09b = ""; 
+	public String getTan09bPropertyName (){ return "tan09b"; }
+	public void setTan09b (String value){ this.tan09b = value;   }   
+	public String getTan09b (){ return this.tan09b;   }              
+	
+	private String tan09k = ""; 
+	public String getTan09kPropertyName (){ return "tan09k"; }
+	public void setTan09k (String value){ this.tan09k = value;   }   
+	public String getTan09k (){ return this.tan09k;   }              
+	
+	//Hong Kong
+	private String tan10b = ""; 
+	public String getTan10bPropertyName (){ return "tan10b"; }
+	public void setTan10b (String value){ this.tan10b = value;   }   
+	public String getTan10b (){ return this.tan10b;   }              
+	
+	private String tan10k = ""; 
+	public String getTan10kPropertyName (){ return "tan10k"; }
+	public void setTan10k (String value){ this.tan10k = value;   }   
+	public String getTan10k (){ return this.tan10k;   }              
+	
+	//Mexico
+	private String tamexb = ""; 
+	public String getTamexbPropertyName (){ return "tamexb"; }
+	public void setTamexb (String value){ this.tamexb = value;   }   
+	public String getTamexb (){ return this.tamexb;   }              
+	
+	private String tamexk = ""; 
+	public String getTamexkPropertyName (){ return "tamexk"; }
+	public void setTamexk (String value){ this.tamexk = value;   }   
+	public String getTamexk (){ return this.tamexk;   }              
+	
+	//VB & GAZA
+	private String tavgab = ""; 
+	public String getTavgabPropertyName (){ return "tavgab"; }
+	public void setTavgab (String value){ this.tavgab = value;   }   
+	public String getTavgab (){ return this.tavgab;   }              
+	
+	private String tavgak = ""; 
+	public String getTavgakPropertyName (){ return "tavgak"; }
+	public void setTavgak (String value){ this.tavgak = value;   }   
+	public String getTavgak (){ return this.tavgak;   }              
+	
 	
 	
 }

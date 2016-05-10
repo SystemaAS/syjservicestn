@@ -136,11 +136,17 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			sql.append(" INSERT INTO tari (tatanr, taalfa, tadtr, tadato, taordb, taordk, taeftb, taeftk, taefb, taefk, ");
 			sql.append(" tastk, tatxt, taenhe, tadts, TAEØSB, TAEØSK, tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, ");
 			sql.append(" taellb, taellk, tabulb, tabulk, tapolb, tapolk, taromb, taromk, tan05b, tan05k, ");
-			sql.append(" tan06b, tan06k ) ");
+			sql.append(" tan06b, tan06k, tan07b, tan07k, taungb, taungk, taslob, taslok, tamulb, tamulk, taoulb, taoulk, ");
+			sql.append(" tagrlb, tagrlk, TAFÆRB, TAFÆRK, taistb, taistk, tamarb, tamark, tan08b, tan08k, tan09b, tan09k, ");
+			sql.append(" tan10b, tan10k, tamexb, tamexk, tavgab, tavgak ) ");
+			
 			
 			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ");
 			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ");
-			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ");
+			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ");
+			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " );
+			sql.append(" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " );
+			sql.append(" ?, ?, ?, ?, ?, ? )" );
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTatanr(), dao.getTaalfa(), 
@@ -148,8 +154,12 @@ public class TariDaoServicesImpl implements TariDaoServices {
 					dao.getTastk(), dao.getTatxt(), dao.getTaenhe(), dao.getTadts(), dao.getTaeosb(), dao.getTaeosk(), dao.getTatsjb(), dao.getTatsjk(),
 					dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(), dao.getTaellb(), dao.getTaellk(),
 					dao.getTabulb(), dao.getTabulk(), dao.getTapolb(), dao.getTapolk(), dao.getTaromb(), dao.getTaromk(), dao.getTan05b(), dao.getTan05k(),
-					dao.getTan06b(), dao.getTan06k()
-							
+					dao.getTan06b(), dao.getTan06k(), dao.getTan07b(), dao.getTan07k(), dao.getTaungb(), dao.getTaungk(), dao.getTaslob(), dao.getTaslok(),
+					dao.getTamulb(), dao.getTamulk(), dao.getTaoulb(), dao.getTaoulk(), dao.getTagrlb(), dao.getTagrlk(), dao.getTaferb(), dao.getTaferk(),
+					dao.getTaistb(), dao.getTaistk(), dao.getTamarb(), dao.getTamark(), dao.getTan08b(), dao.getTan08k(), dao.getTan09b(), dao.getTan09k(),
+					dao.getTan10b(), dao.getTan10k(), dao.getTamexb(), dao.getTamexk(), dao.getTavgab(), dao.getTavgak()
+					
+		
 					} );
 			
 		}catch(Exception e){
@@ -176,7 +186,11 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			sql.append(" tastk = ?, tatxt = ?, taenhe = ?, tadts = ?, TAEØSB = ?, TAEØSK = ?, ");
 			sql.append(" tatsjb = ?, tatsjk = ?, tatyrb = ?, tatyrk = ?, taisrb = ?, taisrk = ?, ");
 			sql.append(" taellb = ?, taellk = ?, tabulb = ?, tabulk = ?, tapolb = ? , tapolk = ?, ");
-			sql.append(" taromb = ?, taromk = ?, tan05b = ?, tan05k = ?, tan06b = ?, tan06k = ? ");
+			sql.append(" taromb = ?, taromk = ?, tan05b = ?, tan05k = ?, tan06b = ?, tan06k = ?, tan07b = ?, tan07k = ?, ");
+			sql.append(" taungb = ?, taungk = ?, taslob = ?, taslok = ?, tamulb = ?, tamulk = ?, taoulb = ?, taoulk = ?, ");
+			sql.append(" tagrlb = ?, tagrlk = ?, TAFÆRB = ?, TAFÆRK = ?, taistb = ?, taistk = ?, ");
+			sql.append(" tamarb = ?, tamark = ?, tan08b = ?, tan08k = ?, tan09b = ?, tan09k = ?, tan10b = ?, tan10k = ?, tamexb = ?, tamexk = ?,");
+			sql.append(" tavgab = ?, tavgak = ? ");
 			
 			//id's
 			sql.append(" WHERE tatanr = ? ");
@@ -191,6 +205,12 @@ public class TariDaoServicesImpl implements TariDaoServices {
 						dao.getTatsjb(), dao.getTatsjk(),dao.getTatyrb(), dao.getTatyrk(), dao.getTaisrb(), dao.getTaisrk(),
 						dao.getTaellb(), dao.getTaellk(), dao.getTabulb(), dao.getTabulk(), dao.getTapolb(), dao.getTapolk(),
 						dao.getTaromb(), dao.getTaromk(), dao.getTan05b(), dao.getTan05k(), dao.getTan06b(), dao.getTan06k(),
+						dao.getTan07b(), dao.getTan07k(), dao.getTaungb(), dao.getTaungk(), dao.getTaslob(), dao.getTaslok(),
+						dao.getTamulb(), dao.getTamulk(), dao.getTaoulb(), dao.getTaoulk(), dao.getTagrlb(), dao.getTagrlk(),
+						dao.getTaferb(), dao.getTaferk(), dao.getTaistb(), dao.getTaistk(), dao.getTamarb(), dao.getTamark(), 
+						dao.getTan08b(), dao.getTan08k(), dao.getTan09b(), dao.getTan09k(), dao.getTan10b(), dao.getTan10k(), 
+						dao.getTamexb(), dao.getTamexk(), dao.getTavgab(), dao.getTavgak(),
+						
 						//id's
 						dao.getTatanr(), dao.getTaalfaOrig() } );
 			
@@ -242,7 +262,10 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		sql.append(" SELECT CHAR(tatanr) tatanr, CHAR(taordb) taordb, taordk, CHAR(taeftb) taeftb, taeftk, CHAR(taefb) taefb, ");
 		sql.append(" taefk, tastk, takap, taalfa, tatxt, taenhe, tadtr, tadato, tadts, TAEØSB taeosb, TAEØSK taeosk, ");
 		sql.append(" tatsjb, tatsjk, tatyrb, tatyrk, taisrb, taisrk, taellb, taellk, tabulb, tabulk, tapolb, tapolk, ");
-		sql.append(" taromb, taromk, tan05b, tan05k, tan06b, tan06k ");
+		sql.append(" taromb, taromk, tan05b, tan05k, tan06b, tan06k, tan07b, tan07k, taungb, taungk, ");
+		sql.append(" taslob, taslok, tamulb, tamulk, taoulb, taoulk, tagrlb, tagrlk, TAFÆRB taferb, TAFÆRK taferk, taistb, taistk ");
+		sql.append(" tamarb, tamark, tan08b, tan08k, tan09b, tan09k, tan10b, tan10k, tamexb, tamexk, tavgab, tavgak ");
+		
 		
 		
 		return sql;
