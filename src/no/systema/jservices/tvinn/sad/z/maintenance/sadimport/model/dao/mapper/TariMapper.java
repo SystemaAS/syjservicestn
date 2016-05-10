@@ -88,6 +88,26 @@ public class TariMapper implements RowMapper {
     	dao.setTamexk(rs.getString("tamexk"));
     	dao.setTavgab(rs.getString("tavgab"));
     	dao.setTavgak(rs.getString("tavgak"));
+    	//
+    	dao.setTan01b(rs.getString("tan01b"));
+    	dao.setTan01k(rs.getString("tan01k"));
+    	dao.setTan02b(rs.getString("tan02b"));
+    	dao.setTan02k(rs.getString("tan02k"));
+    	dao.setTan03b(rs.getString("tan03b"));
+    	dao.setTan03k(rs.getString("tan03k"));
+    	dao.setTan04b(rs.getString("tan04b"));
+    	dao.setTan04k(rs.getString("tan04k"));
+    	dao.setTan11b(rs.getString("tan11b"));
+    	dao.setTan11k(rs.getString("tan11k"));
+    	dao.setTan12b(rs.getString("tan12b"));
+    	dao.setTan12k(rs.getString("tan12k"));
+    	//
+    	dao.setTan13b(rs.getString("tan13b"));
+    	dao.setTan13k(rs.getString("tan13k"));
+    	dao.setTan14b(rs.getString("tan14b"));
+    	dao.setTan14k(rs.getString("tan14k"));
+    	dao.setTan15b(rs.getString("tan15b"));
+    	dao.setTan15k(rs.getString("tan15k"));
     	
     	
         return dao;
