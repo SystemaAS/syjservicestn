@@ -473,4 +473,5 @@ public class TariDao implements Serializable {
 	public void setTan15k (String value){ this.tan15k = value;   }   
 	public String getTan15k (){ return this.tan15k;   }              
 	
+	
 }
