@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @date Apr 9, 2016
  * 
  */
-public class KodtsiDao implements Serializable {
+public class KodtsiDao implements Serializable, IDao {
 	
 	private String ksista = "";                                
 	public String getKsistaPropertyName (){ return "ksista"; }

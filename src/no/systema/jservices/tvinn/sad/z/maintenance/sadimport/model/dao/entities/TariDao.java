@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @date May 6, 2016
  * 
  */
-public class TariDao implements Serializable {
+public class TariDao implements Serializable, IDao {
 	
 	private String tatanr = "";                                
 	public String getTatanrPropertyName (){ return "tatanr"; }

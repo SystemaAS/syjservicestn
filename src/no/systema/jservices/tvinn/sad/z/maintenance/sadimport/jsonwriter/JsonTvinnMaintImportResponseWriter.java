@@ -12,6 +12,9 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtsiDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.CundfLikvKodeDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadsdDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.reflection.JsonWriterReflectionManager;
+
 
 
 import no.systema.main.util.JsonSpecialCharactersManager;
@@ -229,7 +232,7 @@ public class JsonTvinnMaintImportResponseWriter {
 			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
 			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
 			//doIt
-			sb.append(this.getGettersFromRecord(record));
+			sb.append(new JsonWriterReflectionManager().getGettersFromRecord(record));
 			//close the list
 			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
 			counter++;
@@ -241,43 +244,36 @@ public class JsonTvinnMaintImportResponseWriter {
 	}
 	
 	/**
-	 * This method replaces not-dynamic early implementations of JSON-String output.
+	 * SAD999 
 	 * 
-	 * @param record
+	 * @param user
+	 * @param list
+	 * @return
 	 */
-	private String getGettersFromRecord(TariDao record){
-		StringBuffer jsonReflectionOutput = new StringBuffer();
-		try{
-			Class<?> recordClazz = record.getClass();
-			Method  theMethod = null;
-			Class<?> returnType = null;
-			int counter = 1;
-			for(Method method : recordClazz.getDeclaredMethods()){
-				//only getters
-				String getter = method.getName();
-				if(getter.startsWith("get") && !getter.endsWith("PropertyName")){
-					theMethod= recordClazz.getDeclaredMethod(method.getName());
-					returnType = theMethod.getReturnType();
-					if(returnType.equals(String.class)){
-						String field = theMethod.getName().replace("get", "").toLowerCase();
-						String value = (String)theMethod.invoke(record);
-						//logger.info(fieldName + "XX" + value);
-						if(counter>1){ jsonReflectionOutput.append(JsonConstants.JSON_FIELD_SEPARATOR ); }
-						jsonReflectionOutput.append(JsonConstants.JSON_QUOTES + field + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(value).trim() + JsonConstants.JSON_QUOTES);
-						counter ++;
-					}
-				}
-				
-			}
-			
-		}catch(Exception e){
-			StringWriter errors = new StringWriter();
-			e.printStackTrace(new PrintWriter(errors));
-			logger.info(errors);
+	public String setJsonResult_SAD999R_GetList(String user, List<SadsdDao> list ){
+		StringBuffer sb = new StringBuffer();
+		//build the return JSON
+		sb.append(JsonConstants.JSON_START);
+		sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes(user) + ",");
+		sb.append(this.setFieldQuotes("errMsg") + ":" + this.setFieldQuotes("") + ",");
+		sb.append(this.setFieldQuotes("list") + ":");
+		sb.append(JsonConstants.JSON_OPEN_LIST);
+		int counter = 1;
+		for(SadsdDao record : list){
+			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
+			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
+			//doIt
+			sb.append(new JsonWriterReflectionManager().getGettersFromRecord(record));
+			//close the list
+			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
+			counter++;
 		}
+		sb.append(JsonConstants.JSON_CLOSE_LIST);
+		sb.append(JsonConstants.JSON_END);
 		
-		return jsonReflectionOutput.toString();
+		return sb.toString();
 	}
+	
 	
 	/**
 	 * 

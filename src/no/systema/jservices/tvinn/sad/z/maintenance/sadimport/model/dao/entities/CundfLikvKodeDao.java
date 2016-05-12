@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @date Maj 2, 2016
  * 
  */
-public class CundfLikvKodeDao implements Serializable {
+public class CundfLikvKodeDao implements Serializable, IDao {
 	
 	private String firma = "";                                
 	public String getFirmaPropertyName (){ return "firma"; }

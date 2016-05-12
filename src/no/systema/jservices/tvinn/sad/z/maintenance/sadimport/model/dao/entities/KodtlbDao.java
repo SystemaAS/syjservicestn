@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @date Apr 9, 2016
  * 
  */
-public class KodtlbDao implements Serializable {
+public class KodtlbDao implements Serializable, IDao {
 	
 	private String klbsta = "";                                
 	public String getKlbstaPropertyName (){ return "klbsta"; }

@@ -371,4 +371,67 @@ public class DateTimeManager {
 		}
 		return retval;
 	}
+	
+	/**
+	 * 
+	 * @param lowerLimitDate
+	 * @param lowerLimitDateMask
+	 * @param upperLimitDate
+	 * @param upperLimitDateMask
+	 * @return
+	 */
+	public boolean validTodayBetweenLimits( String lowerLimitDate, String lowerLimitDateMask, String upperLimitDate, String upperLimitDateMask){
+		boolean retval = false;
+		try{
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			Date today = formatter.parse(this.getCurrentDate_ISO());
+			//lower limit date
+			SimpleDateFormat formatterLowerLimit = new SimpleDateFormat(lowerLimitDateMask);
+			Date lowerDate = formatterLowerLimit.parse(lowerLimitDate);
+			
+			if(upperLimitDate!=null && !"".equals(upperLimitDate) && !"0".equals(upperLimitDate)){
+				SimpleDateFormat formatterUpperLimit = new SimpleDateFormat(upperLimitDateMask);
+				Date upperDate = formatterUpperLimit.parse(upperLimitDate);
+				if( (today.after(lowerDate) || today.compareTo(lowerDate)==0) && (today.before(upperDate) || today.compareTo(upperDate)==0)){
+					retval = true;
+				}
+			}else{
+				//only consider lower limit date
+				if(today.after(lowerDate) || today.compareTo(lowerDate)==0){
+					retval = true;
+				}
+			}
+			
+		}catch(Exception e){
+			e.toString();
+		}
+		return retval;
+	}
+	/**
+	 * 
+	 * @param lowerLimitDate
+	 * @param lowerLimitDateMask
+	 * @return
+	 */
+	public boolean validTodayBetweenLimits( String lowerLimitDate, String lowerLimitDateMask){
+		boolean retval = false;
+		try{
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			Date today = formatter.parse(this.getCurrentDate_ISO());
+			//lower limit date
+			SimpleDateFormat formatterLowerLimit = new SimpleDateFormat(lowerLimitDateMask);
+			Date lowerDate = formatterLowerLimit.parse(lowerLimitDate);
+			
+			//only consider lower limit date
+			if(today.after(lowerDate) || today.compareTo(lowerDate)==0){
+				retval = true;
+			}
+			
+			
+			
+		}catch(Exception e){
+			e.toString();
+		}
+		return retval;
+	}
 }
