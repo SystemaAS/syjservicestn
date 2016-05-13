@@ -49,12 +49,13 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 	 */
 	public List findById (String avgId, String sekvId, StringBuffer errorStackTrace ){
 		List<Kodts8Dao> retval = new ArrayList<Kodts8Dao>();
+		//logger.info(avgId + "XXX" + sekvId);
 		String SQL_WILD_CARD = "%";
 		try{
 			StringBuffer sql = new StringBuffer();
 		
 			sql.append(" SELECT ks8avg, ks8skv, ks8ftx, ks8sat, ks8sty ");
-			sql.append(" from kodts8 a ");
+			sql.append(" from kodts8 ");
 			sql.append(" WHERE ks8avg = ? ");
 			sql.append(" AND ks8skv = ? ");
 			

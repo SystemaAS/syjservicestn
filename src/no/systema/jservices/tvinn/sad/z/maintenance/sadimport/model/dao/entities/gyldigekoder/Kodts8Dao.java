@@ -23,6 +23,7 @@ public class Kodts8Dao implements Serializable, IDao {
 	public String getKs8skv (){ return this.ks8skv;   }              
 
 	private String ks8ftx = ""; 
+	public String getKs8ftxPropertyName (){ return "ks8ftx"; }
 	public void setKs8ftx (String value){ this.ks8ftx = value;   }   
 	public String getKs8ftx(){ return this.ks8ftx;   }              
 
