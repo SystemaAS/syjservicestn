@@ -48,7 +48,9 @@ public class SAD999R_U {
 		
 		if( (user!=null && !"".equals(user)) && (mode!=null && !"".equals(mode)) ){
 			//check dao
-			if( (dao.getSdtnrf()!=null && !"".equals(dao.getSdtnrf())) ){
+			if( (dao.getSdtnrf()!=null && !"".equals(dao.getSdtnrf())) &&
+					(dao.getSddtf()!=null && !"".equals(dao.getSddtf())) &&
+					(dao.getSddtt()!=null && !"".equals(dao.getSddtt())) ){
 				//OK
 			}else{
 				retval = false;

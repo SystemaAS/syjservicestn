@@ -195,12 +195,11 @@ public class TvinnMaintImportResponseOutputterController_SAD999R {
 					}
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
-						logger.info("Before UPDATE ...");
 						List<SadsdDao> list = new ArrayList<SadsdDao>();
-						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.sadsdDaoServices.findById(dao.getSdtnrf(), dbErrorStackTrace);
+							logger.info("CREATE NEW ...");
+							list = this.sadsdDaoServices.findByDates(dao.getSdtnrf(), dao.getSddtf(), dao.getSddtt(), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -211,6 +210,8 @@ public class TvinnMaintImportResponseOutputterController_SAD999R {
 								dmlRetval = this.sadsdDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						}else if("U".equals(mode)){
+							logger.info("UPDATE ...");
+							
 							 dmlRetval = this.sadsdDaoServices.update(dao, dbErrorStackTrace);
 						}
 						

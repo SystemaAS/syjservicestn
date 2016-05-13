@@ -176,10 +176,10 @@ public class SadsdDaoServicesImpl implements SadsdDaoServices {
 			SadsdDao dao = (SadsdDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadsd, SDKDAÆ, SDKDSÆ, sddtf, sddtt, SDBLSÆ, sdaktk )");
+			sql.append(" INSERT INTO sadsd (sdtnrf, SDKDAÆ, SDKDSÆ, sddtf, sddtt, SDBLSÆ, sdaktk )");
 			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ? )");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSdkdae(), dao.getSdkdse(), dao.getSddtf(), dao.getSddtt(),
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSdtnrf(), dao.getSdkdae(), dao.getSdkdse(), dao.getSddtf(), dao.getSddtt(),
 					dao.getSdblse(), dao.getSdaktk()
 		
 					} );
@@ -203,17 +203,25 @@ public class SadsdDaoServicesImpl implements SadsdDaoServices {
 			SadsdDao dao = (SadsdDao)daoObj;
 			//logger.info("TURKIET BBBB" + dao.getTatyrb());
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE sadsd SET sddtf = ?, sddtt = ? ");
-			
+			sql.append(" UPDATE sadsd SET sddtf = ?, sddtt = ?, SDKDAÆ = ?, SDKDSÆ = ?, ");
+			sql.append(" SDBLSÆ = ?, sdaktk = ? ");
 			//id's
 			sql.append(" WHERE sdtnrf = ? ");
+			sql.append(" AND sddtf = ? ");
+			sql.append(" AND sddtt = ? ");
+			
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getSddtf(), dao.getSddtt(),
-						
+						dao.getSddtf(), dao.getSddtt(), dao.getSdkdae(), dao.getSdkdse(),
+						dao.getSdblse(), dao.getSdaktk(),
 						//id's
-						dao.getSdtnrf() } );
+						dao.getSdtnrf(),
+						dao.getSddtfOrig(),
+						dao.getSddttOrig(),
+						
+						
+						} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -236,10 +244,13 @@ public class SadsdDaoServicesImpl implements SadsdDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" DELETE from sadsd ");
+			//id's
 			sql.append(" WHERE sdtnrf = ? ");
+			sql.append(" AND sddtf = ? ");
+			sql.append(" AND sddtt = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSdtnrf(), dao.getTaalfa() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSdtnrf(), dao.getSddtf(), dao.getSddtt() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
