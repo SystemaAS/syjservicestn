@@ -7,6 +7,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
  * @date May 12, 2016
  */
 public class SAD999R_U {
+	
 
 	/**
 	 * 

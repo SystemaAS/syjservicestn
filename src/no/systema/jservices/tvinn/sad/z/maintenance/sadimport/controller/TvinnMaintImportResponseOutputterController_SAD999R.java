@@ -31,10 +31,14 @@ import javax.servlet.http.HttpSession;
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadsdDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadsdDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts8DaoServices;
+
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
-//rules
+//ruler lords
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD999R_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder.SAD002_KODTS8R_U;
+
 
 
 
@@ -181,6 +185,8 @@ public class TvinnMaintImportResponseOutputterController_SAD999R {
             binder.bind(request);
             //rules
             SAD999R_U rulerLord = new SAD999R_U();
+            SAD002_KODTS8R_U rulerLordSlaveKodts8 = new SAD002_KODTS8R_U(this.kodts8DaoServices);
+            
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
@@ -195,26 +201,32 @@ public class TvinnMaintImportResponseOutputterController_SAD999R {
 					}
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
-						List<SadsdDao> list = new ArrayList<SadsdDao>();
-						//do ADD
-						if("A".equals(mode)){
-							logger.info("CREATE NEW ...");
-							list = this.sadsdDaoServices.findByDates(dao.getSdtnrf(), dao.getSddtf(), dao.getSddtt(), dbErrorStackTrace);
-							//check if there is already such a code. If it does, stop the update
-							if(list!=null && list.size()>0){
-								//write JSON error output
-								errMsg = "ERROR on UPDATE: Code exists already";
-								status = "error";
-								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-							}else{
-								dmlRetval = this.sadsdDaoServices.insert(dao, dbErrorStackTrace);
+					  if(rulerLordSlaveKodts8.isValidAvgSekvensId(dao.getSdkdae(), dao.getSdkdse(), userName, mode)) {
+						  	List<SadsdDao> list = new ArrayList<SadsdDao>();
+							//do ADD
+							if("A".equals(mode)){
+								logger.info("CREATE NEW ...");
+								list = this.sadsdDaoServices.findByDates(dao.getSdtnrf(), dao.getSddtf(), dao.getSddtt(), dbErrorStackTrace);
+								//check if there is already such a code. If it does, stop the update
+								if(list!=null && list.size()>0){
+									//write JSON error output
+									errMsg = "ERROR on UPDATE: Code exists already";
+									status = "error";
+									sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+								}else{
+									dmlRetval = this.sadsdDaoServices.insert(dao, dbErrorStackTrace);
+								}
+							}else if("U".equals(mode)){
+								logger.info("UPDATE ...");
+								
+								 dmlRetval = this.sadsdDaoServices.update(dao, dbErrorStackTrace);
 							}
-						}else if("U".equals(mode)){
-							logger.info("UPDATE ...");
-							
-							 dmlRetval = this.sadsdDaoServices.update(dao, dbErrorStackTrace);
-						}
-						
+					  }else{
+						  //write JSON error output
+							errMsg = "ERROR on UPDATE: invalid slave id?  Try to check: <DaoServices>.update";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace)); 
+					  }
 				  }else{
 						//write JSON error output
 						errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.update";
@@ -270,6 +282,13 @@ public class TvinnMaintImportResponseOutputterController_SAD999R {
 	@Required
 	public void setBridfDaoServices (BridfDaoServices value){ this.bridfDaoServices = value; }
 	public BridfDaoServices getBridfDaoServices(){ return this.bridfDaoServices; }
+	
+	@Qualifier ("kodts8DaoServices")
+	private Kodts8DaoServices kodts8DaoServices;
+	@Autowired
+	@Required
+	public void setKodts8DaoServices (Kodts8DaoServices value){ this.kodts8DaoServices = value; }
+	public Kodts8DaoServices getKodts8DaoServices(){ return this.kodts8DaoServices; }
 	
 }
 
