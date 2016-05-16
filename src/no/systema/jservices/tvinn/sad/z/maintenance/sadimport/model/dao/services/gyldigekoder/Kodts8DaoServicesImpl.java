@@ -59,8 +59,6 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 			sql.append(" WHERE ks8avg = ? ");
 			sql.append(" AND ks8skv = ? ");
 			
-			
-			
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avgId, sekvId }, new Kodts8Mapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

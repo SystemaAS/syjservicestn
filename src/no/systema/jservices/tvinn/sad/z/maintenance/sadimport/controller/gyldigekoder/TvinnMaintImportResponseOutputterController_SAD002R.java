@@ -97,8 +97,9 @@ public class TvinnMaintImportResponseOutputterController_SAD002R {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            if( (dao.getKs8avg()!=null && !"".equals(dao.getKs8avg())) ){
-	            	logger.info("findById");
-					list = this.kodts8DaoServices.findById(dao.getKs8avg(), dbErrorStackTrace);
+	            	logger.info("findById (avg/skv keys)");
+	            	if(dao.getKs8skv()==null){ dao.setKs8skv(""); } //always a value != null
+	            	list = this.kodts8DaoServices.findById(dao.getKs8avg(), dao.getKs8skv(), dbErrorStackTrace);
 	            }else{
 	            	logger.info("getList (all)");
 					list = this.kodts8DaoServices.getList(dbErrorStackTrace);
