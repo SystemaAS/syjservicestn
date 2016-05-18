@@ -94,18 +94,18 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*TODO
+		
 		try{
-			SadsdDao dao = (SadsdDao)daoObj;
+			Kodts8Dao dao = (Kodts8Dao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadsd (sdtnrf, SDKDAÆ, SDKDSÆ, sddtf, sddtt, SDBLSÆ, sdaktk )");
-			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ? )");
+			sql.append(" INSERT INTO kodts8 (ks8avg, ks8skv, ks8ftx, ks8sat, ks8sty )");
+			sql.append(" VALUES (?, ?, ?, ?, ? )");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSdtnrf(), dao.getSdkdae(), dao.getSdkdse(), dao.getSddtf(), dao.getSddtt(),
-					dao.getSdblse(), dao.getSdaktk()
-		
-					} );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getKs8avg(), dao.getKs8skv(), dao.getKs8ftx(), dao.getKs8sat(), dao.getKs8sty()
+				
+				} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -114,7 +114,7 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	/**
@@ -122,28 +122,22 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*TODO
+		
 		try{
-			SadsdDao dao = (SadsdDao)daoObj;
+			Kodts8Dao dao = (Kodts8Dao)daoObj;
 			//logger.info("TURKIET BBBB" + dao.getTatyrb());
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE sadsd SET sddtf = ?, sddtt = ?, SDKDAÆ = ?, SDKDSÆ = ?, ");
-			sql.append(" SDBLSÆ = ?, sdaktk = ? ");
+			sql.append(" UPDATE kodts8 SET  ks8ftx = ?, ks8sat = ?, ks8sty = ? ");
 			//id's
-			sql.append(" WHERE sdtnrf = ? ");
-			sql.append(" AND sddtf = ? ");
-			sql.append(" AND sddtt = ? ");
-			
+			sql.append(" WHERE ks8avg = ? ");
+			sql.append(" AND ks8skv = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getSddtf(), dao.getSddtt(), dao.getSdkdae(), dao.getSdkdse(),
-						dao.getSdblse(), dao.getSdaktk(),
+						dao.getKs8ftx(), dao.getKs8sat(), dao.getKs8sty(),
 						//id's
-						dao.getSdtnrf(),
-						dao.getSddtfOrig(),
-						dao.getSddttOrig(),
-						
+						dao.getKs8avg(),
+						dao.getKs8skv(),
 						
 						} );
 			
@@ -154,7 +148,7 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	/**
@@ -162,20 +156,19 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*TODO
+		
 		try{
-			SadsdDao dao = (SadsdDao)daoObj;
+			Kodts8Dao dao = (Kodts8Dao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" DELETE from sadsd ");
+			sql.append(" DELETE from kodts8 ");
 			//id's
-			sql.append(" WHERE sdtnrf = ? ");
-			sql.append(" AND sddtf = ? ");
-			sql.append(" AND sddtt = ? ");
+			sql.append(" WHERE ks8avg = ? ");
+			sql.append(" AND ks8skv = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSdtnrf(), dao.getSddtf(), dao.getSddtt() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKs8avg(), dao.getKs8skv() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -184,7 +177,7 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	

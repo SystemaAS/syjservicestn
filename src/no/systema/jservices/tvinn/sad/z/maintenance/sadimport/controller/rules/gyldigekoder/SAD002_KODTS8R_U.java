@@ -37,9 +37,7 @@ public class SAD002_KODTS8R_U {
 		if( (user!=null && !"".equals(user)) &&
 			(mode!=null && !"".equals(mode)) ){
 			//check dao
-			if( (dao.getKs8avg()!=null && !"".equals(dao.getKs8avg())) &&
-				(dao.getKs8skv()!=null && !"".equals(dao.getKs8skv()))
-				){
+			if( (dao.getKs8avg()!=null && !"".equals(dao.getKs8avg()))  ){
 				
 			}else{
 				retval = false;
@@ -61,8 +59,7 @@ public class SAD002_KODTS8R_U {
 		
 		if( (user!=null && !"".equals(user)) && (mode!=null && !"".equals(mode)) ){
 			//check dao
-			if( (dao.getKs8avg()!=null && !"".equals(dao.getKs8avg())) &&
-					(dao.getKs8skv()!=null && !"".equals(dao.getKs8skv())) ){
+			if( (dao.getKs8avg()!=null && !"".equals(dao.getKs8avg()))  ){
 				//OK
 			}else{
 				retval = false;

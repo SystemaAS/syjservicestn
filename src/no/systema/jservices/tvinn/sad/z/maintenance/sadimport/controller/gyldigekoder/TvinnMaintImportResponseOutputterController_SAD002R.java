@@ -185,6 +185,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R {
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+						logger.info(sb.toString());
 					}
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
@@ -200,6 +201,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R {
 								errMsg = "ERROR on UPDATE: Code exists already";
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+								logger.info(sb.toString());
 							}else{
 								dmlRetval = this.kodts8DaoServices.insert(dao, dbErrorStackTrace);
 							}
@@ -212,6 +214,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R {
 						errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.update";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+						logger.info(sb.toString());
 				  }
 				}
 				//----------------------------------
@@ -222,6 +225,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R {
 					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
 					status = "error";
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					logger.info(sb.toString());
 				}else{
 					//OK UPDATE
 					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
@@ -233,6 +237,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R {
 				status = "error";
 				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
 				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				logger.info(sb.toString());
 			}
 			
 		}catch(Exception e){
