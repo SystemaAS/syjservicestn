@@ -33,7 +33,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts8DaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriterGyldigeKoder;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.reflection.JsonWriterReflectionManager;
+import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 //rules
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder.SAD002_KODTS8R_U;
 

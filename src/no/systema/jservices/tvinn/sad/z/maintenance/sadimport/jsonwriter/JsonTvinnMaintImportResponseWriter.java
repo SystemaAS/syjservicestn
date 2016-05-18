@@ -13,7 +13,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.CundfLikvKodeDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadsdDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.reflection.JsonWriterReflectionManager;
+import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 
 
 

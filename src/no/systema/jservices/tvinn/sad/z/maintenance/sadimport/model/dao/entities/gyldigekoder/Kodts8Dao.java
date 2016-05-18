@@ -1,6 +1,7 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder;
 import java.io.Serializable;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.IDao; 
+import no.systema.jservices.model.dao.entities.IDao;
+ 
 
 /**
  * All variables must be initialized to empty strings and NOT to NULL values

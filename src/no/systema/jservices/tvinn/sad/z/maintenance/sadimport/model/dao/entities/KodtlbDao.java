@@ -1,5 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities;
 import java.io.Serializable;
+import no.systema.jservices.model.dao.entities.IDao;
 
 import java.math.BigDecimal;
 /**

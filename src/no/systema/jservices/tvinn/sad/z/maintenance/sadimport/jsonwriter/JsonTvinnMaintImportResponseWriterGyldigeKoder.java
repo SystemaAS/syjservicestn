@@ -9,8 +9,7 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts8Dao;
-
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.reflection.JsonWriterReflectionManager;
+import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 
 
 
