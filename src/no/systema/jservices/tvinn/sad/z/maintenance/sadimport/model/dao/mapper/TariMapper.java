@@ -19,8 +19,9 @@ public class TariMapper implements RowMapper {
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	TariDao dao = new TariDao();
-    
+    	
     	dao.setTatanr(rs.getString("tatanr"));
+    
     	dao.setTaordb(rs.getString("taordb"));
     	dao.setTaordk(rs.getString("taordk"));
     	dao.setTaeftb(rs.getString("taeftb"));
@@ -33,6 +34,7 @@ public class TariMapper implements RowMapper {
     	dao.setTatxt(rs.getString("tatxt"));
     	dao.setTaenhe(rs.getString("taenhe"));
     	//dates
+    	
     	dao.setTadtr(rs.getString("tadtr"));
     	dao.setTadato(rs.getString("tadato"));
     	dao.setTadts(rs.getString("tadts"));
