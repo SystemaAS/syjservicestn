@@ -9,7 +9,7 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
-import no.systema.jservices.model.dao.entities.EdissDao;
+import no.systema.jservices.model.dao.entities.IDao;
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
 
@@ -22,19 +22,19 @@ import no.systema.main.util.constants.JsonConstants;
  * 
  * 
  */
-public class JsonTvinnMaintImportResponseWriter {
+public class JsonTvinnMaintImportResponseWriter_EDIFTP {
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
-	private static Logger logger = Logger.getLogger(JsonTvinnMaintImportResponseWriter.class.getName());
+	private static Logger logger = Logger.getLogger(JsonTvinnMaintImportResponseWriter_EDIFTP.class.getName());
 	
 
 	/**
-	 * EDI42R 
+	 * EDI42R & EDI43R 
 	 * 
 	 * @param user
 	 * @param list
 	 * @return
 	 */
-	public String setJsonResult_EDI42R_GetList(String user, List<EdissDao> list ){
+	public String setJsonResult_EDIFTP_GetList(String user, List<IDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
 		sb.append(JsonConstants.JSON_START);
@@ -43,7 +43,7 @@ public class JsonTvinnMaintImportResponseWriter {
 		sb.append(this.setFieldQuotes("list") + ":");
 		sb.append(JsonConstants.JSON_OPEN_LIST);
 		int counter = 1;
-		for(EdissDao record : list){
+		for(IDao record : list){
 			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
 			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
 			//doIt
@@ -57,7 +57,6 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
-	
 	
 	/**
 	 * 
