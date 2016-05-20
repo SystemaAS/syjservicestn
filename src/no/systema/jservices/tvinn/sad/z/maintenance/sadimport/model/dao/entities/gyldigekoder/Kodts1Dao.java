@@ -13,7 +13,7 @@ import no.systema.jservices.model.dao.entities.IDao;
  */
 public class Kodts1Dao implements Serializable, IDao {
 
-	private String ks1sta = "S1"; 
+	private String ks1sta = ""; 
 	public String getKs1staPropertyName (){ return "ks1sta"; }
 	public void setKs1sta (String value){ this.ks1sta = value;   }   
 	public String getKs1sta (){ return this.ks1sta;   }              

@@ -1,8 +1,5 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Method;
 import java.util.*;
 
 
