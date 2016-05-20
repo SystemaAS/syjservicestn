@@ -7,8 +7,8 @@ import java.util.*;
 
 
 import org.apache.log4j.Logger;
-
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts8Dao;
+import no.systema.jservices.model.dao.entities.IDao;
+//import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts8Dao;
 import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 
 
@@ -34,7 +34,7 @@ public class JsonTvinnMaintImportResponseWriterGyldigeKoder {
 	 * @param list
 	 * @return
 	 */
-	public String setJsonResult_SAD002_KODTS8R_GetList(String user, List<Kodts8Dao> list ){
+	public String setJsonResult_SAD002_GetList(String user, List<IDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
 		sb.append(JsonConstants.JSON_START);
@@ -43,7 +43,7 @@ public class JsonTvinnMaintImportResponseWriterGyldigeKoder {
 		sb.append(this.setFieldQuotes("list") + ":");
 		sb.append(JsonConstants.JSON_OPEN_LIST);
 		int counter = 1;
-		for(Kodts8Dao record : list){
+		for(IDao record : list){
 			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
 			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
 			//doIt
