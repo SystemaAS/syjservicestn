@@ -38,6 +38,16 @@ public class Kodts8Dao implements Serializable, IDao {
 	public void setKs8sty (String value){ this.ks8sty = value;   }   
 	public String getKs8sty (){ return this.ks8sty;   }              
 
+	private String ore = ""; 
+	public String getOrePropertyName (){ return "ore"; }
+	public void setOre (String value){ this.ore = value;   }   
+	public String getOre(){ return this.ore;   }              
+
+	private String mil = ""; 
+	public String getMilPropertyName (){ return "mil"; }
+	public void setMil (String value){ this.mil = value;   }   
+	public String getMil(){ return this.mil;   }              
+
 	
 	
 }

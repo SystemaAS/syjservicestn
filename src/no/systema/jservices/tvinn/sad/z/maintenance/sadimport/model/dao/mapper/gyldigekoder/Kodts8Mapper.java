@@ -25,6 +25,9 @@ public class Kodts8Mapper implements RowMapper {
     	dao.setKs8ftx(rs.getString("ks8ftx"));
     	dao.setKs8sat(rs.getString("ks8sat"));
     	dao.setKs8sty(rs.getString("ks8sty"));
+    	dao.setOre(rs.getString("ore"));
+    	dao.setMil(rs.getString("mil"));
+    	
     	
         return dao;
     }

@@ -29,7 +29,7 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 		try{
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" SELECT ks8avg, ks8skv, ks8ftx, ks8sat, ks8sty ");
+			sql.append(" SELECT ks8avg, ks8skv, substr(ks8ftx, 1, 50) ks8ftx, substr(ks8ftx, 51, 1) ore, substr(ks8ftx, 52, 1) mil,  ks8sat, ks8sty ");
 			sql.append(" from kodts8 a ");
 			
 			logger.info(sql.toString());
@@ -54,7 +54,7 @@ public class Kodts8DaoServicesImpl implements Kodts8DaoServices {
 		try{
 			StringBuffer sql = new StringBuffer();
 		
-			sql.append(" SELECT ks8avg, ks8skv, ks8ftx, ks8sat, ks8sty ");
+			sql.append(" SELECT ks8avg, ks8skv, substr(ks8ftx, 1, 50) ks8ftx, substr(ks8ftx, 51, 1) ore, substr(ks8ftx, 52, 1) mil,  ks8sat, ks8sty ");
 			sql.append(" from kodts8 ");
 			sql.append(" WHERE ks8avg = ? ");
 			sql.append(" AND ks8skv = ? ");
