@@ -170,7 +170,7 @@ public class SoktariDaoServicesImpl implements SoktariDaoServices {
 						dao.getBeskr1(), 
 						//id's
 						dao.getTariff(),
-						
+						dao.getBeskr1Orig(),
 						} );
 			
 		}catch(Exception e){

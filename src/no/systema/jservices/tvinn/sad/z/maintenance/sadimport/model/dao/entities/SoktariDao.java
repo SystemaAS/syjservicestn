@@ -28,5 +28,11 @@ public class SoktariDao implements Serializable, IDao {
 	public void setBeskr1 (String value){ this.beskr1 = value;   }   
 	public String getBeskr1 (){ return this.beskr1;   }              
 	
+	private String beskr1Orig = "";
+	public String getBeskr1OrigPropertyName (){ return "beskr1Orig"; }
+	public void setBeskr1Orig (String value){ this.beskr1Orig = value;   }   
+	public String getBeskr1Orig (){ return this.beskr1Orig;   }              
+	
+	
 	
 }
