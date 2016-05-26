@@ -7,14 +7,9 @@ import java.util.*;
 
 
 import org.apache.log4j.Logger;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlikDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtlbDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodtsiDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.CundfLikvKodeDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadsdDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.*;
 import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
-
+import no.systema.jservices.model.dao.entities.IDao;
 
 
 import no.systema.main.util.JsonSpecialCharactersManager;
@@ -38,6 +33,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_SYFT19R_GetList(String user, List<KodtlikDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
@@ -69,7 +65,7 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
-	
+	*/
 	/**
 	 * 
 	 * SAD012R
@@ -139,6 +135,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_SYFT10R_GetList(String user, List<KodtsiDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
@@ -174,7 +171,7 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
-	
+	*/
 	/**
 	 * SYFT18R
 	 * 
@@ -182,6 +179,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_SYFT18R_GetList(String user, List<CundfLikvKodeDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
@@ -211,6 +209,7 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
+	*/
 	
 	/**
 	 * SAD010R
@@ -219,6 +218,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_SAD010R_GetList(String user, List<TariDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
@@ -242,7 +242,7 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
-	
+	*/
 	/**
 	 * SAD999 
 	 * 
@@ -250,6 +250,7 @@ public class JsonTvinnMaintImportResponseWriter {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_SAD999R_GetList(String user, List<SadsdDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
@@ -273,6 +274,37 @@ public class JsonTvinnMaintImportResponseWriter {
 		
 		return sb.toString();
 	}
+	*/
+	/**
+	 * 
+	 * @param user
+	 * @param list
+	 * @return
+	 */
+	public String setJsonResult_Common_GetList(String user, List<IDao> list ){
+		StringBuffer sb = new StringBuffer();
+		//build the return JSON
+		sb.append(JsonConstants.JSON_START);
+		sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes(user) + ",");
+		sb.append(this.setFieldQuotes("errMsg") + ":" + this.setFieldQuotes("") + ",");
+		sb.append(this.setFieldQuotes("list") + ":");
+		sb.append(JsonConstants.JSON_OPEN_LIST);
+		int counter = 1;
+		for(IDao record : list){
+			if(counter>1){ sb.append(JsonConstants.JSON_RECORD_SEPARATOR); }
+			sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
+			//doIt
+			sb.append(new JsonWriterReflectionManager().getGettersFromRecord(record));
+			//close the list
+			sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
+			counter++;
+		}
+		sb.append(JsonConstants.JSON_CLOSE_LIST);
+		sb.append(JsonConstants.JSON_END);
+		
+		return sb.toString();
+	}
+	
 	
 	
 	/**

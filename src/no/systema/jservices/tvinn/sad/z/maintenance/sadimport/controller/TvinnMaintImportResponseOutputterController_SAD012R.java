@@ -69,7 +69,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 	 */
 	@RequestMapping(value="syjsSAD012R.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String syjsSAD012R( HttpSession session, HttpServletRequest request) {
+	public String syjsRList( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
@@ -147,7 +147,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 	 */
 	@RequestMapping(value="syjsSAD012R_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String syjsSAD012R_U( HttpSession session, HttpServletRequest request) {
+	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
@@ -205,7 +205,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 						
 				  }else{
 						//write JSON error output
-						errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.update";
+						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				  }

@@ -58,8 +58,8 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			sql = this.getSELECT_CLAUSE();
 			sql.append(" FROM tari ");
 			sql.append(" WHERE tatanr LIKE ?");
-			
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id + SQL_WILD_CARD }, new TariMapper());
+			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -69,6 +69,31 @@ public class TariDaoServicesImpl implements TariDaoServices {
 		}
 		return retval;
 	}
+	
+	
+	/**
+	 * Needed when checking if the number exists. Usually from other services.
+	 * 
+	 */
+	public List findByIdExactMatch (String id, StringBuffer errorStackTrace ){
+		List<TariDao> retval = new ArrayList<TariDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql = this.getSELECT_CLAUSE();
+			sql.append(" FROM tari ");
+			sql.append(" WHERE tatanr = ?");
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new TariMapper());
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	
 	
 	/**
 	 * Alfa text search for toldtariff

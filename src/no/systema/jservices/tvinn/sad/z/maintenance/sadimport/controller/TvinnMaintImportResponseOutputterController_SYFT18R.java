@@ -69,7 +69,7 @@ public class TvinnMaintImportResponseOutputterController_SYFT18R {
 	 */
 	@RequestMapping(value="syjsSYFT18R.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String syjsSYFT18R( HttpSession session, HttpServletRequest request) {
+	public String syjsRList( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
@@ -105,7 +105,7 @@ public class TvinnMaintImportResponseOutputterController_SYFT18R {
 				//process result
 				if (list!=null){
 					//write the final JSON output
-					sb.append(jsonWriter.setJsonResult_SYFT18R_GetList(userName, list));
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
 				}else{
 					//write JSON error output
 					errMsg = "ERROR on SELECT: list is NULL?  Try to check: <DaoServices>.getList";
@@ -136,7 +136,7 @@ public class TvinnMaintImportResponseOutputterController_SYFT18R {
 	 * Update Database DML operations
 	 * File: 	CUNDF
 	 * PGM:		SYFT18
-	 * Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * Member: 	SAD Import Maintenance - Update/Add/Delete
 	 * 
 	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSYFT18R_U.do?user=OSCAR&mode=U...
 	 *
@@ -148,7 +148,7 @@ public class TvinnMaintImportResponseOutputterController_SYFT18R {
 	
 	@RequestMapping(value="syjsSYFT18R_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String syjsSYFT18R_U( HttpSession session, HttpServletRequest request) {
+	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
