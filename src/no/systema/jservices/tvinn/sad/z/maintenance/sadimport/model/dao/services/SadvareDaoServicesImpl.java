@@ -127,9 +127,10 @@ public class SadvareDaoServicesImpl implements SadvareDaoServices {
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getVarebe(), dao.getLevenr(),
+						dao.getVarebe(),
 						//id's
 						dao.getVarenr(),
+						dao.getLevenr(),
 						} );
 			
 		}catch(Exception e){
@@ -179,7 +180,7 @@ public class SadvareDaoServicesImpl implements SadvareDaoServices {
 		//Compatibility issue on special characters (ø,æ, etc)
 		//All columns with special characters (NO,SE,DK) such as ö,ä,ø, etc MUST be defined with CAPITAL LETTERS, otherwise the selection in SQL will be invalid
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT varenr, varebe ");
+		sql.append(" SELECT varenr, varebe, levenr ");
 		return sql;
 	}
 	

@@ -20,6 +20,7 @@ public class SadvareMapper implements RowMapper {
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	SadvareDao dao = new SadvareDao();
     	
+    	dao.setLevenr(rs.getString("levenr"));
     	dao.setVarenr(rs.getString("varenr"));
     	dao.setVarebe(rs.getString("varebe"));
     	
