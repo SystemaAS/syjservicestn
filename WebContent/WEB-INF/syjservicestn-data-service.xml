@@ -60,6 +60,9 @@
   <bean id="soktariDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SoktariDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <bean id="sadvareDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadvareDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   <!-- GYLDIGE KODER -->
