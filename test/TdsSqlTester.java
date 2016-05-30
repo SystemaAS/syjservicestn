@@ -16,6 +16,7 @@ public class TdsSqlTester {
 	//sql compact execution
 	private void runIt(){
 		try{
+			
 			String IP_SYSTEMA_AS400 = "10.13.1.22"; 
 			String userId = "systema";
 			String pass = "straffe12";
@@ -24,7 +25,8 @@ public class TdsSqlTester {
 			String URL = "jdbc:as400://" + IP_SYSTEMA_AS400 + ";naming=system;libraries=syendre,syendptf,syspedf,sysped,l1dat"; //CB inloggnings ex
 			//String URL = "jdbc:as400://" + IP_SYSTEMA_AS400 + ";naming=system;";
 			Connection conn = null;
-			 
+
+			
 			 //Connect to iSeries 
 			 Class.forName(DRIVER); 
 			 DriverManager.setLoginTimeout(2);
