@@ -35,6 +35,11 @@ public class SadlMapper implements RowMapper {
     	dao.setSlkdse(rs.getString("slkdse"));
     	dao.setSlto(rs.getString("slto"));
     	dao.setSlcref(rs.getString("slcref"));
+    	//own
+    	dao.setR31(rs.getString("r31"));
+    	dao.setPref(rs.getString("pref"));
+    	dao.setMf(rs.getString("mf"));
+    	
     	
     	
         return dao;

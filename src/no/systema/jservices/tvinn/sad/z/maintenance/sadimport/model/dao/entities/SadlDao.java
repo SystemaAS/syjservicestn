@@ -88,5 +88,19 @@ public class SadlDao implements Serializable, IDao {
 	public void setSlcref (String value){ this.slcref = value;   }   
 	public String getSlcref (){ return this.slcref;   }              
 	
+	private String r31 = ""; 
+	public String getR31PropertyName (){ return "r31"; }
+	public void setR31 (String value){ this.r31 = value;   }   
+	public String getR31 (){ return this.r31;   }              
+
+	private String pref = ""; 
+	public String getPrefPropertyName (){ return "pref"; }
+	public void setPref (String value){ this.pref = value;   }   
+	public String getPref (){ return this.pref;   }              
+
+	private String mf = ""; 
+	public String getMfPropertyName (){ return "mf"; }
+	public void setMf (String value){ this.mf = value;   }   
+	public String getMf (){ return this.mf;   }            
 	
 }

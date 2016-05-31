@@ -190,8 +190,9 @@ public class SadlDaoServicesImpl implements SadlDaoServices {
 		//Compatibility issue on special characters (ø,æ, etc)
 		//All columns with special characters (NO,SE,DK) such as ö,ä,ø, etc MUST be defined with CAPITAL LETTERS, otherwise the selection in SQL will be invalid
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT slstat, CHAR(slknr) slknr, slalfa, sltxt, sloppl, CHAR(slvekt) slvekt, CHAR(sltanr) sltanr, sltar, slpva, ");
-		sql.append(" CHAR(slsats) slsats, sltn, SLKDAÆ slkdae, SLKDSÆ slkdse, slto, slcref ");
+		sql.append(" SELECT slstat, CHAR(slknr) slknr, slalfa, SUBSTR(sltxt, 1, 20) sltxt, sloppl, CHAR(slvekt) slvekt, CHAR(sltanr) sltanr, sltar, slpva, ");
+		sql.append(" CHAR(slsats) slsats, sltn, SLKDAÆ slkdae, SLKDSÆ slkdse, slto, slcref, ");
+		sql.append(" SUBSTR(sltxt, 21, 1) r31, SUBSTR(sltxt, 22, 1) pref, SUBSTR(sltxt, 23, 1) mf ");
 		
 		
 		return sql;
