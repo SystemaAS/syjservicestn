@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.*;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpSession;
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadlDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
@@ -188,27 +190,36 @@ public class TvinnMaintImportResponseOutputterController_SAD004R {
 				  if(rulerLord.isValidInput(dao, userName, mode)){
 						logger.info("Before UPDATE ...");
 						List<SadlDao> list = new ArrayList<SadlDao>();
+						//check if the tariff nr exists
+						List<TariDao> listTari = new ArrayList<TariDao>();
+						listTari = this.tariDaoServices.findByIdExactMatch(dao.getSltanr(), dbErrorStackTrace);
+						if(listTari!=null && listTari.size()>0){
 							
-						//do ADD
-						if("A".equals(mode)){
-							logger.info("ADD ...");
-					
-							list = this.sadlDaoServices.findById(dao.getSlalfa(), dao.getSlknr(), dbErrorStackTrace);
-							//check if there is already such a code. If it does, stop the update
-							if(list!=null && list.size()>0){
-								//write JSON error output
-								errMsg = "ERROR on UPDATE: Code exists already";
-								status = "error";
-								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-							}else{
-								dmlRetval = this.sadlDaoServices.insert(dao, dbErrorStackTrace);
+							//do ADD
+							if("A".equals(mode)){
+								logger.info("ADD ...");
+						
+								list = this.sadlDaoServices.findById(dao.getSlalfa(), dao.getSlknr(), dbErrorStackTrace);
+								//check if there is already such a code. If it does, stop the update
+								if(list!=null && list.size()>0){
+									//write JSON error output
+									errMsg = "ERROR on UPDATE: Code exists already";
+									status = "error";
+									sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+								}else{
+									dmlRetval = this.sadlDaoServices.insert(dao, dbErrorStackTrace);
+								}
+							//do Update	
+							}else if("U".equals(mode)){
+								logger.info("UPDATE ...");
+								dmlRetval = this.sadlDaoServices.update(dao, dbErrorStackTrace);
 							}
-						//do Update	
-						}else if("U".equals(mode)){
-							logger.info("UPDATE ...");
-							dmlRetval = this.sadlDaoServices.update(dao, dbErrorStackTrace);
-						}
-							
+						}else{
+							//write JSON error output
+							errMsg = "ERROR on UPDATE: Tariff nr. is not valid";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+						}	
 						
 				  }else{
 						//write JSON error output
