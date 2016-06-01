@@ -16,6 +16,16 @@ public class TdsSqlTester {
 	//sql compact execution
 	private void runIt(){
 		try{
+			/*
+			String IP_SYSTEMA_AS400 = "139.114.151.52:80"; 
+			String userId = "systema";
+			String pass = "sy9903";
+			
+			String DRIVER = "com.ibm.as400.access.AS400JDBCDriver"; 
+			String URL = "jdbc:as400://" + IP_SYSTEMA_AS400 + ";naming=system;libraries=smalib,smalibf,ncgrs,syendrenas,syendre,syendptf,syspedfall,syspedfnas,sysped,ibmdat"; 
+			//String URL = "jdbc:as400://" + IP_SYSTEMA_AS400 + ";naming=system;";
+			Connection conn = null;
+			*/
 			
 			String IP_SYSTEMA_AS400 = "10.13.1.22"; 
 			String userId = "systema";
@@ -45,6 +55,8 @@ public class TdsSqlTester {
 				       SVTX15_33<>' ';                                    
 				 }*/
 				 
+				 
+				 /*
 				 //SQL 2 (CB)
 				 StringBuffer sql = new StringBuffer();
 				 sql.append(" select LTRIM(RTRIM(svtx15_02)) svtx15_02, svtx15_10, svtx15_11, svtx15_33");
@@ -88,7 +100,7 @@ public class TdsSqlTester {
 				 rs.close();
 				 stmt.close();
 				 conn.close();
-				 
+				 */
 			
 				 
 				 

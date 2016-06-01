@@ -7,7 +7,7 @@
   
   <!-- 
   ============================================================================== 
-  This must reside in the customer's tomcat server ../conf/context.xml	
+  This must reside in the customer's tomcat server ../conf/server.xml	
   Be sure to have the jt400.jar (JDBC) in the tomcat server's ../lib directory
   Below: Example on Systemas gw.systema.no Tomcat installation
   ==============================================================================
