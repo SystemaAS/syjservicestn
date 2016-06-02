@@ -15,8 +15,11 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   -->
-  
   <!-- Domain Dao:s Services -->
+  <bean id="dbConnectionTesterDaoServices" class="no.systema.jservices.model.dao.services.DbConnectionTesterDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
   <bean id="cundfDaoServices" class="no.systema.jservices.model.dao.services.CundfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
@@ -114,7 +117,6 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
-  
   <!--///////////////////
         NativeExtractor 
       ///////////////////
@@ -130,4 +132,5 @@
             <ref bean="dataSource"/>
         </property>
   </bean>
+ 
  </beans>

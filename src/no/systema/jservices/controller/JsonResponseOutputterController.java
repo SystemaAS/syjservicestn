@@ -27,6 +27,8 @@ import javax.servlet.http.HttpSession;
 //Application
 import no.systema.jservices.model.dao.entities.CusdfDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
+import no.systema.jservices.model.dao.entities.DbConnectionTesterDao;
+import no.systema.jservices.model.dao.services.DbConnectionTesterDaoServices;
 
 
 import no.systema.main.util.JsonSpecialCharactersManager;
@@ -104,6 +106,46 @@ public class JsonResponseOutputterController {
 		return sb.toString();
 	}
 	
+	/**
+	 * http://localhost:8080/syjservicestn/syjsdbconn.do?user=OSCAR
+	 * @return
+	 */
+	@RequestMapping(value="syjsdbconn.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String syjsJS001db() {
+		StringBuffer sb = new StringBuffer();
+		try{
+			logger.info("Inside syjsdbconn");
+			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			
+			//get list
+			logger.info("Before dao getList");
+			List<DbConnectionTesterDao> list = this.dbConnectionTesterDaoServices.getList();
+			logger.info("After dao getList");
+			//build the return JSON
+			sb.append(JSON_START);
+			sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes("OSCAR") + ",");
+			sb.append(this.setFieldQuotes("list") + ":");
+			sb.append(JSON_OPEN_LIST);
+			int counter = 1;
+			for(DbConnectionTesterDao record : list){
+				if(counter>1){ sb.append(JSON_RECORD_SEPARATOR); }
+				sb.append(JSON_OPEN_LIST_RECORD); 
+				sb.append(JSON_QUOTES + "text" + JSON_QUOTES + ":" + JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getText()) + JSON_QUOTES);
+				sb.append(JSON_CLOSE_LIST_RECORD);
+				counter++;
+			}
+			sb.append(JSON_CLOSE_LIST);
+			sb.append(JSON_END);
+			
+			
+		}catch(Exception e){
+			return "ERROR [JsonResponseOutputterController]";
+		}
+	    
+		return sb.toString();
+	}
+	
 	
 	
 	/**
@@ -125,6 +167,15 @@ public class JsonResponseOutputterController {
 	@Required
 	public void setCundfDaoServices (CundfDaoServices value){ this.cundfDaoServices = value; }
 	public CundfDaoServices getCundfDaoServices(){ return this.cundfDaoServices; }
+	
+	
+	@Qualifier ("dbConnectionTesterDaoServices")
+	private DbConnectionTesterDaoServices dbConnectionTesterDaoServices;
+	@Autowired
+	@Required
+	public void setDbConnectionTesterDaoServices (DbConnectionTesterDaoServices value){ this.dbConnectionTesterDaoServices = value; }
+	public DbConnectionTesterDaoServices getDbConnectionTesterDaoServices(){ return this.dbConnectionTesterDaoServices; }
+	
 	
 	
 	

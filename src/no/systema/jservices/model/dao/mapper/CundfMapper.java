@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * 
  */
 public class CundfMapper implements RowMapper {
-	private static Logger logger = Logger.getLogger(CundfDaoServicesImpl.class.getName());
+	private static Logger logger = Logger.getLogger(CundfMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	CusdfDao dao = new CusdfDao();
