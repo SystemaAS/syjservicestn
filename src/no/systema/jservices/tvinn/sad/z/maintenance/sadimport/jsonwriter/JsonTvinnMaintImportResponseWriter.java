@@ -8,9 +8,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.*;
-import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
-import no.systema.jservices.model.dao.entities.IDao;
 
 
 import no.systema.main.util.JsonSpecialCharactersManager;

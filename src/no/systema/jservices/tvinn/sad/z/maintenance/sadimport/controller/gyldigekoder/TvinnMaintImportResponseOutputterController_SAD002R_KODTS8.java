@@ -109,7 +109,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTS8 {
 				//process result
 				if (list!=null){
 					//write the final JSON output
-					sb.append(jsonWriter.setJsonResult_SAD002_GetList(userName, list));
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
 				}else{
 					//write JSON error output
 					errMsg = "ERROR on SELECT: list is NULL?  Try to check: <DaoServices>.getList";

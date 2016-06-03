@@ -4,10 +4,9 @@ import java.util.*;
 
 
 import org.apache.log4j.Logger;
-import no.systema.jservices.model.dao.entities.IDao;
-//import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts8Dao;
-import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.*;
+import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
 
@@ -17,7 +16,7 @@ import no.systema.main.util.constants.JsonConstants;
  * JSON outputter
  * May 13, 2016
  */
-public class JsonTvinnMaintImportResponseWriterGyldigeKoder {
+public class JsonTvinnMaintImportResponseWriterGyldigeKoder extends JsonResponseWriter {
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
 	private static Logger logger = Logger.getLogger(JsonTvinnMaintImportResponseWriterGyldigeKoder.class.getName());
 	
@@ -29,7 +28,9 @@ public class JsonTvinnMaintImportResponseWriterGyldigeKoder {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_SAD002_GetList(String user, List<IDao> list ){
+		
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
 		sb.append(JsonConstants.JSON_START);
@@ -52,7 +53,7 @@ public class JsonTvinnMaintImportResponseWriterGyldigeKoder {
 		
 		return sb.toString();
 	}
-	
+	*/
 	
 	/**
 	 * 
