@@ -34,6 +34,7 @@ public class JsonTvinnMaintImportResponseWriter_EDIFTP {
 	 * @param list
 	 * @return
 	 */
+	/*
 	public String setJsonResult_EDIFTP_GetList(String user, List<IDao> list ){
 		StringBuffer sb = new StringBuffer();
 		//build the return JSON
@@ -57,7 +58,7 @@ public class JsonTvinnMaintImportResponseWriter_EDIFTP {
 		
 		return sb.toString();
 	}
-	
+	*/
 	/**
 	 * 
 	 * @param user

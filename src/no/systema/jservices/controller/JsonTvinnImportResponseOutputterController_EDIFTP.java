@@ -29,7 +29,7 @@ import javax.servlet.http.HttpSession;
 
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.jsonwriter.JsonTvinnMaintImportResponseWriter_EDIFTP;
+import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.model.dao.entities.EdissDao;
 import no.systema.jservices.model.dao.entities.EdisssDao;
@@ -69,7 +69,7 @@ public class JsonTvinnImportResponseOutputterController_EDIFTP {
 	@RequestMapping(value="syjsEDI42R.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsEDI42R( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter_EDIFTP jsonWriter = new JsonTvinnMaintImportResponseWriter_EDIFTP();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
@@ -104,11 +104,11 @@ public class JsonTvinnImportResponseOutputterController_EDIFTP {
 				//process result
 				if (list!=null){
 					//write the final JSON output
-					sb.append(jsonWriter.setJsonResult_EDIFTP_GetList(userName, list));
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
 				}else{
 					//phantom return
 					logger.info("phantom return...");
-					sb.append(jsonWriter.setJsonResult_EDIFTP_GetList(userName, new ArrayList()));
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, new ArrayList()));
 				}
 			}else{
 				//write JSON error output
@@ -145,7 +145,7 @@ public class JsonTvinnImportResponseOutputterController_EDIFTP {
 	@RequestMapping(value="syjsEDI43R.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsEDI43R( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter_EDIFTP jsonWriter = new JsonTvinnMaintImportResponseWriter_EDIFTP();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
@@ -184,11 +184,11 @@ public class JsonTvinnImportResponseOutputterController_EDIFTP {
 				//process result
 				if (list!=null){
 					//write the final JSON output
-					sb.append(jsonWriter.setJsonResult_EDIFTP_GetList(userName, list));
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
 				}else{
 					//phantom return
 					logger.info("phantom return...");
-					sb.append(jsonWriter.setJsonResult_EDIFTP_GetList(userName, new ArrayList()));
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, new ArrayList()));
 					
 				}
 			}else{
