@@ -65,7 +65,7 @@ public class JsonResponseOutputterController {
 	
 	
 	/**
-	 * 
+	 * Test request for db table CUNDF
 	 * http://localhost:8080/syjservicestn/syjsJS001.do?user=OSCAR
 	 * @return
 	 * 
@@ -110,6 +110,7 @@ public class JsonResponseOutputterController {
 	}
 	
 	/**
+	 * Test call for db connection = OK
 	 * http://localhost:8080/syjservices/syjsdbconn.do?user=OSCAR
 	 * @return
 	 */
