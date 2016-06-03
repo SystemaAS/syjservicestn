@@ -20,7 +20,7 @@ public class DbConnectionTesterMapper implements RowMapper {
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	DbConnectionTesterDao dao = new DbConnectionTesterDao();
     	dao.setText(rs.getString("text"));
-    	
+    	dao.setDbserver(rs.getString("dbserver"));
     	//DEBUG-->
     	logger.info(dao.getText());
     	

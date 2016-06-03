@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.*;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -25,7 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 //Application
+import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.entities.CusdfDao;
+import no.systema.jservices.model.dao.entities.IDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.model.dao.entities.DbConnectionTesterDao;
 import no.systema.jservices.model.dao.services.DbConnectionTesterDaoServices;
@@ -107,12 +110,13 @@ public class JsonResponseOutputterController {
 	}
 	
 	/**
-	 * http://localhost:8080/syjservicestn/syjsdbconn.do?user=OSCAR
+	 * http://localhost:8080/syjservices/syjsdbconn.do?user=OSCAR
 	 * @return
 	 */
 	@RequestMapping(value="syjsdbconn.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsJS001db() {
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		try{
 			logger.info("Inside syjsdbconn");
@@ -120,24 +124,22 @@ public class JsonResponseOutputterController {
 			
 			//get list
 			logger.info("Before dao getList");
-			List<DbConnectionTesterDao> list = this.dbConnectionTesterDaoServices.getList();
+			List<IDao> list = this.dbConnectionTesterDaoServices.getList();
 			logger.info("After dao getList");
-			//build the return JSON
-			sb.append(JSON_START);
-			sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes("OSCAR") + ",");
-			sb.append(this.setFieldQuotes("list") + ":");
-			sb.append(JSON_OPEN_LIST);
-			int counter = 1;
-			for(DbConnectionTesterDao record : list){
-				if(counter>1){ sb.append(JSON_RECORD_SEPARATOR); }
-				sb.append(JSON_OPEN_LIST_RECORD); 
-				sb.append(JSON_QUOTES + "text" + JSON_QUOTES + ":" + JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getText()) + JSON_QUOTES);
-				sb.append(JSON_CLOSE_LIST_RECORD);
-				counter++;
-			}
-			sb.append(JSON_CLOSE_LIST);
-			sb.append(JSON_END);
+			String userName = "DBTESTER";
 			
+			//process result
+			if (list!=null){
+				//write the final JSON output
+				sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
+			}else{
+				//write JSON error output
+				StringBuffer dbErrorStackTrace = new StringBuffer();
+				String errMsg = "ERROR on SELECT: list is NULL?  Try to check: <DaoServices>.getList";
+				String status = "error";
+				logger.info("After SELECT:" + " " + status + errMsg );
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
 			
 		}catch(Exception e){
 			return "ERROR [JsonResponseOutputterController]";

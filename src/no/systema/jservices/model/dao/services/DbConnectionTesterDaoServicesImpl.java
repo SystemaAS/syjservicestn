@@ -23,7 +23,7 @@ public class DbConnectionTesterDaoServicesImpl implements DbConnectionTesterDaoS
 		final Object[] params = new Object[]{ paramKnavn }; 
         return this.jdbcTemplate.query( sql, params, new CundfMapper());
         */
-		String sql = "select 'Hello world' text from sysibm.sysdummy1";
+		String sql = "select 'Hello world' text, current server dbserver from sysibm.sysdummy1";
 		return this.jdbcTemplate.query( sql, new DbConnectionTesterMapper());
 	}
 	
