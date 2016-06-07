@@ -21,7 +21,7 @@ public class KodtvaMapper implements RowMapper {
     	KodtvaDao dao = new KodtvaDao();
     	
     	dao.setKvasta(rs.getString("kvasta"));
-    	dao.setKvauni(rs.getString("kvuni"));
+    	dao.setKvauni(rs.getString("kvauni"));
     	dao.setKvakod(rs.getString("kvakod"));
     	dao.setKvakrs(rs.getString("kvakrs"));
     	dao.setKvaomr(rs.getString("kvaomr"));
@@ -29,6 +29,7 @@ public class KodtvaMapper implements RowMapper {
     	dao.setKvagkr(rs.getString("kvagkr"));
     	dao.setKvaxxx(rs.getString("kvaxxx"));
     	dao.setKvagv(rs.getString("kvagv"));
+    	
     	
     	
         return dao;

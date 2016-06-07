@@ -38,7 +38,7 @@ public class KodtvaDao implements Serializable, IDao {
 	public void setKvaomr (String value){ this.kvaomr = value;   }   
 	public String getKvaomr (){ return this.kvaomr;   }              
 
-	private String kvadt = "0"; 
+	private String kvadt = ""; 
 	public String getKvadtPropertyName (){ return "kvadt"; }
 	public void setKvadt (String value){ this.kvadt = value;   }   
 	public String getKvadt (){ return this.kvadt;   }              

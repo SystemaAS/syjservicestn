@@ -45,6 +45,30 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 		return retval;
 	}
 	/**
+	 * when searching for an update
+	 * 
+	 */
+	public List findForUpdate (String id, String alfa, StringBuffer errorStackTrace ){
+		List<KodtvaDao> retval = new ArrayList<KodtvaDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append(this.getSELECT_CLAUSE());
+			sql.append(" from kodtva ");
+			sql.append(" where kvakod = ? ");
+			sql.append(" and kvadt = ? ");
+			
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id , alfa }, new KodtvaMapper());
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	/**
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
@@ -160,8 +184,8 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 		//Compatibility issue on special characters (ø,æ, etc)
 		//All columns with special characters (NO,SE,DK) such as ö,ä,ø, etc MUST be defined with CAPITAL LETTERS, otherwise the selection in SQL will be invalid
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT kvauni, kvakod, CHAR(kvakrs) kvakrs, CHAR(kvaomr) kvaomr, CHAR(kvadt) kvadt, CHAR(kvagkr) kvagkr, kvaxxx, kvagv ");
-		
+		sql.append(" SELECT kvasta, kvauni, kvakod, CHAR(kvakrs) kvakrs, CHAR(kvaomr) kvaomr, CHAR(kvadt) kvadt, CHAR(kvagkr) kvagkr, kvaxxx, kvagv ");
+		//sql.append(" SELECT kvasta, kvauni, kvakod ");
 		
 		return sql;
 	}
