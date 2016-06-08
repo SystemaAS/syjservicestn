@@ -35,7 +35,7 @@
   
   
   <!-- TVINN MAINTENANCE  Domain Dao's Services -->
-  <bean id="kodtvaDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.model.dao.services.KodtvaDaoServicesImpl">
+  <bean id="kodtvaDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.services.KodtvaDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   

@@ -1,12 +1,12 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.services;
 import java.io.Writer;
 import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.model.dao.mapper.KodtvaMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.model.dao.entities.KodtvaDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.entities.KodtvaDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.mapper.KodtvaMapper;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**

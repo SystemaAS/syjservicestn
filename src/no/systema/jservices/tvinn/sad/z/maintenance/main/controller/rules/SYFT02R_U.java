@@ -1,6 +1,6 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.controller.rules;
+package no.systema.jservices.tvinn.sad.z.maintenance.main.controller.rules;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.model.dao.entities.KodtvaDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.entities.KodtvaDao;
 /**
  * 
  * @author oscardelatorre

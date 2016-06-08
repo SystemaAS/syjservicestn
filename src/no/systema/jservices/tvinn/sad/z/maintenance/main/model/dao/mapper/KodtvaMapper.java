@@ -1,9 +1,9 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.model.dao.mapper;
+package no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.mapper;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.model.dao.entities.KodtvaDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.entities.KodtvaDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

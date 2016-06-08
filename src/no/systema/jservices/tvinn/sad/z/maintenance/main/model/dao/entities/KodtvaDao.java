@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.model.dao.entities;
+package no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.entities;
 import java.io.Serializable;
 import no.systema.jservices.model.dao.entities.IDao;
 

@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.services;
 
 import java.util.List;
 

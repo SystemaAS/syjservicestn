@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.controller;
+package no.systema.jservices.tvinn.sad.z.maintenance.main.controller;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,12 +29,12 @@ import javax.servlet.http.HttpSession;
 
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.model.dao.entities.KodtvaDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.model.dao.services.KodtvaDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.controller.rules.SYFT02R_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.entities.KodtvaDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.services.KodtvaDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
 //rules
-import no.systema.jservices.tvinn.sad.z.maintenance.controller.rules.SYFT02R_U;
 
 
 
