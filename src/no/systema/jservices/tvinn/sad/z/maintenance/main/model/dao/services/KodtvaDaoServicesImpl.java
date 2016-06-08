@@ -129,9 +129,10 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 		try{
 			KodtvaDao dao = (KodtvaDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE kodtv SET kvakrs = ?, kvaomr = ?, kvadt = ?, kvagkr = ?, kvaxxx = ?, kvagv = ? ");
+			sql.append(" UPDATE kodtva SET kvakrs = ?, kvaomr = ?, kvadt = ?, kvagkr = ?, kvaxxx = ?, kvagv = ? ");
 			//id's
 			sql.append(" WHERE kvakod = ? ");
+			sql.append(" AND kvadt = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
@@ -139,6 +140,7 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 						dao.getKvaxxx(), dao.getKvagv(),
 						//id's
 						dao.getKvakod(),
+						dao.getKvadt(),
 						} );
 			
 		}catch(Exception e){
@@ -163,9 +165,11 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 			sql.append(" DELETE from kodtva ");
 			//id's
 			sql.append(" WHERE kvakod = ? ");
+			sql.append(" AND kvadt = ? ");
+			
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKvakod() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKvakod(), dao.getKvadt() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
