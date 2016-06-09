@@ -194,7 +194,8 @@ public class TvinnMaintResponseOutputterController_SYFT02 {
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.kodtvaDaoServices.findById(dao.getKvakod(), dbErrorStackTrace);
+							list = this.kodtvaDaoServices.findForUpdate(dao.getKvakod(), dao.getKvadt(), dbErrorStackTrace);
+							
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output

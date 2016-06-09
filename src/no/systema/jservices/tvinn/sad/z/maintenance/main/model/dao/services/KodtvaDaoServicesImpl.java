@@ -105,8 +105,8 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 			KodtvaDao dao = (KodtvaDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO kodtva (kvauni, kvakod, kvakrs, kvaomr, kvadt, kvagkr, kvaxxx, kvagv  )");
-			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ? )");
+			sql.append(" INSERT INTO kodtva (kvauni, kvakod, kvakrs, kvaomr, kvadt, kvagkr, kvaxxx, kvagv)");
+			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKvauni(), dao.getKvakod(), dao.getKvakrs(),
 				dao.getKvaomr(), dao.getKvadt(), dao.getKvagkr(), dao.getKvaxxx(), dao.getKvagv() } );
