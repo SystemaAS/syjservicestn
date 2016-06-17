@@ -99,7 +99,7 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 				if( (dao.getSiavd()!=null && !"".equals(dao.getSiavd())) && (dao.getSitdn()!=null && !"".equals(dao.getSitdn())) ){
 					logger.info("findForUpdate");
 					list = this.sadhDaoServices.findForUpdate(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
-					
+				
 				}else {
 					if( dao.getSiavd()!=null && !"".equals(dao.getSiavd()) ){
 						logger.info("getListByAvd");
@@ -181,7 +181,7 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
-					//N/A
+					//N/A - none existent
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
 						logger.info("Before UPDATE ...");
@@ -189,11 +189,11 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 						
 						//do ADD
 						if("A".equals(mode)){
-							//N/A
+							//N/A - none existent
 						}else if("U".equals(mode)){
 							 dmlRetval = this.sadhDaoServices.update(dao, dbErrorStackTrace);
 							 if(dmlRetval>=0){
-								 //TO TEST !! dmlRetval = this.headfDaoServices.update(dao, dbErrorStackTrace);
+								 dmlRetval = this.headfDaoServices.update(dao, dbErrorStackTrace);
 							 }
 						}
 						
