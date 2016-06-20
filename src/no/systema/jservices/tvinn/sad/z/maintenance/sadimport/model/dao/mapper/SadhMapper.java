@@ -25,6 +25,7 @@ public class SadhMapper implements RowMapper {
     	dao.setSitll(rs.getString("sitll"));
     	dao.setSitle(rs.getString("sitle"));
     	dao.setSidtg(rs.getString("sidtg"));
+    	dao.setSinak(rs.getString("sinak"));
     	
         return dao;
     }

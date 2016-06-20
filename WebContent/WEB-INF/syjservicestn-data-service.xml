@@ -80,6 +80,9 @@
   <bean id="headfDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.HeadfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <bean id="kodttsDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodttsDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   

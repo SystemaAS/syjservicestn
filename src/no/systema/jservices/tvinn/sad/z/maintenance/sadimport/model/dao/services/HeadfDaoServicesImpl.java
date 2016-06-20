@@ -87,15 +87,15 @@ public class HeadfDaoServicesImpl implements HeadfDaoServices {
 			SadhHeadfDao dao = (SadhHeadfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE headf SET hetll=?, hetle = ? ");
+			sql.append(" UPDATE headf SET hetll = ?, hetle = ? ");
 			sql.append(" WHERE heavd = ? ");
 			sql.append(" AND heopd = ? ");
 			
-			//params
+			//Use all fields of master table: SADH (instead of HEADFs fields)
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-				dao.getHetll(), dao.getHetle(),
+				dao.getSitll(), dao.getSitle(),
 				//id
-				dao.getHeavd(), dao.getHeopd() } );
+				dao.getSiavd(), dao.getSitdn() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

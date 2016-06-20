@@ -22,7 +22,14 @@ public class SAD006R_U {
 			(mode!=null && !"".equals(mode)) ){
 			//check dao
 			if( (dao.getSiavd()!=null && !"".equals(dao.getSiavd())) &&  (dao.getSitdn()!=null && !"".equals(dao.getSitdn())) ){
-				//OK
+				//At least one of 3 values must exist
+				if(  (dao.getSitll()!=null && !"".equals(dao.getSitll())) ||
+					 (dao.getSitle()!=null && !"".equals(dao.getSitle())) ||
+  					 (dao.getSidtg()!=null && !"".equals(dao.getSidtg()))		 ){
+	  					 //OK = do nothing
+	  				}else{
+	  					retval = false;
+	  				}
 			}else{
 				retval = false;
 			}

@@ -22,6 +22,11 @@ public class SadhHeadfDao implements Serializable, IDao {
 	public void setSitdn (String value){ this.sitdn = value;   }   
 	public String getSitdn (){ return this.sitdn;   }              
 
+	private String sinak = "";
+	public String getSinakPropertyName (){ return "sinak"; }
+	public void setSinak (String value){ this.sinak = value;   }   
+	public String getSinak (){ return this.sinak;   }              
+
 	private String sitll = "";
 	public String getSitllPropertyName (){ return "sitll"; }
 	public void setSitll (String value){ this.sitll = value;   }   
@@ -38,22 +43,18 @@ public class SadhHeadfDao implements Serializable, IDao {
 	public String getSidtg (){ return this.sidtg;   }              
 
 	private String heavd = ""; 
-	public String getHeavdPropertyName (){ return "heavd"; }
-	public void setHeavd (String value){ this.heavd = value;   }   
+	public void setHeavd (String value){ this.heavd = value;   }
 	public String getHeavd (){ return this.heavd;   }              
 
 	private String heopd = ""; 
-	public String getHeopdPropertyName (){ return "heopd"; }
-	public void setHeopd (String value){ this.heopd = value;   }   
+	public void setHeopd (String value){ this.heopd = value;   }
 	public String getHeopd (){ return this.heopd;   }              
 	
 	private String hetll = ""; 
-	public String getHetllPropertyName (){ return "hetll"; }
 	public void setHetll (String value){ this.hetll = value;   }   
 	public String getHetll (){ return this.hetll;   }              
 	
 	private String hetle = ""; 
-	public String getHetlePropertyName (){ return "hetle"; }
 	public void setHetle (String value){ this.hetle = value;   }   
 	public String getHetle (){ return this.hetle;   }              
 	

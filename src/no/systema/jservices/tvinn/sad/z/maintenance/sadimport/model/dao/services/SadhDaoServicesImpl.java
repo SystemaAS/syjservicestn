@@ -51,7 +51,7 @@ public class SadhDaoServicesImpl implements SadhDaoServices {
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" SELECT siavd, sitdn, sitll, sitle, sidtg ");
+			sql.append(" SELECT siavd, sitdn, sitll, sitle, sidtg, sinak ");
 			sql.append(" FROM sadh");
 			sql.append(" WHERE siavd = ?");
 			
@@ -67,11 +67,44 @@ public class SadhDaoServicesImpl implements SadhDaoServices {
 		return retval;
 	}
 	
+	/**
+	 * 
+	 * @param avd
+	 * @param opd
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public List getListByAvdOpd(String avd, String opd, StringBuffer errorStackTrace){
+		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		String SQL_WILD_CARD = "%";
+		
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" SELECT siavd, sitdn, sitll, sitle, sidtg, sinak ");
+			sql.append(" FROM sadh");
+			sql.append(" WHERE siavd = ?");
+			sql.append(" AND sitdn LIKE ?");
+			
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, opd + SQL_WILD_CARD }, new SadhMapper());
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	
 	public List findForUpdate(String avd, String opd, StringBuffer errorStackTrace){
 		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
 		try{
 			StringBuffer sql= new StringBuffer();
-			sql.append("SELECT siavd, sitdn, sitll, sitle, sidtg ");
+			sql.append("SELECT siavd, sitdn, sitll, sitle, sidtg, sinak ");
 			sql.append(" FROM sadh ");
 			sql.append(" WHERE siavd = ? ");
 			sql.append(" AND sitdn = ? ");

@@ -65,7 +65,7 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 	 * 
 	 * @return
 	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD006R.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD006R.do?user=OSCAR
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD006R.do?user=OSCAR&siavd=&sitdn=&sh=y(for search)
 	 * 
 	 */
 	@RequestMapping(value="syjsSAD006R.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -78,7 +78,7 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 			logger.info("Inside syjsSAD006R");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
-			
+			String search = request.getParameter("sh");
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
             //DEBUG --> logger.info("USERNAME:" + userName + "XX");
@@ -97,9 +97,13 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 				//do SELECT
 				logger.info("Before SELECT ...");
 				if( (dao.getSiavd()!=null && !"".equals(dao.getSiavd())) && (dao.getSitdn()!=null && !"".equals(dao.getSitdn())) ){
-					logger.info("findForUpdate");
-					list = this.sadhDaoServices.findForUpdate(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
-				
+					if(search!=null && !"".equals(search)){
+						logger.info("getListByAvdOpd");
+						list = this.sadhDaoServices.getListByAvdOpd(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
+					}else{
+						logger.info("findForUpdate");
+						list = this.sadhDaoServices.findForUpdate(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
+					}
 				}else {
 					if( dao.getSiavd()!=null && !"".equals(dao.getSiavd()) ){
 						logger.info("getListByAvd");
@@ -193,7 +197,13 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 						}else if("U".equals(mode)){
 							 dmlRetval = this.sadhDaoServices.update(dao, dbErrorStackTrace);
 							 if(dmlRetval>=0){
-								 dmlRetval = this.headfDaoServices.update(dao, dbErrorStackTrace);
+								 List headfList = this.headfDaoServices.findForUpdate(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
+								 //search for child record - exact match
+								 if(headfList!=null && headfList.size()==1){
+									 dmlRetval = this.headfDaoServices.update(dao, dbErrorStackTrace);
+								 }else{
+									 logger.info("[INFO]: no child record on HEADF");
+								 }
 							 }
 						}
 						
