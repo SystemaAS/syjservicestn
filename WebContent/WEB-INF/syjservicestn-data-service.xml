@@ -84,6 +84,10 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
+  <!-- GUI lists -->
+  <bean id="postnrKodttsxDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gui.PostnrKodttsxDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   

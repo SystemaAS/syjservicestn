@@ -31,6 +31,7 @@ import javax.servlet.http.HttpSession;
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.KodttsDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodttsDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gui.PostnrKodttsxDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
 //rules
@@ -246,6 +247,72 @@ public class TvinnMaintImportResponseOutputterController_SYFT04R {
 		return sb.toString();
 	}
 	
+	/**
+	 * 
+	 * SELECT POSTNR
+	 * File: 	KKODTTSX
+	 * PGM:		SYFT04
+	 * 
+	 * Member: 	SAD Import Maintenance - SELECT LIST 
+	 * 
+	 * @Example SELECT: http://gw.systema.no:8080/syjservicestn/syjsSYFT04R_guipostnr.do?user=OSCAR
+	 *
+	 * @param session
+	 * @param request
+	 * @return
+	 * 
+	 */
+	
+	@RequestMapping(value="syjsSYFT04R_guipostnr.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String syjsGuiPostnrList( HttpSession session, HttpServletRequest request) {
+		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
+		StringBuffer sb = new StringBuffer();
+		
+		try{
+			logger.info("Inside syjsSYFT04R_guipostnr");
+			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			String user = request.getParameter("user");
+			
+			//Check ALWAYS user in BRIDF
+            String userName = this.bridfDaoServices.findNameById(user);
+            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
+            String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+			
+			//Start processing now
+			if(userName!=null && !"".equals(userName)){
+				//bind attributes is any
+				KodttsDao dao = new KodttsDao();
+				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+	            binder.bind(request);
+	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
+	            List list = this.postnrKodttsxDaoServices.getList(dbErrorStackTrace);
+				
+	            //process result
+				if (list!=null){
+					//write the final JSON output
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
+				}
+			}else{
+				//write JSON error output
+				errMsg = "ERROR on SELECT";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+			
+		}catch(Exception e){
+			//write std.output error output
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+		return sb.toString();
+	}
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
@@ -262,6 +329,16 @@ public class TvinnMaintImportResponseOutputterController_SYFT04R {
 	@Required
 	public void setBridfDaoServices (BridfDaoServices value){ this.bridfDaoServices = value; }
 	public BridfDaoServices getBridfDaoServices(){ return this.bridfDaoServices; }
+	
+	
+	@Qualifier ("postnrKodttsxDaoServices")
+	private PostnrKodttsxDaoServices postnrKodttsxDaoServices;
+	@Autowired
+	@Required
+	public void setPostnrKodttsxDaoServices (PostnrKodttsxDaoServices value){ this.postnrKodttsxDaoServices = value; }
+	public PostnrKodttsxDaoServices getPostnrKodttsxDaoServices(){ return this.postnrKodttsxDaoServices; }
+	
+	
 	
 }
 
