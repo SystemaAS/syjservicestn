@@ -182,7 +182,9 @@ public class TvinnMaintImportResponseOutputterController_SYFT04R {
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
+					logger.info("Before RULER LORD ...");
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+						logger.info("Before DELETE ...");
 						dmlRetval = this.kodttsDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
@@ -192,7 +194,6 @@ public class TvinnMaintImportResponseOutputterController_SYFT04R {
 					}
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
-						logger.info("Before UPDATE ...");
 						List<KodttsDao> list = new ArrayList<KodttsDao>();
 						//do ADD
 						if("A".equals(mode)){
@@ -203,9 +204,12 @@ public class TvinnMaintImportResponseOutputterController_SYFT04R {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
+								logger.info("Before INSERT ...");
 								dmlRetval = this.kodttsDaoServices.insert(dao, dbErrorStackTrace);
+								
 							}
 						}else if("U".equals(mode)){
+							logger.info("Before UPDATE ...");
 							dmlRetval = this.kodttsDaoServices.update(dao, dbErrorStackTrace);
 						}
 						
