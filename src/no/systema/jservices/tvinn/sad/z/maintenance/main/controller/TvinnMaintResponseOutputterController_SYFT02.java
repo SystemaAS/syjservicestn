@@ -133,6 +133,7 @@ public class TvinnMaintResponseOutputterController_SYFT02 {
 			e.printStackTrace(printWriter);
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
+		session.invalidate();
 		return sb.toString();
 	}
 	
@@ -244,6 +245,7 @@ public class TvinnMaintResponseOutputterController_SYFT02 {
 			e.printStackTrace(printWriter);
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
+		session.invalidate();
 		return sb.toString();
 	}
 	

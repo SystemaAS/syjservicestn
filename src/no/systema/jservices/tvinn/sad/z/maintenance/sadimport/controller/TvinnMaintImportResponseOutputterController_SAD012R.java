@@ -128,6 +128,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 			e.printStackTrace(printWriter);
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
+		session.invalidate();
 		return sb.toString();
 	}
 	
@@ -238,6 +239,7 @@ public class TvinnMaintImportResponseOutputterController_SAD012R {
 			e.printStackTrace(printWriter);
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
+		session.invalidate();
 		return sb.toString();
 	}
 	
