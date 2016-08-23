@@ -49,6 +49,10 @@
   <bean id="tvineDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.TvineDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  
+  <bean id="sadavgeDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.SadavgeDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean> 
    
   <!-- TVINN MAINTENANCE - IMPORT: Domain Dao's Services -->
   <bean id="kodtlikDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlikDaoServicesImpl">
