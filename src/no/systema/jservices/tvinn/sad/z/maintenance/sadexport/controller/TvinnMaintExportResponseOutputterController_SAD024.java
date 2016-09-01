@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,18 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.HeadfDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.HeadfDaoServices;
-//rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD006R_U;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
-//Application
-//import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadhHeadfDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadhDaoServices;
-
-
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.SAD024_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.SaehDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.SaehDaoServices;
 
 
 
@@ -40,41 +35,39 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services
  * This class is the bridge and entry point to the syjservices-layer.
  * All communication to the outside world is done through this gateway.
  * 
- * @author oscardelatorre
- * @date Jun 17, 2016
+ * @author Fredrik Möller
+ * @date Aug 30, 2016
  * 
  */
 
 @Controller
-public class TvinnMaintImportResponseOutputterController_SAD006R {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SAD006R.class.getName());
+public class TvinnMaintExportResponseOutputterController_SAD024 {
+	private static Logger logger = Logger.getLogger(TvinnMaintExportResponseOutputterController_SAD024.class.getName());
 	
 	/**
 	 * FreeForm Source:
-	 * 	 File: 		SADH-HEADF
-	 * 	 PGM:		SAD006
-	 * 	 Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 	 File: 		SAEH-HEADF
+	 * 	 PGM:		SAD024
+	 * 	 Member: 	SAD Export Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD006R.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD006R.do?user=OSCAR&siavd=&sitdn=&sh=y(for search)
+	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD024.do?user=OSCAR
+	 * @Example SELECT specific http://gw.systema.no:8080/syjservicestn/syjsSAD024.do?user=OSCAR&seavd=1&setdn=1&sh=y(for search)
 	 * 
 	 */
-	@RequestMapping(value="syjsSAD006R.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSAD024.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsRList( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSAD006R");
-			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			logger.info("Inside syjsSAD024");
 			String user = request.getParameter("user");
 			String search = request.getParameter("sh");
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
-            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
             String errMsg = "";
 			String status = "ok";
 			StringBuffer dbErrorStackTrace = new StringBuffer();
@@ -82,25 +75,26 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				//bind attributes is any
-				SadhHeadfDao dao = new SadhHeadfDao();
+				SaehDao dao = new SaehDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
 	            binder.bind(request);
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
 				logger.info("Before SELECT ...");
-				if( (dao.getSiavd()!=null && !"".equals(dao.getSiavd())) && (dao.getSitdn()!=null && !"".equals(dao.getSitdn())) ){
+				logger.info("dao="+dao.toString());
+				if( (dao.getSeavd()!=null && !"".equals(dao.getSeavd())) && (dao.getSetdn()!=null && !"".equals(dao.getSetdn())) ){
 					if(search!=null && !"".equals(search)){
 						logger.info("getListByAvdOpd");
-						list = this.sadhDaoServices.getListByAvdOpd(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
+						list = this.saehDaoServices.getListByAvdOpd(dao.getSeavd(), dao.getSetdn(), dbErrorStackTrace);
 					}else{
 						logger.info("findForUpdate");
-						list = this.sadhDaoServices.findForUpdate(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
+						list = this.saehDaoServices.findForUpdate(dao.getSeavd(), dao.getSetdn(), dbErrorStackTrace);
 					}
 				}else {
-					if( dao.getSiavd()!=null && !"".equals(dao.getSiavd()) ){
+					if( dao.getSeavd()!=null && !"".equals(dao.getSeavd()) ){
 						logger.info("getListByAvd");
-						list = this.sadhDaoServices.getListByAvd(dao.getSiavd(), dbErrorStackTrace);
+						list = this.saehDaoServices.getListByAvd(dao.getSeavd(), dbErrorStackTrace);
 					}else{
 						logger.info("getList (Empty)");
 						list = new ArrayList();
@@ -138,27 +132,28 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 	}
 	
 	/**
+	 * TODO
 	 * 
 	 * Update Database ONLY UPDATE operations
-	 * File: 	SADH
-	 * PGM:		SAD006
-	 * Member: 	SAD Import Maintenance - UPDATE SPECIFIC
+	 * File: 	SAEH and HEADF
+	 * PGM:		SAD024
+	 * Member: 	SAD Export Maintenance - UPDATE SPECIFIC
 	 * 
-	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD006R_U.do?user=OSCAR&mode=U
+	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD024_U.do?user=OSCAR&mode=U
 	 *
 	 * @param session
 	 * @param request
 	 * @return
 	 * 
 	 */
-	@RequestMapping(value="syjsSAD006R_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSAD024_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSAD006R_U");
+			logger.info("Inside syjsSAD024_U");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -170,28 +165,26 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadhHeadfDao dao = new SadhHeadfDao();
+			SaehDao dao = new SaehDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SAD006R_U rulerLord = new SAD006R_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					//N/A - none existent
 				}else{
-				  if(rulerLord.isValidInput(dao, userName, mode)){
+				  if(SAD024_U.isValidInput(dao, userName, mode)){
 						logger.info("Before UPDATE ...");
-						List<SadhHeadfDao> list = new ArrayList<SadhHeadfDao>();
-						
+						List<SaehDao> list = new ArrayList<SaehDao>();
 						//do ADD
 						if("A".equals(mode)){
 							//N/A - none existent
 						}else if("U".equals(mode)){
-							 dmlRetval = this.sadhDaoServices.update(dao, dbErrorStackTrace);
+							 dmlRetval = this.saehDaoServices.update(dao, dbErrorStackTrace);
 							 if(dmlRetval>=0){
-								 List headfList = this.headfDaoServices.findForUpdate(dao.getSiavd(), dao.getSitdn(), dbErrorStackTrace);
+								 List headfList = this.headfDaoServices.findForUpdate(dao.getSeavd(), dao.getSetdn(), dbErrorStackTrace);
 								 //search for child record - exact match
 								 if(headfList!=null && headfList.size()==1){
 									 HeadfDao headfDao = createUpdatedHeadfDao(dao);
@@ -242,24 +235,24 @@ public class TvinnMaintImportResponseOutputterController_SAD006R {
 		return sb.toString();
 	}
 	
-	private HeadfDao createUpdatedHeadfDao(SadhHeadfDao dao) {
+	private HeadfDao createUpdatedHeadfDao(SaehDao dao) {
 		HeadfDao headfDao = new HeadfDao();
-		headfDao.setHetll(dao.getSitll()); //update
-		headfDao.setHetle(dao.getSitle()); //update
-		headfDao.setHeavd(dao.getSiavd()); //id
-		headfDao.setHeopd(dao.getSitdn()); //id
+		headfDao.setHetll(dao.getSetll()); //update
+		headfDao.setHetle(dao.getSetle()); //update
+		headfDao.setHeavd(dao.getSeavd()); //id
+		headfDao.setHeopd(dao.getSetdn()); //id
 		return headfDao;
 	}
 
 	//----------------
 	//WIRED SERVICES
 	//----------------
-	@Qualifier ("sadhDaoServices")
-	private SadhDaoServices sadhDaoServices;
+	@Qualifier ("saehDaoServices")
+	private SaehDaoServices saehDaoServices;
 	@Autowired
 	@Required
-	public void setSadhDaoServices (SadhDaoServices value){ this.sadhDaoServices = value; }
-	public SadhDaoServices getSadhDaoServices(){ return this.sadhDaoServices; }
+	public void setSaehDaoServices (SaehDaoServices value){ this.saehDaoServices = value; }
+	public SaehDaoServices getSaehDaoServices(){ return this.saehDaoServices; }
 	
 	@Qualifier ("headfDaoServices")
 	private HeadfDaoServices headfDaoServices;

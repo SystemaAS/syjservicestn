@@ -42,21 +42,5 @@ public class SadhHeadfDao implements Serializable, IDao {
 	public void setSidtg (String value){ this.sidtg = value;   }   
 	public String getSidtg (){ return this.sidtg;   }              
 
-	private String heavd = ""; 
-	public void setHeavd (String value){ this.heavd = value;   }
-	public String getHeavd (){ return this.heavd;   }              
-
-	private String heopd = ""; 
-	public void setHeopd (String value){ this.heopd = value;   }
-	public String getHeopd (){ return this.heopd;   }              
-	
-	private String hetll = ""; 
-	public void setHetll (String value){ this.hetll = value;   }   
-	public String getHetll (){ return this.hetll;   }              
-	
-	private String hetle = ""; 
-	public void setHetle (String value){ this.hetle = value;   }   
-	public String getHetle (){ return this.hetle;   }              
-	
 	
 }

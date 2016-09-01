@@ -205,7 +205,6 @@ public class TvinnMaintExportResponseOutputterController_SAD015 {
 				int dmlRetval = 0;
 				if ("D".equals(mode)) {
 					if (SAD015_U.isValid(dao, userName, mode)) {
-						logger.info("About to do delete");
 						dmlRetval = sadavgeDaoServices.delete(dao, dbErrorStackTrace);
 					} else {
 						// write JSON error output
@@ -238,7 +237,6 @@ public class TvinnMaintExportResponseOutputterController_SAD015 {
 							}
 
 						} else if ("U".equals(mode)) {
-							logger.info("About to do sadavgeDaoServices.update...");
 							dmlRetval = sadavgeDaoServices.update(dao, dbErrorStackTrace);
 
 						}
@@ -286,12 +284,11 @@ public class TvinnMaintExportResponseOutputterController_SAD015 {
 	private boolean idExist(SadavgeDao dao, StringBuffer dbErrorStackTrace) {
 		List<SadavgeDao> list = new ArrayList<SadavgeDao>();
 		list = this.sadavgeDaoServices.findByIds(dao.getAgtanr(), dao.getAgakd(),dao.getAgskv(), dbErrorStackTrace);
-		logger.info("idExist");
 		if (list != null && list.size() > 0) {
 			logger.info("idExist ,list.size()="+list.size());
 			return true;
 		} else {
-			logger.info("nit idExist ");
+			logger.info("not idExist ");
 			return false;
 		}
 		

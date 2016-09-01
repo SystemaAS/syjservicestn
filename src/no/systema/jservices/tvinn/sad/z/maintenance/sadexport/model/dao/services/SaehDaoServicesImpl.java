@@ -1,80 +1,67 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.SadhMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadhHeadfDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.SaehDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.SaehMapper;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
  * 
- * @author oscardelatorre
- * @date Jun 17, 2016
+ * @author Fredrik Möller
+ * @date Aug 30, 2016
  * 
  */
-public class SadhDaoServicesImpl implements SadhDaoServices {
-	private static Logger logger = Logger.getLogger(SadhDaoServicesImpl.class.getName());
+public class SaehDaoServicesImpl implements SaehDaoServices {
+	private static Logger logger = Logger.getLogger(SaehDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
-	/**
-	 * 
-	 * @param avd
-	 * @param errorStackTrace
-	 * @return
-	 */
 	public List getList(StringBuffer errorStackTrace){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		List<SaehDao> retval = new ArrayList<SaehDao>();
 		//N/A
 		return retval;
 	}
 	
-	/**
-	 * 
-	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		List<SaehDao> retval = new ArrayList<SaehDao>();
 		//N/A
 		return retval;
 	}
-	/**
-	 * 
-	 */
-	public List getListByAvd(String avd, StringBuffer errorStackTrace){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
-		
-		try{
+
+	public List getListByAvd(String avd, StringBuffer errorStackTrace) {
+		List<SaehDao> retval = new ArrayList<SaehDao>();
+
+		try {
 			StringBuffer sql = new StringBuffer();
-			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
-			//when issuing select * from ...
-			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" SELECT siavd, sitdn, sitll, sitle, sidtg, sinak ");
-			sql.append(" FROM sadh");
-			sql.append(" WHERE siavd = ?");
-			
+			// WE must specify all the columns since there are numeric formats.
+			// All numeric formats are incompatible with JDBC template (at least
+			// in DB2)
+			// when issuing select * from ...
+			// The numeric formats MUST ALWAYS be converted to CHARs (IBM string
+			// equivalent to Oracle VARCHAR)
+			sql.append(" SELECT seavd, setdn, setll, setle, sedtg, senas ");
+			sql.append(" FROM saeh");
+			sql.append(" WHERE seavd = ?");
+
 			logger.info(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd }, new SadhMapper());
-		}catch(Exception e){
+			retval = this.jdbcTemplate.query(sql.toString(), new Object[] { avd }, new SaehMapper());
+		} catch (Exception e) {
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
-			//Chop the message to comply to JSON-validation
+			// Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = null;
 		}
 		return retval;
 	}
 	
-	/**
-	 * 
-	 * @param avd
-	 * @param opd
-	 * @param errorStackTrace
-	 * @return
-	 */
+
 	public List getListByAvdOpd(String avd, String opd, StringBuffer errorStackTrace){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		List<SaehDao> retval = new ArrayList<SaehDao>();
 		String SQL_WILD_CARD = "%";
 		
 		try{
@@ -82,13 +69,13 @@ public class SadhDaoServicesImpl implements SadhDaoServices {
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" SELECT siavd, sitdn, sitll, sitle, sidtg, sinak ");
-			sql.append(" FROM sadh");
-			sql.append(" WHERE siavd = ?");
-			sql.append(" AND sitdn LIKE ?");
+			sql.append(" SELECT seavd, setdn, setll, setle, sedtg, senas ");
+			sql.append(" FROM saeh");
+			sql.append(" WHERE seavd = ?");
+			sql.append(" AND setdn LIKE ?");
 			
 			logger.info(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, opd + SQL_WILD_CARD }, new SadhMapper());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, opd + SQL_WILD_CARD }, new SaehMapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -100,14 +87,14 @@ public class SadhDaoServicesImpl implements SadhDaoServices {
 	}
 	
 	public List findForUpdate(String avd, String opd, StringBuffer errorStackTrace){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		List<SaehDao> retval = new ArrayList<SaehDao>();
 		try{
 			StringBuffer sql= new StringBuffer();
-			sql.append("SELECT siavd, sitdn, sitll, sitle, sidtg, sinak ");
-			sql.append(" FROM sadh ");
-			sql.append(" WHERE siavd = ? ");
-			sql.append(" AND sitdn = ? ");
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, opd }, new SadhMapper());
+			sql.append("SELECT seavd, setdn, setll, setle, sedtg, senas ");
+			sql.append(" FROM saeh ");
+			sql.append(" WHERE seavd = ? ");
+			sql.append(" AND setdn = ? ");
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, opd }, new SaehMapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -130,6 +117,7 @@ public class SadhDaoServicesImpl implements SadhDaoServices {
 		return retval;
 	}
 	/**
+	 * 
 	 * UPDATE
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
@@ -137,18 +125,19 @@ public class SadhDaoServicesImpl implements SadhDaoServices {
 		int retval = 0;
 		try{
 			
-			SadhHeadfDao dao = (SadhHeadfDao)daoObj;
+			SaehDao dao = (SaehDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadh SET sitll=?, sitle = ?, sidtg = ? ");
-			sql.append(" WHERE siavd = ? ");
-			sql.append(" AND sitdn = ? ");
+			sql.append(" UPDATE saeh SET setll=?, setle = ?, sedtg = ? ");
+			sql.append(" WHERE seavd = ? ");
+			sql.append(" AND setdn = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-				dao.getSitll(), dao.getSitle(), dao.getSidtg(),
-				//id
-				dao.getSiavd(), dao.getSitdn() } );
+												dao.getSetll(), 
+												dao.getSetle(), 
+												dao.getSedtg(),
+												dao.getSeavd(), 
+												dao.getSetdn() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

@@ -47,14 +47,17 @@ public class SadavgeDaoServicesImpl implements SadavgeDaoServices {
 	 */
 	public List<Object> findById(String id, StringBuffer errorStackTrace) {
 		List<Object> retval = new ArrayList<Object>();
+		String SQL_WILD_CARD = "%";
+
 		try {
 
 			StringBuffer sql = new StringBuffer();
 			sql.append(this.getSELECT_FROM_WHERE_CLAUSE());
-			sql.append(" and agtanr = ? ");
+			sql.append(" and agtanr LIKE ? ");
+
 			logger.info("sql=" + sql.toString());
 
-			retval = jdbcTemplate.query(sql.toString(), new Object[] { id }, new SadavgeMapper());
+			retval = jdbcTemplate.query(sql.toString(), new Object[] { id + SQL_WILD_CARD }, new SadavgeMapper());
 
 		} catch (Exception e) {
 			Writer writer = dbErrorMessageMgr.getPrintWriter(e);
@@ -93,7 +96,7 @@ public class SadavgeDaoServicesImpl implements SadavgeDaoServices {
 	/**
 	 * 
 	 * @param dao
-	 * @param errorStackTrace TODO
+	 * @param errorStackTrace
 	 * @return
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace) {

@@ -1,12 +1,13 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.HeadfMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadhHeadfDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.HeadfDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper.HeadfMapper;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -34,7 +35,7 @@ public class HeadfDaoServicesImpl implements HeadfDaoServices {
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		List<HeadfDao> retval = new ArrayList<HeadfDao>();
 		//N/A
 		return retval;
 	}
@@ -47,7 +48,7 @@ public class HeadfDaoServicesImpl implements HeadfDaoServices {
 	 * @return
 	 */
 	public List findForUpdate(String avd, String opd, StringBuffer errorStackTrace){
-		List<SadhHeadfDao> retval = new ArrayList<SadhHeadfDao>();
+		List<HeadfDao> retval = new ArrayList<HeadfDao>();
 		try{
 			StringBuffer sql= new StringBuffer();
 			sql.append("select heavd, heopd, hetll, hetle ");
@@ -84,7 +85,7 @@ public class HeadfDaoServicesImpl implements HeadfDaoServices {
 		int retval = 0;
 		try{
 			
-			SadhHeadfDao dao = (SadhHeadfDao)daoObj;
+			HeadfDao dao = (HeadfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE headf SET hetll = ?, hetle = ? ");
@@ -93,9 +94,10 @@ public class HeadfDaoServicesImpl implements HeadfDaoServices {
 			
 			//Use all fields of master table: SADH (instead of HEADFs fields)
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-				dao.getSitll(), dao.getSitle(),
-				//id
-				dao.getSiavd(), dao.getSitdn() } );
+												dao.getHetll(), 
+												dao.getHetle(),
+												dao.getHeavd(), 
+												dao.getHeopd() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
