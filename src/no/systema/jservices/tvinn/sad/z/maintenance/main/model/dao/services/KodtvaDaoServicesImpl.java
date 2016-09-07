@@ -20,7 +20,36 @@ public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	
+	/**
+	 * 
+	 */
+	public List getListDistinct(StringBuffer errorStackTrace){
+		List<KodtvaDao> retval = new ArrayList<KodtvaDao>();
+		
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" Select distinct kvakod, kvaxxx" );
+			sql.append(" from kodtva ");
+			//sql.append(" FETCH FIRST 00 ROWS ONLY ");
+			
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(),  new KodtvaMapper());
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	
+	/**
+	 * 
+	 */
 	public List getList(StringBuffer errorStackTrace){
 		List<KodtvaDao> retval = new ArrayList<KodtvaDao>();
 		

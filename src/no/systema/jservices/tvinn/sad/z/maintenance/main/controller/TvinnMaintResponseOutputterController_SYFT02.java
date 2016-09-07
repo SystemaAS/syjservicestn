@@ -77,6 +77,7 @@ public class TvinnMaintResponseOutputterController_SYFT02 {
 			logger.info("Inside syjsSYFT02R");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
+			String distinct = request.getParameter("distinct");
 			
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
@@ -104,7 +105,12 @@ public class TvinnMaintResponseOutputterController_SYFT02 {
 						list = this.kodtvaDaoServices.findById(dao.getKvakod(), dbErrorStackTrace);
 					}else{
 						logger.info("getList (all)");
-						list = this.kodtvaDaoServices.getList(dbErrorStackTrace);
+						if(distinct!=null && !"".equals(distinct)){
+							list = this.kodtvaDaoServices.getListDistinct(dbErrorStackTrace);
+						}else{
+							//default
+							list = this.kodtvaDaoServices.getList(dbErrorStackTrace);
+						}
 					}
 	            }
 				//process result

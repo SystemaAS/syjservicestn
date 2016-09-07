@@ -10,4 +10,5 @@ import java.util.*;
  */
 public interface KodtvaDaoServices extends IDaoServices { 
 	public List findForUpdate(String id, String alfa, StringBuffer errorStackTrace);
+	public List getListDistinct(StringBuffer errorStackTrace);
 }
