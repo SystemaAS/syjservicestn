@@ -3,48 +3,33 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-//Application
-//import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
+import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.rules.SAD004R_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadlDaoServices;
-import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
-//rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD004R_U;
-
-
-
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 
 
 /**
- * Service Response Controller
+ * Service Response Controller - Gml. Kunders vareregister SAD004 / SADL 
  * 
  * This class is the bridge and entry point to the syjservices-layer.
  * All communication to the outside world is done through this gateway.

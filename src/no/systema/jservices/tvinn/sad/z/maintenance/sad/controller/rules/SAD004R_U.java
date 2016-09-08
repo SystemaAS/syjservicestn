@@ -1,20 +1,20 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules;
+package no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.rules;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts6DaoServices;
 /**
  * 
  * @author oscardelatorre
  * @date May 30, 2016
  */
 public class SAD004R_U {
-
-	/**
-	 * 
-	 * @param dao
-	 * @param user
-	 * @param mode
-	 * @return
-	 */
+	
 	public boolean isValidInput(SadlDao dao, String user, String mode){
 		boolean retval = true;
 		
@@ -23,6 +23,10 @@ public class SAD004R_U {
 			//check dao
 			if( (dao.getSlalfa()!=null && !"".equals(dao.getSlalfa())) &&  (dao.getSlknr()!=null && !"".equals(dao.getSlknr())) ){
 				//OK
+				if (dao.getPref()!=null && !"".equals(dao.getPref())){
+					
+					
+				}
 			}else{
 				retval = false;
 			}
@@ -31,13 +35,7 @@ public class SAD004R_U {
 		}
 		return retval;
 	}
-	/**
-	 * 
-	 * @param dao
-	 * @param user
-	 * @param mode
-	 * @return
-	 */
+
 	public boolean isValidInputForDelete(SadlDao dao, String user, String mode){
 		boolean retval = true;
 		
@@ -54,4 +52,6 @@ public class SAD004R_U {
 	
 		return retval;
 	}
+	
+	
 }
