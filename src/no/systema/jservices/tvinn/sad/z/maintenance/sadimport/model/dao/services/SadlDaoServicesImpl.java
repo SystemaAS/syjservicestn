@@ -79,9 +79,9 @@ public class SadlDaoServicesImpl implements SadlDaoServices {
 			sql.append(this.getSELECT_CLAUSE());
 			sql.append(" from sadl ");
 			sql.append(" where slknr = ? ");
-			sql.append(" and slalfa LIKE ? ");
+			sql.append(" and slalfa = ? ");
 			
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { kundid, id + SQL_WILD_CARD }, new SadlMapper());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { kundid, id  }, new SadlMapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
