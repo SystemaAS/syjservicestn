@@ -1,14 +1,13 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.SadlMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.TariMapper;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.SadlMapper;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -105,11 +104,11 @@ public class SadlDaoServicesImpl implements SadlDaoServices {
 			SadlDao dao = (SadlDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadl (slknr, slalfa, sltxt, sloppl, sltanr, sltn, slvekt, slpva, slsats, SLKDAÆ, SLKDSÆ )");
+			sql.append(" INSERT INTO sadl (slknr, slalfa, sltxt, sloppl, sltanr, sltn, slvekt, slpva, slsats, SLKDAÆ, SLKDSÆ, slcref, slto )");
 			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSlknr(), dao.getSlalfa(), dao.getSltxt(),
-				dao.getSloppl(), dao.getSltanr(), dao.getSltn(), dao.getSlvekt(), dao.getSlpva(), dao.getSlsats(), dao.getSlkdae(), dao.getSlkdse() } );
+				dao.getSloppl(), dao.getSltanr(), dao.getSltn(), dao.getSlvekt(), dao.getSlpva(), dao.getSlsats(), dao.getSlkdae(), dao.getSlkdse(), dao.getSlcref(), dao.getSlto() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -130,7 +129,7 @@ public class SadlDaoServicesImpl implements SadlDaoServices {
 			SadlDao dao = (SadlDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			sql.append(" UPDATE sadl SET sltxt = ? , sloppl = ? , sltanr = ? , sltn = ? , slvekt = ? , ");
-			sql.append(" slpva = ? , slsats = ? , SLKDAÆ = ? , SLKDSÆ = ? ");
+			sql.append(" slpva = ? , slsats = ? , SLKDAÆ = ? , SLKDSÆ = ? , slcref = ?, slto = ? ");
 			//id's
 			sql.append(" WHERE slknr = ? ");
 			sql.append(" AND slalfa = ? ");
@@ -138,7 +137,8 @@ public class SadlDaoServicesImpl implements SadlDaoServices {
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 						dao.getSltxt(), dao.getSloppl(), dao.getSltanr(), dao.getSltn(), dao.getSlvekt(),
-						dao.getSlpva(), dao.getSlsats(), dao.getSlkdae(), dao.getSlkdse(),
+						dao.getSlpva(), dao.getSlsats(), dao.getSlkdae(), dao.getSlkdse(), dao.getSlcref(),
+						dao.getSlto(),
 						//id's
 						dao.getSlknr(),
 						dao.getSlalfa(),
@@ -146,7 +146,8 @@ public class SadlDaoServicesImpl implements SadlDaoServices {
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
+			logger.info("Exception in update Sadl:"+writer.toString());
+			e.printStackTrace();
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
