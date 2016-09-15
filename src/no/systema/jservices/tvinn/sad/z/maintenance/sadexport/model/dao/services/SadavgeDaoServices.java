@@ -2,8 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.service
 
 import java.util.List;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.SadavgeDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.IDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.IDaoServices;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.SadlMapper;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.SadlDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper.SadlMapper;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**

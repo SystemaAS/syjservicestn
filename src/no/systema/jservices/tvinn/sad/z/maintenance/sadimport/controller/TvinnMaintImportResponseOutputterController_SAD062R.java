@@ -30,11 +30,11 @@ import javax.servlet.http.HttpSession;
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SoktariDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SoktariDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServices;
 //rules
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD062R_U;
 

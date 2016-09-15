@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.IDaoServices; 
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.IDaoServices; 
 
 /**
  * 

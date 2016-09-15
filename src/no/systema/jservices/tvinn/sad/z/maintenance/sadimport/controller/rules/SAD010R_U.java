@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
 /**
  * 
  * @author oscardelatorre

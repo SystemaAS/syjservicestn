@@ -1,6 +1,7 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gui;
 import java.util.*;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.IDaoServices;
+
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.IDaoServices;
 
 
 /**

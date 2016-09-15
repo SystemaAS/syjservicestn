@@ -72,7 +72,7 @@
   <bean id="cundfLikvKodeDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.CundfLikvKodeDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  <bean id="tariDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServicesImpl">
+  <bean id="tariDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   <bean id="sadsdDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadsdDaoServicesImpl">
@@ -84,7 +84,7 @@
   <bean id="sadvareDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadvareDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  <bean id="sadlDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadlDaoServicesImpl">
+  <bean id="sadlDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.SadlDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   <bean id="sadhDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadhDaoServicesImpl">

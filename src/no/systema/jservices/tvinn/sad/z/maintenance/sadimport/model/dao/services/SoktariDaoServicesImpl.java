@@ -6,9 +6,9 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.SoktariMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.TariMapper;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper.TariMapper;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SoktariDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**

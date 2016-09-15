@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.SadlDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.SadlDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts2Dao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts8Dao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsbDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtseDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadlDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts2DaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts8DaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsbDaoServices;

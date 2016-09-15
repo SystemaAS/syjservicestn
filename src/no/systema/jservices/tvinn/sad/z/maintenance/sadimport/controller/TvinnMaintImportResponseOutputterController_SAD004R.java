@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.rules.SAD004R_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.SadlDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.SadlDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SadlDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadlDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts2DaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts8DaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsbDaoServices;

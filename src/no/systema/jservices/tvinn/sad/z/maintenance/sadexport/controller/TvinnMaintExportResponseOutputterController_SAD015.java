@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.SAD015_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.SadavgeDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.SadavgeDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.TariDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.TariDaoServices;
 
 /**
  * Service Response Controller
