@@ -23,7 +23,14 @@ public class SadvareMapper implements RowMapper {
     	dao.setLevenr(rs.getString("levenr"));
     	dao.setVarenr(rs.getString("varenr"));
     	dao.setVarebe(rs.getString("varebe"));
-    	
+    	dao.setW2vf(rs.getString("w2vf"));
+    	dao.setW2lk(rs.getString("w2lk"));
+    	dao.setW2vnti(rs.getString("w2vnti"));
+    	dao.setW2tn(rs.getString("w2tn"));
+    	dao.setW2pre(rs.getString("w2pre"));
+    	dao.setW2pva(rs.getString("w2pva"));
+    	dao.setW2as(rs.getString("w2as"));
+    	dao.setW2mfr(rs.getString("w2mfr"));
     	
         return dao;
     }

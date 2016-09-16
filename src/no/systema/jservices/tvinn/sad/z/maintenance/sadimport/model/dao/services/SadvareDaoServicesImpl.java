@@ -180,7 +180,7 @@ public class SadvareDaoServicesImpl implements SadvareDaoServices {
 		//Compatibility issue on special characters (ø,æ, etc)
 		//All columns with special characters (NO,SE,DK) such as ö,ä,ø, etc MUST be defined with CAPITAL LETTERS, otherwise the selection in SQL will be invalid
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT varenr, varebe, levenr ");
+		sql.append(" SELECT varenr, varebe, levenr, w2vf, w2lk,	w2vnti, w2tn, w2pre, w2pva, w2as, w2mfr ");
 		return sql;
 	}
 	
