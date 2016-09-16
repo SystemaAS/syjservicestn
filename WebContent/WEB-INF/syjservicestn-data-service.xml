@@ -58,6 +58,10 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean> 
  
+  <bean id="trughDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean> 
+ 
    
   <!-- TVINN MAINTENANCE - IMPORT: Domain Dao's Services -->
   <bean id="kodtlikDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.KodtlikDaoServicesImpl">
