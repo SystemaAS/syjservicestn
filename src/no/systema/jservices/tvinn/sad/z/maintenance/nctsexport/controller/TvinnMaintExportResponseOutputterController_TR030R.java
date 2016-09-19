@@ -22,7 +22,6 @@ import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.SadlDaoServices;
 
 
 /**
@@ -69,7 +68,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//Start processing now
-			if( (userName!=null && !"".equals(userName)) && (tggnr!=null && !"".equals(tggnr)) ){
+			if( (userName!=null && !"".equals(userName)) ){
 				//bind attributes is any
 				TrughDao dao = new TrughDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
@@ -79,13 +78,12 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            if( (dao.getTggnr()!=null && !"".equals(dao.getTggnr())) ){
-					list = this.trughDaoServices.findById(dao.getTggnr(), dbErrorStackTrace);
+					list = trughDaoServices.findById(dao.getTggnr(), dbErrorStackTrace);
 	            }
-/*	            else{
-					list = trughDaoServices.getList(dao.getTggnr(), dbErrorStackTrace);
-					
+	            else{
+					list = trughDaoServices.getList(dbErrorStackTrace);
 	            }
-*/				//process result
+				//process result
 				if (list!=null){
 					//write the final JSON output
 					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));

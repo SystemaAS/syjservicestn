@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
@@ -13,11 +14,12 @@ import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entitie
 /**
  * 
  * @author Fredrik Möller
- * @date Aug 8, 2016
+ * @date Sep 19, 2016
  * 
  */
 public class TrughMapper implements RowMapper<Object> {
-
+	private static Logger logger = Logger.getLogger(TrughMapper.class.getName());
+	
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 		TrughDao dao = new TrughDao();
 
@@ -34,7 +36,7 @@ public class TrughMapper implements RowMapper<Object> {
 				field.set(dao, rs.getString(name));
 			}
 		} catch (Exception e) {
-			e.toString();
+			logger.info("e="+e.toString());
 		}
 
 		return dao;
