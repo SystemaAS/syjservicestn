@@ -63,6 +63,11 @@ public class TrughDao implements Serializable, IDao {
 	public void setTgada1(String value){ this.tgada1 = value;   }   
 	public String getTgada1(){ return this.tgada1;   }  
 	
+	private String tgpna = "";                                
+	public String getTgpnaPropertyName(){ return "tgpna"; }
+	public void setTgpna(String value){ this.tgpna = value;   }   
+	public String getTgpna(){ return this.tgpna;   }  
+
 	private String tgpsa = "";                                
 	public String getTgpsaPropertyName(){ return "tgpsa"; }
 	public void setTgpsa(String value){ this.tgpsa = value;   }   

@@ -132,7 +132,7 @@ public class TrughDaoServicesImpl implements TrughDaoServices {
 			 */
 	private StringBuffer getSELECT_FROM_WHERE_CLAUSE() {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" select tgst, tggnr, CHAR(tggty) tggty ,tggvk, CHAR(tggbl) tggbl, CHAR(tggblb) tggblb, CHAR(tgkna) tgkna, tgtina,tgnaa,tgada1, tgpsa, tglka, tgtsd,");
+		sql.append(" select tgst, tggnr, CHAR(tggty) tggty ,tggvk, CHAR(tggbl) tggbl, CHAR(tggblb) tggblb, CHAR(tgkna) tgkna, tgtina,tgnaa,tgada1, tgpna, tgpsa, tglka, tgtsd,");
 		sql.append(" tgakny, tgakgm, tgusr, CHAR(tgdt) tgdt, CHAR(tgdtr) tgdtr, CHAR(tgprm) tgprm , CHAR(tgrn) tgrn ,tggfv ");
 		sql.append(" from trugh ");
 		return sql;
