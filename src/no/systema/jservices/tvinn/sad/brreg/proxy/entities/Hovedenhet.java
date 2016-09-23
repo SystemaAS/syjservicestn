@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.proxy.brreg.entities;
+package no.systema.jservices.tvinn.sad.brreg.proxy.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;

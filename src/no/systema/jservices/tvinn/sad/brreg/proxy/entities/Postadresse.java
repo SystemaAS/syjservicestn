@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.proxy.brreg.entities;
+package no.systema.jservices.tvinn.sad.brreg.proxy.entities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "adresse", "postnummer", "poststed", "kommunenummer", "kommune", "landkode", "land" })
-public class Forretningsadresse {
+public class Postadresse {
 
 	@JsonProperty("adresse")
 	private String adresse;

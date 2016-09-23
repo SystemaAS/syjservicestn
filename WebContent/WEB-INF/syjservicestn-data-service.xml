@@ -148,6 +148,13 @@
   <bean id="kodtsoDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsoDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+
+   <!--
+   	 TVINN non-jdbc service 
+   -->
+  <bean id="BrregRegisterServices" class="no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServicesImpl">
+  </bean> 
+ 
   
   <!--///////////////////
         NativeExtractor 

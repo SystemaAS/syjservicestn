@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.proxy.brreg.entities;
+package no.systema.jservices.tvinn.sad.brreg.proxy.entities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,52 +12,52 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "kode", "beskrivelse" })
-public class InstitusjonellSektorkode {
+@JsonPropertyOrder({ "rel", "href" })
+public class Link {
 
-	@JsonProperty("kode")
-	private String kode;
-	@JsonProperty("beskrivelse")
-	private String beskrivelse;
+	@JsonProperty("rel")
+	private String rel;
+	@JsonProperty("href")
+	private String href;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	/**
 	 * 
-	 * @return The kode
+	 * @return The rel
 	 */
-	@JsonProperty("kode")
-	public String getKode() {
-		return kode;
+	@JsonProperty("rel")
+	public String getRel() {
+		return rel;
 	}
 
 	/**
 	 * 
-	 * @param kode
-	 *            The kode
+	 * @param rel
+	 *            The rel
 	 */
-	@JsonProperty("kode")
-	public void setKode(String kode) {
-		this.kode = kode;
+	@JsonProperty("rel")
+	public void setRel(String rel) {
+		this.rel = rel;
 	}
 
 	/**
 	 * 
-	 * @return The beskrivelse
+	 * @return The href
 	 */
-	@JsonProperty("beskrivelse")
-	public String getBeskrivelse() {
-		return beskrivelse;
+	@JsonProperty("href")
+	public String getHref() {
+		return href;
 	}
 
 	/**
 	 * 
-	 * @param beskrivelse
-	 *            The beskrivelse
+	 * @param href
+	 *            The href
 	 */
-	@JsonProperty("beskrivelse")
-	public void setBeskrivelse(String beskrivelse) {
-		this.beskrivelse = beskrivelse;
+	@JsonProperty("href")
+	public void setHref(String href) {
+		this.href = href;
 	}
 
 	@JsonAnyGetter
