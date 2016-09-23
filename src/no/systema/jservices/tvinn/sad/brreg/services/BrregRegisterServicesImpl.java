@@ -20,14 +20,14 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 	@Override
 	public List getInvalidaKunderEnhetsRegisteret(String firmaKode) {
-		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<>();
+		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		List<CusdfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation(firmaKode);
 		checkedKunderList = getCheckedKunderList(kunderForValideringList, firmaKode);
 		return checkedKunderList;
 	}
 
 	private List getCheckedKunderList(List kunderForValideringList, String firmaKode) {
-		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<>();
+		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
 		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest();
 
