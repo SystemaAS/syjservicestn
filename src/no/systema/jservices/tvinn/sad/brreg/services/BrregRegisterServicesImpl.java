@@ -33,20 +33,21 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 		for (Iterator iterator = kunderForValideringList.iterator(); iterator.hasNext();) {
 			CusdfDao cundfDao = (CusdfDao) iterator.next();
-			// Get hovedenhet in data.brreg.no
-			//logger.info("cundfDao="+ ReflectionToStringBuilder.toString(cundfDao));
 			Hovedenhet hovedenhet = oppslagHovedenhetRequest.getHovedenhetRecord(cundfDao.getSyrg().trim());
 			checkedRecord = new EnhetRegisteretDataCheckDao();
 
 			if (hovedenhet == null) {
-				logger.info("ERROR: Hovedenhet for "+cundfDao.getSyrg().trim()+" not found ");
+				logger.info("ERROR: Hovedenhet for " + cundfDao.getSyrg().trim() + " not found in brreg.no");
 				checkedRecord.setFirmaKode(firmaKode);
 				checkedRecord.setKundeNr(cundfDao.getKundnr());
 				checkedRecord.setKundeNavn(cundfDao.getKnavn());
-				checkedRecord.setOrgNr(cundfDao.getSyrg().trim() + " ikke funnet i Brønnøysundregistrene.");
+				checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
+				checkedRecord.setExistsInRegister("N");
+
+				checkedKunderList.add(checkedRecord);
+
 			} else {
 				if (isKonkurs(hovedenhet) || !isMvareRegistret(hovedenhet) || isUnderAvvikling(hovedenhet)) {
-					// Add checkRecord into checkedKundeList
 					checkedRecord.setFirmaKode(firmaKode);
 
 					checkedRecord.setKundeNr(cundfDao.getKundnr());
@@ -58,12 +59,12 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 					checkedRecord.setUnderAvvikling(hovedenhet.getUnderAvvikling());
 					checkedRecord.setUnderTvangsavviklingEllerTvangsopplosning(
 							hovedenhet.getUnderTvangsavviklingEllerTvangsopplosning());
+					checkedRecord.setExistsInRegister("J");
+
+					checkedKunderList.add(checkedRecord);
 
 				}
-
 			}
-
-			checkedKunderList.add(checkedRecord);
 		}
 
 		return checkedKunderList;

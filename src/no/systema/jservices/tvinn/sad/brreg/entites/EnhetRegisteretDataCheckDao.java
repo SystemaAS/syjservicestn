@@ -24,6 +24,7 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	private String registrertIMvaregisteret = "";
 	private String underAvvikling = "";
 	private String underTvangsavviklingEllerTvangsopplosning = "";
+	private String existsInRegister = "";
 
 	public String getFirmaKode() {
 		return firmaKode;
@@ -72,6 +73,12 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	}
 	public void setUnderTvangsavviklingEllerTvangsopplosning(String underTvangsavviklingEllerTvangsopplosning) {
 		this.underTvangsavviklingEllerTvangsopplosning = underTvangsavviklingEllerTvangsopplosning;
+	}
+	public String getExistsInRegister() {
+		return existsInRegister;
+	}
+	public void setExistsInRegister(String existsInRegister) {
+		this.existsInRegister = existsInRegister;
 	}
 	
 	

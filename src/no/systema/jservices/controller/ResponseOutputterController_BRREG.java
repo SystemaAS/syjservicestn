@@ -42,15 +42,15 @@ public class ResponseOutputterController_BRREG {
 
 		try {
 			String user = request.getParameter("user");
-			String firmaKode = request.getParameter("firmakode");
+			String firmaKode = request.getParameter("firmakode");   //TODO remove firmakode as param, get from bridfDaoServices instead
 			// Check ALWAYS user in BRIDF
-			String userName = this.bridfDaoServices.findNameById(user);
+			String userName = this.bridfDaoServices.findNameById(user); 
 			String errMsg = "";
 			String status = "ok";
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 
 			if ((userName != null && !"".equals(userName))) {
-				List invalidaKunderList = null; // TODO list som innehåller inkorrupt kunddata, se spec från Christer
+				List invalidaKunderList = null; 
 				invalidaKunderList = brregRegisterServices.getInvalidaKunderEnhetsRegisteret(firmaKode);
 				
 				if (invalidaKunderList != null) {
