@@ -16,7 +16,6 @@ import no.systema.jservices.model.dao.entities.IDao;
  */
 public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 
-	private String firmaKode = "";
 	private String kundeNr = "";
 	private String kundeNavn = "";
 	private String orgNr = "";
@@ -26,12 +25,6 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	private String underTvangsavviklingEllerTvangsopplosning = "";
 	private String existsInRegister = "";
 
-	public String getFirmaKode() {
-		return firmaKode;
-	}
-	public void setFirmaKode(String firmaKode) {
-		this.firmaKode = firmaKode;
-	}
 	public String getKundeNr() {
 		return kundeNr;
 	}

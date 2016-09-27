@@ -25,7 +25,7 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 
 	
 	@Override
-	public List getListForQualityValidation(String firmaKode) {
+	public List getListForQualityValidation() {
 /*		Selektion:
 		AKTKOD   1A    Aktivitetskod        = 'A'
 		FIRMA    2A    Firmakode            = FIFIRM från filen: FIRM
@@ -37,9 +37,8 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 		sqlBuffer.append(" and (syland = 'NO' or NULLIF(syland, '') IS NULL) ");
 		sqlBuffer.append(" and NULLIF(syrg, '') IS NOT NULL ");
 		sqlBuffer.append(" and syrg <> '000000000'");
-		sqlBuffer.append(" and firma = ?");
 
-		return this.jdbcTemplate.query( sqlBuffer.toString(), new Object[] { firmaKode }  ,new CundfMapper());
+		return this.jdbcTemplate.query( sqlBuffer.toString() ,new CundfMapper());
 	}                                    
 	
 

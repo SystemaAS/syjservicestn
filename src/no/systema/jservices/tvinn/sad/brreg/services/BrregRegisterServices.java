@@ -21,9 +21,8 @@ public interface BrregRegisterServices {
 	 * to service {@link OppslagHovedenhetRequest}
 	 * 
 	 * 
-	 * @param firmakode
 	 */
-	public List getInvalidaKunderEnhetsRegisteret(String firmaKode);
+	public List getInvalidaKunderEnhetsRegisteret();
 
 
 }

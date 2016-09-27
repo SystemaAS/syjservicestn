@@ -42,7 +42,6 @@ public class ResponseOutputterController_BRREG {
 
 		try {
 			String user = request.getParameter("user");
-			String firmaKode = request.getParameter("firmakode");   //TODO remove firmakode as param, get from bridfDaoServices instead
 			// Check ALWAYS user in BRIDF
 			String userName = this.bridfDaoServices.findNameById(user); 
 			String errMsg = "";
@@ -51,7 +50,7 @@ public class ResponseOutputterController_BRREG {
 
 			if ((userName != null && !"".equals(userName))) {
 				List invalidaKunderList = null; 
-				invalidaKunderList = brregRegisterServices.getInvalidaKunderEnhetsRegisteret(firmaKode);
+				invalidaKunderList = brregRegisterServices.getInvalidaKunderEnhetsRegisteret();
 				
 				if (invalidaKunderList != null) {
 					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, invalidaKunderList)); // invalidaKunderList can be empty

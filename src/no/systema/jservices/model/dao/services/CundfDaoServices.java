@@ -8,8 +8,7 @@ public interface CundfDaoServices {
 	 * Retrieve a list of firmas kunder for quality validation check
 	 * against brreg.no
 	 * 
-	 * @param firmaKode
 	 * @return a list of kundedata for validation check against brreg.no
 	 */
-	public List getListForQualityValidation(String firmaKode);
+	public List getListForQualityValidation();
 }

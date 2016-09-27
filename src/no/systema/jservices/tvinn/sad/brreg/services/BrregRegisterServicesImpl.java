@@ -19,14 +19,14 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private static Logger logger = Logger.getLogger(BrregRegisterServicesImpl.class.getName());
 
 	@Override
-	public List getInvalidaKunderEnhetsRegisteret(String firmaKode) {
+	public List getInvalidaKunderEnhetsRegisteret() {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
-		List<CusdfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation(firmaKode);
-		checkedKunderList = getCheckedKunderList(kunderForValideringList, firmaKode);
+		List<CusdfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation();
+		checkedKunderList = getCheckedKunderList(kunderForValideringList);
 		return checkedKunderList;
 	}
 
-	private List getCheckedKunderList(List kunderForValideringList, String firmaKode) {
+	private List getCheckedKunderList(List kunderForValideringList) {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
 		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest();
@@ -38,7 +38,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 			if (hovedenhet == null) {
 				logger.info("ERROR: Hovedenhet for " + cundfDao.getSyrg().trim() + " not found in brreg.no");
-				checkedRecord.setFirmaKode(firmaKode);
 				checkedRecord.setKundeNr(cundfDao.getKundnr());
 				checkedRecord.setKundeNavn(cundfDao.getKnavn());
 				checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
@@ -48,8 +47,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 			} else {
 				if (isKonkurs(hovedenhet) || !isMvareRegistret(hovedenhet) || isUnderAvvikling(hovedenhet)) {
-					checkedRecord.setFirmaKode(firmaKode);
-
 					checkedRecord.setKundeNr(cundfDao.getKundnr());
 					checkedRecord.setKundeNavn(cundfDao.getKnavn());
 					checkedRecord.setOrgNr(cundfDao.getSyrg());
