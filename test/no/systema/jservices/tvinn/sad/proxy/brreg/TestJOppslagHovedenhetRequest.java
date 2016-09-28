@@ -15,7 +15,7 @@ public class TestJOppslagHovedenhetRequest {
 
 	@Before
 	public void setUp() throws Exception {
-		oppslagHovedenhetRequest = new OppslagHovedenhetRequest();
+		oppslagHovedenhetRequest = new OppslagHovedenhetRequest("http://data.brreg.no/enhetsregisteret/enhet/");
 	}
 
 	@Test
@@ -44,6 +44,14 @@ public class TestJOppslagHovedenhetRequest {
 		Hovedenhet record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr);
 		Assert.assertNull(record);
 	}
+
+	
+	@Test
+	public final void testInValidNumberInSysped() {
+		String orgNr = "fylkenr";
+		Hovedenhet record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr);
+		Assert.assertNull(record);
+	}	
 	
 	
 }

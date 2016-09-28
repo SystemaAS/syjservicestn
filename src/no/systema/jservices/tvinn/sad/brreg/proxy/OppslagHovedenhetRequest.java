@@ -1,12 +1,11 @@
 package no.systema.jservices.tvinn.sad.brreg.proxy;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
-import no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServicesImpl;
+import no.systema.main.util.constants.AppConstants;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
@@ -22,7 +21,7 @@ import no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServicesImpl;
  * Service: http://data.brreg.no/enhetsregisteret/enhet/{orgnr}.{format}, ex:
  * http://data.brreg.no/enhetsregisteret/enhet/974760673.json
  * 
- * format: json, xml
+ * format: json, (optional xml)
  * 
  * @author Fredrik Möller
  * @date Sep 21, 2016
@@ -31,15 +30,26 @@ import no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServicesImpl;
 public class OppslagHovedenhetRequest {
 	private static Logger logger = Logger.getLogger(OppslagHovedenhetRequest.class.getName());
 
-	private static final String serviceUrl = "http://data.brreg.no/enhetsregisteret/enhet/";
+	private String serviceUrl = null;
 	private static final String JSON_FORMAT = ".json";
+	private static final String ERROR_MESSAGE = "HttpClientErrorException in data.brreg.no response on: ";
 
+	/**
+	 * Constructor injection for enabling easier testing.
+	 * 
+	 * @param serviceUrl
+	 */
+	public OppslagHovedenhetRequest(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}
+	
+	
 	public Hovedenhet getHovedenhetRecord(String orgNr) {
 		Hovedenhet hovedenhet = null;
-		if (orgNr.length() > 9){  //Sanity check on lenght
-			logger.info("Sanity check on lenght; "+orgNr+" length="+orgNr.length());
+		if (!passSanityCheck(orgNr)) {
 			return hovedenhet;
-		} 
+		}
+		
 		StringBuffer urlString = new StringBuffer();
 		RestTemplate restTemplate = new RestTemplate();
 		urlString.append(serviceUrl);
@@ -47,20 +57,45 @@ public class OppslagHovedenhetRequest {
 		urlString.append(JSON_FORMAT);
 
 		try {
+			
 			hovedenhet = restTemplate.getForObject(urlString.toString(), Hovedenhet.class);
 			
 		} catch (HttpClientErrorException ex) {
-			if (ex.getStatusCode().value() != 404) {
-				logger.info("Error in data.brreg.no response on : "+ urlString.toString());
-				throw ex;
-			}
+			logger.info(ERROR_MESSAGE + urlString.toString()+ ex.getStatusCode() + ex.getStatusText());
+			//continue
 		}
 
 		return hovedenhet;
 
-		// TODO Add timeout check
 		// TODO Add own exception handling on invalid/change JSON structure
 
+	}
+
+	private boolean passSanityCheck(String orgNr) {
+		if (!isNumber(orgNr)) {
+			return false;
+		}
+
+		if(!hasCorrectLenght(orgNr)) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isNumber(String orgNr) {
+		try {
+			Integer.parseInt(orgNr);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}		
+	}
+
+	private boolean hasCorrectLenght(String orgNr) {
+		if (orgNr.length() > 9){  
+			return false;
+		} 
+		return true;
 	}
 
 }

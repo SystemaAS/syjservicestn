@@ -23,7 +23,6 @@ import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.TvineDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.TvineDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SYFT10R_U;
 
 /**
  * Service Response Controller

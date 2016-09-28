@@ -14,6 +14,7 @@ import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagHovedenhetRequest;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.main.util.constants.AppConstants;
 
 public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private static Logger logger = Logger.getLogger(BrregRegisterServicesImpl.class.getName());
@@ -22,14 +23,18 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	public List getInvalidaKunderEnhetsRegisteret() {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		List<CusdfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation();
+		logger.info("KUNDERLIST, kunderForValideringList="+kunderForValideringList.size());
 		checkedKunderList = getCheckedKunderList(kunderForValideringList);
+		logger.info("CHECKED KUNDERLIST, checkedKunderList="+checkedKunderList.size());
+		
 		return checkedKunderList;
 	}
 
 	private List getCheckedKunderList(List kunderForValideringList) {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
-		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest();
+		logger.info("AppConstants.DATA_BRREG_NO_ENHETSREGISTERET_URL="+AppConstants.DATA_BRREG_NO_ENHETSREGISTERET_URL);
+		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest(AppConstants.DATA_BRREG_NO_ENHETSREGISTERET_URL);
 
 		for (Iterator iterator = kunderForValideringList.iterator(); iterator.hasNext();) {
 			CusdfDao cundfDao = (CusdfDao) iterator.next();

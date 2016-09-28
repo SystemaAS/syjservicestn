@@ -3,8 +3,6 @@
  */
 package no.systema.main.util.constants;
 
-import java.util.ResourceBundle;
-
 import no.systema.main.util.ApplicationPropertiesUtil;
 
 
@@ -23,9 +21,10 @@ public final class AppConstants {
 	//version
 	public static final String VERSION_SYJSERVICES = ApplicationPropertiesUtil.getProperty("version.syjservices"); //resources.getString("version.syjservices");
 	public static final String VERSION_SPRING = ApplicationPropertiesUtil.getProperty("version.spring"); //resources.getString("version.spring");
-	
-	
-	
+	/**
+	 * data.brreg.no.enhetsregisteret.url
+	 */
+	public static final String DATA_BRREG_NO_ENHETSREGISTERET_URL = "http://data.brreg.no/enhetsregisteret/enhet/";
 	
 	   
 }
