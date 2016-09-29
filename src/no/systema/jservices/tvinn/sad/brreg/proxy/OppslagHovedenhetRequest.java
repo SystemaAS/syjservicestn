@@ -1,11 +1,15 @@
 package no.systema.jservices.tvinn.sad.brreg.proxy;
 
+import java.net.UnknownHostException;
+
 import org.apache.log4j.Logger;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
-import no.systema.main.util.constants.AppConstants;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
@@ -32,7 +36,10 @@ public class OppslagHovedenhetRequest {
 
 	private String serviceUrl = null;
 	private static final String JSON_FORMAT = ".json";
-	private static final String ERROR_MESSAGE = "HttpClientErrorException in data.brreg.no response on: ";
+	private static final String HTTP_CLIENT_ERROR_MESSAGE = "HttpClientErrorException in data.brreg.no response on: ";
+	private static final String REST_CLIENT_ERROR_MESSAGE = "RestClientErrorException in data.brreg.no response on: ";
+	private static final int READ_TIMEOUT = Constants.BRREG_READ_TIMEOUT;
+	private static final int CONNECT_TIMEOUT = Constants.BRREG_CONNECT_TIMEOUT;
 
 	/**
 	 * Constructor injection for enabling easier testing.
@@ -44,6 +51,12 @@ public class OppslagHovedenhetRequest {
 	}
 	
 	
+	/**
+	 * Get Hovedenhet created from JSON from data.brreg.no.
+	 * 
+	 * @param orgNr
+	 * @return {@link Hovedenhet}
+	 */
 	public Hovedenhet getHovedenhetRecord(String orgNr) {
 		Hovedenhet hovedenhet = null;
 		if (!passSanityCheck(orgNr)) {
@@ -51,7 +64,7 @@ public class OppslagHovedenhetRequest {
 		}
 		
 		StringBuffer urlString = new StringBuffer();
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = getRestTemplate();
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
 		urlString.append(JSON_FORMAT);
@@ -61,13 +74,20 @@ public class OppslagHovedenhetRequest {
 			hovedenhet = restTemplate.getForObject(urlString.toString(), Hovedenhet.class);
 			
 		} catch (HttpClientErrorException ex) {
-			logger.info(ERROR_MESSAGE + urlString.toString()+ ex.getStatusCode() + ex.getStatusText());
+			logger.info(HTTP_CLIENT_ERROR_MESSAGE + urlString.toString()+ ex.getStatusCode() + ex.getStatusText());
+			//continue
+		} catch (RestClientException ex) {  
+			logger.info(REST_CLIENT_ERROR_MESSAGE + urlString.toString()+ ex.getRootCause());
+			if(ex.getCause()  instanceof UnknownHostException) {
+				//problems....
+				logger.info("Skicka mail till system supporten, ex="+ex.getMessage());
+				throw ex;  
+				
+			}
 			//continue
 		}
-
+		
 		return hovedenhet;
-
-		// TODO Add own exception handling on invalid/change JSON structure
 
 	}
 
@@ -97,5 +117,16 @@ public class OppslagHovedenhetRequest {
 		} 
 		return true;
 	}
+
+    private RestTemplate getRestTemplate() {    	
+        return new RestTemplate(clientHttpRequestFactory());
+    }
+
+    private ClientHttpRequestFactory clientHttpRequestFactory() {
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+        factory.setReadTimeout(READ_TIMEOUT);
+        factory.setConnectTimeout(CONNECT_TIMEOUT);
+        return factory;
+    }
 
 }
