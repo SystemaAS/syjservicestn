@@ -26,13 +26,6 @@
   <bean id="bridfDaoServices" class="no.systema.jservices.model.dao.services.BridfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  <bean id="edissFtpLogDaoServices" class="no.systema.jservices.model.dao.services.EdissFtpLogDaoServicesImpl">
-      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
-  </bean>
-  <bean id="edisssFtpLogDaoServices" class="no.systema.jservices.model.dao.services.EdisssFtpLogDaoServicesImpl">
-      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
-  </bean>
-  
   
   <!-- TVINN MAINTENANCE  Domain Dao's Services -->
   <bean id="kodtvaDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.services.KodtvaDaoServicesImpl">
