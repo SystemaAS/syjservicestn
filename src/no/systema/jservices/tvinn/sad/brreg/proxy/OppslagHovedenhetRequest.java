@@ -10,6 +10,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.main.util.constants.AppConstants;
+import no.systema.main.util.mail.Mail;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
@@ -80,7 +82,9 @@ public class OppslagHovedenhetRequest {
 			logger.info(REST_CLIENT_ERROR_MESSAGE + urlString.toString()+ ex.getRootCause());
 			if(ex.getCause()  instanceof UnknownHostException) {
 				//problems....
-				logger.info("Skicka mail till system supporten, ex="+ex.getMessage());
+				if (AppConstants.SEND_MAIL_TO_SUPPORT_BOX) {
+					sendMail(urlString, ex);
+				}
 				throw ex;  
 				
 			}
@@ -88,6 +92,22 @@ public class OppslagHovedenhetRequest {
 		}
 		
 		return hovedenhet;
+
+	}
+
+
+	private void sendMail(StringBuffer urlString, RestClientException ex) {
+		logger.info(ex.getCause()+ ":: Sending mail to support from:"+AppConstants.MAIL_USERNAME+ " to:"+AppConstants.MAIL_BOX_SUPPORT);
+
+		Mail mail = new Mail();
+		StringBuilder subject = new StringBuilder("Brønnøysundregisteret og Enhetsregisteret sere ut til å ha problemer.");
+		StringBuilder message = new StringBuilder("eSpedsg kan ikke få data på denne url:");
+		message.append("\n\n\n\n");
+		message.append("::Detta mail har skickats av eSpedsg.::");
+		message.append("\n");
+		message.append("::fra:"+AppConstants.MAIL_USERNAME);
+		message.append(" til:"+AppConstants.MAIL_BOX_SUPPORT+"::");
+		mail.sendMail(AppConstants.MAIL_BOX_SUPPORT,subject.toString(), message.toString());
 
 	}
 
