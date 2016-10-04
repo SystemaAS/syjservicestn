@@ -171,6 +171,7 @@ public class SAD004R_U {
 		} else {
 			errors.append(jsonWriter.setJsonSimpleErrorResult(userName, "ERROR on ADD: Code exists already", "error",
 					dbErrors));
+			exist = true;
 
 		}
 		return exist;

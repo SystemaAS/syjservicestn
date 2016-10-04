@@ -1,6 +1,8 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities;
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import no.systema.jservices.model.dao.entities.IDao;
 /**
  * All variables must be initialized to empty strings and NOT to NULL values
@@ -122,5 +124,12 @@ public class TrughDao implements Serializable, IDao {
 	public String getTggfvPropertyName(){ return "tggfv"; }
 	public void setTggfv(String value){ this.tggfv = value;   }   
 	public String getTggfv(){ return this.tggfv;   }  
+
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
+	}
+
 
 }

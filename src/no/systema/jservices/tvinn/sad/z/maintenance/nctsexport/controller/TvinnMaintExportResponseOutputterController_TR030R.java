@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.controller.rules.TR030R_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServices;
 
@@ -41,15 +42,15 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 	
 
 	/**
-	 * FreeForm Source:
+	 * 
 	 * 	 File: 		TRUGH
 	 * 	 PGM:		TR030R
 	 * 	 Member: 	NCTS Export Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsTR030R?user=OSCAR&tggnr=05NO01011A0000A10
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD004R.do?user=OSCAR&avd=1&  TODO ??
+	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsTR030R?user=OSCAR
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsTR030R.do?user=OSCAR&tggnr=05NO01011A0000A10
 	 * 
 	 */
 	@RequestMapping(value="syjsTR030R.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -60,7 +61,6 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 		
 		try{
 			String user = request.getParameter("user");
-			String tggnr = request.getParameter("tggnr");  //garantinr
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
             String errMsg = "";
@@ -78,7 +78,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            if( (dao.getTggnr()!=null && !"".equals(dao.getTggnr())) ){
-					list = trughDaoServices.findById(dao.getTggnr(), dbErrorStackTrace);
+					list = trughDaoServices.findByIdSearch(dao.getTggnr(), dbErrorStackTrace);
 	            }
 	            else{
 					list = trughDaoServices.getList(dbErrorStackTrace);
@@ -114,50 +114,50 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 	}
 	
 	/**
-	 *     TODO
-	 * Update Database DML operations
-	 * File: 	SADL
-	 * PGM:		SAD004
-	 * Member: 	SAD Import Maintenance - UPDATE SPECIFIC
 	 * 
-	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD004R_U.do?user=OSCAR&mode=U/A/D
+	 * Update Database DML operations
+	 * 	 File: 		TRUGH
+	 * 	 PGM:		TR030R
+	 * 
+	 * @Example UPDATE:
+	 *          http://gw.systema.no:8080/syjservicestn/syjsTR030R_U.do?user=OSCAR&mode=U&xxx=yyy
+	 * 
+	 * @Example ADD:
+	 * 			http://gw.systema.no:8080/syjservicestn/syjsTR030R_U.do?user=OSCAR&mode=U&agtanr=yyy&agakd=yyy&agskv=yyy&agdtf=yyy&agdtt=yyy&agkd=yyy&agpp=yyy&agsats=yyy&agaktk=yyy
 	 *
 	 * @param session
 	 * @param request
 	 * @return
 	 * 
 	 */
-	
-/*	@RequestMapping(value="syjsTR030R_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsTR030R_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSAD004R_U.do");
-			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			logger.info("Inside syjsTR030R_U.do");
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
-            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
             String errMsg = "";
 			String status = "ok";
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadlDao dao = new SadlDao();
+			TrughDao dao = new TrughDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SAD004R_U rulerLord = new SAD004R_U(tariDaoServices, sadlDaoServices, kodtseDaoServices, kodts2DaoServices, kodts8DaoServices, kodtsbDaoServices ,sb, dbErrorStackTrace);
+            TR030R_U rulerLord = new TR030R_U(trughDaoServices ,sb, dbErrorStackTrace);
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
-					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.sadlDaoServices.delete(dao, dbErrorStackTrace);
+					if(rulerLord.isValidInputForDelete(dao, userName, mode)){ 
+						dmlRetval = this.trughDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -166,14 +166,15 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 					}
 				}else{
 					if (rulerLord.isValidInput(dao, userName, mode)) {
+						rulerLord.updateNumericFieldsIfNull(dao);
 						if ("A".equals(mode)) {
-							dmlRetval = this.sadlDaoServices.insert(dao, dbErrorStackTrace);
+							dmlRetval = this.trughDaoServices.insert(dao, dbErrorStackTrace);
 						} else if ("U".equals(mode)) {
-							dmlRetval = this.sadlDaoServices.update(dao, dbErrorStackTrace);
+							dmlRetval = this.trughDaoServices.update(dao, dbErrorStackTrace);
 						}
 					} else {
 						// write JSON error output
-						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+						errMsg = "ERROR on ADD/UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
@@ -183,7 +184,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 				//----------------------------------
 				if(dmlRetval<0){
 					//write JSON error output
-					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+					errMsg = "ERROR on ADD/UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
 					status = "error";
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}else{
@@ -193,7 +194,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 				
 			}else{
 				//write JSON error output
-				errMsg = "ERROR on UPDATE";
+				errMsg = "ERROR on ADD/UPDATE";
 				status = "error";
 				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
 				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
@@ -209,7 +210,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 		session.invalidate();
 		return sb.toString();
 	}
-*/	
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
