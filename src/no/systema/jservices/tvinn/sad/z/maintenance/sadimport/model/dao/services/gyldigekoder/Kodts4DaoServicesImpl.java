@@ -30,6 +30,7 @@ public class Kodts4DaoServicesImpl implements Kodts4DaoServices {
 			
 			sql.append(" SELECT ks4sta, ks4uni, ks4trm, ks4ftx ");
 			sql.append(" from kodts4 ");
+			sql.append(" order by ks4trm");
 			
 			logger.info(sql.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), new Kodts4Mapper());
