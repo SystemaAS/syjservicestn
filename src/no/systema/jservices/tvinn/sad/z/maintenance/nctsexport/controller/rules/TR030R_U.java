@@ -3,23 +3,34 @@ package no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.controller.rules
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
+import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrkodfDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TransitKoder;
+import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrkodfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
+import no.systema.main.util.MessageSourceHelper;
 /**
  * 
  * @author Fredrik Möller
  * @date Okt 2, 2016
  */
 public class TR030R_U {
+	private static Logger logger = Logger.getLogger(TR030R_U.class.getName());
 	private JsonResponseWriter jsonWriter = new JsonResponseWriter();
+	private MessageSourceHelper messageSourceHelper = new MessageSourceHelper();
 	private TrughDaoServices trughDaoServices = null;
+	private TrkodfDaoServices trkodfDaoServices = null;
 	
 	private StringBuffer errors = null;
 	private StringBuffer dbErrors = null;
 
-	public TR030R_U(TrughDaoServices trughDaoServices, StringBuffer sb, StringBuffer dbErrorStackTrace) {
+	public TR030R_U(TrughDaoServices trughDaoServices, TrkodfDaoServices trkodfDaoServices, StringBuffer sb, StringBuffer dbErrorStackTrace) {
 		this.trughDaoServices = trughDaoServices;
+		this.trkodfDaoServices = trkodfDaoServices;
 		this.errors= sb;
 		this.dbErrors = dbErrorStackTrace;
 		
@@ -52,6 +63,16 @@ public class TR030R_U {
 				// Check duplicate
 				if ("A".equals(mode) && existInTrugh(user, dao.getTggnr())) {
 					return false;
+				}
+				// Check tollsted
+				if (dao.getTgtsd() != null && !"".equals(dao.getTgtsd())) {
+					if (existInTrkodf(user, dao.getTgtsd())) {
+						// Ok
+					} else {
+						return false;
+					}
+				} else {
+					// Ok
 				}
 
 				
@@ -106,10 +127,11 @@ public class TR030R_U {
 		}
 	}
 
-
+	
+	@SuppressWarnings("unchecked")
 	private boolean existInTrugh(String userName, String tggnr) {
 		boolean exist = false;
-		List<TrughDao> list = new ArrayList<TrughDao>();
+		List<TrkodfDao> list = new ArrayList<TrkodfDao>();
 		list = this.trughDaoServices.findById(tggnr, dbErrors);
 		// check if there is already such a code. If it does, stop the update
 		if (list != null && list.size() == 0) {
@@ -123,6 +145,20 @@ public class TR030R_U {
 		return exist;
 	}
 
+	@SuppressWarnings("unchecked")
+	private boolean existInTrkodf(String userName, String tgtsd) {
+		boolean exist = false;
+		List<TariDao> listTari = new ArrayList<TariDao>();
+		listTari = this.trkodfDaoServices.findById(TransitKoder.TOLLSTED, tgtsd, dbErrors);
+		if (listTari != null && listTari.size() > 0) {
+			exist = true;
+		} else {
+			errors.append(jsonWriter.setJsonSimpleErrorResult(userName,
+					messageSourceHelper.getMessage("systema.tvinn.sad.ncts.export.error.tollsted", new Object[] { tgtsd }), "error", dbErrors));
+		}
+		return exist;
+
+	}
 
 
 }

@@ -22,6 +22,7 @@ import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.controller.rules.TR030R_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrkodfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServices;
 
 
@@ -151,7 +152,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            TR030R_U rulerLord = new TR030R_U(trughDaoServices ,sb, dbErrorStackTrace);
+            TR030R_U rulerLord = new TR030R_U(trughDaoServices , trkodfDaoServices, sb, dbErrorStackTrace);
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
@@ -165,14 +166,18 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
 				}else{
+					logger.info("About to do isValidInput");
 					if (rulerLord.isValidInput(dao, userName, mode)) {
 						rulerLord.updateNumericFieldsIfNull(dao);
 						if ("A".equals(mode)) {
+							logger.info("A....dao="+dao.toString());
 							dmlRetval = this.trughDaoServices.insert(dao, dbErrorStackTrace);
 						} else if ("U".equals(mode)) {
+							logger.info("U....dao="+dao.toString());
 							dmlRetval = this.trughDaoServices.update(dao, dbErrorStackTrace);
 						}
 					} else {
+						logger.info("else, dao="+dao.toString());
 						// write JSON error output
 						errMsg = "ERROR on ADD/UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
@@ -208,19 +213,29 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
 		session.invalidate();
+		
+		logger.info("sb.toString()="+sb.toString());
+		
 		return sb.toString();
 	}
 	
 	//----------------
 	//WIRED SERVICES
 	//----------------
+	@Qualifier ("trkodfDaoServices")
+	private TrkodfDaoServices trkodfDaoServices;
+	@Autowired
+	@Required
+	public void setTrkodfDaoServices (TrkodfDaoServices value){ this.trkodfDaoServices = value; }
+	public TrkodfDaoServices getTrkodfDaoServices(){ return this.trkodfDaoServices; }
+	
 	@Qualifier ("trughDaoServices")
 	private TrughDaoServices trughDaoServices;
 	@Autowired
 	@Required
 	public void setTrughDaoServices (TrughDaoServices value){ this.trughDaoServices = value; }
 	public TrughDaoServices getTrughDaoServices(){ return this.trughDaoServices; }
-	
+
 	@Qualifier ("bridfDaoServices")
 	private BridfDaoServices bridfDaoServices;
 	@Autowired

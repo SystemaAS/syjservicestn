@@ -77,6 +77,17 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   		scope="singleton">
   		<property name="dataSource" ref="dataSource" />
 	</bean> 
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> 
+	  <property name="basenames">
+	  		<list>
+				<value>/WEB-INF/messages</value>
+			</list>
+	  </property>
+	</bean>
+
+
+
 	
 	 
 </beans>
