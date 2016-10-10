@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
 
-import no.systema.jservices.model.dao.entities.CusdfDao;
+import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
 import no.systema.jservices.tvinn.sad.brreg.proxy.Constants;
@@ -22,7 +22,7 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	@Override
 	public List getInvalidaKunderEnhetsRegisteret() {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
-		List<CusdfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation();
+		List<CundfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation();
 		logger.info("KUNDERLIST, kunderForValideringList="+kunderForValideringList.size());
 		checkedKunderList = getCheckedKunderList(kunderForValideringList);
 		logger.info("CHECKED KUNDERLIST, checkedKunderList="+checkedKunderList.size());
@@ -36,7 +36,7 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest(Constants.DATA_BRREG_NO_ENHETSREGISTERET_URL);
 
 		for (Iterator iterator = kunderForValideringList.iterator(); iterator.hasNext();) {
-			CusdfDao cundfDao = (CusdfDao) iterator.next();
+			CundfDao cundfDao = (CundfDao) iterator.next();
 			Hovedenhet hovedenhet = oppslagHovedenhetRequest.getHovedenhetRecord(cundfDao.getSyrg().trim());
 			checkedRecord = new EnhetRegisteretDataCheckDao();
 

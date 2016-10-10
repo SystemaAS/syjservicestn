@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
+import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.controller.rules.TR030R_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrkodfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts2DaoServices;
 
 
 /**
@@ -152,7 +155,7 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            TR030R_U rulerLord = new TR030R_U(trughDaoServices , trkodfDaoServices, sb, dbErrorStackTrace);
+            TR030R_U rulerLord = new TR030R_U(trughDaoServices , trkodfDaoServices, kodts2DaoServices ,sb, dbErrorStackTrace);
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
@@ -219,9 +222,88 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 		return sb.toString();
 	}
 	
+
+	/**
+	 * 
+	 * 
+	 * @return
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsCustomerRecord.do?user=OSCAR&kundnr=2
+	 * 
+	 */
+	@RequestMapping(value="syjsCustomerRecord.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String customerRecord( HttpSession session, HttpServletRequest request) {
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();	
+	
+		StringBuffer sb = new StringBuffer();
+		
+		try{
+			String user = request.getParameter("user");
+			//Check ALWAYS user in BRIDF
+            String userName = this.bridfDaoServices.findNameById(user);
+            String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+			
+			//Start processing now
+			if( (userName!=null && !"".equals(userName)) ){
+				//bind attributes is any
+				CundfDao dao = new CundfDao();
+				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+	            binder.bind(request);
+	            List list = null;
+	            if( (dao.getKundnr()!=null && !"".equals(dao.getKundnr())) ){
+					list = cundfDaoServices.findById(dao.getKundnr(), dbErrorStackTrace);
+	            }
+	            
+				if (list!=null){
+					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
+				}else{
+					
+					//TODO eller aldrig ha null lista...
+					//write JSON error output
+					errMsg = "ERROR on SELECT: list is NULL?  Try to check: <DaoServices>.getList";
+					status = "error";
+					logger.info("After SELECT:" + " " + status + errMsg );
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}
+			}else{
+				//write JSON error output
+				errMsg = "ERROR on SELECT";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+			
+		}catch(Exception e){
+			//write std.output error output
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+		session.invalidate();
+		return sb.toString();		
+		
+	}
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
+	@Qualifier ("cundfDaoServices")
+	private CundfDaoServices cundfDaoServices;
+	@Autowired
+	@Required
+	public void setCundfDaoServices (CundfDaoServices value){ this.cundfDaoServices = value; }
+	public CundfDaoServices getCundfDaoServices(){ return this.cundfDaoServices; }
+	
+	@Qualifier ("kodts2DaoServices")
+	private Kodts2DaoServices kodts2DaoServices;
+	@Autowired
+	@Required
+	public void setKodts2DaoServices (Kodts2DaoServices value){ this.kodts2DaoServices = value; }
+	public Kodts2DaoServices getKodts2DaoServices(){ return this.kodts2DaoServices; }
+	
 	@Qualifier ("trkodfDaoServices")
 	private TrkodfDaoServices trkodfDaoServices;
 	@Autowired

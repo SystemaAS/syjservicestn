@@ -1,7 +1,7 @@
 package no.systema.jservices.model.dao.entities;
 import java.io.Serializable;
 
-public class CusdfDao implements Serializable {
+public class CundfDao implements Serializable, IDao {
 
 	private String kundnr = "";                                
 	public void setKundnr (String value){ this.kundnr = value;   }   

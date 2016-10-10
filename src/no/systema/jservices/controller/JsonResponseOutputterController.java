@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 
 //Application
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
-import no.systema.jservices.model.dao.entities.CusdfDao;
+import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.entities.IDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.model.dao.entities.DbConnectionTesterDao;
@@ -81,7 +81,7 @@ public class JsonResponseOutputterController {
 			
 			//get list
 			logger.info("Before dao getList");
-			List<CusdfDao> list = this.cundfDaoServices.getList();
+			List<CundfDao> list = this.cundfDaoServices.getList();
 			logger.info("After dao getList");
 			//build the return JSON
 			sb.append(JSON_START);
@@ -89,7 +89,7 @@ public class JsonResponseOutputterController {
 			sb.append(this.setFieldQuotes("list") + ":");
 			sb.append(JSON_OPEN_LIST);
 			int counter = 1;
-			for(CusdfDao record : list){
+			for(CundfDao record : list){
 				if(counter>1){ sb.append(JSON_RECORD_SEPARATOR); }
 				sb.append(JSON_OPEN_LIST_RECORD); 
 				sb.append(JSON_QUOTES + "knavn" + JSON_QUOTES + ":" + JSON_QUOTES + this.jsonFixMgr.cleanRecord(record.getKnavn()) + JSON_QUOTES);

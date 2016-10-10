@@ -12,6 +12,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.service
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrkodfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts2DaoServices;
 import no.systema.main.util.MessageSourceHelper;
 /**
  * 
@@ -24,13 +25,15 @@ public class TR030R_U {
 	private MessageSourceHelper messageSourceHelper = new MessageSourceHelper();
 	private TrughDaoServices trughDaoServices = null;
 	private TrkodfDaoServices trkodfDaoServices = null;
+	private Kodts2DaoServices kodts2DaoServices = null;
 	
 	private StringBuffer errors = null;
 	private StringBuffer dbErrors = null;
 
-	public TR030R_U(TrughDaoServices trughDaoServices, TrkodfDaoServices trkodfDaoServices, StringBuffer sb, StringBuffer dbErrorStackTrace) {
+	public TR030R_U(TrughDaoServices trughDaoServices, TrkodfDaoServices trkodfDaoServices, Kodts2DaoServices kodts2DaoServices, StringBuffer sb, StringBuffer dbErrorStackTrace) {
 		this.trughDaoServices = trughDaoServices;
 		this.trkodfDaoServices = trkodfDaoServices;
+		this.kodts2DaoServices = kodts2DaoServices;
 		this.errors= sb;
 		this.dbErrors = dbErrorStackTrace;
 		
@@ -71,8 +74,14 @@ public class TR030R_U {
 					} else {
 						return false;
 					}
-				} else {
-					// Ok
+				} 
+				//Check landkode
+				if (dao.getTglka() != null && !"".equals(dao.getTglka())) {
+					if (existInKodts2(user, dao.getTglka())) {
+						//ok
+					} else {
+						return false;
+					}
 				}
 
 				
@@ -160,5 +169,20 @@ public class TR030R_U {
 
 	}
 
+	private boolean existInKodts2(String userName, String tglka) {
+		boolean exist = false;
+		List<TariDao> listTari = new ArrayList<TariDao>();
+		listTari = this.kodts2DaoServices.findById( tglka, dbErrors);
+		if (listTari != null && listTari.size() > 0) {
+			exist = true;
+		} else {
+			errors.append(jsonWriter.setJsonSimpleErrorResult(userName,
+					messageSourceHelper.getMessage("systema.tvinn.sad.ncts.export.error.landekode", new Object[] { tglka }), "error", dbErrors));
+		}
+		return exist;
+
+	}
+	
+	
 
 }

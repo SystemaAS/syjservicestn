@@ -3,6 +3,7 @@ import java.util.*;
 
 public interface CundfDaoServices {
 	public List getList();
+	public List findById(String id, StringBuffer errorStackTrace);
 
 	/**
 	 * Retrieve a list of firmas kunder for quality validation check
