@@ -1,15 +1,14 @@
 package no.systema.jservices.model.dao.services;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 
-import no.systema.jservices.controller.JsonResponseOutputterController;
+import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.mapper.CundfMapper;
 import no.systema.main.util.DbErrorMessageManager;
-import no.systema.jservices.model.dao.entities.CundfDao;
 
 
 public class CundfDaoServicesImpl implements CundfDaoServices {
@@ -45,7 +44,7 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 		return this.jdbcTemplate.query( sqlBuffer.toString() ,new CundfMapper());
 	}                                    
 	
-
+	@Override
 	public List findById(String id, StringBuffer errorStackTrace){
 		List<CundfDao> retval = new ArrayList<CundfDao>();
 		try{

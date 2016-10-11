@@ -259,8 +259,6 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 				if (list!=null){
 					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
 				}else{
-					
-					//TODO eller aldrig ha null lista...
 					//write JSON error output
 					errMsg = "ERROR on SELECT: list is NULL?  Try to check: <DaoServices>.getList";
 					status = "error";
