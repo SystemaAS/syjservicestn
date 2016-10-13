@@ -169,18 +169,14 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
 				}else{
-					logger.info("About to do isValidInput");
 					if (rulerLord.isValidInput(dao, userName, mode)) {
 						rulerLord.updateNumericFieldsIfNull(dao);
 						if ("A".equals(mode)) {
-							logger.info("A....dao="+dao.toString());
 							dmlRetval = this.trughDaoServices.insert(dao, dbErrorStackTrace);
 						} else if ("U".equals(mode)) {
-							logger.info("U....dao="+dao.toString());
 							dmlRetval = this.trughDaoServices.update(dao, dbErrorStackTrace);
 						}
 					} else {
-						logger.info("else, dao="+dao.toString());
 						// write JSON error output
 						errMsg = "ERROR on ADD/UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
@@ -216,8 +212,6 @@ public class TvinnMaintExportResponseOutputterController_TR030R {
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
 		session.invalidate();
-		
-		logger.info("sb.toString()="+sb.toString());
 		
 		return sb.toString();
 	}
