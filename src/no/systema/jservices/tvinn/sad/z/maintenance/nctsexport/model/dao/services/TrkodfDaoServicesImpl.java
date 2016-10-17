@@ -92,7 +92,7 @@ public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
 	public List<TransitKodeTypeDao> getTransitKodeTyper() {
 		MessageSourceHelper messageSourceHelper = new MessageSourceHelper();
 		String keyPrefix = "systema.tvinn.sad.ncts.export.transitkoder.";
-		List<TransitKodeTypeDao> list = new ArrayList<>();
+		List<TransitKodeTypeDao> list = new ArrayList<TransitKodeTypeDao>();
 		TransitKodeTypeDao dao =null;
 		for (TransitKoder koder : TransitKoder.values()) {
 			dao = new TransitKodeTypeDao();
