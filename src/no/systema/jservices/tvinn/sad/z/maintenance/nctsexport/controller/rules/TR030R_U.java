@@ -156,7 +156,7 @@ public class TR030R_U {
 	@SuppressWarnings("unchecked")
 	private boolean existInTrkodf(String userName, String tgtsd) {
 		boolean exist = false;
-		List<TariDao> listTari = new ArrayList<TariDao>();
+		List<TrkodfDao> listTari = new ArrayList<TrkodfDao>();
 		listTari = this.trkodfDaoServices.findById(TransitKoder.TOLLSTED_REFNR, tgtsd, dbErrors);
 		if (listTari != null && listTari.size() > 0) {
 			exist = true;

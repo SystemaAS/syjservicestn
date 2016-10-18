@@ -3,6 +3,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -66,7 +67,8 @@ public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 		}
-		return retval;	}
+		return retval;
+	}
 	
 	@Override
 	public List findById (String id, StringBuffer errorStackTrace ){
@@ -105,20 +107,79 @@ public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
 	
 
 	@Override
-	public int insert(Object dao, StringBuffer errorStackTrace) {
-		//Not implemented
-		return 0;
+	public int insert(Object daoObj, StringBuffer errorStackTrace) {
+		int retval = 0;
+
+		try {
+			TrkodfDao dao = (TrkodfDao) daoObj;
+			StringBuffer sql = new StringBuffer();
+			sql.append(" INSERT INTO trkodf (tkunik, tkkode, tktxtn, tktxte, tkavg, tkank, tktrs )");
+			sql.append(" VALUES( ?, ?, ?, ?, ?, ?, ? )");
+
+			logger.info("sql="+sql.toString());
+			logger.info("dao="+ReflectionToStringBuilder.toString(dao));
+			
+			retval = this.jdbcTemplate.update(sql.toString(), new Object[] { dao.getTkunik(), dao.getTkkode(),
+					dao.getTktxtn(), dao.getTktxte(), dao.getTkavg(), dao.getTkank(), dao.getTktrs() });
+
+		} catch (Exception e) {
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			// Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+
+		return retval;
+		
 	}
+	
 	@Override
-	public int update(Object dao, StringBuffer errorStackTrace) {
-		//Not implemented
-		return 0;
+	public int update(Object daoObj, StringBuffer errorStackTrace) {
+		int retval = 0;
+		try {
+			TrkodfDao dao = (TrkodfDao) daoObj;
+			StringBuffer sql = new StringBuffer();
+			sql.append(" UPDATE trkodf SET tktxtn = ?, tktxte = ?, tkavg = ?, tkank = ?, tktrs = ? ");
+			sql.append(" where tkunik = ? ");
+			sql.append(" and tkkode = ?");
+
+			retval = this.jdbcTemplate.update(sql.toString(), new Object[] { dao.getTktxtn(), dao.getTktxte(),
+					dao.getTkavg(), dao.getTkank(), dao.getTktrs(), dao.getTkunik(), dao.getTkkode() });
+
+		} catch (Exception e) {
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString()); // Chop the message to comply to
+											// JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+
+		return retval;
 	}
+	
 	@Override
-	public int delete(Object dao, StringBuffer errorStackTrace) {
-		//Not implemented
-		return 0;
-	}    	
+	public int delete(Object daoObj, StringBuffer errorStackTrace) {
+		int retval = 0;
+		try{
+			TrkodfDao dao = (TrkodfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			sql.append(" DELETE from trkodf ");
+			sql.append(" where tkunik = ? ");
+			sql.append(" and tkkode = ?");
+
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTkunik(), dao.getTkkode() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+
+		return retval;	}    	
 	
 	@Override
 	public List getList(StringBuffer errorStackTrace) {
@@ -156,6 +217,26 @@ public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
 	public void setJdbcTemplate( JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}          
 	public JdbcTemplate getJdbcTemplate() {return this.jdbcTemplate;}
 
+
+	@Override
+	public boolean exists(TransitKoder unikKode, String kode) {
+		List<TrkodfDao> retval = new ArrayList<TrkodfDao>();
+
+		StringBuffer sql = new StringBuffer();
+
+		sql.append(this.getSELECT_FROM_CLAUSE());
+		sql.append(" where tkunik = ? ");
+		sql.append(" and tkkode = ? ");
+
+		retval = this.jdbcTemplate.query(sql.toString(), new Object[] { unikKode.getTransitKode(), kode }, new TrkodfMapper());
+
+		if (retval.size() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
 
 
 }

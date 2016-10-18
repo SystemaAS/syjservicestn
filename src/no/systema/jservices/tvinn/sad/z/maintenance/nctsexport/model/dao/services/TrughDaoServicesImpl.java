@@ -124,12 +124,7 @@ public class TrughDaoServicesImpl implements TrughDaoServices {
 			sql.append(" UPDATE trugh SET tgst = ?, tgkna = ?, tgtina = ?, tgnaa = ?, tgada1 = ?, tgpna = ?, tgpsa = ?, tglka = ?, ");
 			sql.append(" tggty = ?, tggvk = ?, tggbl = ?, tggblb = ?, tgtsd = ?, tggfv = ?, tgakny = ?, tgakgm = ?, tgprm = ?");
 			sql.append(" WHERE tggnr = ? ");
-			//params
 
-			logger.info("sql.toString()="+sql.toString());
-			logger.info("dao.toString()="+dao.toString());
-			
-			
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 						dao.getTgst(), dao.getTgkna(), dao.getTgtina(), dao.getTgnaa(), dao.getTgada1(), dao.getTgpna(), dao.getTgpsa(), dao.getTglka(),
 						dao.getTggty(), dao.getTggvk(), dao.getTggbl(), dao.getTggblb(), dao.getTgtsd(), dao.getTggfv(), dao.getTgakny(), dao.getTgakgm(),

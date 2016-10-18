@@ -42,5 +42,16 @@ public interface TrkodfDaoServices extends IDaoServices {
 	 * @return list of {@link TransitKodeTypeDao}
 	 */
 	public List getTransitKodeTyper();
+	
+	
+	/**
+	 * Exist control on tkunik and tkkode
+	 * 
+	 * @param unikKode
+	 * @param kode
+	 * @return true or false
+	 */
+	public boolean exists(TransitKoder unikKode, String kode);
+	
 
 }
