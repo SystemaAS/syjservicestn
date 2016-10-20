@@ -56,8 +56,8 @@ public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
 			
 			sql.append(this.getSELECT_FROM_CLAUSE());
 			sql.append(" where tkunik = ? ");
-			sql.append(" and tkkode like ? ");
-			sql.append(" and tktxtn like ?"); 
+			sql.append(" and UPPER(tkkode) like ? ");
+			sql.append(" and UPPER(tktxtn) like ?"); 
 			
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { unikKode.getTransitKode(), wildcard(kode), wildcard(text)  }, new TrkodfMapper());
 			
@@ -203,7 +203,7 @@ public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
 		}
 		StringBuffer sb = new StringBuffer();
 		sb.append("%");
-		sb.append(criteria);
+		sb.append(criteria.toUpperCase());
 		sb.append("%");
 		return sb.toString();
 	}
