@@ -7,7 +7,7 @@ import no.systema.jservices.model.dao.entities.IDao;
  * This is because the db-inserts that will be done in all fields of the db-table
  * 
  * @author oscardelatorre
- * @date Apr 9, 2016
+ * @date Okt 21, 2016
  * 
  */
 public class KodtsiDao implements Serializable, IDao {

@@ -12,7 +12,7 @@ import no.systema.main.util.DbErrorMessageManager;
 /**
  * 
  * @author oscardelatorre
- * @date Apr 9, 2016
+ * @date Okt 21, 2016
  * 
  */
 public class KodtsiDaoServicesImpl implements KodtsiDaoServices {
