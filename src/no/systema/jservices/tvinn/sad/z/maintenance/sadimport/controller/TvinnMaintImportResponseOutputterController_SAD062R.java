@@ -29,8 +29,8 @@ import javax.servlet.http.HttpSession;
 
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SoktariDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SoktariDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.SoktariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.SoktariDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;

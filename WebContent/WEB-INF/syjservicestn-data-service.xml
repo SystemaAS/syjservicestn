@@ -39,7 +39,10 @@
   <bean id="kodtlbDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.KodtlbDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <bean id="soktariDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.SoktariDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+ 
   
   
   <!-- TVINN - EXPORT: Domain Dao's Services -->
@@ -90,10 +93,7 @@
   <bean id="sadsdDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadsdDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  <bean id="soktariDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SoktariDaoServicesImpl">
-      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
-  </bean>
-  <bean id="sadvareDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadvareDaoServicesImpl">
+   <bean id="sadvareDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.SadvareDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   <bean id="sadlDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.SadlDaoServicesImpl">

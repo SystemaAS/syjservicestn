@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.SoktariDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.SoktariDao;
 /**
  * 
  * @author oscardelatorre
