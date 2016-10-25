@@ -1,18 +1,18 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder;
 import java.io.Writer;
 import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.Kodts9Mapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.Kodts9Dao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.gyldigekoder.Kodts9Mapper;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.Kodts9Dao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
  * 
  * @author oscardelatorre
- * @date Oct 6, 2016
+ * @date Okt 26, 2016
  *  
  */
 public class Kodts9DaoServicesImpl implements Kodts9DaoServices {
@@ -110,7 +110,7 @@ public class Kodts9DaoServicesImpl implements Kodts9DaoServices {
 			Kodts9Dao dao = (Kodts9Dao)daoObj;
 			//logger.info("TURKIET BBBB" + dao.getTatyrb());
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE kodts9 SET ks1ftx = ? ");
+			sql.append(" UPDATE kodts9 SET ks9ftx = ? ");
 			//id's
 			sql.append(" WHERE ks9typ = ? ");
 			

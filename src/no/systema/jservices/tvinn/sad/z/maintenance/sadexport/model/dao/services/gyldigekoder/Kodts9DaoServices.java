@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder;
 
 import java.util.*;
 
@@ -8,7 +8,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.IDaoS
 /**
  * 
  * @author oscardelatorre
- * @date Oct 6, 2016
+ * @date Okt 25, 2016
  * 
  */
 public interface Kodts9DaoServices extends IDaoServices { 

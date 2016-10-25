@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder;
 import java.io.Serializable;
 import no.systema.jservices.model.dao.entities.IDao;
  
@@ -8,7 +8,7 @@ import no.systema.jservices.model.dao.entities.IDao;
  * This is because the db-inserts that will be done in all fields of the db-table
  * 
  * @author oscardelatorre
- * @date Oct 6, 2016
+ * @date Okt 25, 2016
  * 
  */
 public class Kodts9Dao implements Serializable, IDao {

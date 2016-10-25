@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.gyldigekoder;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,11 +29,11 @@ import javax.servlet.http.HttpSession;
 
 //Application
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.Kodts9Dao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.Kodts9DaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.Kodts9Dao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.Kodts9DaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 //rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.SAD002_KODTS9R_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.gyldigekoder.SAD002_KODTS9R_U;
 
 
 
@@ -58,7 +58,7 @@ public class TvinnMaintExportResponseOutputterController_SAD002R_KODTS9 {
 	 * Source:
 	 * 	 File: 		KODTS9
 	 * 	 PGM:		SAD002
-	 * 	 Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 	 Member: 	SAD Eksport Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
@@ -138,7 +138,7 @@ public class TvinnMaintExportResponseOutputterController_SAD002R_KODTS9 {
 	 * Update Database DML operations
 	 * File: 	KODTS9
 	 * PGM:		SAD002
-	 * Member: 	SAD Import Maintenance - UPDATE SPECIFIC
+	 * Member: 	SAD Eksport Maintenance - UPDATE SPECIFIC
 	 * 
 	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTS9R_U.do?user=OSCAR&mode=U/A/D
 	 *

@@ -1,9 +1,9 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.gyldigekoder;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.Kodts9Dao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.Kodts9Dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 /**
  * 
  * @author oscardelatorre
- * @date  Oct 6, 2016
+ * @date  Okt 26, 2016
  * 
  */
 public class Kodts9Mapper implements RowMapper {
