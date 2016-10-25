@@ -1,10 +1,10 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules;
+package no.systema.jservices.tvinn.sad.z.maintenance.felles.controller.rules;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.SoktariDao;
 /**
  * 
  * @author oscardelatorre
- * @date May 26, 2016
+ * @date Okt 25, 2016
  */
 public class SAD062R_U {
 

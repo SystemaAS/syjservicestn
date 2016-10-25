@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller;
+package no.systema.jservices.tvinn.sad.z.maintenance.felles.controller;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -21,22 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 //Application
-//import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.controller.rules.SAD062R_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.SoktariDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.SoktariDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriter;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServices;
 //rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.SAD062R_U;
 
 
 
@@ -49,19 +45,19 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.S
  * All communication to the outside world is done through this gateway.
  * 
  * @author oscardelatorre
- * @date May 6, 2016
+ * @date Okt 25, 2016
  * 
  */
 
 @Controller
-public class TvinnMaintImportResponseOutputterController_SAD062R {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SAD062R.class.getName());
+public class TvinnMaintFellesResponseOutputterController_SAD062R {
+	private static Logger logger = Logger.getLogger(TvinnMaintFellesResponseOutputterController_SAD062R.class.getName());
 	
 	/**
 	 * FreeForm Source:
 	 * 	 File: 		SOKTARI
 	 * 	 PGM:		SAD062
-	 * 	 Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 	 Member: 	SAD Felles Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
@@ -72,7 +68,7 @@ public class TvinnMaintImportResponseOutputterController_SAD062R {
 	@RequestMapping(value="syjsSAD062R.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsRList( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
+		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
@@ -157,7 +153,7 @@ public class TvinnMaintImportResponseOutputterController_SAD062R {
 	@RequestMapping(value="syjsSAD062R_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriter jsonWriter = new JsonTvinnMaintImportResponseWriter();
+		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
