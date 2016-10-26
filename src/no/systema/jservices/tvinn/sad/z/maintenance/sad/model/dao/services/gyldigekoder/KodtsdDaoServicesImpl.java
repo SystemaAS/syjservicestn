@@ -1,12 +1,12 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.gyldigekoder;
 import java.io.Writer;
 import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.gyldigekoder.KodtsdMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsdDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.gyldigekoder.KodtsdDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper.gyldigekoder.KodtsdMapper;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**

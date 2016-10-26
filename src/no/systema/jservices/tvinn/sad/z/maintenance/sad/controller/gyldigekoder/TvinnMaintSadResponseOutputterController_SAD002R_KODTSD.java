@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.gyldigekoder;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,15 +29,11 @@ import javax.servlet.http.HttpSession;
 
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsdDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsdDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.rules.gyldigekoder.SAD002_KODTSDR_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.gyldigekoder.KodtsdDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.gyldigekoder.KodtsdDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriterGyldigeKoder;
-//rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder.SAD002_KODTSDR_U;
-
-
-
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.jsonwriter.JsonTvinnMaintSadResponseWriterGyldigeKoder;
 
 
 /**
@@ -52,14 +48,14 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.g
  */
 
 @Controller
-public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSD {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SAD002R_KODTSD.class.getName());
+public class TvinnMaintSadResponseOutputterController_SAD002R_KODTSD {
+	private static Logger logger = Logger.getLogger(TvinnMaintSadResponseOutputterController_SAD002R_KODTSD.class.getName());
 	
 	/**
 	 * Source:
 	 * 	 File: 		KODTSD
 	 * 	 PGM:		SAD002
-	 * 	 Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 	 Member: 	SAD  Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
@@ -70,7 +66,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSD {
 	@RequestMapping(value="syjsSAD002_KODTSDR.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsSAD002_KODTSDR( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintImportResponseWriterGyldigeKoder();
+		JsonTvinnMaintSadResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintSadResponseWriterGyldigeKoder();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
@@ -151,7 +147,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSD {
 	@RequestMapping(value="syjsSAD002_KODTSDR_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsSAD002R_U( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintImportResponseWriterGyldigeKoder();
+		JsonTvinnMaintSadResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintSadResponseWriterGyldigeKoder();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
