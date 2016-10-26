@@ -1,22 +1,22 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder;
 import java.io.Writer;
 import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.gyldigekoder.KodtsaMapper;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsaDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.gyldigekoder.KodtscMapper;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.KodtscDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
  * 
  * @author oscardelatorre
- * @date May 24, 2016
+ * @date Okt 26, 2016
  *  
  */
-public class KodtsaDaoServicesImpl implements KodtsaDaoServices {
-	private static Logger logger = Logger.getLogger(KodtsaDaoServicesImpl.class.getName());
+public class KodtscDaoServicesImpl implements KodtscDaoServices {
+	private static Logger logger = Logger.getLogger(KodtscDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**
@@ -24,15 +24,17 @@ public class KodtsaDaoServicesImpl implements KodtsaDaoServices {
 	 * @return
 	 */
 	public List getList(StringBuffer errorStackTrace){
-		List<KodtsaDao> retval = new ArrayList<KodtsaDao>();
+		List<KodtscDao> retval = new ArrayList<KodtscDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" SELECT ksakd, ksaft ");
-			sql.append(" from kodtsa ");
+			sql.append(" SELECT ksckd, kscft ");
+			sql.append(" from kodtsc ");
+			sql.append(" order by ksckd ");
+			
 			
 			logger.info(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new KodtsaMapper());
+			retval = this.jdbcTemplate.query( sql.toString(), new KodtscMapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -47,17 +49,17 @@ public class KodtsaDaoServicesImpl implements KodtsaDaoServices {
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		List<KodtsaDao> retval = new ArrayList<KodtsaDao>();
+		List<KodtscDao> retval = new ArrayList<KodtscDao>();
 		//logger.info(avgId + "XXX" + sekvId);
 		String SQL_WILD_CARD = "%";
 		try{
 			StringBuffer sql = new StringBuffer();
 		
-			sql.append(" SELECT ksakd, ksaft ");
-			sql.append(" from kodtsa ");
-			sql.append(" WHERE ksakd = ? ");
+			sql.append(" SELECT ksckd, kscft ");
+			sql.append(" from kodtsc ");
+			sql.append(" WHERE ksckd = ? ");
 			
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new KodtsaMapper());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new KodtscMapper());
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -78,14 +80,14 @@ public class KodtsaDaoServicesImpl implements KodtsaDaoServices {
 		int retval = 0;
 		
 		try{
-			KodtsaDao dao = (KodtsaDao)daoObj;
+			KodtscDao dao = (KodtscDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO kodtsa ( ksakd, ksaft )");
+			sql.append(" INSERT INTO kodtsc ( ksckd, kscft )");
 			sql.append(" VALUES ( ?, ? )");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-				dao.getKsakd(), dao.getKsaft()
+				dao.getKsckd(), dao.getKscft()
 				
 				} );
 			
@@ -106,18 +108,18 @@ public class KodtsaDaoServicesImpl implements KodtsaDaoServices {
 		int retval = 0;
 		
 		try{
-			KodtsaDao dao = (KodtsaDao)daoObj;
+			KodtscDao dao = (KodtscDao)daoObj;
 			//logger.info("TURKIET BBBB" + dao.getTatyrb());
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE kodtsa SET ksaft = ? ");
+			sql.append(" UPDATE kodtsc SET kscft = ? ");
 			//id's
-			sql.append(" WHERE ksakd = ? ");
+			sql.append(" WHERE ksckd = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getKsaft(), 
+						dao.getKscft(), 
 						//id's
-						dao.getKsakd(),
+						dao.getKsckd(),
 						
 						} );
 			
@@ -138,16 +140,16 @@ public class KodtsaDaoServicesImpl implements KodtsaDaoServices {
 		int retval = 0;
 		
 		try{
-			KodtsaDao dao = (KodtsaDao)daoObj;
+			KodtscDao dao = (KodtscDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" DELETE from kodtsa ");
+			sql.append(" DELETE from kodtsc ");
 			//id's
-			sql.append(" WHERE ksakd = ? ");
+			sql.append(" WHERE ksckd = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKsakd() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getKsckd() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

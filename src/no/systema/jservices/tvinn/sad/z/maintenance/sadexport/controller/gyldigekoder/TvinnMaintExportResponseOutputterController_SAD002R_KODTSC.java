@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.gyldigekoder;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,14 +28,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 //Application
-//import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsaDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsaDaoServices;
+import no.systema.jservices.jsonwriter.JsonResponseWriter;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.KodtscDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.KodtscDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriterGyldigeKoder;
-import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 //rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder.SAD002_KODTSAR_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.gyldigekoder.SAD002_KODTSCR_U;
 
 
 
@@ -48,34 +46,34 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.g
  * All communication to the outside world is done through this gateway.
  * 
  * @author oscardelatorre
- * @date May 23, 201a
+ * @date Oct 26, 2016
  * 
  */
 
 @Controller
-public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SAD002R_KODTSA.class.getName());
+public class TvinnMaintExportResponseOutputterController_SAD002R_KODTSC {
+	private static Logger logger = Logger.getLogger(TvinnMaintExportResponseOutputterController_SAD002R_KODTSC.class.getName());
 	
 	/**
 	 * Source:
-	 * 	 File: 		KODTSA
+	 * 	 File: 		KODTSC
 	 * 	 PGM:		SAD002
-	 * 	 Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 	 Member: 	SAD Eksport Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSAR.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSAR.do?user=OSCAR&ksakd=BE
+	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSCR.do?user=OSCAR
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSCR.do?user=OSCAR&ksckd=99
 	 * 
 	 */
-	@RequestMapping(value="syjsSAD002_KODTSAR.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSAD002_KODTSCR.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String syjsSAD002_KODTSAR( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintImportResponseWriterGyldigeKoder();
+	public String syjsSAD002_KODTSCR( HttpSession session, HttpServletRequest request) {
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSAD002_KODTSAR.do");
+			logger.info("Inside syjsSAD002_KODTSCR.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			
@@ -89,20 +87,21 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				//bind attributes is any
-				KodtsaDao dao = new KodtsaDao();
+				KodtscDao dao = new KodtscDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
 	            binder.bind(request);
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
 	            logger.info("Before SELECT ...");
-	            if( (dao.getKsakd()!=null && !"".equals(dao.getKsakd())) ){
+	            if( (dao.getKsckd()!=null && !"".equals(dao.getKsckd())) ){
 	            	logger.info("findById");
-	            	list = this.kodtsaDaoServices.findById(dao.getKsakd(), dbErrorStackTrace);
+	            	list = this.kodtscDaoServices.findById(dao.getKsckd(), dbErrorStackTrace);
 	            }else{
 	            	logger.info("getList (all)");
-					list = this.kodtsaDaoServices.getList(dbErrorStackTrace);
-
+					list = this.kodtscDaoServices.getList(dbErrorStackTrace);
+					
+					
 	            }
 				//process result
 				if (list!=null){
@@ -137,11 +136,11 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 	/**
 	 * 
 	 * Update Database DML operations
-	 * File: 	KODTSA
+	 * File: 	KODTSC
 	 * PGM:		SAD002
-	 * Member: 	SAD Import Maintenance - UPDATE SPECIFIC
+	 * Member: 	SAD Eksport Maintenance - UPDATE SPECIFIC
 	 * 
-	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSaR_U.do?user=OSCAR&mode=U/A/D
+	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSCR_U.do?user=OSCAR&mode=U/A/D
 	 *
 	 * @param session
 	 * @param request
@@ -149,14 +148,14 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 	 * 
 	 */
 	
-	@RequestMapping(value="syjsSAD002_KODTSAR_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSAD002_KODTSCR_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsSAD002R_U( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintImportResponseWriterGyldigeKoder();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSAD002_KODTSAR_U.do");
+			logger.info("Inside syjsSAD002_KODTSCR_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -168,17 +167,17 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			KodtsaDao dao = new KodtsaDao();
+			KodtscDao dao = new KodtscDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SAD002_KODTSAR_U rulerLord = new SAD002_KODTSAR_U();
+            SAD002_KODTSCR_U rulerLord = new SAD002_KODTSCR_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.kodtsaDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.kodtscDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -188,12 +187,12 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 					}
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
-						List<KodtsaDao> list = new ArrayList<KodtsaDao>();
+						logger.info("Before UPDATE ...");
+						List<KodtscDao> list = new ArrayList<KodtscDao>();
 						
 						//do ADD
 						if("A".equals(mode)){
-							logger.info("Before CREATE NEW ...");
-							list = this.kodtsaDaoServices.findById(dao.getKsakd(), dbErrorStackTrace);
+							list = this.kodtscDaoServices.findById(dao.getKsckd(), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -202,11 +201,10 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 								logger.info(sb.toString());
 							}else{
-								dmlRetval = this.kodtsaDaoServices.insert(dao, dbErrorStackTrace);
+								dmlRetval = this.kodtscDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						}else if("U".equals(mode)){
-							logger.info("Before UPDATE ...");
-							dmlRetval = this.kodtsaDaoServices.update(dao, dbErrorStackTrace);
+							 dmlRetval = this.kodtscDaoServices.update(dao, dbErrorStackTrace);
 						}
 						
 				  }else{
@@ -254,12 +252,12 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSA {
 	//----------------
 	//WIRED SERVICES
 	//----------------
-	@Qualifier ("kodtsaDaoServices")
-	private KodtsaDaoServices kodtsaDaoServices;
+	@Qualifier ("kodtscDaoServices")
+	private KodtscDaoServices kodtscDaoServices;
 	@Autowired
 	@Required
-	public void setKodtsaDaoServices (KodtsaDaoServices value){ this.kodtsaDaoServices = value; }
-	public KodtsaDaoServices getKodtsaDaoServices(){ return this.kodtsaDaoServices; }
+	public void setKodtscDaoServices (KodtscDaoServices value){ this.kodtscDaoServices = value; }
+	public KodtscDaoServices getKodtscDaoServices(){ return this.kodtscDaoServices; }
 	
 	
 	@Qualifier ("bridfDaoServices")
