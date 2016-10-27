@@ -73,14 +73,17 @@
   <bean id="saehDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.SaehDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean> 
-  <!-- GYLDIGE KODER EXPORT -->
+  <!-- TVINN - EXPORT GYLDIGE KODER -->
   <bean id="kodts9DaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.Kodts9DaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   <bean id="kodtscDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.KodtscDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
- 
+  <bean id="kodtseDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.KodtseDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
  
  <!-- TVINN - NCTS EXPORT: Domain Dao's Services -->
   <bean id="trughDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.services.TrughDaoServicesImpl">
@@ -154,9 +157,6 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   <bean id="kodtsbDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsbDaoServicesImpl">
-      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
-  </bean>
-  <bean id="kodtseDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtseDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   

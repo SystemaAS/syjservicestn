@@ -1,11 +1,11 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.gyldigekoder;
 
 import org.apache.log4j.Logger;
 import java.util.*;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtseDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtseDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtseDaoServicesImpl;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.KodtseDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.KodtseDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.KodtseDaoServicesImpl;
 
 /**
  * 

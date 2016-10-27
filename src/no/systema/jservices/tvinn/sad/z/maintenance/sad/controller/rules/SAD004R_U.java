@@ -8,14 +8,14 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.SadlD
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.SadlDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.TariDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.KodtseDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services.gyldigekoder.KodtseDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts2Dao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.Kodts8Dao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsbDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtseDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts2DaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.Kodts8DaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsbDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtseDaoServices;
 /**
  * 
  * @author oscardelatorre

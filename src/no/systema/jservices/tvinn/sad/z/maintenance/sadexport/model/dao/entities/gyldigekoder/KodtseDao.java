@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder;
 import java.io.Serializable;
 import no.systema.jservices.model.dao.entities.IDao;
  

@@ -1,9 +1,9 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.gyldigekoder;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtseDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.KodtseDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
