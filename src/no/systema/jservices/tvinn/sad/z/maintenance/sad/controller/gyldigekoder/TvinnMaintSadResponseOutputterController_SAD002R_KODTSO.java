@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.gyldigekoder;
+package no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.gyldigekoder;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,14 +29,11 @@ import javax.servlet.http.HttpSession;
 
 //Application
 //import no.systema.jservices.model.dao.entities.GenericTableColumnsDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.gyldigekoder.KodtsoDao;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsoDaoServices;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.gyldigekoder.KodtsoDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.services.gyldigekoder.KodtsoDaoServices;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter.JsonTvinnMaintImportResponseWriterGyldigeKoder;
-//rules
-import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder.SAD002_KODTSOR_U;
-
-
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.rules.gyldigekoder.SAD002_KODTSOR_U;
+import no.systema.jservices.tvinn.sad.z.maintenance.sad.jsonwriter.JsonTvinnMaintSadResponseWriterGyldigeKoder;
 
 
 
@@ -47,19 +44,19 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.g
  * All communication to the outside world is done through this gateway.
  * 
  * @author oscardelatorre
- * @date May 24, 2016
+ * @date Okt 26, 2016
  * 
  */
 
 @Controller
-public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSO {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SAD002R_KODTSO.class.getName());
+public class TvinnMaintSadResponseOutputterController_SAD002R_KODTSO {
+	private static Logger logger = Logger.getLogger(TvinnMaintSadResponseOutputterController_SAD002R_KODTSO.class.getName());
 	
 	/**
 	 * Source:
 	 * 	 File: 		KODTSO
 	 * 	 PGM:		SAD002
-	 * 	 Member: 	SAD Import Maintenance - SELECT LIST or SELECT SPECIFIC
+	 * 	 Member: 	SAD (Exp/Imp) Maintenance - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
@@ -70,7 +67,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSO {
 	@RequestMapping(value="syjsSAD002_KODTSOR.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsSAD002_KODtsoR( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintImportResponseWriterGyldigeKoder();
+		JsonTvinnMaintSadResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintSadResponseWriterGyldigeKoder();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
@@ -138,7 +135,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSO {
 	 * Update Database DML operations
 	 * File: 	KODTSO
 	 * PGM:		SAD002
-	 * Member: 	SAD Import Maintenance - UPDATE SPECIFIC
+	 * Member: 	SAD (Exp/Imp) Maintenance - UPDATE SPECIFIC
 	 * 
 	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSAD002_KODTSOR_U.do?user=OSCAR&mode=U/A/D
 	 *
@@ -151,7 +148,7 @@ public class TvinnMaintImportResponseOutputterController_SAD002R_KODTSO {
 	@RequestMapping(value="syjsSAD002_KODTSOR_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsSAD002R_U( HttpSession session, HttpServletRequest request) {
-		JsonTvinnMaintImportResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintImportResponseWriterGyldigeKoder();
+		JsonTvinnMaintSadResponseWriterGyldigeKoder jsonWriter = new JsonTvinnMaintSadResponseWriterGyldigeKoder();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
