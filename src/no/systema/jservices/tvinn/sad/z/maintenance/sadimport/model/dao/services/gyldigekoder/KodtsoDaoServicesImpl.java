@@ -30,6 +30,8 @@ public class KodtsoDaoServicesImpl implements KodtsoDaoServices {
 			
 			sql.append(" SELECT ksokd, ksoft ");
 			sql.append(" from kodtso ");
+			sql.append(" order by ksokd ");
+			
 			
 			logger.info(sql.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), new KodtsoMapper());
@@ -115,9 +117,9 @@ public class KodtsoDaoServicesImpl implements KodtsoDaoServices {
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getKsokd(), 
+						dao.getKsoft(), 
 						//id's
-						dao.getKsoft(),
+						dao.getKsokd(),
 						
 						} );
 			
