@@ -74,8 +74,7 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 		sql.append(" syutlp, sypoge, systat, syselg, syiat1, syiat2, sycoty, syfr01, syfr02, ");
 		sql.append(" syfr03, syfr04, syfr05, syfr06, sysalu, syepos, aknrku, vatkku, xxbre, ");
 		sql.append(" xxlen, xxinm3, xxinlm, rnraku, golk, kundgr, pnpbku, adr21, eori ");
-		
-		sql.append(" FROM cundf a, firm b ");
+		sql.append(" FROM cundfny a, firm b ");
 		sql.append(" WHERE a.firma = b.fifirm ");
 		
 		return sql.toString();

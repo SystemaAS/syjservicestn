@@ -1,14 +1,12 @@
 package no.systema.jservices.tvinn.sad.brreg.proxy;
 
-import java.net.UnknownHostException;
-
 import org.apache.log4j.Logger;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
 import no.systema.main.util.constants.AppConstants;
 import no.systema.main.util.mail.Mail;
@@ -38,18 +36,19 @@ public class OppslagHovedenhetRequest {
 
 	private String serviceUrl = null;
 	private static final String JSON_FORMAT = ".json";
-	private static final String HTTP_CLIENT_ERROR_MESSAGE = "HttpClientErrorException in data.brreg.no response on: ";
-	private static final String REST_CLIENT_ERROR_MESSAGE = "RestClientErrorException in data.brreg.no response on: ";
 	private static final int READ_TIMEOUT = Constants.BRREG_READ_TIMEOUT;
 	private static final int CONNECT_TIMEOUT = Constants.BRREG_CONNECT_TIMEOUT;
+	private HovedEnhetCSVRepository hovedEnhetCSVRepository = null;
 
 	/**
 	 * Constructor injection for enabling easier testing.
 	 * 
 	 * @param serviceUrl
+	 * @param kalleanka2 
 	 */
-	public OppslagHovedenhetRequest(String serviceUrl) {
+	public OppslagHovedenhetRequest(String serviceUrl, HovedEnhetCSVRepository hovedEnhetCSVRepository) {
 		this.serviceUrl = serviceUrl;
+		this.hovedEnhetCSVRepository = hovedEnhetCSVRepository;
 	}
 	
 	
@@ -57,16 +56,39 @@ public class OppslagHovedenhetRequest {
 	 * Get Hovedenhet created from JSON from data.brreg.no.
 	 * 
 	 * @param orgNr
+	 * @param useApi boolean, true if accessing brreg.no api, false if using CSV-file
 	 * @return {@link Hovedenhet}
+	 * @throws RestClientException
 	 */
-	public Hovedenhet getHovedenhetRecord(String orgNr) {
+	public Hovedenhet getHovedenhetRecord(String orgNr, boolean useApi) throws RestClientException{
 		Hovedenhet hovedenhet = null;
 		if (!passSanityCheck(orgNr)) {
+			logger.info("Organisasjonnummer: "+orgNr+" har feilaktig lengde, kan være maksimalt 9 sifre.");
 			return hovedenhet;
 		}
 		
+		if (useApi) {
+			hovedenhet = getHovedEnhetFromAPI(orgNr);			
+		} else {
+			hovedenhet = getHovedEnhetFromCVS(orgNr);	
+		}
+		
+		return hovedenhet;
+	}
+
+
+	private Hovedenhet getHovedEnhetFromCVS(String orgNr) {
+		Hovedenhet hovedenhet = null;
+		hovedenhet =  hovedEnhetCSVRepository.get(new Integer(orgNr));
+		
+		return hovedenhet;
+	}
+
+
+	private Hovedenhet getHovedEnhetFromAPI(String orgNr) {
+		Hovedenhet hovedenhet = null;
 		StringBuffer urlString = new StringBuffer();
-		RestTemplate restTemplate = getRestTemplate();
+		RestTemplate restTemplate = getRestTemplate();  //TODO: REview this one, cache it some how
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
 		urlString.append(JSON_FORMAT);
@@ -75,24 +97,15 @@ public class OppslagHovedenhetRequest {
 			
 			hovedenhet = restTemplate.getForObject(urlString.toString(), Hovedenhet.class);
 			
-		} catch (HttpClientErrorException ex) {
-			logger.info(HTTP_CLIENT_ERROR_MESSAGE + urlString.toString()+ ex.getStatusCode() + ex.getStatusText());
-			//continue
 		} catch (RestClientException ex) {  
-			logger.info(REST_CLIENT_ERROR_MESSAGE + urlString.toString()+ ex.getRootCause());
-			if(ex.getCause()  instanceof UnknownHostException) {
-				//problems....
-				if (AppConstants.SEND_MAIL_TO_SUPPORT_BOX) {
-					sendMail(urlString, ex);
-				}
-				throw ex;  
-				
+			logger.info("ex="+ex);
+			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+/*			if (AppConstants.SEND_MAIL_TO_SUPPORT_BOX) {
+				sendMail(urlString, ex);
 			}
-			//continue
+*/			//throw ex; TODO: Fixa 404:an
 		}
-		
 		return hovedenhet;
-
 	}
 
 
@@ -101,7 +114,7 @@ public class OppslagHovedenhetRequest {
 
 		Mail mail = new Mail();
 		StringBuilder subject = new StringBuilder("Brønnøysundregisteret og Enhetsregisteret sere ut til å ha problemer.");
-		StringBuilder message = new StringBuilder("eSpedsg kan ikke få data på denne url:");
+		StringBuilder message = new StringBuilder("eSpedsg kan ikke få data på denne url:"+urlString);
 		message.append("\n\n\n\n");
 		message.append("::Detta mail har skickats av eSpedsg.::");
 		message.append("\n");

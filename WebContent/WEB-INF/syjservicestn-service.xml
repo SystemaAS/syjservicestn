@@ -17,6 +17,10 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<bean id="currencyRateService" class="no.systema.main.service.general.CurrencyRateServiceImpl"/>
 	<bean id="notisblockService" class="no.systema.main.service.general.notisblock.NotisblockServiceImpl"/>
 	 -->
-	
+
+  
+
+  <bean id="hovedEnhetCSVRepository" class="no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepositoryImpl">
+  </bean>  
 	
 </beans>

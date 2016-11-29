@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
+import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
 import no.systema.jservices.tvinn.sad.brreg.proxy.Constants;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagHovedenhetRequest;
@@ -33,11 +34,11 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private List getCheckedKunderList(List kunderForValideringList) {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
-		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest(Constants.DATA_BRREG_NO_ENHETSREGISTERET_URL);
+		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest(Constants.DATA_BRREG_NO_ENHETSREGISTERET_URL, hovedEnhetCSVRepository);
 
 		for (Iterator iterator = kunderForValideringList.iterator(); iterator.hasNext();) {
 			CundfDao cundfDao = (CundfDao) iterator.next();
-			Hovedenhet hovedenhet = oppslagHovedenhetRequest.getHovedenhetRecord(cundfDao.getSyrg().trim());
+			Hovedenhet hovedenhet = oppslagHovedenhetRequest.getHovedenhetRecord(cundfDao.getSyrg().trim(), false);
 			checkedRecord = new EnhetRegisteretDataCheckDao();
 
 			if (hovedenhet == null) {
@@ -109,4 +110,19 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		return this.cundfDaoServices;
 	}
 
+	@Qualifier("hovedEnhetCSVRepository")
+	private HovedEnhetCSVRepository hovedEnhetCSVRepository;
+
+	@Autowired
+	@Required
+	public void setHovedEnhetCSVRepository(HovedEnhetCSVRepository value) {
+		this.hovedEnhetCSVRepository = value;
+	}
+
+	public HovedEnhetCSVRepository getHovedEnhetCSVRepository() {
+		return this.hovedEnhetCSVRepository;
+	}	
+	
+	
+	
 }
