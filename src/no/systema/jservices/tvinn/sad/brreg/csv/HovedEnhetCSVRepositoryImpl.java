@@ -62,13 +62,11 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 
 			input.close();
 			in.close();
-			
+
 			logger.info("Reader and InputStream closed.");
 
-		} catch (FileNotFoundException e) {
-			logger.info("ERROR reading file=" + file + "Exception=" + e);
-		} catch (IOException e) {
-			logger.info("ERROR reading file=" + file + "Exception=" + e);
+		} catch (Exception e) {
+			logger.info("ERROR reading file=" + file + " Check if file exist in path! Exception=" + e);
 		}
 	}
 	

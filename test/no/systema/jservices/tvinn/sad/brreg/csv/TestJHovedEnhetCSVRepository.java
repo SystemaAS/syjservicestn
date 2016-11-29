@@ -9,7 +9,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
 
-public class TestJCSVRespository {
+public class TestJHovedEnhetCSVRepository {
 //	private static Logger logger = Logger.getLogger(TestJCSVRespository.class.getName());
 
     ApplicationContext context = null;
@@ -17,8 +17,10 @@ public class TestJCSVRespository {
 
 	@Before
 	public void setUp() throws Exception {
-		context = new FileSystemXmlApplicationContext("/WebContent/WEB-INF/syjservicestn-service.xml");
+/*		context = new FileSystemXmlApplicationContext("/WebContent/WEB-INF/syjservicestn-service.xml");
 	    heRepo = (HovedEnhetCSVRepository) context.getBean("hovedEnhetCSVRepository");
+*/	
+		heRepo = new HovedEnhetCSVRepositoryImpl();	
 	}
 
 	@Test

@@ -85,7 +85,7 @@ public class OppslagHovedenhetRequest {
 
 	private Hovedenhet getHovedEnhetFromCVS(String orgNr) {
 		Hovedenhet hovedenhet = null;
-		hovedenhet =  hovedEnhetCSVRepository.get(new Integer(orgNr));
+		hovedenhet = hovedEnhetCSVRepository.get(new Integer(orgNr));
 		
 		return hovedenhet;
 	}
