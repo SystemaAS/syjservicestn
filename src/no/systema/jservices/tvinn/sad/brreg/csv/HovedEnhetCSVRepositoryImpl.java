@@ -13,6 +13,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.main.context.JServicesServletContext;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
 public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
@@ -46,10 +47,10 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 
 		try {
 			// For test
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			input = classLoader.getResourceAsStream(file);
+			//ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			//input = classLoader.getResourceAsStream(file);
 
-			//input = JServicesServletContext.getTdsServletContext().getResourceAsStream(file);
+			input = JServicesServletContext.getTdsServletContext().getResourceAsStream(file);
 			in = new InputStreamReader(input);
 			logger.info("Reader created");
 

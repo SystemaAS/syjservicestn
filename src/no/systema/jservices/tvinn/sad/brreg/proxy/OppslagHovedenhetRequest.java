@@ -1,15 +1,20 @@
 package no.systema.jservices.tvinn.sad.brreg.proxy;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import no.systema.jservices.common.mail.GMail;
+import no.systema.jservices.common.mail.GMailProperties;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.main.util.ApplicationPropertiesUtil;
 import no.systema.main.util.constants.AppConstants;
-import no.systema.main.util.mail.Mail;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
@@ -33,11 +38,13 @@ import no.systema.main.util.mail.Mail;
  */
 public class OppslagHovedenhetRequest {
 	private static Logger logger = Logger.getLogger(OppslagHovedenhetRequest.class.getName());
-
 	private String serviceUrl = null;
 	private static final String JSON_FORMAT = ".json";
-	private static final int READ_TIMEOUT = Constants.BRREG_READ_TIMEOUT;
-	private static final int CONNECT_TIMEOUT = Constants.BRREG_CONNECT_TIMEOUT;
+	// For test
+	//private static final String READ_TIMEOUT = "6000";
+	//private static final String CONNECT_TIMEOUT = "6000";
+	private static final String READ_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.read.timeout");
+	private static final String CONNECT_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.connect.timeout");
 	private HovedEnhetCSVRepository hovedEnhetCSVRepository = null;
 
 	/**
@@ -66,7 +73,6 @@ public class OppslagHovedenhetRequest {
 			logger.info("Organisasjonnummer: "+orgNr+" har feilaktig lengde, kan være maksimalt 9 sifre.");
 			return hovedenhet;
 		}
-		
 		if (useApi) {
 			hovedenhet = getHovedEnhetFromAPI(orgNr);			
 		} else {
@@ -88,39 +94,47 @@ public class OppslagHovedenhetRequest {
 	private Hovedenhet getHovedEnhetFromAPI(String orgNr) {
 		Hovedenhet hovedenhet = null;
 		StringBuffer urlString = new StringBuffer();
-		RestTemplate restTemplate = getRestTemplate();  //TODO: REview this one, cache it some how
+		RestTemplate restTemplate = getRestTemplate(); // TODO: REview this one,
+														// cache it some how
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
 		urlString.append(JSON_FORMAT);
 
 		try {
-			
+
 			hovedenhet = restTemplate.getForObject(urlString.toString(), Hovedenhet.class);
-			
-		} catch (RestClientException ex) {  
-			logger.info("ex="+ex);
+
+		} catch (RestClientException ex) {
 			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-/*			if (AppConstants.SEND_MAIL_TO_SUPPORT_BOX) {
-				sendMail(urlString, ex);
+			if (ex instanceof ResourceAccessException) {
+				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
+					sendMail(urlString, ex);
+				}
+				throw ex;
+			} 
+			if (ex instanceof HttpStatusCodeException) {
+				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
+				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+					// continue;
+				}
 			}
-*/			//throw ex; TODO: Fixa 404:an
 		}
 		return hovedenhet;
+
 	}
 
-
 	private void sendMail(StringBuffer urlString, RestClientException ex) {
-		logger.info(ex.getCause()+ ":: Sending mail to support from:"+AppConstants.MAIL_USERNAME+ " to:"+AppConstants.MAIL_BOX_SUPPORT);
+		logger.info(ex.getCause()+ ":: Sending mail to support from:"+GMailProperties.MAIL_USERNAME+ " to:"+GMailProperties.MAIL_BOX_SUPPORT);
 
-		Mail mail = new Mail();
+		GMail mail = new GMail();
 		StringBuilder subject = new StringBuilder("Brønnøysundregisteret og Enhetsregisteret sere ut til å ha problemer.");
 		StringBuilder message = new StringBuilder("eSpedsg kan ikke få data på denne url:"+urlString);
 		message.append("\n\n\n\n");
 		message.append("::Detta mail har skickats av eSpedsg.::");
 		message.append("\n");
-		message.append("::fra:"+AppConstants.MAIL_USERNAME);
-		message.append(" til:"+AppConstants.MAIL_BOX_SUPPORT+"::");
-		mail.sendMail(AppConstants.MAIL_BOX_SUPPORT,subject.toString(), message.toString());
+		message.append("::fra:"+GMailProperties.MAIL_USERNAME);
+		message.append(" til:"+GMailProperties.MAIL_BOX_SUPPORT+"::");
+		mail.sendMail(GMailProperties.MAIL_BOX_SUPPORT,subject.toString(), message.toString());
 
 	}
 
@@ -157,8 +171,8 @@ public class OppslagHovedenhetRequest {
 
     private ClientHttpRequestFactory clientHttpRequestFactory() {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setReadTimeout(READ_TIMEOUT);
-        factory.setConnectTimeout(CONNECT_TIMEOUT);
+        factory.setReadTimeout(new Integer(READ_TIMEOUT));
+        factory.setConnectTimeout(new Integer(CONNECT_TIMEOUT));
         return factory;
     }
 

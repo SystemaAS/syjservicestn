@@ -3,16 +3,13 @@ package no.systema.jservices.tvinn.sad.proxy.brreg;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 
-import org.apache.http.HttpClientConnection;
 import org.hamcrest.core.AnyOf;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.Constants;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagHovedenhetRequest;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
 
@@ -23,7 +20,7 @@ public class TestJOppslagHovedenhetRequest {
 	@Before
 	public void setUp() throws Exception {
 
-		oppslagHovedenhetRequest = new OppslagHovedenhetRequest(Constants.DATA_BRREG_NO_ENHETSREGISTERET_URL, null);
+		oppslagHovedenhetRequest = new OppslagHovedenhetRequest("http://data.brreg.no/enhetsregisteret/enhet/", null);
 	}
 
 	@Test
@@ -45,9 +42,9 @@ public class TestJOppslagHovedenhetRequest {
 		Hovedenhet record;
 		try {
 			record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr, true);
-			Assert.fail("RestClientException should have been thrown.");
+			Assert.assertNull(record);
 		} catch (RestClientException e) {
-			Assert.assertTrue("RestClientException should have been thrown.MANAGE AS NOTFOUND. e=" + e.getClass(), e instanceof HttpClientErrorException);
+			Assert.fail("Exception not supposed...");
 
 		}
 	}

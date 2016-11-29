@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
-import no.systema.main.util.ApplicationPropertiesUtil;
 
 public class TestJCSVRespository {
 //	private static Logger logger = Logger.getLogger(TestJCSVRespository.class.getName());
