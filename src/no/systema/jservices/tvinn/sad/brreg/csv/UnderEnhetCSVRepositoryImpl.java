@@ -10,25 +10,26 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 import no.systema.main.context.JServicesServletContext;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
-public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
-	private static Logger logger = Logger.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
+public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
+	private static Logger logger = Logger.getLogger(UnderEnhetCSVRepositoryImpl.class.getName());
 	private Reader in = null;
 	//For test
-	//private String file = "no/systema/jservices/tvinn/sad/brreg/csv/hovedenheter-minor.csv";
-	private String file = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.csvfile");
-	private Map<Integer, HovedEnhet> brregMap = null;
+	//private String file = "no/systema/jservices/tvinn/sad/brreg/csv/underenheter-minor.csv";
+	private String file = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.csvfile");
+	
+	private Map<Integer, UnderEnhet> brregMap = null;
 
 	@Override
-	public HovedEnhet get(Integer orgNr) {
+	public UnderEnhet get(Integer orgNr) {
 		if (brregMap == null){  //lazy load
 			loadCSVFileIntoMap();
 		}
-		HovedEnhet he = brregMap.get(orgNr);
-		return he;
+		UnderEnhet ue = brregMap.get(orgNr);
+		return ue;
 	}
 
 
@@ -39,9 +40,9 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	
 	private void loadCSVFileIntoMap() {
 		logger.info("loadCSVFile, file=" + file);
-		HovedEnhet he = null;
+		UnderEnhet ue = null;
 		InputStream input = null;
-		brregMap = new HashMap<Integer, HovedEnhet>();
+		brregMap = new HashMap<Integer, UnderEnhet>();
 
 		try {
 			// For test
@@ -54,8 +55,8 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 
 			Iterable<CSVRecord> records = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(in);
 			for (CSVRecord record : records) {
-				he = createHovedEnhet(record);
-				brregMap.put(he.getOrganisasjonsnummer(), he);
+				ue = createUnderEnhet(record);
+				brregMap.put(ue.getOrganisasjonsnummer(), ue);
 			}
 
 			input.close();
@@ -68,21 +69,17 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 		}
 	}
 	
-	private HovedEnhet createHovedEnhet(CSVRecord record) {
-		HovedEnhet he = new HovedEnhet();
+	private UnderEnhet createUnderEnhet(CSVRecord record) {
+		UnderEnhet ue = new UnderEnhet();
 		String organisasjonsnummer = record.get("organisasjonsnummer");
-		String konkurs = record.get("konkurs");
 		String registrertIMvaregisteret = record.get("registrertIMvaregisteret");
-		String underAvvikling = record.get("underAvvikling");
-		String underTvangsavviklingEllerTvangsopplosning = record.get("underTvangsavviklingEllerTvangsopplosning");
-
-		he.setOrganisasjonsnummer(new Integer(organisasjonsnummer));
-		he.setKonkurs(konkurs);
-		he.setRegistrertIMvaregisteret(registrertIMvaregisteret);
-		he.setUnderAvvikling(underAvvikling);
-		he.setUnderTvangsavviklingEllerTvangsopplosning(underTvangsavviklingEllerTvangsopplosning); 
+		String overordnetEnhet = record.get("overordnetEnhet");
 		
-		return he;
+		ue.setOrganisasjonsnummer(new Integer(organisasjonsnummer));
+		ue.setRegistrertIMvaregisteret(registrertIMvaregisteret);
+		ue.setOverordnetEnhet(new Integer(overordnetEnhet));
+		
+		return ue;
 		
 	}
 	

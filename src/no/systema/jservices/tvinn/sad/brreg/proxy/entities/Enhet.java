@@ -36,7 +36,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  * @date Sep 21, 2016
  *
  */
-public class Hovedenhet {
+public class Enhet {
 
 	@JsonProperty("organisasjonsnummer")
 	private Integer organisasjonsnummer;

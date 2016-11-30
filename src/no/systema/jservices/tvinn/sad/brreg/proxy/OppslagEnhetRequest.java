@@ -12,13 +12,15 @@ import org.springframework.web.client.RestTemplate;
 import no.systema.jservices.common.mail.GMail;
 import no.systema.jservices.common.mail.GMailProperties;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 import no.systema.main.util.ApplicationPropertiesUtil;
-import no.systema.main.util.constants.AppConstants;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
- * Hovedenhet
+ * Enhet
  * 
  * Hovedenheter
  * 
@@ -36,8 +38,8 @@ import no.systema.main.util.constants.AppConstants;
  * @date Sep 21, 2016
  *
  */
-public class OppslagHovedenhetRequest {
-	private static Logger logger = Logger.getLogger(OppslagHovedenhetRequest.class.getName());
+public class OppslagEnhetRequest {
+	private static Logger logger = Logger.getLogger(OppslagEnhetRequest.class.getName());
 	private String serviceUrl = null;
 	private static final String JSON_FORMAT = ".json";
 	// For test
@@ -46,53 +48,74 @@ public class OppslagHovedenhetRequest {
 	private static final String READ_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.read.timeout");
 	private static final String CONNECT_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.connect.timeout");
 	private HovedEnhetCSVRepository hovedEnhetCSVRepository = null;
+	private UnderEnhetCSVRepository underEnhetCSVRepository = null;
+	private static final Integer MAX_ORGNR_LENGHT = new Integer(999999999);
 
 	/**
 	 * Constructor injection for enabling easier testing.
 	 * 
-	 * @param serviceUrl
-	 * @param kalleanka2 
+	 * @param String serviceUrl
+	 * @param HovedEnhetCSVRepository hovedEnhetCSVRepository
+	 * @param UnderEnhetCSVRepository underEnhetCSVRepository
 	 */
-	public OppslagHovedenhetRequest(String serviceUrl, HovedEnhetCSVRepository hovedEnhetCSVRepository) {
+	public OppslagEnhetRequest(String serviceUrl, HovedEnhetCSVRepository hovedEnhetCSVRepository, UnderEnhetCSVRepository underEnhetCSVRepository) {
 		this.serviceUrl = serviceUrl;
 		this.hovedEnhetCSVRepository = hovedEnhetCSVRepository;
+		this.underEnhetCSVRepository = underEnhetCSVRepository;
 	}
 	
 	
 	/**
-	 * Get Hovedenhet created from JSON from data.brreg.no.
+	 * Get Enhet created from JSON from data.brreg.no or from CSV-file
 	 * 
-	 * @param orgNr
-	 * @param useApi boolean, true if accessing brreg.no api, false if using CSV-file
-	 * @return {@link Hovedenhet}
+	 * @param Integer orgNr
+	 * @param boolean useApi, true if accessing brreg.no api, false if using CSV-file
+	 * @return {@link Enhet} instances can be {@link HovedEnhet} or {@link UnderEnhet}
 	 * @throws RestClientException
 	 */
-	public Hovedenhet getHovedenhetRecord(String orgNr, boolean useApi) throws RestClientException{
-		Hovedenhet hovedenhet = null;
-		if (!passSanityCheck(orgNr)) {
-			logger.info("Organisasjonnummer: "+orgNr+" har feilaktig lengde, kan være maksimalt 9 sifre.");
-			return hovedenhet;
+	public Enhet getEnhetRecord(Integer orgNr, boolean useApi) throws RestClientException {
+		Enhet enhet = null;
+		if (!hasCorrectLenght(orgNr)) {
+			logger.info("Organisasjonnummer: " + orgNr + " har feilaktig lengde, kan være maksimalt 9 sifre.");
+			return enhet;
 		}
 		if (useApi) {
-			hovedenhet = getHovedEnhetFromAPI(orgNr);			
+			enhet = getHovedEnhetFromAPI(orgNr);
+			// TODO: Add underenhet from api
 		} else {
-			hovedenhet = getHovedEnhetFromCVS(orgNr);	
+			enhet = getHovedEnhetFromCVS(orgNr);
+			if (enhet == null) {
+				enhet = getUnderEnhetFromCVS(orgNr);
+				if (enhet != null && (enhet.getOverordnetEnhet() != null)) {
+					HovedEnhet he = (HovedEnhet) getHovedEnhetFromCVS(enhet.getOverordnetEnhet());
+					if (he != null) {
+						enhet.setKonkurs(he.getKonkurs());
+						enhet.setRegistrertIMvaregisteret(he.getRegistrertIMvaregisteret());
+						enhet.setUnderAvvikling(he.getUnderAvvikling());
+						enhet.setUnderTvangsavviklingEllerTvangsopplosning(he.getUnderTvangsavviklingEllerTvangsopplosning());
+					}
+				}
+			}
 		}
+
+		return enhet;
+	}
+
+	private Enhet getHovedEnhetFromCVS(Integer orgNr) {
+		HovedEnhet hovedenhet = null;
+		hovedenhet = hovedEnhetCSVRepository.get(orgNr);
 		
 		return hovedenhet;
 	}
 
-
-	private Hovedenhet getHovedEnhetFromCVS(String orgNr) {
-		Hovedenhet hovedenhet = null;
-		hovedenhet = hovedEnhetCSVRepository.get(new Integer(orgNr));
-		
-		return hovedenhet;
+	private Enhet getUnderEnhetFromCVS(Integer orgNr) {
+		UnderEnhet underEnhet = null;
+		underEnhet = underEnhetCSVRepository.get(orgNr);
+		return underEnhet;
 	}
-
-
-	private Hovedenhet getHovedEnhetFromAPI(String orgNr) {
-		Hovedenhet hovedenhet = null;
+	
+	private Enhet getHovedEnhetFromAPI(Integer orgNr) {
+		HovedEnhet hovedenhet = null;
 		StringBuffer urlString = new StringBuffer();
 		RestTemplate restTemplate = getRestTemplate(); // TODO: REview this one,
 														// cache it some how
@@ -102,7 +125,7 @@ public class OppslagHovedenhetRequest {
 
 		try {
 
-			hovedenhet = restTemplate.getForObject(urlString.toString(), Hovedenhet.class);
+			hovedenhet = restTemplate.getForObject(urlString.toString(), HovedEnhet.class);
 
 		} catch (RestClientException ex) {
 			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
@@ -138,31 +161,12 @@ public class OppslagHovedenhetRequest {
 
 	}
 
-	private boolean passSanityCheck(String orgNr) {
-		if (!isNumber(orgNr)) {
+	private boolean hasCorrectLenght(Integer orgNr) {
+		if (orgNr > MAX_ORGNR_LENGHT){  
 			return false;
-		}
-
-		if(!hasCorrectLenght(orgNr)) {
-			return false;
-		}
-		return true;
-	}
-
-	private boolean isNumber(String orgNr) {
-		try {
-			Integer.parseInt(orgNr);
+		} else {
 			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}		
-	}
-
-	private boolean hasCorrectLenght(String orgNr) {
-		if (orgNr.length() > 9){  
-			return false;
-		} 
-		return true;
+		}
 	}
 
     private RestTemplate getRestTemplate() {    	

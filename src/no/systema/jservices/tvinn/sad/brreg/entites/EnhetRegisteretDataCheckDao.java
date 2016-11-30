@@ -23,8 +23,10 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	private String registrertIMvaregisteret = "";
 	private String underAvvikling = "";
 	private String underTvangsavviklingEllerTvangsopplosning = "";
-	private String existsInRegister = "";
-
+	private String existsAsHovedEnhet = "";
+	private String existsAsUnderEnhet = "";
+	private String overordnetEnhetOrgnr = "";
+	
 	public String getKundeNr() {
 		return kundeNr;
 	}
@@ -67,12 +69,23 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	public void setUnderTvangsavviklingEllerTvangsopplosning(String underTvangsavviklingEllerTvangsopplosning) {
 		this.underTvangsavviklingEllerTvangsopplosning = underTvangsavviklingEllerTvangsopplosning;
 	}
-	public String getExistsInRegister() {
-		return existsInRegister;
+	public String getExistsAsHovedEnhet() {
+		return existsAsHovedEnhet;
 	}
-	public void setExistsInRegister(String existsInRegister) {
-		this.existsInRegister = existsInRegister;
+	public void setExistsAsHovedEnhet(String existsAsHovedEnhet) {
+		this.existsAsHovedEnhet = existsAsHovedEnhet;
 	}
-	
+	public String getExistsAsUnderEnhet() {
+		return existsAsUnderEnhet;
+	}
+	public void setExistsAsUnderEnhet(String existsAsUnderEnhet) {
+		this.existsAsUnderEnhet = existsAsUnderEnhet;
+	}
+	public String getOverordnetEnhetOrgnr() {
+		return overordnetEnhetOrgnr;
+	}
+	public void setOverordnetEnhetOrgnr(String overordnetEnhetOrgnr) {
+		this.overordnetEnhetOrgnr = overordnetEnhetOrgnr;
+	}
 	
 }

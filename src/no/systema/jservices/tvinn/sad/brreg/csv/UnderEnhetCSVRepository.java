@@ -1,16 +1,16 @@
 package no.systema.jservices.tvinn.sad.brreg.csv;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 
-public interface HovedEnhetCSVRepository {
+public interface UnderEnhetCSVRepository {
 
 	/**
-	 * Retrieve a HovenEnhet by orgnr
+	 * Retrieve a UnderEnhet by orgnr
 	 * 
 	 * @param orgNr, Integer
 	 * @return HovedEnhet
 	 */
-	public HovedEnhet get(Integer orgNr); 
+	public UnderEnhet get(Integer orgNr); 
 	
 	
 	/**

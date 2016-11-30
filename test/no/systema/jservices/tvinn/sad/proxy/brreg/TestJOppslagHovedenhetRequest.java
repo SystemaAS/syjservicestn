@@ -1,7 +1,6 @@
 package no.systema.jservices.tvinn.sad.proxy.brreg;
 
 import java.io.InputStream;
-import java.net.UnknownHostException;
 
 import org.hamcrest.core.AnyOf;
 import org.hamcrest.core.Is;
@@ -10,25 +9,38 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestClientException;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagHovedenhetRequest;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
+import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepositoryImpl;
+import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
+import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepositoryImpl;
+import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 
 public class TestJOppslagHovedenhetRequest {
 
-	private OppslagHovedenhetRequest oppslagHovedenhetRequest;
+	private OppslagEnhetRequest oppslagHovedenhetRequest;
+	private HovedEnhetCSVRepository heRepo = null; 
+	private UnderEnhetCSVRepository ueRepo = null; 
+	boolean CSV = false;
+	boolean API = true;
+	
 
 	@Before
 	public void setUp() throws Exception {
+		heRepo = new HovedEnhetCSVRepositoryImpl();
+		ueRepo = new UnderEnhetCSVRepositoryImpl();
 
-		oppslagHovedenhetRequest = new OppslagHovedenhetRequest("http://data.brreg.no/enhetsregisteret/enhet/", null);
+		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://data.brreg.no/enhetsregisteret/enhet/", heRepo, ueRepo);
 	}
 
 	@Test
 	public final void testValidOrgNr() {
-		String orgNr = "974760673";
-		Hovedenhet record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr, true);
+		Integer orgNr = 974760673;
+		Enhet record = oppslagHovedenhetRequest.getEnhetRecord(orgNr, API);
 		Assert.assertNotNull(record);
-		Assert.assertEquals(record.getOrganisasjonsnummer().toString(), orgNr);
+		Assert.assertEquals(record.getOrganisasjonsnummer(), orgNr);
 		Assert.assertThat(record.getKonkurs(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
 		Assert.assertThat(record.getRegistrertIMvaregisteret(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
 		Assert.assertThat(record.getUnderAvvikling(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
@@ -38,10 +50,9 @@ public class TestJOppslagHovedenhetRequest {
 
 	@Test
 	public final void testInValidOrgNr() {
-		String orgNr = "123456789";
-		Hovedenhet record;
+		Enhet record;
 		try {
-			record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr, true);
+			record = oppslagHovedenhetRequest.getEnhetRecord(123456789, API);
 			Assert.assertNull(record);
 		} catch (RestClientException e) {
 			Assert.fail("Exception not supposed...");
@@ -51,32 +62,61 @@ public class TestJOppslagHovedenhetRequest {
 
 	@Test
 	public final void testInValidOrgNrLenghtInSysped() {
-		String orgNr = "1234567890";
-		Hovedenhet record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr, false);
-		Assert.assertNull(record);
-	}
-
-	@Test
-	public final void testInValidNumberInSysped() {
-		String orgNr = "fylkenr";
-		Hovedenhet record = oppslagHovedenhetRequest.getHovedenhetRecord(orgNr, false);
+		Enhet record = oppslagHovedenhetRequest.getEnhetRecord(1234567890, API);
 		Assert.assertNull(record);
 	}
 
 	@Test
 	public final void testNoAccessToBrreg() {
-		// http://data.brreg.no/enhetsregisteret/enhet/974760673.json
-		oppslagHovedenhetRequest = new OppslagHovedenhetRequest("http://kalleanka.se", null);
+		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://kalleanka.se/", heRepo, ueRepo);
 
 		try {
-			Hovedenhet record = oppslagHovedenhetRequest.getHovedenhetRecord("123", true);
-			Assert.fail("RestClientException should have been thrown.");
+			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
+			Assert.assertNull("record should be null, meaning not found",record);
 		} catch (RestClientException e) {
-			Assert.assertTrue("RestClientException should have been thrown.. e=" + e.getCause(), e.getCause() instanceof UnknownHostException);
+			Assert.fail("RestClientException should NOT have been thrown");
 		}
 
 	}
+	
 
+	@Test
+	public final void testNotFoundInBrregAPI() {
+		try {
+			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
+			Assert.assertNull("record should be null, meaning not found",record);
+		} catch (RestClientException e) {
+			Assert.fail("RestClientException should NOT have been thrown");
+		}
+	}	
+	
+	@Test
+	public final void testExistInAsHovedEnhetInCSV() {
+		try {
+			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917861579, CSV); //917861579 in hovedenheter-minor.csv
+			Assert.assertNotNull("917861579 should have been found in csv.", record);
+			HovedEnhet he = (HovedEnhet)record;
+			Assert.assertNotNull("Cast to HovedEnhet should be possible.", he);
+		} catch (RestClientException e) {
+			Assert.fail("RestClientException should NOT have been thrown");
+		}
+
+	}
+	
+	
+	@Test
+	public final void testExistInAsUnderEnhetInCSV() {
+		try {
+			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917959935, CSV); //917959935 in underenheter-minor.csv
+			Assert.assertNotNull("917959935 should have been found in csv.", record);
+			UnderEnhet ue = (UnderEnhet)record;
+			Assert.assertNotNull("Cast to UnderEnhet should be possible.", ue);
+		} catch (RestClientException e) {
+			Assert.fail("RestClientException should NOT have been thrown");
+		}
+
+	}	
+		
 	private String readFile(String jsonFile) throws Exception {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input = classLoader.getResourceAsStream("no/systema/jservices/tvinn/sad/proxy/brreg/" + jsonFile);

@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Required;
 import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
+import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
-import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagHovedenhetRequest;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Hovedenhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
+import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
 public class BrregRegisterServicesImpl implements BrregRegisterServices {
@@ -35,38 +37,60 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private List getCheckedKunderList(List kunderForValideringList) {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
-		OppslagHovedenhetRequest oppslagHovedenhetRequest = new OppslagHovedenhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository);
+		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository);
 
 		for (Iterator iterator = kunderForValideringList.iterator(); iterator.hasNext();) {
 			CundfDao cundfDao = (CundfDao) iterator.next();
-			Hovedenhet hovedenhet = oppslagHovedenhetRequest.getHovedenhetRecord(cundfDao.getSyrg().trim(), false);
+			Enhet enhet = null;
+			if (passSanityCheck(cundfDao.getSyrg().trim())) {
+				enhet = oppslagHovedenhetRequest.getEnhetRecord(new Integer(cundfDao.getSyrg().trim()), false);
+			}
 			checkedRecord = new EnhetRegisteretDataCheckDao();
 
-			if (hovedenhet == null) {
-				logger.info("ERROR: Hovedenhet for " + cundfDao.getSyrg().trim() + " not found in brreg.no");
+			if (enhet == null) {
+				logger.info("ERROR: Enhet for " + cundfDao.getSyrg().trim() + " not found.");
 				checkedRecord.setKundeNr(cundfDao.getKundnr());
 				checkedRecord.setKundeNavn(cundfDao.getKnavn());
 				checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
-				checkedRecord.setExistsInRegister("N");
+				checkedRecord.setExistsAsHovedEnhet("N");
+				checkedRecord.setExistsAsUnderEnhet("N");
 
 				checkedKunderList.add(checkedRecord);
 
 			} else {
-				if (isKonkurs(hovedenhet) || !isMvareRegistret(hovedenhet) || isUnderAvvikling(hovedenhet)) {
-					checkedRecord.setKundeNr(cundfDao.getKundnr());
-					checkedRecord.setKundeNavn(cundfDao.getKnavn());
-					checkedRecord.setOrgNr(cundfDao.getSyrg());
+				if (isHovedEnhet(enhet)) {
+					if (isKonkurs(enhet) || !isMvareRegistret(enhet) || isUnderAvvikling(enhet)) {
+						checkedRecord.setKundeNr(cundfDao.getKundnr());
+						checkedRecord.setKundeNavn(cundfDao.getKnavn());
+						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
+						checkedRecord.setExistsAsHovedEnhet("J");
+						checkedRecord.setKonkurs(enhet.getKonkurs());
+						checkedRecord.setRegistrertIMvaregisteret(enhet.getRegistrertIMvaregisteret());
+						checkedRecord.setUnderAvvikling(enhet.getUnderAvvikling());
+						checkedRecord.setUnderTvangsavviklingEllerTvangsopplosning(enhet.getUnderTvangsavviklingEllerTvangsopplosning());
 
-					checkedRecord.setKonkurs(hovedenhet.getKonkurs());
-					checkedRecord.setRegistrertIMvaregisteret(hovedenhet.getRegistrertIMvaregisteret());
-					checkedRecord.setUnderAvvikling(hovedenhet.getUnderAvvikling());
-					checkedRecord.setUnderTvangsavviklingEllerTvangsopplosning(
-							hovedenhet.getUnderTvangsavviklingEllerTvangsopplosning());
-					checkedRecord.setExistsInRegister("J");
+						checkedKunderList.add(checkedRecord);
+					}
 
-					checkedKunderList.add(checkedRecord);
+				} else { // is UnderEnhet
+					if (isKonkurs(enhet) || !isMvareRegistret(enhet) || isUnderAvvikling(enhet)) {  //UnderEnhet could have been decorated
+						checkedRecord.setKundeNr(cundfDao.getKundnr());
+						checkedRecord.setKundeNavn(cundfDao.getKnavn());
+						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
+						checkedRecord.setExistsAsHovedEnhet("N");
+						checkedRecord.setExistsAsUnderEnhet("J");
+						if (enhet.getOverordnetEnhet() != null) { //Parent orgnr
+							checkedRecord.setOverordnetEnhetOrgnr(enhet.getOverordnetEnhet().toString());
+						}
+						checkedRecord.setKonkurs(enhet.getKonkurs());
+						checkedRecord.setRegistrertIMvaregisteret(enhet.getRegistrertIMvaregisteret());
+						checkedRecord.setUnderAvvikling(enhet.getUnderAvvikling());
+						checkedRecord.setUnderTvangsavviklingEllerTvangsopplosning(enhet.getUnderTvangsavviklingEllerTvangsopplosning());
 
+						checkedKunderList.add(checkedRecord);
+					}
 				}
+				
 			}
 		}
 
@@ -74,30 +98,69 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 	}
 
-	private boolean isUnderAvvikling(Hovedenhet hovedenhet) {
+
+	private boolean isHovedEnhet(Enhet enhet) {
+		boolean hovedenhet = false;
+		if (enhet instanceof HovedEnhet) {
+			hovedenhet = true;
+		}
+		return hovedenhet;
+	}
+
+	private boolean isUnderAvvikling(Enhet enhet) {
 		boolean underAvvikling = false;
-		if ("J".equals(hovedenhet.getUnderAvvikling())) {
+		if ("J".equals(enhet.getUnderAvvikling())) {
 			underAvvikling = true;
 		}
 		return underAvvikling;
 	}
 
-	private boolean isKonkurs(Hovedenhet hovedenhet) {
+	private boolean isKonkurs(Enhet enhet) {
 		boolean konkurs = false;
-		if ("J".equals(hovedenhet.getKonkurs())) {
+		if ("J".equals(enhet.getKonkurs())) {
 			konkurs = true;
 		}
 		return konkurs;
 	}
 
-	private boolean isMvareRegistret(Hovedenhet hovedenhet) {
+	private boolean isMvareRegistret(Enhet enhet) {
 		boolean mVareRegistret = false;
-		if ("J".equals(hovedenhet.getRegistrertIMvaregisteret())) {
+		if ("J".equals(enhet.getRegistrertIMvaregisteret())) {
 			mVareRegistret = true;
 		}
 		return mVareRegistret;
 	}
 
+
+	private boolean passSanityCheck(String orgNr) {
+		if (!isNumber(orgNr)) {
+			return false;
+		}
+
+		if(!hasCorrectLenght(orgNr)) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isNumber(String orgNr) {
+		try {
+			Integer.parseInt(orgNr);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}		
+	}
+
+	private boolean hasCorrectLenght(String orgNr) {
+		if (orgNr.length() > 9){  
+			return false;
+		} 
+		return true;
+	}	
+	
+	
+	
 	@Qualifier("cundfDaoServices")
 	private CundfDaoServices cundfDaoServices;
 
@@ -124,6 +187,17 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		return this.hovedEnhetCSVRepository;
 	}	
 	
-	
+	@Qualifier("underEnhetCSVRepository")
+	private UnderEnhetCSVRepository underEnhetCSVRepository;
+
+	@Autowired
+	@Required
+	public void setUnderEnhetCSVRepository(UnderEnhetCSVRepository value) {
+		this.underEnhetCSVRepository = value;
+	}
+
+	public UnderEnhetCSVRepository getUnderEnhetCSVRepository() {
+		return this.underEnhetCSVRepository;
+	}	
 	
 }
