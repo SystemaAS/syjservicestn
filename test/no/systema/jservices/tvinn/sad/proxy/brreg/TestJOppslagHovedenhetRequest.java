@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepositoryImpl;
@@ -31,8 +32,12 @@ public class TestJOppslagHovedenhetRequest {
 	public void setUp() throws Exception {
 		heRepo = new HovedEnhetCSVRepositoryImpl();
 		ueRepo = new UnderEnhetCSVRepositoryImpl();
+		heRepo.setRestTemplate(new RestTemplate());
+		ueRepo.setRestTemplate(new RestTemplate());
 
 		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://data.brreg.no/enhetsregisteret/enhet/", heRepo, ueRepo);
+		oppslagHovedenhetRequest.setRestTemplate(new RestTemplate());
+		
 	}
 
 	@Test
@@ -69,6 +74,7 @@ public class TestJOppslagHovedenhetRequest {
 	@Test
 	public final void testNoAccessToBrreg() {
 		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://kalleanka.se/", heRepo, ueRepo);
+		oppslagHovedenhetRequest.setRestTemplate(new RestTemplate());
 
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
@@ -94,7 +100,7 @@ public class TestJOppslagHovedenhetRequest {
 	public final void testExistInAsHovedEnhetInCSV() {
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917861579, CSV); //917861579 in hovedenheter-minor.csv
-			Assert.assertNotNull("917861579 should have been found in csv.", record);
+			Assert.assertNotNull("917861579 should have been found in hovedenheter-minor.csv.", record);
 			HovedEnhet he = (HovedEnhet)record;
 			Assert.assertNotNull("Cast to HovedEnhet should be possible.", he);
 		} catch (RestClientException e) {
@@ -108,7 +114,7 @@ public class TestJOppslagHovedenhetRequest {
 	public final void testExistInAsUnderEnhetInCSV() {
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917959935, CSV); //917959935 in underenheter-minor.csv
-			Assert.assertNotNull("917959935 should have been found in csv.", record);
+			Assert.assertNotNull("917959935 should have been found in underenheter-minor.csv.", record);
 			UnderEnhet ue = (UnderEnhet)record;
 			Assert.assertNotNull("Cast to UnderEnhet should be possible.", ue);
 		} catch (RestClientException e) {

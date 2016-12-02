@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 
@@ -24,6 +25,7 @@ public class TestJUnderEnhetCSVRepository {
 
 	@Test
 	public final void testUeCsvRespository() {
+		ueRepo.setRestTemplate(new RestTemplate());
 		UnderEnhet he = ueRepo.get(917959935);
 		assertNotNull(he);
 

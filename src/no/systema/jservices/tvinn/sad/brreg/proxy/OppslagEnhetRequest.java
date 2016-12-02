@@ -1,9 +1,10 @@
 package no.systema.jservices.tvinn.sad.brreg.proxy;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
@@ -16,7 +17,6 @@ import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
-import no.systema.main.util.ApplicationPropertiesUtil;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
@@ -45,8 +45,8 @@ public class OppslagEnhetRequest {
 	// For test
 	//private static final String READ_TIMEOUT = "6000";
 	//private static final String CONNECT_TIMEOUT = "6000";
-	private static final String READ_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.read.timeout");
-	private static final String CONNECT_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.connect.timeout");
+	//private static final String READ_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.read.timeout");
+	//private static final String CONNECT_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.connect.timeout");
 	private HovedEnhetCSVRepository hovedEnhetCSVRepository = null;
 	private UnderEnhetCSVRepository underEnhetCSVRepository = null;
 	private static final Integer MAX_ORGNR_LENGHT = new Integer(999999999);
@@ -117,8 +117,6 @@ public class OppslagEnhetRequest {
 	private Enhet getHovedEnhetFromAPI(Integer orgNr) {
 		HovedEnhet hovedenhet = null;
 		StringBuffer urlString = new StringBuffer();
-		RestTemplate restTemplate = getRestTemplate(); // TODO: REview this one,
-														// cache it some how
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
 		urlString.append(JSON_FORMAT);
@@ -169,15 +167,16 @@ public class OppslagEnhetRequest {
 		}
 	}
 
-    private RestTemplate getRestTemplate() {    	
-        return new RestTemplate(clientHttpRequestFactory());
-    }
-
-    private ClientHttpRequestFactory clientHttpRequestFactory() {
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setReadTimeout(new Integer(READ_TIMEOUT));
-        factory.setConnectTimeout(new Integer(CONNECT_TIMEOUT));
-        return factory;
-    }
-
+	@Qualifier("restTemplate")
+	private RestTemplate restTemplate;
+	@Autowired
+	@Required
+	public void setRestTemplate(RestTemplate value) {
+		this.restTemplate = value;
+	}
+	public RestTemplate getRestTemplate() {
+		return this.restTemplate;
+	}	
+    
+    
 }

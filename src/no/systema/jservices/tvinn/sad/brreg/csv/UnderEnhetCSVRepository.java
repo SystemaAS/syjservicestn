@@ -1,5 +1,7 @@
 package no.systema.jservices.tvinn.sad.brreg.csv;
 
+import org.springframework.web.client.RestTemplate;
+
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 
 public interface UnderEnhetCSVRepository {
@@ -12,11 +14,22 @@ public interface UnderEnhetCSVRepository {
 	 */
 	public UnderEnhet get(Integer orgNr); 
 	
+	/**
+	 * Download the underenheter.csv from data.brreg.no
+	 * 
+	 */
+	public void downloadCSVFile();
 	
 	/**
-	 * Set full qualifier for cvs-file.
+	 * Check if underenheter.csv exist in path and create InputStream
 	 * 
-	 * @param String pathAndFileName, path and full filename
 	 */
-	public void setFile(String pathAndFileName);
+	public void loadCSVFileFromPath();
+	
+	/**
+	 * Setting RestTemplate, primary used for injection in tests.
+	 * 
+	 * @param restTemplate
+	 */
+	public void setRestTemplate(RestTemplate restTemplate);	
 }

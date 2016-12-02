@@ -48,7 +48,7 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 			checkedRecord = new EnhetRegisteretDataCheckDao();
 
 			if (enhet == null) {
-				logger.info("ERROR: Enhet for " + cundfDao.getSyrg().trim() + " not found.");
+				//logger.info("ERROR: Enhet for " + cundfDao.getSyrg().trim() + " not found.");
 				checkedRecord.setKundeNr(cundfDao.getKundnr());
 				checkedRecord.setKundeNavn(cundfDao.getKnavn());
 				checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
