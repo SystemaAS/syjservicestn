@@ -86,7 +86,7 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 			Iterable<CSVRecord> records = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(reader);
 
 			for (CSVRecord record : records) {
-				he = createHovedEnhet(record);
+				he = new HovedEnhet(record);
 				brregMap.put(he.getOrganisasjonsnummer(), he);
 			}
 
@@ -100,23 +100,6 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 		}
 	}
 	
-	private HovedEnhet createHovedEnhet(CSVRecord record) {
-		HovedEnhet he = new HovedEnhet();
-		String organisasjonsnummer = record.get("organisasjonsnummer");
-		String konkurs = record.get("konkurs");
-		String registrertIMvaregisteret = record.get("registrertIMvaregisteret");
-		String underAvvikling = record.get("underAvvikling");
-		String underTvangsavviklingEllerTvangsopplosning = record.get("underTvangsavviklingEllerTvangsopplosning");
-
-		he.setOrganisasjonsnummer(new Integer(organisasjonsnummer));
-		he.setKonkurs(konkurs);
-		he.setRegistrertIMvaregisteret(registrertIMvaregisteret);
-		he.setUnderAvvikling(underAvvikling);
-		he.setUnderTvangsavviklingEllerTvangsopplosning(underTvangsavviklingEllerTvangsopplosning);
-
-		return he;
-	}
-
 	
 	@Qualifier("restTemplate")
 	private RestTemplate restTemplate;

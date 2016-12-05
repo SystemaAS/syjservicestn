@@ -87,7 +87,7 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 			Iterable<CSVRecord> records = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(reader);
 
 			for (CSVRecord record : records) {
-				ue = createUnderEnhet(record);
+				ue = new UnderEnhet(record);
 				brregMap.put(ue.getOrganisasjonsnummer(), ue);
 			}
 
@@ -101,20 +101,6 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 		}
 	}
 	
-	private UnderEnhet createUnderEnhet(CSVRecord record) {
-		UnderEnhet ue = new UnderEnhet();
-		String organisasjonsnummer = record.get("organisasjonsnummer");
-		String registrertIMvaregisteret = record.get("registrertIMvaregisteret");
-		String overordnetEnhet = record.get("overordnetEnhet");
-		
-		ue.setOrganisasjonsnummer(new Integer(organisasjonsnummer));
-		ue.setRegistrertIMvaregisteret(registrertIMvaregisteret);
-		ue.setOverordnetEnhet(new Integer(overordnetEnhet));
-		
-		return ue;
-		
-	}
-
 	
 	@Qualifier("restTemplate")
 	private RestTemplate restTemplate;

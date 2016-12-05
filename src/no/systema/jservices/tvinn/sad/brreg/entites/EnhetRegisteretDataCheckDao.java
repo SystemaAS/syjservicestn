@@ -26,6 +26,9 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	private String existsAsHovedEnhet = "";
 	private String existsAsUnderEnhet = "";
 	private String overordnetEnhetOrgnr = "";
+	//Added for Schenker, remove? 
+	private String organisasjonsForm = "";
+
 	
 	public String getKundeNr() {
 		return kundeNr;
@@ -86,6 +89,12 @@ public class EnhetRegisteretDataCheckDao implements Serializable, IDao {
 	}
 	public void setOverordnetEnhetOrgnr(String overordnetEnhetOrgnr) {
 		this.overordnetEnhetOrgnr = overordnetEnhetOrgnr;
+	}
+	public String getOrganisasjonsForm() {
+		return organisasjonsForm;
+	}
+	public void setOrganisasjonsForm(String organisasjonsForm) {
+		this.organisasjonsForm = organisasjonsForm;
 	}
 	
 }

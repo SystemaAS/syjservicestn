@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.brreg.services;
+package no.systema.jservices.tvinn.sad.brreg.services.schenker;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,10 +17,27 @@ import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
 import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServices;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
-public class BrregRegisterServicesImpl implements BrregRegisterServices {
-	private static Logger logger = Logger.getLogger(BrregRegisterServicesImpl.class.getName());
+
+/**
+ * This class is a replicate of BrregRegisterServicesImpl, with adjustment from DB Schenker demands.
+ * 1. Alla kunder shall be be viewed.
+ * 2. Organisasjonform is added. (This attribute is also included in standard excel).
+ * 
+ * This is also a test if this is valid tech. approch when customization is needed  per customer.
+ * 
+ * This class is referred to in  syjservicestn-service-schenker.xml
+ * Configuration is done in web.xml.
+ * 
+ * 
+ * @author Fredrik Möller
+ * @date Dec 5, 2016
+ *
+ */
+public class BrregRegisterServicesSchenkerImpl implements BrregRegisterServices {
+	private static Logger logger = Logger.getLogger(BrregRegisterServicesSchenkerImpl.class.getName());
 	private final static String ENHETS_REGISTERET_URL = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url");
 
 	@Override
@@ -59,7 +76,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 			} else {
 				if (isHovedEnhet(enhet)) {
-					if (isKonkurs(enhet) || !isMvareRegistret(enhet) || isUnderAvvikling(enhet)) {
 						checkedRecord.setKundeNr(cundfDao.getKundnr());
 						checkedRecord.setKundeNavn(cundfDao.getKnavn());
 						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
@@ -71,10 +87,8 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 						checkedRecord.setOrganisasjonsForm(enhet.getOrganisasjonsform());
 
 						checkedKunderList.add(checkedRecord);
-					}
 
 				} else { // is UnderEnhet
-					if (isKonkurs(enhet) || !isMvareRegistret(enhet) || isUnderAvvikling(enhet)) {  //UnderEnhet could have been decorated
 						checkedRecord.setKundeNr(cundfDao.getKundnr());
 						checkedRecord.setKundeNavn(cundfDao.getKnavn());
 						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
@@ -90,7 +104,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 						checkedRecord.setOrganisasjonsForm(enhet.getOrganisasjonsform());
 
 						checkedKunderList.add(checkedRecord);
-					}
 				}
 				
 			}
@@ -107,30 +120,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 			hovedenhet = true;
 		}
 		return hovedenhet;
-	}
-
-	private boolean isUnderAvvikling(Enhet enhet) {
-		boolean underAvvikling = false;
-		if ("J".equals(enhet.getUnderAvvikling())) {
-			underAvvikling = true;
-		}
-		return underAvvikling;
-	}
-
-	private boolean isKonkurs(Enhet enhet) {
-		boolean konkurs = false;
-		if ("J".equals(enhet.getKonkurs())) {
-			konkurs = true;
-		}
-		return konkurs;
-	}
-
-	private boolean isMvareRegistret(Enhet enhet) {
-		boolean mVareRegistret = false;
-		if ("J".equals(enhet.getRegistrertIMvaregisteret())) {
-			mVareRegistret = true;
-		}
-		return mVareRegistret;
 	}
 
 
