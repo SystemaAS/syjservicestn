@@ -8,14 +8,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.mapper.CundfMapper;
+import no.systema.main.util.ApplicationPropertiesUtil;
 import no.systema.main.util.DbErrorMessageManager;
 
 
 public class CundfDaoServicesImpl implements CundfDaoServices {
 	private static Logger logger = Logger.getLogger(CundfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
+	private String cundfTableName = ApplicationPropertiesUtil.getProperty("no.systema.table.name.cundf");
 
-	
 	/**
 	 * 
 	 * @return
@@ -74,7 +75,7 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 		sql.append(" syutlp, sypoge, systat, syselg, syiat1, syiat2, sycoty, syfr01, syfr02, ");
 		sql.append(" syfr03, syfr04, syfr05, syfr06, sysalu, syepos, aknrku, vatkku, xxbre, ");
 		sql.append(" xxlen, xxinm3, xxinlm, rnraku, golk, kundgr, pnpbku, adr21, eori ");
-		sql.append(" FROM cundfny a, firm b ");
+		sql.append(" FROM ");sql.append(cundfTableName); sql.append(" a, firm b");
 		sql.append(" WHERE a.firma = b.fifirm ");
 		
 		return sql.toString();
