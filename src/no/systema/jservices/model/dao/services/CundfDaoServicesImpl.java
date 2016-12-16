@@ -31,13 +31,11 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 	@Override
 	public List getListForQualityValidation() {
 /*		Selektion:
-		AKTKOD   1A    Aktivitetskod        = 'A'
 		FIRMA    2A    Firmakode            = FIFIRM från filen: FIRM
 		SYRG    14A    Organisasjonsnummer  <> blankt och <> '000000000'
 	    SYLAND 2A Landkod = blank eller 'NO'
 */				
 		StringBuffer sqlBuffer = new StringBuffer(this.getSELECT_FROM_CLAUSE());
-		sqlBuffer.append(" and aktkod = 'A'");
 		sqlBuffer.append(" and (syland = 'NO' or NULLIF(syland, '') IS NULL) ");
 		sqlBuffer.append(" and NULLIF(syrg, '') IS NOT NULL ");
 		sqlBuffer.append(" and syrg <> '000000000'");
@@ -80,7 +78,6 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 		
 		return sql.toString();
 	}	
-	
 	
 	
 	/**                                                                                                  
