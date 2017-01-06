@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import no.systema.jservices.common.brreg.proxy.entities.Enhet;
+import no.systema.jservices.common.json.JsonResponseWriter2;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServices;
@@ -37,7 +40,8 @@ public class ResponseOutputterController_BRREG {
 	@RequestMapping(value="brregKundeDataKontroll.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String kundeDatakontroll(HttpSession session, HttpServletRequest request) {
-		JsonResponseWriter jsonWriter = new JsonResponseWriter();
+		JsonResponseWriter jsonWriter = new JsonResponseWriter(); //TODO, enhance JsonResponseWriter2 with methid
+		JsonResponseWriter2 jsonWriter2 = new JsonResponseWriter2();
 		StringBuffer sb = new StringBuffer();
 
 		try {
@@ -51,21 +55,20 @@ public class ResponseOutputterController_BRREG {
 			if ((userName != null && !"".equals(userName))) {
 				List invalidaKunderList = null; 
 				invalidaKunderList = brregRegisterServices.getInvalidaKunderEnhetsRegisteret();
-				
 				if (invalidaKunderList != null) {
 					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, invalidaKunderList)); // invalidaKunderList can be empty
 				} else {
 					errMsg = "ERROR on SELECT: list is NULL?  Try to check: http://data.brreg.no/enhetsregisteret/enhet/";
 					status = "error";
 					logger.info("After SELECT:" + " " + status + errMsg);
-					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					sb.append(jsonWriter2.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}
 
 			} else {
 				errMsg = "ERROR on SELECT";
 				status = "error";
 				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
-				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				sb.append(jsonWriter2.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 			}
 		} catch (Exception e) {
 			// write std.output error output
@@ -79,6 +82,60 @@ public class ResponseOutputterController_BRREG {
 		return sb.toString();
 
 	}
+	
+	/**
+	 * Return record from data.brreg.no. Adressing Hovedenhet and Underenehet
+	 * 
+	 * Exempel: http://gw.systema.no:8080/syjservicestn/brreg.do?user=OSCAR&orgnr=936809219
+	 * 
+	 * @param session
+	 * @param request, user and orgnr
+	 * @return record if exist, else null
+	 */
+	@RequestMapping(value="brreg.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String brreg(HttpSession session, HttpServletRequest request) {
+		JsonResponseWriter2<Enhet> jsonWriter = new JsonResponseWriter2<Enhet>();
+		StringBuffer sb = new StringBuffer();
+		String orgnr = request.getParameter("orgnr");
+		
+		try {
+			String user = request.getParameter("user");
+			// Check ALWAYS user in BRIDF
+			String userName = this.bridfDaoServices.findNameById(user); 
+			String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+
+			if ((userName != null && !"".equals(userName))) {
+				Enhet record = brregRegisterServices.get(orgnr);
+				if (record != null) {
+						sb.append(jsonWriter.setJsonResult_Common_GetComposite(userName, record));	
+				} else {
+					errMsg = "ERROR on SELECT: Can not find Enhet on orgnr=,"+orgnr +"  Check: http://data.brreg.no/enhetsregisteret/enhet/"+orgnr+".json";
+					status = "error";
+					logger.info("After get Enhet from brregRegisterServices :" + " " + status + errMsg);
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}
+
+			} else {
+				errMsg = "ERROR on SELECT";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+
+		session.invalidate();
+		return sb.toString();
+
+	}
+
 	
 	@Qualifier ("bridfDaoServices")
 	private BridfDaoServices bridfDaoServices;

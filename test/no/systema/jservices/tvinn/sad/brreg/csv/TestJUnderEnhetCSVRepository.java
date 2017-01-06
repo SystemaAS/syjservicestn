@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 
 public class TestJUnderEnhetCSVRepository {
 //	private static Logger logger = Logger.getLogger(TestJCSVRespository.class.getName());

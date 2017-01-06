@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.brreg.csv;
 
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 
 public interface UnderEnhetCSVRepository {
 

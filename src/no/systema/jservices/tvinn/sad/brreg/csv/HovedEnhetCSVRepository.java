@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.brreg.csv;
 
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
 
 public interface HovedEnhetCSVRepository {
 

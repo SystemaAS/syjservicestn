@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.brreg.proxy.entities;
+package no.systema.jservices.tvinn.sad.brreg.proxy.entities.TOREMOVE;
 
 import java.util.ArrayList;
 import java.util.HashMap;

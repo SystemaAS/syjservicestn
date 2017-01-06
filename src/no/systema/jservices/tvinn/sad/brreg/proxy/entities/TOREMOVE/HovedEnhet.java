@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.brreg.proxy.entities;
+package no.systema.jservices.tvinn.sad.brreg.proxy.entities.TOREMOVE;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -14,6 +14,17 @@ public class HovedEnhet extends Enhet {
 
 	/**
 	 * Constructor init values delivered in CSVRecord
+	 * Values included:
+	 * <li> organisasjonsnummer </li>
+	 * <li> konkurs </li>
+	 * <li> registrertIMvaregisteret </li>
+	 * <li> underAvvikling </li>
+	 * <li> underTvangsavviklingEllerTvangsopplosning </li>
+	 * <li> organisasjonsform </li>
+	 * <li> navn </li>
+	 * <li> forretningsadresse.adresse </li>
+	 * <li> forretningsadresse.postnummer </li>
+
 	 * 
 	 * @param csvRecord
 	 */
@@ -24,6 +35,9 @@ public class HovedEnhet extends Enhet {
 		String underAvvikling = csvRecord.get("underAvvikling");
 		String underTvangsavviklingEllerTvangsopplosning = csvRecord.get("underTvangsavviklingEllerTvangsopplosning");
 		String organisasjonsform = csvRecord.get("organisasjonsform");
+		String navn = csvRecord.get("navn");
+		String forretningsadresseAdresse = csvRecord.get("forretningsadresse.adresse");
+		String forretningsadressePostnummer = csvRecord.get("forretningsadresse.postnummer");
 		
 		this.setOrganisasjonsnummer(new Integer(organisasjonsnummer));
 		this.setKonkurs(konkurs);
@@ -31,6 +45,12 @@ public class HovedEnhet extends Enhet {
 		this.setUnderAvvikling(underAvvikling);
 		this.setUnderTvangsavviklingEllerTvangsopplosning(underTvangsavviklingEllerTvangsopplosning);
 		this.setOrganisasjonsform(organisasjonsform);
+		this.setNavn(navn);
+		Forretningsadresse fa = new Forretningsadresse();
+		fa.setAdresse(forretningsadresseAdresse);
+		fa.setPostnummer(forretningsadressePostnummer);
+		this.setForretningsadresse(fa);
+		
 
 	}
 

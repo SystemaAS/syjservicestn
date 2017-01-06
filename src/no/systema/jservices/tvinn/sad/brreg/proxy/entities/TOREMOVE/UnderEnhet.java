@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.brreg.proxy.entities;
+package no.systema.jservices.tvinn.sad.brreg.proxy.entities.TOREMOVE;
 
 import org.apache.commons.csv.CSVRecord;
 

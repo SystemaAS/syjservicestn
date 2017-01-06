@@ -2,13 +2,12 @@ package no.systema.jservices.tvinn.sad.brreg.csv;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
 
 public class TestJHovedEnhetCSVRepository {
 //	private static Logger logger = Logger.getLogger(TestJHovedEnhetCSVRepository.class.getName());

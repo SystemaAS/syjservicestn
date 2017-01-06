@@ -13,12 +13,26 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
+/**
+ * This class populates a HashMap with all values in HovedEnhetsregisteret i brreg.no
+ * 
+ * Values are downloaded in a gzip CVS-file and then inserted into Map.
+ * 
+ * A @Scheduled operation is weekly updating, a new Map, with, again, downloaded CVS-file.
+ * An initial load on Map is also done when first get() is called.
+ * 
+ * @author Fredrik Möller
+ * @date Dec, 2016
+ */
+@EnableScheduling
 public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	private static Logger logger = Logger.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
 	private Reader reader = null;
@@ -35,6 +49,7 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	private String filePath = ApplicationPropertiesUtil.getProperty("no.brreg.data.resources.filepath");
 	private String csvFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.csv.file");
 	private String csvGzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.csv.gz.file");
+	private static String cronSchedule = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.cvs.download.cron");
 	private Map<Integer, HovedEnhet> brregMap = null;
 
 	@Override
@@ -99,6 +114,16 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	@Scheduled(cron="${no.brreg.data.hovedenheter.cvs.download.cron}")
+	public void putAllHovedEnhetIntoMap() {
+		logger.info("::putAllHovedEnhetIntoMap:: on cron="+cronSchedule);
+		fileHelper = new FileHelper(restTemplate);
+		downloadCSVFile();
+		loadCSVFileFromPath();
+		loadCSVFileIntoMap();
+	}		
 	
 	
 	@Qualifier("restTemplate")

@@ -1,4 +1,4 @@
-package no.systema.jservices.tvinn.sad.proxy.brreg;
+package no.systema.jservices.tvinn.sad.brreg.proxy;
 
 import java.io.InputStream;
 
@@ -10,14 +10,13 @@ import org.junit.Test;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import no.systema.jservices.common.brreg.proxy.entities.Enhet;
+import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepositoryImpl;
 import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepositoryImpl;
-import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 
 public class TestJOppslagHovedenhetRequest {
 

@@ -10,13 +10,13 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import no.systema.jservices.common.brreg.proxy.entities.Enhet;
+import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 import no.systema.jservices.common.mail.GMail;
 import no.systema.jservices.common.mail.GMailProperties;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.Enhet;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.HovedEnhet;
-import no.systema.jservices.tvinn.sad.brreg.proxy.entities.UnderEnhet;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
