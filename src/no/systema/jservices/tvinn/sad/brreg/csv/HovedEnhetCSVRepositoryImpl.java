@@ -37,7 +37,6 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  * @date Dec, 2016
  */
 @EnableScheduling
-@Service
 public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//, InitializingBean, DisposableBean {
 	private static Logger logger = Logger.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
 	private Reader reader = null;

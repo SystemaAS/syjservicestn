@@ -300,16 +300,20 @@ public class FirmDaoServicesImpl implements FirmDaoServices {
 		StringBuffer dbError = new StringBuffer();
 		List<FirmDao> firmList = getList(dbError);
 		FirmDao firmDao = null;
-		if (firmList.size() == 1) {
-			firmDao = firmList.get(0);
-		} else {
-			logger.info("ERROR: Incorrect number of rows i Firma!, dbError=" + dbError.toString());
-			throw new IllegalArgumentException("Incorrect number of rows i Firma!, dbError=" + dbError.toString());
-		}
-
-		if ("NO".equals(firmDao.getFiland())) {
-			return true;
-		} else {
+		if(firmList!=null){
+			if (firmList.size() == 1) {
+				firmDao = firmList.get(0);
+			} else {
+				logger.info("ERROR: Incorrect number of rows i Firma!, dbError=" + dbError.toString());
+				throw new IllegalArgumentException("Incorrect number of rows i Firma!, dbError=" + dbError.toString());
+			}
+	
+			if ("NO".equals(firmDao.getFiland())) {
+				return true;
+			} else {
+				return false;
+			}
+		}else{
 			return false;
 		}
 	}

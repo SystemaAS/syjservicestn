@@ -20,7 +20,7 @@ import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
-@Service
+
 public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private static Logger logger = Logger.getLogger(BrregRegisterServicesImpl.class.getName());
 	private final static String ENHETS_REGISTERET_URL = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url");
