@@ -159,7 +159,9 @@
   <bean id="kodtsbDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services.gyldigekoder.KodtsbDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <bean id="firmDaoServices" class="no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.FirmDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>  
   
   <!--///////////////////
         NativeExtractor 

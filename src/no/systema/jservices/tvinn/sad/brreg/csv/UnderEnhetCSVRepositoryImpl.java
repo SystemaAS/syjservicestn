@@ -19,6 +19,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.FirmDaoServices;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
 /**
@@ -55,12 +56,6 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 
 	@Override
 	public UnderEnhet get(Integer orgNr) {
-		if (brregMap == null){  //lazy load
-			fileHelper = new FileHelper(restTemplate);
-			downloadCSVFile();
-			loadCSVFileFromPath();
-			loadCSVFileIntoMap();
-		}
 		UnderEnhet ue = brregMap.get(orgNr);
 		return ue;
 	}
@@ -85,11 +80,11 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	@Override
 	public void loadCSVFileFromPath() {
 		try {
-			fis = new FileInputStream(FileHelper.REAL_PATH + filePath + csvFile);
+			fis = new FileInputStream(FileHelper.CATALINA_BASE + filePath + csvFile);
 			reader = new InputStreamReader(fis);
 		
 		} catch (Exception e) {
-			logger.info("ERROR reading file=" + FileHelper.REAL_PATH + filePath + csvFile + ". Check file. Exception=" + e);
+			logger.info("ERROR reading file=" + FileHelper.CATALINA_BASE + filePath + csvFile + ". Check file. Exception=" + e);
 			e.printStackTrace();
 		} 
 	}	
@@ -118,14 +113,17 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	
 	@Scheduled(cron="${no.brreg.data.underenheter.cvs.download.cron}")	
 	public void putAllUnderEnhetIntoMap() {
-		logger.info("::putAllUnderEnhetIntoMap::  on cron="+cronSchedule);
-		fileHelper = new FileHelper(restTemplate);
-		downloadCSVFile();
-		loadCSVFileFromPath();
-		loadCSVFileIntoMap();
+		logger.info("::putAllUnderEnhetIntoMap::  on cron=" + cronSchedule);
+		if (firmDaoServices.isNorwegianFirm()) {
+			logger.info("::isNorwegianFirm::");
+			fileHelper = new FileHelper(restTemplate);
+			downloadCSVFile();
+			logger.info("CSV file downloaded.");
+			loadCSVFileFromPath();
+			loadCSVFileIntoMap();
+			logger.info("CSV file loaded into Map.");
+		}
 	}		
-	
-	
 	
 	@Qualifier("restTemplate")
 	private RestTemplate restTemplate;
@@ -138,6 +136,13 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	public RestTemplate getRestTemplate() {
 		return this.restTemplate;
 	}	
+
+	@Qualifier ("firmDaoServices")
+	private FirmDaoServices firmDaoServices;
+	@Autowired
+	@Required
+	public void setFirmDaoServices (FirmDaoServices value){ this.firmDaoServices = value; }
+	public FirmDaoServices getFirmDaoServices(){ return this.firmDaoServices; }	
 		
 	
 }

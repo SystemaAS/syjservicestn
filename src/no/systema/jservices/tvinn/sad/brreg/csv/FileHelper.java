@@ -31,7 +31,7 @@ import no.systema.main.context.JServicesServletContext;
 public class FileHelper {
 	private static Logger logger = Logger.getLogger(FileHelper.class.getName());
 	private RestTemplate restTemplate = null;
-	public static String REAL_PATH = JServicesServletContext.getTdsServletContext().getRealPath("/");
+	public static String CATALINA_BASE = System.getProperty("catalina.base");
 	
 	/**
 	 * Constructor injects the RestTemplate
@@ -62,7 +62,7 @@ public class FileHelper {
 		logger.info("File downloaded from:" + downloadUrl + ", size=" + response.getBody().length);
 		if (response.getStatusCode() == HttpStatus.OK) {
 			ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
-			FileOutputStream fos = new FileOutputStream(REAL_PATH + filePath + writeFile);
+			FileOutputStream fos = new FileOutputStream(CATALINA_BASE + filePath + writeFile);
 			byte[] buffer = new byte[1024];
 			int len = 0;
 			while ((len = bis.read(buffer)) > 0) {
@@ -72,7 +72,7 @@ public class FileHelper {
 			fos.close();
 			bis.close();
 		}
-		logger.info("File: " + REAL_PATH + filePath + writeFile + " saved on disk.");
+		logger.info("File: " + CATALINA_BASE + filePath + writeFile + " saved on disk.");
 	}
 
 	/**
@@ -85,8 +85,8 @@ public class FileHelper {
 	 */
 	public void unGzip(String gzFile, String filePath, String decompressedFile) {
 		try {
-			FileInputStream fis = new FileInputStream(REAL_PATH + filePath + gzFile);
-			FileOutputStream fos = new FileOutputStream(REAL_PATH + filePath + decompressedFile);
+			FileInputStream fis = new FileInputStream(CATALINA_BASE + filePath + gzFile);
+			FileOutputStream fos = new FileOutputStream(CATALINA_BASE + filePath + decompressedFile);
 			GZIPInputStream gzis = new GZIPInputStream(fis);
 			byte[] buffer = new byte[1024];
 			int len = 0;
@@ -98,11 +98,11 @@ public class FileHelper {
 			fis.close();
 			gzis.close();
 
-			logger.info("File:" + REAL_PATH + filePath + gzFile + " extracted to:" + REAL_PATH + filePath + decompressedFile);
+			logger.info("File:" + CATALINA_BASE + filePath + gzFile + " extracted to:" + CATALINA_BASE + filePath + decompressedFile);
 
 		} catch (Exception ex) {
 			logger.info(
-					"Exception when managing gz-file " + REAL_PATH + filePath + gzFile + " into " + REAL_PATH + filePath + decompressedFile + " Exception=" + ex);
+					"Exception when managing gz-file " + CATALINA_BASE + filePath + gzFile + " into " + CATALINA_BASE + filePath + decompressedFile + " Exception=" + ex);
 			ex.printStackTrace();
 		}
 

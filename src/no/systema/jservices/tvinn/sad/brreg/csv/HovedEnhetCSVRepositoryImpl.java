@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
@@ -19,6 +20,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.FirmDao;
+import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.FirmDaoServices;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
 /**
@@ -33,7 +36,7 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  * @date Dec, 2016
  */
 @EnableScheduling
-public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
+public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//, InitializingBean, DisposableBean {
 	private static Logger logger = Logger.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
 	private Reader reader = null;
 	private FileInputStream fis = null;
@@ -54,12 +57,6 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 
 	@Override
 	public HovedEnhet get(Integer orgNr) {
-		if (brregMap == null){  //lazy load
-			fileHelper = new FileHelper(restTemplate);
-			downloadCSVFile();
-			loadCSVFileFromPath();
-			loadCSVFileIntoMap();
-		}
 		HovedEnhet he = brregMap.get(orgNr);
 		return he;
 	}
@@ -84,10 +81,10 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	@Override
 	public void loadCSVFileFromPath() {
 		try {
-			fis = new FileInputStream(FileHelper.REAL_PATH +filePath + csvFile);
+			fis = new FileInputStream(FileHelper.CATALINA_BASE +filePath + csvFile);
 			reader = new InputStreamReader(fis);
 		} catch (Exception e) {
-			logger.info("ERROR reading file=" + FileHelper.REAL_PATH+ filePath + csvFile + ". Check file. Exception=" + e);
+			logger.info("ERROR reading file=" + FileHelper.CATALINA_BASE+ filePath + csvFile + ". Check file. Exception=" + e);
 			e.printStackTrace();
 		} 
 	}
@@ -115,14 +112,19 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 		}
 	}
 	
-	
+
 	@Scheduled(cron="${no.brreg.data.hovedenheter.cvs.download.cron}")
 	public void putAllHovedEnhetIntoMap() {
 		logger.info("::putAllHovedEnhetIntoMap:: on cron="+cronSchedule);
-		fileHelper = new FileHelper(restTemplate);
-		downloadCSVFile();
-		loadCSVFileFromPath();
-		loadCSVFileIntoMap();
+		if (firmDaoServices.isNorwegianFirm()) {
+			logger.info("::isNorwegianFirm::");
+			fileHelper = new FileHelper(restTemplate);
+			downloadCSVFile();
+			logger.info("CSV file downloaded.");
+			loadCSVFileFromPath();
+			loadCSVFileIntoMap();
+			logger.info("CSV file loaded into Map.");
+		}
 	}		
 	
 	
@@ -136,7 +138,15 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	}
 	public RestTemplate getRestTemplate() {
 		return this.restTemplate;
-	}	
+	}
+
+	
+	@Qualifier ("firmDaoServices")
+	private FirmDaoServices firmDaoServices;
+	@Autowired
+	@Required
+	public void setFirmDaoServices (FirmDaoServices value){ this.firmDaoServices = value; }
+	public FirmDaoServices getFirmDaoServices(){ return this.firmDaoServices; }	
 	
 	
 }
