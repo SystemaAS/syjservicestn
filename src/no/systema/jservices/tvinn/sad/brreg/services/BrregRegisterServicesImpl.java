@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Service;
 
 import no.systema.jservices.common.brreg.proxy.entities.Enhet;
 import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
@@ -19,6 +20,7 @@ import no.systema.jservices.tvinn.sad.brreg.entites.EnhetRegisteretDataCheckDao;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
+@Service
 public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private static Logger logger = Logger.getLogger(BrregRegisterServicesImpl.class.getName());
 	private final static String ENHETS_REGISTERET_URL = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url");
@@ -174,7 +176,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	
 	@Qualifier("cundfDaoServices")
 	private CundfDaoServices cundfDaoServices;
-
 	@Autowired
 	@Required
 	public void setCundfDaoServices(CundfDaoServices value) {
@@ -187,20 +188,14 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 	@Qualifier("hovedEnhetCSVRepository")
 	private HovedEnhetCSVRepository hovedEnhetCSVRepository;
-
 	@Autowired
 	@Required
-	public void setHovedEnhetCSVRepository(HovedEnhetCSVRepository value) {
-		this.hovedEnhetCSVRepository = value;
-	}
-
-	public HovedEnhetCSVRepository getHovedEnhetCSVRepository() {
-		return this.hovedEnhetCSVRepository;
-	}	
+	public void setHovedEnhetCSVRepository(HovedEnhetCSVRepository value) {this.hovedEnhetCSVRepository = value;}
+	public HovedEnhetCSVRepository getHovedEnhetCSVRepository() { return this.hovedEnhetCSVRepository; }	
 	
+
 	@Qualifier("underEnhetCSVRepository")
 	private UnderEnhetCSVRepository underEnhetCSVRepository;
-
 	@Autowired
 	@Required
 	public void setUnderEnhetCSVRepository(UnderEnhetCSVRepository value) {

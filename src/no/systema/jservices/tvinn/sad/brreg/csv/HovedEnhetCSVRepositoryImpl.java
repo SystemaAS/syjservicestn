@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -36,6 +37,7 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  * @date Dec, 2016
  */
 @EnableScheduling
+@Service
 public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//, InitializingBean, DisposableBean {
 	private static Logger logger = Logger.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
 	private Reader reader = null;
@@ -140,7 +142,6 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//,
 		return this.restTemplate;
 	}
 
-	
 	@Qualifier ("firmDaoServices")
 	private FirmDaoServices firmDaoServices;
 	@Autowired
