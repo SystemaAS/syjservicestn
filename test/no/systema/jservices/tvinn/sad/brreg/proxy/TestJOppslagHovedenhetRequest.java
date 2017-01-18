@@ -23,6 +23,7 @@ public class TestJOppslagHovedenhetRequest {
 	private OppslagEnhetRequest oppslagHovedenhetRequest;
 	private HovedEnhetCSVRepository heRepo = null; 
 	private UnderEnhetCSVRepository ueRepo = null; 
+	private RestTemplate restTemplate = null; 
 	boolean CSV = false;
 	boolean API = true;
 	
@@ -34,13 +35,13 @@ public class TestJOppslagHovedenhetRequest {
 		heRepo.setRestTemplate(new RestTemplate());
 		ueRepo.setRestTemplate(new RestTemplate());
 
-		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://data.brreg.no/enhetsregisteret/enhet/", heRepo, ueRepo);
-		oppslagHovedenhetRequest.setRestTemplate(new RestTemplate());
+		restTemplate = new RestTemplate();
+		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://data.brreg.no/enhetsregisteret/enhet/", heRepo, ueRepo, restTemplate);
 		
 	}
 
 	@Test
-	public final void testValidOrgNr() {
+	public final void testValidOrgNr() throws Exception{
 		Integer orgNr = 974760673;
 		Enhet record = oppslagHovedenhetRequest.getEnhetRecord(orgNr, API);
 		Assert.assertNotNull(record);
@@ -53,7 +54,7 @@ public class TestJOppslagHovedenhetRequest {
 	}
 
 	@Test
-	public final void testInValidOrgNr() {
+	public final void testInValidOrgNr() throws Exception{
 		Enhet record;
 		try {
 			record = oppslagHovedenhetRequest.getEnhetRecord(123456789, API);
@@ -65,15 +66,14 @@ public class TestJOppslagHovedenhetRequest {
 	}
 
 	@Test
-	public final void testInValidOrgNrLenghtInSysped() {
+	public final void testInValidOrgNrLenghtInSysped() throws Exception{
 		Enhet record = oppslagHovedenhetRequest.getEnhetRecord(1234567890, API);
 		Assert.assertNull(record);
 	}
 
 	@Test
-	public final void testNoAccessToBrreg() {
-		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://kalleanka.se/", heRepo, ueRepo);
-		oppslagHovedenhetRequest.setRestTemplate(new RestTemplate());
+	public final void testNoAccessToBrreg() throws Exception{
+		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://kalleanka.se/", heRepo, ueRepo, restTemplate);
 
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
@@ -86,7 +86,7 @@ public class TestJOppslagHovedenhetRequest {
 	
 
 	@Test
-	public final void testNotFoundInBrregAPI() {
+	public final void testNotFoundInBrregAPI() throws Exception{
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
 			Assert.assertNull("record should be null, meaning not found",record);
@@ -96,7 +96,7 @@ public class TestJOppslagHovedenhetRequest {
 	}	
 	
 	@Test
-	public final void testExistInAsHovedEnhetInCSV() {
+	public final void testExistInAsHovedEnhetInCSV() throws Exception{
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917861579, CSV); //917861579 in hovedenheter-minor.csv
 			Assert.assertNotNull("917861579 should have been found in hovedenheter-minor.csv.", record);
@@ -110,7 +110,7 @@ public class TestJOppslagHovedenhetRequest {
 	
 	
 	@Test
-	public final void testExistInAsUnderEnhetInCSV() {
+	public final void testExistInAsUnderEnhetInCSV() throws Exception{
 		try {
 			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917959935, CSV); //917959935 in underenheter-minor.csv
 			Assert.assertNotNull("917959935 should have been found in underenheter-minor.csv.", record);

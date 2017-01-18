@@ -1,5 +1,6 @@
 package no.systema.jservices.tvinn.sad.brreg.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,7 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.common.brreg.proxy.entities.Enhet;
 import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
@@ -27,15 +29,15 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 	
 	@Override
-	public Enhet get(String orgnr) {
+	public Enhet get(String orgnr) throws RestClientException, IOException {
 		Enhet enhet = null;
-		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository);
-		enhet = oppslagHovedenhetRequest.getEnhetRecord(new Integer(orgnr.trim()), false);
+		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository, restTemplate);
+		enhet = oppslagHovedenhetRequest.getEnhetRecord(new Integer(orgnr.trim()), true);
 		return enhet;
 	}	
 	
 	@Override
-	public List getInvalidaKunderEnhetsRegisteret() {
+	public List getInvalidaKunderEnhetsRegisteret()  throws RestClientException,  IOException {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		List<CundfDao> kunderForValideringList = cundfDaoServices.getListForQualityValidation();
 		logger.info("KUNDERLIST, kunderForValideringList="+kunderForValideringList.size());
@@ -45,10 +47,10 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		return checkedKunderList;
 	}
 
-	private List getCheckedKunderList(List kunderForValideringList) {
+	private List getCheckedKunderList(List kunderForValideringList) throws RestClientException,  IOException {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
-		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository);
+		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository, restTemplate);
 
 		for (Iterator iterator = kunderForValideringList.iterator(); iterator.hasNext();) {
 			CundfDao cundfDao = (CundfDao) iterator.next();
@@ -107,6 +109,10 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 			}
 		}
 
+		
+		hovedEnhetCSVRepository.clearMap();
+		underEnhetCSVRepository.clearMap();
+		
 		return checkedKunderList;
 
 	}
@@ -205,5 +211,18 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	public UnderEnhetCSVRepository getUnderEnhetCSVRepository() {
 		return this.underEnhetCSVRepository;
 	}
+	
+	@Qualifier("restTemplate")
+	private RestTemplate restTemplate;
+	@Autowired
+	@Required
+	public void setRestTemplate(RestTemplate value) {
+		this.restTemplate = value;
+	}
+	public RestTemplate getRestTemplate() {
+		return this.restTemplate;
+	}	
+    	
+	
 
 }

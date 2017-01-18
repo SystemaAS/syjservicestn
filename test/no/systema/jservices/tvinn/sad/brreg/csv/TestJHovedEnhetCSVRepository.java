@@ -24,7 +24,7 @@ public class TestJHovedEnhetCSVRepository {
 	}
 
 	@Test
-	public final void testHeCsvRespository() {
+	public final void testHeCsvRespository() throws Exception{
 		heRepo.setRestTemplate(new RestTemplate());
 		HovedEnhet he = heRepo.get(917957584);
 		assertNotNull(he);

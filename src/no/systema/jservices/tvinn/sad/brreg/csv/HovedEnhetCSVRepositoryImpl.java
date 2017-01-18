@@ -5,23 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
-import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.FirmDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.FirmDaoServices;
 import no.systema.main.util.ApplicationPropertiesUtil;
 
@@ -30,14 +25,10 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  * 
  * Values are downloaded in a gzip CVS-file and then inserted into Map.
  * 
- * A @Scheduled operation is weekly updating, a new Map, with, again, downloaded CVS-file.
- * An initial load on Map is also done when first get() is called.
- * 
  * @author Fredrik Möller
  * @date Dec, 2016
  */
-@EnableScheduling
-public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//, InitializingBean, DisposableBean {
+public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	private static Logger logger = Logger.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
 	private Reader reader = null;
 	private FileInputStream fis = null;
@@ -53,45 +44,52 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//,
 	private String filePath = ApplicationPropertiesUtil.getProperty("no.brreg.data.resources.filepath");
 	private String csvFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.csv.file");
 	private String csvGzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.csv.gz.file");
-	private static String cronSchedule = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.cvs.download.cron");
 	private Map<Integer, HovedEnhet> brregMap = null;
 
 	@Override
-	public HovedEnhet get(Integer orgNr) {
+	public HovedEnhet get(Integer orgNr) throws IOException {
+		if (brregMap == null) {
+			putAllHovedEnhetIntoMap();
+		}
 		HovedEnhet he = brregMap.get(orgNr);
 		return he;
 	}
 
 
 	@Override
-	public void downloadCSVFile() {
+	public void clearMap() {
+		brregMap = null;
+	}		
+	
+	@Override
+	public void downloadCSVFile() throws IOException {
 		try {
 			fileHelper.downloadFile(csvDownloadUrl, filePath ,csvGzFile);
 			fileHelper.unGzip(csvGzFile, filePath ,csvFile);
 		} catch (RestClientException ex) {
-			logger.info("RestClientException encountered: " + ex);
-			ex.printStackTrace();
+			logger.info("RestClientException encountered: ", ex);
+			throw ex;
 		} catch (IOException ex) {
-			logger.info("IOException encountered: " + ex);
-			ex.printStackTrace();
+			logger.info("IOException encountered: ", ex);
+			throw ex;
 		}
 
 	}
 	
 
 	@Override
-	public void loadCSVFileFromPath() {
+	public void loadCSVFileFromPath() throws IOException {
 		try {
 			fis = new FileInputStream(FileHelper.CATALINA_BASE +filePath + csvFile);
 			reader = new InputStreamReader(fis);
-		} catch (Exception e) {
-			logger.info("ERROR reading file=" + FileHelper.CATALINA_BASE+ filePath + csvFile + ". Check file. Exception=" + e);
-			e.printStackTrace();
+		} catch (IOException e) {
+			logger.info("ERROR reading file=" + FileHelper.CATALINA_BASE+ filePath + csvFile + ". Check file. Exception=", e);
+			throw e;
 		} 
 	}
 	
 	
-	private void loadCSVFileIntoMap() {
+	private void loadCSVFileIntoMap() throws IOException {
 		HovedEnhet he = null;
 		brregMap = new HashMap<Integer, HovedEnhet>();
 
@@ -107,18 +105,16 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//,
 			reader.close();
 			logger.info("Reader and InputStream closed.");
 
-		} catch (Exception e) {
-			logger.info("ERROR in Reader or csv parsing=" + reader + ".Exception=" + e);
-			e.printStackTrace();
+		} catch (IOException e) {
+			logger.info("ERROR in Reader or csv parsing=" + reader + ".Exception=" , e);
+			throw e;
 		}
 	}
 	
 
-	@Scheduled(cron="${no.brreg.data.hovedenheter.cvs.download.cron}")
-	public void putAllHovedEnhetIntoMap() {
-		logger.info("::putAllHovedEnhetIntoMap:: on cron="+cronSchedule);
+	private void putAllHovedEnhetIntoMap() throws IOException {
 		if (firmDaoServices.isNorwegianFirm()) {
-			logger.info("::isNorwegianFirm::");
+			logger.info("::isNorwegianFirm::, putAllHovedEnhetIntoMap");
 			fileHelper = new FileHelper(restTemplate);
 			downloadCSVFile();
 			logger.info("CSV file downloaded.");
@@ -146,7 +142,7 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {//,
 	@Autowired
 	@Required
 	public void setFirmDaoServices (FirmDaoServices value){ this.firmDaoServices = value; }
-	public FirmDaoServices getFirmDaoServices(){ return this.firmDaoServices; }	
+	public FirmDaoServices getFirmDaoServices(){ return this.firmDaoServices; }
 	
 	
 }

@@ -17,14 +17,11 @@ public class TestJUnderEnhetCSVRepository {
 
 	@Before
 	public void setUp() throws Exception {
-/*		context = new FileSystemXmlApplicationContext("/WebContent/WEB-INF/syjservicestn-service.xml");
-	    ueRepo = (HovedEnhetCSVRepository) context.getBean("hovedEnhetCSVRepository");
-*/	
 		ueRepo = new UnderEnhetCSVRepositoryImpl();	
 	}
 
 	@Test
-	public final void testUeCsvRespository() {
+	public final void testUeCsvRespository() throws Exception{
 		ueRepo.setRestTemplate(new RestTemplate());
 		UnderEnhet he = ueRepo.get(917959935);
 		assertNotNull(he);

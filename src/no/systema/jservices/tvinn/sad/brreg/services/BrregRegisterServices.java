@@ -1,6 +1,9 @@
 package no.systema.jservices.tvinn.sad.brreg.services;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.client.RestClientException;
 
 import no.systema.jservices.common.brreg.proxy.entities.Enhet;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
@@ -23,15 +26,16 @@ public interface BrregRegisterServices {
 	 * 
 	 * 
 	 */
-	public List getInvalidaKunderEnhetsRegisteret();
+	public List getInvalidaKunderEnhetsRegisteret() throws RestClientException, IOException;
 	
 	
 	/**
 	 * Retrieve a Enhet, checking in Hoved- and Underenhetsregister.
+	 * Using brreg.no synchronous API. 
 	 * 
 	 * @param orgnr
 	 * @return a Enhet, if exists, else null.
 	 */
-	public Enhet get(String orgnr);
+	public Enhet get(String orgnr) throws RestClientException, IOException ;
 
 }

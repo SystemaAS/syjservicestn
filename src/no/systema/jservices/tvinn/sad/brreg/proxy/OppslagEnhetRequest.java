@@ -1,9 +1,8 @@
 package no.systema.jservices.tvinn.sad.brreg.proxy;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
@@ -49,19 +48,22 @@ public class OppslagEnhetRequest {
 	//private static final String CONNECT_TIMEOUT = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url.connect.timeout");
 	private HovedEnhetCSVRepository hovedEnhetCSVRepository = null;
 	private UnderEnhetCSVRepository underEnhetCSVRepository = null;
+	private RestTemplate restTemplate = null;
 	private static final Integer MAX_ORGNR_LENGHT = new Integer(999999999);
 
 	/**
 	 * Constructor injection for enabling easier testing.
+	 * @param restTemplate 
 	 * 
 	 * @param String serviceUrl
 	 * @param HovedEnhetCSVRepository hovedEnhetCSVRepository
 	 * @param UnderEnhetCSVRepository underEnhetCSVRepository
 	 */
-	public OppslagEnhetRequest(String serviceUrl, HovedEnhetCSVRepository hovedEnhetCSVRepository, UnderEnhetCSVRepository underEnhetCSVRepository) {
+	public OppslagEnhetRequest(String serviceUrl, HovedEnhetCSVRepository hovedEnhetCSVRepository, UnderEnhetCSVRepository underEnhetCSVRepository, RestTemplate restTemplate) {
 		this.serviceUrl = serviceUrl;
 		this.hovedEnhetCSVRepository = hovedEnhetCSVRepository;
 		this.underEnhetCSVRepository = underEnhetCSVRepository;
+		this.restTemplate = restTemplate;
 	}
 	
 	
@@ -73,7 +75,7 @@ public class OppslagEnhetRequest {
 	 * @return {@link Enhet} instances can be {@link HovedEnhet} or {@link UnderEnhet}
 	 * @throws RestClientException
 	 */
-	public Enhet getEnhetRecord(Integer orgNr, boolean useApi) throws RestClientException {
+	public Enhet getEnhetRecord(Integer orgNr, boolean useApi) throws RestClientException, IOException {
 		Enhet enhet = null;
 		if (!hasCorrectLenght(orgNr)) {
 			logger.info("Organisasjonnummer: " + orgNr + " har feilaktig lengde, kan være maksimalt 9 sifre.");
@@ -101,14 +103,14 @@ public class OppslagEnhetRequest {
 		return enhet;
 	}
 
-	private Enhet getHovedEnhetFromCVS(Integer orgNr) {
+	private Enhet getHovedEnhetFromCVS(Integer orgNr) throws IOException {
 		HovedEnhet hovedenhet = null;
 		hovedenhet = hovedEnhetCSVRepository.get(orgNr);
 		
 		return hovedenhet;
 	}
 
-	private Enhet getUnderEnhetFromCVS(Integer orgNr) {
+	private Enhet getUnderEnhetFromCVS(Integer orgNr) throws IOException  {
 		UnderEnhet underEnhet = null;
 		underEnhet = underEnhetCSVRepository.get(orgNr);
 		return underEnhet;
@@ -167,16 +169,4 @@ public class OppslagEnhetRequest {
 		}
 	}
 
-	@Qualifier("restTemplate")
-	private RestTemplate restTemplate;
-	@Autowired
-	@Required
-	public void setRestTemplate(RestTemplate value) {
-		this.restTemplate = value;
-	}
-	public RestTemplate getRestTemplate() {
-		return this.restTemplate;
-	}	
-    
-    
 }

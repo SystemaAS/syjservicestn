@@ -19,17 +19,16 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	 -->
 
 
-
-	
 	<bean id="brregRegisterServices" class="no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServicesImpl">
   	</bean> 
 
-	<bean id="underEnhetCSVRepository" class="no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepositoryImpl" init-method="putAllUnderEnhetIntoMap">
+	<bean id="underEnhetCSVRepository" class="no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepositoryImpl">
 	</bean>
 
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 	</bean>	
-	<bean id="hovedEnhetCSVRepository" class="no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepositoryImpl" init-method="putAllHovedEnhetIntoMap">
+	
+	<bean id="hovedEnhetCSVRepository" class="no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepositoryImpl">
 	</bean>
 	
 </beans>
