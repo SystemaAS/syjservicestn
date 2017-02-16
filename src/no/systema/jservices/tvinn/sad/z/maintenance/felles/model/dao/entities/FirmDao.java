@@ -1,5 +1,7 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import no.systema.jservices.common.dao.IDao;
 
@@ -620,5 +622,12 @@ public class FirmDao implements Serializable, IDao {
 	public void setL1datn(String value){ this.l1datn = value;   }   
 	public String getL1datn (){ return this.l1datn;   }
 	//END FIRML1
+
+	@Override
+	public Map<String, Object> getKeys() {
+		Map<String, Object>  keys = new HashMap<String, Object>();
+		keys.put("fifirm", fifirm);
+		return keys;
+	}
 	
 }
