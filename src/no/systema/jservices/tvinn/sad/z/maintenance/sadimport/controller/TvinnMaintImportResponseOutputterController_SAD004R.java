@@ -181,6 +181,8 @@ public class TvinnMaintImportResponseOutputterController_SAD004R {
 						}
 					} else {
 						// write JSON error output
+						logger.info("Error, dbErrorStackTrace= "+dbErrorStackTrace);
+						logger.info("Error, sb="+sb.toString());
 						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
