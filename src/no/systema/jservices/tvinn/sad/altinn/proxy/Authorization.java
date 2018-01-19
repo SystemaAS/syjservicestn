@@ -150,9 +150,6 @@ public class Authorization {
 		File certFile = ResourceUtils.getFile(
 				"classpath:Buypass_ID-BAREKSTAD_OG_YTTERVÅG_REGNSKAP-serienummer550498454741797052332932-2015-06-24.p12");
 		logger.debug("open ssl certificate file = " + certFile);
-		// keyStore.load(new FileInputStream(new
-		// File(clientSSLCertificateKeystoreLocation)),
-		// clientSSLCertificateKeystorePassword.toCharArray());
 
 		keyStore.load(new FileInputStream(certFile), password);
 		TrustStrategy acceptingTrustStrategy = (chain, authType) -> true;

@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.altinn;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,6 @@ public class TestJAuthorization {
 	public void test() throws AuthorizationServiceException {
 		String cookie = auth.getCookie();
 		System.out.println("cookie="+cookie);
-		fail("Not yet implemented, but cookie is");
+		assertNotNull("Not yet implemented, but cookie is", cookie);
 	}
-
 }
