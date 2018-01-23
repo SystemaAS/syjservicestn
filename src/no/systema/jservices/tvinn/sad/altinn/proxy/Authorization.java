@@ -10,7 +10,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -47,25 +46,30 @@ public class Authorization {
 	private static String[] TLS_PROTOCOLS = {"TLSv1", "TLSv1.1" /*, "TLSv1.2"*/}; // Comment in TLSv1.2 to fail : bug in altinn or java that fails TLS handshake most of the time, but not always
 	private static String[] CIPHER_SUITES = null; // {"TLS_RSA_WITH_AES_128_GCM_SHA256"};
 
-    @Value("${altinn.authenticationUrl.test}")
+	private String CATALINA_BASE = System.getProperty("catalina.base");
+	
+    @Value("${what}")
+    String what;	
+	
+    @Value("${altinn.authenticationUrl}")
     String authenticationUrl;
 
-	@Value("${altinn.apikey.test}")
+	@Value("${altinn.apikey}")
     private String apikey;
  
-	@Value("${altinn.apiUsername.test}")
+	@Value("${altinn.apiUsername}")
     private String apiUsername;	
 
-	@Value("${altinn.apiUserpassword.test}")
+	@Value("${altinn.apiUserpassword}")
     private String apiUserpassword;		
 	
-    @Value("${altinn.host.test}")
+    @Value("${altinn.host}")
     private String host;    
     
-    @Value("${altinn.clientSSLCertificateKeystoreLocation.test}")
+    @Value("${altinn.clientSSLCertificateKeystoreLocation}")
     private String clientSSLCertificateKeystoreLocation;
 
-    @Value("${altinn.clientSSLCertificateKeystorePassword.test}")
+    @Value("${altinn.clientSSLCertificateKeystorePassword}")
     private String clientSSLCertificateKeystorePassword;
 
     @Value("${altinn.serviceCode}")
@@ -78,11 +82,18 @@ public class Authorization {
     
     final static String servicePath = "api/serviceowner/reportees?ForceEIAuthentication&subject=%s&servicecode=%s&serviceedition=%s";
     
-    private URI uri = null;
+    private URI authUri = null;
 	
     
     @PostConstruct
 	public void constructor() {
+    	
+    	if(CATALINA_BASE == null){
+    		CATALINA_BASE = "";  //TODO for test
+    		
+    	} 
+    	logger.info("classpath="+System.getProperty("java.class.path"));
+    	
 		assert authenticationUrl != null;
 		logger.info("Altinn service url: " + authenticationUrl);
 //
@@ -92,6 +103,8 @@ public class Authorization {
 //		assert altinnServiceEdition != null;
 //		logger.info("Altinn service edition: " + altinnServiceEdition);
 //
+		assert what != null;
+		logger.info("what: " + what);		
 		assert apikey != null;
 		logger.info("Altinn apikey: " + apikey);
 
@@ -99,7 +112,6 @@ public class Authorization {
 		logger.info("Altinn api username: " + apiUsername);
 
 		assert apiUserpassword != null;
-		logger.info("Altinn api password: " + apiUserpassword);		
 		
 		assert host != null;
 		logger.info("Altinn host: " + host);			
@@ -108,9 +120,8 @@ public class Authorization {
 		logger.info("Altinn client certificate keystore location: " + clientSSLCertificateKeystoreLocation);
 
 		assert clientSSLCertificateKeystorePassword != null;
-		logger.info("Altinn client certificate keystore password: " + clientSSLCertificateKeystorePassword);
 
-		uri = URI.create(authenticationUrl);
+		authUri = URI.create(authenticationUrl);
 		
 		
 		try {
@@ -138,19 +149,26 @@ public class Authorization {
 		char[] password = clientSSLCertificateKeystorePassword.toCharArray();
 
 		KeyStore keyStore = KeyStore.getInstance("PKCS12");
-		File certFile = ResourceUtils.getFile(clientSSLCertificateKeystoreLocation);
-
+//		  ClassPathResource keyStoreLocation = new ClassPathResource(CATALINA_BASE + clientSSLCertificateKeystoreLocation);
+		  String keyStoreLocation = new String(CATALINA_BASE + clientSSLCertificateKeystoreLocation);
+				   
+		File certFile = ResourceUtils.getFile(keyStoreLocation);
+		   
 		keyStore.load(new FileInputStream(certFile), password);
 		TrustStrategy acceptingTrustStrategy = (chain, authType) -> true;
 
-		SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(keyStore, password)
-				.loadTrustMaterial(null, acceptingTrustStrategy).build();
+		SSLContext sslContext = SSLContexts.custom()
+				.loadKeyMaterial(keyStore, password)
+				.loadTrustMaterial(null, acceptingTrustStrategy)
+				.build();
 
 
-		SSLConnectionSocketFactory f = new SSLConnectionSocketFactory(sslContext, TLS_PROTOCOLS, CIPHER_SUITES,
+		SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, TLS_PROTOCOLS, CIPHER_SUITES,
 				new DefaultHostnameVerifier());
 
-		HttpClient httpClient = HttpClients.custom().setSSLSocketFactory(f).build();
+		HttpClient httpClient = HttpClients.custom()
+				.setSSLSocketFactory(sslSocketFactory)
+				.build();
 
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 		requestFactory.setHttpClient(httpClient);
@@ -195,44 +213,45 @@ public class Authorization {
     }
 
 
-    /**
-     * Gets the callback cookie.
-     *
-     * @return The content in Set-Cookie when valid authenication.
-     */
-    public String getCookie()  {
+
+    public String getAnyThing()  {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         
-		ApiKeyDto apiKey = new ApiKeyDto();		
-		apiKey.setUserName(apiUsername);
-		apiKey.setUserPassword(apiUserpassword);
+		ApiKeyDto apiKeyDto = new ApiKeyDto();		
+		apiKeyDto.setUserName(apiUsername);
+		apiKeyDto.setUserPassword(apiUserpassword);
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
 		headers.add(HttpHeaders.HOST, host);
 		headers.add("ApiKey", apikey);
 
-		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKey, headers);
+		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKeyDto, headers);
 
-		ResponseEntity<byte[]> response = restTemplate.exchange(uri, HttpMethod.POST, entity, byte[].class);			
+		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
 		logger.info("response="+response);
 		
-		response.getHeaders().forEach((k,v)->System.out.println("key: " + k + " value : " + v));
+		List<String> cookie = response.getHeaders().get("Set-Cookie");
+		String cokkie = cookie.get(0);
+		logger.info("cokkie="+cokkie);
+		headers.add("Cookie", cokkie);
+		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
+//		String url = "https://tt02.altinn.no/api/910021451/messages/";  //ca: kunde
+		String url = "https://tt02.altinn.no/api/810514442/messages/";  //c:a Systema 
+		
+		
+		ResponseEntity<String> response2 = restTemplate.exchange(url, HttpMethod.GET, entityHeadersOnly, String.class);		//TODO handle type response	
 
-		List<String> cookie = null;
-
+		logger.info("response2="+response2);
 		
-		cookie = response.getHeaders().get("Set-Cookie");
+		String responseBody = response2.getBody();
+//		logger.info("responseBody="+responseBody);
 		
-		logger.info("cookie="+cookie);
-		
-		return cookie.toString(); //TODO
+		return responseBody;
 
     }
-   
-    
-    
+
     
     String getReporteesUrl(String ssn) {
         return authenticationUrl + String.format(servicePath, ssn, serviceCode, serviceEdition);
