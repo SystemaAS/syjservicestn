@@ -41,11 +41,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service("authorization")
 public class Authorization {
-
 	private static Logger logger = Logger.getLogger(Authorization.class.getName());
-	private static String[] TLS_PROTOCOLS = {"TLSv1", "TLSv1.1" /*, "TLSv1.2"*/}; // Comment in TLSv1.2 to fail : bug in altinn or java that fails TLS handshake most of the time, but not always
-	private static String[] CIPHER_SUITES = null; // {"TLS_RSA_WITH_AES_128_GCM_SHA256"};
-
 	private String CATALINA_BASE = System.getProperty("catalina.base");
 	
     @Value("${what}")
@@ -146,6 +142,9 @@ public class Authorization {
 	 * @throws KeyManagementException
 	 */
 	public ClientHttpRequestFactory getRequestFactory() throws KeyStoreException, IOException, UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, KeyManagementException {
+		String[] TLS_PROTOCOLS = {"TLSv1", "TLSv1.1" /*, "TLSv1.2"*/}; // Comment in TLSv1.2 to fail : bug in altinn or java that fails TLS handshake most of the time, but not always
+		String[] CIPHER_SUITES = null; // {"TLS_RSA_WITH_AES_128_GCM_SHA256"};
+
 		char[] password = clientSSLCertificateKeystorePassword.toCharArray();
 
 		KeyStore keyStore = KeyStore.getInstance("PKCS12");
@@ -153,8 +152,22 @@ public class Authorization {
 		  String keyStoreLocation = new String(CATALINA_BASE + clientSSLCertificateKeystoreLocation);
 				   
 		File certFile = ResourceUtils.getFile(keyStoreLocation);
-		   
 		keyStore.load(new FileInputStream(certFile), password);
+
+		/*
+	     * Determines whether the certificate chain can be trusted without consulting the trust manager
+	     * configured in the actual SSL context. This method can be used to override the standard JSSE
+	     * certificate verification process.
+	     * <p>
+	     * Please note that, if this method returns {@code false}, the trust manager configured
+	     * in the actual SSL context can still clear the certificate as trusted.
+	     *
+	     * @param chain the peer certificate chain
+	     * @param authType the authentication type based on the client certificate
+	     * @return {@code true} if the certificate can be trusted without verification by
+	     *   the trust manager, {@code false} otherwise.
+	     * @throws CertificateException thrown if the certificate is not trusted or invalid.
+	     */	
 		TrustStrategy acceptingTrustStrategy = (chain, authType) -> true;
 
 		SSLContext sslContext = SSLContexts.custom()
@@ -184,35 +197,64 @@ public class Authorization {
      * @return The response from the authorization service. A set of entities where each entity represents an organization or a person.
      * @throws AuthorizationServiceException
      */
-    public List<Entity> getAuthorizedEntities(String ssn) throws AuthorizationServiceException {
+//    public List<Entity> getAuthorizedEntities(String ssn) throws AuthorizationServiceException {
+//
+//        RestTemplate restTemplate = new RestTemplate(requestFactory);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("ApiKey", apikey);
+//        headers.set("Accept", "application/json");
+//
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        try {
+//            logger.info("Authorization request for "+ ssn);
+//
+//            ResponseEntity<List<Entity>> response = restTemplate.exchange(getReporteesUrl(ssn),
+//                    HttpMethod.GET, entity, new ParameterizedTypeReference<List<Entity>>() {});
+//
+//            if (response.getStatusCode() == HttpStatus.OK) {
+//                return response.getBody();
+//            }
+//
+//            throw new AuthorizationServiceException(response.getStatusCode());
+//
+//        } catch (HttpClientErrorException e) {
+//            String message = String.format("Authorization request failed: %s", e.getLocalizedMessage());
+//            logger.warn(message, e);
+//            throw new AuthorizationServiceException(message);
+//        }
+//    }
 
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("ApiKey", apikey);
-        headers.set("Accept", "application/json");
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        try {
-            logger.info("Authorization request for "+ ssn);
-
-            ResponseEntity<List<Entity>> response = restTemplate.exchange(getReporteesUrl(ssn),
-                    HttpMethod.GET, entity, new ParameterizedTypeReference<List<Entity>>() {});
-
-            if (response.getStatusCode() == HttpStatus.OK) {
-                return response.getBody();
-            }
-
-            throw new AuthorizationServiceException(response.getStatusCode());
-
-        } catch (HttpClientErrorException e) {
-            String message = String.format("Authorization request failed: %s", e.getLocalizedMessage());
-            logger.warn(message, e);
-            throw new AuthorizationServiceException(message);
-        }
-    }
-
-
+	
+//    public Subject getSubject(String uri) {
+//        BasicAuthRestTemplate template = new BasicAuthRestTemplate(httpUsername, httpPassword);
+//
+//        String referenceDataUri = UriComponentsBuilder
+//                .fromHttpUrl(referenceDataUrl + "/subjects")
+//                .queryParam("uri", uri)
+//                .toUriString();
+//
+//        Subject forObject = template.getForObject(referenceDataUri, Subject.class);
+//        logger.debug(forObject.toString());
+//        return forObject;
+//    }	
+	
+	//https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-uri-building
+	//alt 1:
+//    UriComponents uriComponents = UriComponentsBuilder.fromUriString(
+//            "http://example.com/hotels/{hotel}/bookings/{booking}").build();
+//
+//    URI uri = uriComponents.expand("42", "21").encode().toUri();	
+	
+	//alt 2:
+//	UriComponents uriComponents = UriComponentsBuilder.newInstance()
+//	        .scheme("http").host("example.com").path("/hotels/{hotel}/bookings/{booking}").build()
+//	        .expand("42", "21")
+//	        .encode();	
+	
+	
+	//https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/UriComponentsBuilder.html#fromPath-java.lang.String-
 
     public String getAnyThing()  {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
@@ -232,10 +274,12 @@ public class Authorization {
 		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
 		logger.info("response="+response);
 		
-		List<String> cookie = response.getHeaders().get("Set-Cookie");
+		
+		
+		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
 		String cokkie = cookie.get(0);
 		logger.info("cokkie="+cokkie);
-		headers.add("Cookie", cokkie);
+		headers.add(HttpHeaders.COOKIE, cokkie);
 		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
 //		String url = "https://tt02.altinn.no/api/910021451/messages/";  //ca: kunde
 		String url = "https://tt02.altinn.no/api/810514442/messages/";  //c:a Systema 
@@ -252,12 +296,36 @@ public class Authorization {
 
     }
 
+    public HttpEntity<ApiKeyDto> getHttpEntity()  {
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        
+		ApiKeyDto apiKeyDto = new ApiKeyDto();		
+		apiKeyDto.setUserName(apiUsername);
+		apiKeyDto.setUserPassword(apiUserpassword);
+
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
+		headers.add(HttpHeaders.HOST, host);
+		headers.add("ApiKey", apikey);
+
+		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKeyDto, headers);
+
+		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
+		logger.info("response="+response);
+		
+		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+		String cokkie = cookie.get(0); //TODO exceptionhandling
+		logger.info("cokkie="+cokkie);
+		headers.add(HttpHeaders.COOKIE, cokkie);
+		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
+		
+		return entityHeadersOnly;
+
+    }   
     
-    String getReporteesUrl(String ssn) {
-        return authenticationUrl + String.format(servicePath, ssn, serviceCode, serviceEdition);
+    public String getHost() {
+    	return host;
     }
-	
-	
-	
-	
+    
 }

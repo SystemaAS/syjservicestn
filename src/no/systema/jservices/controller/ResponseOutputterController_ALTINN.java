@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.altinn.proxy.Authorization;
+import no.systema.jservices.tvinn.sad.altinn.proxy.ActionsServiceManager;
 
 @Controller
 public class ResponseOutputterController_ALTINN {
@@ -25,7 +25,7 @@ public class ResponseOutputterController_ALTINN {
 	/**
 	 * Entrance for accessing info in secure www.altinn.no, using .P12 certificate
 	 * 
-	 * Exempel: http://gw.systema.no:8080/syjservicestn/altinnProxy.do?user=OSCAR&orgnr=936809219&servicecode=4814&serviceedition=3
+	 * @Example: http://gw.systema.no:8080/syjservicestn/altinnProxy.do?user=OSCAR&orgnr=936809219&servicecode=4814&serviceedition=3
 	 * 
 	 * @param session
 	 * @param request, user , orgnr, servicecode and serviceedition
@@ -34,7 +34,7 @@ public class ResponseOutputterController_ALTINN {
 	@RequestMapping(value="altinnProxy.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String altinnInit(HttpSession session, HttpServletRequest request) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		logger.info("altinnProxy.do");
 		try {
@@ -53,9 +53,9 @@ public class ResponseOutputterController_ALTINN {
 			String serviceedition = request.getParameter("serviceedition");
 			Assert.notNull(serviceedition, "serviceedition must be delivered."); 			
 			
-			sb.append(authorization.getAnyThing());
+			sb.append(serviceManager.getMessages(Integer.parseInt(orgnr)));
 			
-			logger.info("appended AnyThing on params:");
+			logger.info("appended getMessages");
 			
 		} catch (Exception e) {
 			// write std.output error output
@@ -75,6 +75,6 @@ public class ResponseOutputterController_ALTINN {
 	private BridfDaoServices bridfDaoServices;
 	
 	@Autowired
-	private Authorization authorization;
+	private ActionsServiceManager serviceManager;
 	
 }
