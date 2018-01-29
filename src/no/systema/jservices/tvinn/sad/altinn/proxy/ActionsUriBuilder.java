@@ -53,6 +53,28 @@ public class ActionsUriBuilder {
 
 		return uriComponents.toUri();
 
+	}
+
+
+	/**
+	 * Contains all actions related to the authorization roles
+	 * 
+	 * @param host
+	 * @param orgnr
+	 * @return URI, ex. GET {who}/authorization/roles?language={language}
+	 */
+	public static URI roles(String host, int orgnr) {
+
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.scheme("https")
+				.host(host)
+				.path("/api/{who}/authorization/roles")
+				.build()
+				.expand(orgnr)
+				.encode();
+
+		return uriComponents.toUri();
+
 	}	
 	
 }

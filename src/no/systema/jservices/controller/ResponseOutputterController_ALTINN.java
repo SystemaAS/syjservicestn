@@ -25,7 +25,7 @@ public class ResponseOutputterController_ALTINN {
 	/**
 	 * Entrance for accessing info in secure www.altinn.no, using .P12 certificate
 	 * 
-	 * @Example: http://gw.systema.no:8080/syjservicestn/altinnProxy.do?user=OSCAR&orgnr=936809219&servicecode=4814&serviceedition=3
+	 * @Example: http://gw.systema.no:8080/syjservicestn/altinnProxy.do?user=OSCAR&orgnr=810514442&servicecode=4814&serviceedition=3
 	 * 
 	 * @param session
 	 * @param request, user , orgnr, servicecode and serviceedition

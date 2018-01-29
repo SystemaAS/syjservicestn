@@ -39,6 +39,8 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import no.systema.jservices.tvinn.sad.altinn.entities.ApiKey;
+
 @Service("authorization")
 public class Authorization {
 	private static Logger logger = Logger.getLogger(Authorization.class.getName());
@@ -256,73 +258,100 @@ public class Authorization {
 	
 	//https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/UriComponentsBuilder.html#fromPath-java.lang.String-
 
-    public String getAnyThing()  {
+//    public String getAnyThing()  {
+//        RestTemplate restTemplate = new RestTemplate(requestFactory);
+//		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//        
+//		ApiKeyDto apiKeyDto = new ApiKeyDto();		
+//		apiKeyDto.setUserName(apiUsername);
+//		apiKeyDto.setUserPassword(apiUserpassword);
+//
+//		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+//		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
+//		headers.add(HttpHeaders.HOST, host);
+//		headers.add("ApiKey", apikey);
+//
+//		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKeyDto, headers);
+//
+//		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
+//		logger.info("response="+response);
+//		
+//		
+//		
+//		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+//		String cokkie = cookie.get(0);
+//		logger.info("cokkie="+cokkie);
+//		headers.add(HttpHeaders.COOKIE, cokkie);
+//		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
+////		String url = "https://tt02.altinn.no/api/910021451/messages/";  //ca: kunde
+//		String url = "https://tt02.altinn.no/api/810514442/messages/";  //c:a Systema 
+//		
+//		
+//		ResponseEntity<String> response2 = restTemplate.exchange(url, HttpMethod.GET, entityHeadersOnly, String.class);		//TODO handle type response	
+//
+//		logger.info("response2="+response2);
+//		
+//		String responseBody = response2.getBody();
+////		logger.info("responseBody="+responseBody);
+//		
+//		return responseBody;
+//
+//    }
+//
+    public HttpEntity<ApiKey> getHttpEntity()  {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         
-		ApiKeyDto apiKeyDto = new ApiKeyDto();		
+		ApiKey apiKeyDto = new ApiKey();		
 		apiKeyDto.setUserName(apiUsername);
 		apiKeyDto.setUserPassword(apiUserpassword);
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
+		headers.add(HttpHeaders.ACCEPT, "application/hal+json");
 		headers.add(HttpHeaders.HOST, host);
 		headers.add("ApiKey", apikey);
 
-		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKeyDto, headers);
-
-		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
-		logger.info("response="+response);
-		
-		
-		
-		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
-		String cokkie = cookie.get(0);
-		logger.info("cokkie="+cokkie);
-		headers.add(HttpHeaders.COOKIE, cokkie);
-		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
-//		String url = "https://tt02.altinn.no/api/910021451/messages/";  //ca: kunde
-		String url = "https://tt02.altinn.no/api/810514442/messages/";  //c:a Systema 
-		
-		
-		ResponseEntity<String> response2 = restTemplate.exchange(url, HttpMethod.GET, entityHeadersOnly, String.class);		//TODO handle type response	
-
-		logger.info("response2="+response2);
-		
-		String responseBody = response2.getBody();
-//		logger.info("responseBody="+responseBody);
-		
-		return responseBody;
-
-    }
-
-    public HttpEntity<ApiKeyDto> getHttpEntity()  {
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
-		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        
-		ApiKeyDto apiKeyDto = new ApiKeyDto();		
-		apiKeyDto.setUserName(apiUsername);
-		apiKeyDto.setUserPassword(apiUserpassword);
-
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
-		headers.add(HttpHeaders.HOST, host);
-		headers.add("ApiKey", apikey);
-
-		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKeyDto, headers);
+		HttpEntity<ApiKey> entity = new HttpEntity<ApiKey>(apiKeyDto, headers);
 
 		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
 		logger.info("response="+response);
 		
 		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
 		String cokkie = cookie.get(0); //TODO exceptionhandling
-		logger.info("cokkie="+cokkie);
 		headers.add(HttpHeaders.COOKIE, cokkie);
-		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
+		HttpEntity<ApiKey> entityHeadersOnly = new HttpEntity<ApiKey>( headers);		
 		
 		return entityHeadersOnly;
 
     }   
+    
+    public List<String> getCookie()  {
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        
+		ApiKey apiKeyDto = new ApiKey();		
+		apiKeyDto.setUserName(apiUsername);
+		apiKeyDto.setUserPassword(apiUserpassword);
+
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
+		headers.add(HttpHeaders.HOST, host);
+		headers.add("ApiKey", apikey);
+
+		HttpEntity<ApiKey> entity = new HttpEntity<ApiKey>(apiKeyDto, headers);
+
+		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
+		logger.info("response="+response);
+		
+		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+		
+		return cookie;
+
+    }      
+    
+    
+    
     
     public String getHost() {
     	return host;

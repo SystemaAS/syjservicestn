@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.http.HttpEntity;
 
-import no.systema.jservices.tvinn.sad.altinn.proxy.ApiKeyDto;
+import no.systema.jservices.tvinn.sad.altinn.entities.ApiKey;
 import no.systema.jservices.tvinn.sad.altinn.proxy.Authorization;
 
 @PropertySource(value = { "classpath:application-test.properties" })
@@ -28,8 +28,8 @@ public class TestJAuthorization {
 	}
 
 	@Test
-	public void testAnyThing() {
-		HttpEntity<ApiKeyDto> ent = auth.getHttpEntity();
+	public void testGetHttpEntity() {
+		HttpEntity<ApiKey> ent = auth.getHttpEntity();
 		logger.info("ent="+ent);
 		assertNotNull("checking", ent);
 	}	

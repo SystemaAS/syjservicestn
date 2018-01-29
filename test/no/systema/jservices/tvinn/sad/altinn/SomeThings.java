@@ -47,7 +47,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.tvinn.sad.altinn.proxy.ApiKeyDto;
+import no.systema.jservices.tvinn.sad.altinn.entities.ApiKey;
 
 public class SomeThings {
 	private static Logger logger = Logger.getLogger(SomeThings.class.getName());
@@ -156,7 +156,7 @@ public class SomeThings {
 //			 HttpEntity entity = new HttpEntity("helloWorld", headers);
 //			 URI location = restTemplate.postForLocation(uri, entity);
 
-			ApiKeyDto apiKey = new ApiKeyDto();		
+			ApiKey apiKey = new ApiKey();		
 			apiKey.setUserName(UserName);
 			apiKey.setUserPassword(UserPassword);
 			MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
@@ -169,7 +169,7 @@ public class SomeThings {
 			
 			restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-			HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKey, headers);
+			HttpEntity<ApiKey> entity = new HttpEntity<ApiKey>(apiKey, headers);
 
 //			String xx = restTemplate.postForObject(uri, request2, String.class);	
 //			String xx = restTemplate.exchange(uri, request2, String.class);		

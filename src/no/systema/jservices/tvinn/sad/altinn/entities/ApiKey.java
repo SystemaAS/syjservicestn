@@ -1,6 +1,6 @@
-package no.systema.jservices.tvinn.sad.altinn.proxy;
+package no.systema.jservices.tvinn.sad.altinn.entities;
 
-public class ApiKeyDto {
+public class ApiKey {
 
 	private String userName;
 	private String userPassword;
