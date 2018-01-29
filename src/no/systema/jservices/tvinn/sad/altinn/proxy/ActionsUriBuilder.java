@@ -35,6 +35,25 @@ public class ActionsUriBuilder {
 	}
 	
 	/**
+	 * Gets the list of available API-services in Altinn.
+	 * 
+	 * @param host
+	 * @return URI, ex. GET metadata
+	 */
+	public static URI metadata(String host) {
+
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.scheme("https")
+				.host(host)
+				.path("/api/metadata")
+				.build()
+				.encode();
+
+		return uriComponents.toUri();
+
+	}	
+	
+	/**
 	 * Gets all messages for the given 'who', here orgnr. These can optionally be retrieved in the language specified.
 	 * 
 	 * @param host
