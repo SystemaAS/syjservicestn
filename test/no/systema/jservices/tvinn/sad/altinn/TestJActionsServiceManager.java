@@ -14,6 +14,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import no.systema.jservices.tvinn.sad.altinn.entities.MessagesHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.entities.MetadataHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.proxy.ActionsServiceManager;
+import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceOwnerCode;
 
 @PropertySource(value = { "classpath:application-test.properties" })
 public class TestJActionsServiceManager {
@@ -52,33 +53,19 @@ public class TestJActionsServiceManager {
 	}
 	
 	@Test
-	public final void testGetMetadata() {
-		List<MetadataHalRepresentation> result = serviceManager.getMetadata();
+	public final void testGetMessagesForServiceOwnerCode() {
+		int orgnr = 810514442;    //810514442, 910021451
+		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwnerCode.SKD);
 		
 		assertNotNull(result); 
 	}	
 	
-
+	
 	@Test
-	public final void testGetProfile() {
-		int orgnr = 810514442;  
-		try {
-			serviceManager.getProfile(orgnr);
-			fail("Should throw RuntimeException...401 The resource was not found");
-		} catch (Exception e) {
-			// expecting 401....
-		}
-	}	
-
-	@Test
-	public final void testGetRoles() {
-		int orgnr = 810514442;  
-		try {
-			serviceManager.getRoles(orgnr);
-			fail("Should throw RuntimeException...403 The API key is not authorized for this operation");
-		} catch (Exception e) {
-			// expecting 403
-		}
+	public final void testGetMetadata() {
+		List<MetadataHalRepresentation> result = serviceManager.getMetadata();
+		
+		assertNotNull(result); 
 	}	
 	
 	

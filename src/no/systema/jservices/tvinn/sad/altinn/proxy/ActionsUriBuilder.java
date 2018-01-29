@@ -1,12 +1,13 @@
 package no.systema.jservices.tvinn.sad.altinn.proxy;
 
+import java.io.Serializable;
 import java.net.URI;
 
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Implementation for https://www.altinn.no/api/Help
+ * Creates URI on https://www.altinn.no/api/Help
  * 
  * @author Fredrik Möller
  * @date 2018
@@ -74,7 +75,30 @@ public class ActionsUriBuilder {
 
 	}
 
+	/**
+	 * Gets all messages for the given 'who', here orgnr. These can optionally be retrieved in the language specified.
+	 * 
+	 * Filtered on serviceownercode, e.g. SKD (=Skatteetaten)
+	 * 
+	 * @param host
+	 * @param orgnr
+	 * @param serviceOwneer
+	 * @return URI, ex. GET {who}/Messages?language={language}
+	 */
+	public static URI messages(String host, int orgnr, ServiceOwnerCode serviceOwneer) {
 
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.scheme("https")
+				.host(host)
+				.path("/api/{who}/messages/$filter=ServiceOwnerCode eq \'"+serviceOwneer+"\'")
+				.build()
+				.expand(orgnr)
+				.encode();
+
+		return uriComponents.toUri();
+
+	}
+	
 	/**
 	 * Contains all actions related to the authorization roles
 	 * 

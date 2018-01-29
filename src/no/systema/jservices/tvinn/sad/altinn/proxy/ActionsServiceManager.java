@@ -22,6 +22,15 @@ import no.systema.jservices.tvinn.sad.altinn.entities.ApiKey;
 import no.systema.jservices.tvinn.sad.altinn.entities.MessagesHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.entities.MetadataHalRepresentation;
 
+/**
+ * The responsible service manager for accessing resources inside www.altinn.no
+ * 
+ * Implementing part of actions found here: https://www.altinn.no/api/Help
+ * 
+ * @author Fredrik Möller
+ * @date 2018-01
+ *
+ */
 @Service("actionsservicemanager")
 public class ActionsServiceManager {
 	private static Logger logger = Logger.getLogger(ActionsServiceManager.class.getName());
@@ -31,8 +40,7 @@ public class ActionsServiceManager {
 
 	@Bean
 	public RestTemplate restTemplate() {
-		RestTemplate rt = new RestTemplate();
-	    return rt;		
+		return new RestTemplate();
 	}	
 	
 	@Autowired
@@ -51,6 +59,19 @@ public class ActionsServiceManager {
 	}
 	
 	/**
+	 * Get all message for orgnr and specific {@link ServiceOwnerCode}
+	 * 
+	 * @see {@link ActionsUriBuilder}
+	 * @param orgnr
+	 * @param serviceOwnerCode
+	 * @return List<MessagesHalRepresentation>
+	 */
+	public List<MessagesHalRepresentation> getMessages(int orgnr, ServiceOwnerCode serviceOwnerCode) {
+		URI uri = ActionsUriBuilder.messages(authorization.getHost(), orgnr,serviceOwnerCode);
+		return getMessages(uri, orgnr);
+	}	
+	
+	/**
 	 * Gets the list of available API-services in Altinn.
 	 * 
 	 * @see {@link ActionsUriBuilder}
@@ -61,53 +82,6 @@ public class ActionsServiceManager {
 		return getMetadata(uri);
 	}
 	
-	/**
-	 * Get user profile for orgnr
-	 * 
-	 * @see {@link ActionsUriBuilder}
-	 * @param orgnr
-	 * @return ?
-	 */
-	public String getProfile(int orgnr) {
-		URI uri = ActionsUriBuilder.profile(authorization.getHost(), orgnr);
-		return getBody(uri);
-	}
-
-	/**
-	 * Get roles for orgnr
-	 * 
-	 * @see {@link ActionsUriBuilder}
-	 * @param orgnr
-	 * @return ?
-	 */
-	public String getRoles(int orgnr) {
-		URI uri = ActionsUriBuilder.roles(authorization.getHost(), orgnr);
-		return getBody(uri);
-	}
-	
-	
-	private String getBody(URI uri) {
-		HttpEntity<ApiKey> entityHeadersOnly = authorization.getHttpEntity();
-		ResponseEntity<String> response = null;
-
-		try {
-			logger.info("getBody for " + uri);
-
-			response = restTemplate.exchange(uri, HttpMethod.GET, entityHeadersOnly, String.class); 
-
-			if (response.getStatusCode() == HttpStatus.OK) {
-				return response.getBody();
-			}
-
-			logger.error("Error in getBody for " + uri);
-			throw new RuntimeException(response.getStatusCode().toString());
-
-		} catch (HttpClientErrorException e) {
-			String message = String.format(" request failed: %s", e.getLocalizedMessage());
-			logger.warn(message, e);
-			throw new RuntimeException(message);
-		}
-	}
 	
 //	private MessagesHalRepresentation getMessages(URI uri, int orgnr){
 //		HttpEntity<ApiKey> entityHeadersOnly = authorization.getHttpEntity();

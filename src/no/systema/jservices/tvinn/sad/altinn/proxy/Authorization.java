@@ -13,6 +13,7 @@ import java.security.cert.CertificateException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.management.RuntimeErrorException;
 import javax.net.ssl.SSLContext;
 
 import org.apache.http.client.HttpClient;
@@ -70,37 +71,23 @@ public class Authorization {
     @Value("${altinn.clientSSLCertificateKeystorePassword}")
     private String clientSSLCertificateKeystorePassword;
 
-    @Value("${altinn.serviceCode}")
-    String serviceCode;
-
-    @Value("${altinn.serviceEdition}")
-    String serviceEdition;
-
     private ClientHttpRequestFactory requestFactory;
-    
-    final static String servicePath = "api/serviceowner/reportees?ForceEIAuthentication&subject=%s&servicecode=%s&serviceedition=%s";
     
     private URI authUri = null;
 	
     
     @PostConstruct
 	public void constructor() {
-    	
     	if(CATALINA_BASE == null){
     		CATALINA_BASE = "";  //TODO for test
     		
     	} 
+
     	logger.info("classpath="+System.getProperty("java.class.path"));
     	
 		assert authenticationUrl != null;
 		logger.info("Altinn service url: " + authenticationUrl);
-//
-//		assert altinnServiceCode != null;
-//		logger.info("Altinn service code: " + altinnServiceCode);
-//
-//		assert altinnServiceEdition != null;
-//		logger.info("Altinn service edition: " + altinnServiceEdition);
-//
+
 		assert what != null;
 		logger.info("what: " + what);		
 		assert apikey != null;
@@ -120,7 +107,6 @@ public class Authorization {
 		assert clientSSLCertificateKeystorePassword != null;
 
 		authUri = URI.create(authenticationUrl);
-		
 		
 		try {
 			requestFactory = getRequestFactory();
@@ -192,112 +178,6 @@ public class Authorization {
 
 	}
 
-    /**
-     * Calls the authorization service.
-     *
-     * @param ssn the user identifier
-     * @return The response from the authorization service. A set of entities where each entity represents an organization or a person.
-     * @throws AuthorizationServiceException
-     */
-//    public List<Entity> getAuthorizedEntities(String ssn) throws AuthorizationServiceException {
-//
-//        RestTemplate restTemplate = new RestTemplate(requestFactory);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set("ApiKey", apikey);
-//        headers.set("Accept", "application/json");
-//
-//        HttpEntity<String> entity = new HttpEntity<>(headers);
-//        try {
-//            logger.info("Authorization request for "+ ssn);
-//
-//            ResponseEntity<List<Entity>> response = restTemplate.exchange(getReporteesUrl(ssn),
-//                    HttpMethod.GET, entity, new ParameterizedTypeReference<List<Entity>>() {});
-//
-//            if (response.getStatusCode() == HttpStatus.OK) {
-//                return response.getBody();
-//            }
-//
-//            throw new AuthorizationServiceException(response.getStatusCode());
-//
-//        } catch (HttpClientErrorException e) {
-//            String message = String.format("Authorization request failed: %s", e.getLocalizedMessage());
-//            logger.warn(message, e);
-//            throw new AuthorizationServiceException(message);
-//        }
-//    }
-
-
-	
-//    public Subject getSubject(String uri) {
-//        BasicAuthRestTemplate template = new BasicAuthRestTemplate(httpUsername, httpPassword);
-//
-//        String referenceDataUri = UriComponentsBuilder
-//                .fromHttpUrl(referenceDataUrl + "/subjects")
-//                .queryParam("uri", uri)
-//                .toUriString();
-//
-//        Subject forObject = template.getForObject(referenceDataUri, Subject.class);
-//        logger.debug(forObject.toString());
-//        return forObject;
-//    }	
-	
-	//https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-uri-building
-	//alt 1:
-//    UriComponents uriComponents = UriComponentsBuilder.fromUriString(
-//            "http://example.com/hotels/{hotel}/bookings/{booking}").build();
-//
-//    URI uri = uriComponents.expand("42", "21").encode().toUri();	
-	
-	//alt 2:
-//	UriComponents uriComponents = UriComponentsBuilder.newInstance()
-//	        .scheme("http").host("example.com").path("/hotels/{hotel}/bookings/{booking}").build()
-//	        .expand("42", "21")
-//	        .encode();	
-	
-	
-	//https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/UriComponentsBuilder.html#fromPath-java.lang.String-
-
-//    public String getAnyThing()  {
-//        RestTemplate restTemplate = new RestTemplate(requestFactory);
-//		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//        
-//		ApiKeyDto apiKeyDto = new ApiKeyDto();		
-//		apiKeyDto.setUserName(apiUsername);
-//		apiKeyDto.setUserPassword(apiUserpassword);
-//
-//		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-//		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
-//		headers.add(HttpHeaders.HOST, host);
-//		headers.add("ApiKey", apikey);
-//
-//		HttpEntity<ApiKeyDto> entity = new HttpEntity<ApiKeyDto>(apiKeyDto, headers);
-//
-//		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
-//		logger.info("response="+response);
-//		
-//		
-//		
-//		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
-//		String cokkie = cookie.get(0);
-//		logger.info("cokkie="+cokkie);
-//		headers.add(HttpHeaders.COOKIE, cokkie);
-//		HttpEntity<ApiKeyDto> entityHeadersOnly = new HttpEntity<ApiKeyDto>( headers);		
-////		String url = "https://tt02.altinn.no/api/910021451/messages/";  //ca: kunde
-//		String url = "https://tt02.altinn.no/api/810514442/messages/";  //c:a Systema 
-//		
-//		
-//		ResponseEntity<String> response2 = restTemplate.exchange(url, HttpMethod.GET, entityHeadersOnly, String.class);		//TODO handle type response	
-//
-//		logger.info("response2="+response2);
-//		
-//		String responseBody = response2.getBody();
-////		logger.info("responseBody="+responseBody);
-//		
-//		return responseBody;
-//
-//    }
-//
     public HttpEntity<ApiKey> getHttpEntity()  {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -317,42 +197,26 @@ public class Authorization {
 		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
 		logger.info("response="+response);
 		
-		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
-		String cokkie = cookie.get(0); //TODO exceptionhandling
-		headers.add(HttpHeaders.COOKIE, cokkie);
+		List<String> setCookieList = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+		String cookie = null;
+		try {
+			cookie = setCookieList.get(0); 
+		} catch (Exception e) {
+			logger.error("Could not get Cookie from "+host, e);
+			throw new RuntimeException("Could not get Cookie from "+host, e);
+		}
+		headers.add(HttpHeaders.COOKIE, cookie);
 		HttpEntity<ApiKey> entityHeadersOnly = new HttpEntity<ApiKey>( headers);		
 		
 		return entityHeadersOnly;
 
     }   
     
-    public List<String> getCookie()  {
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
-		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        
-		ApiKey apiKeyDto = new ApiKey();		
-		apiKeyDto.setUserName(apiUsername);
-		apiKeyDto.setUserPassword(apiUserpassword);
-
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
-		headers.add(HttpHeaders.HOST, host);
-		headers.add("ApiKey", apikey);
-
-		HttpEntity<ApiKey> entity = new HttpEntity<ApiKey>(apiKeyDto, headers);
-
-		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
-		logger.info("response="+response);
-		
-		List<String> cookie = response.getHeaders().get(HttpHeaders.SET_COOKIE);
-		
-		return cookie;
-
-    }      
-    
-    
-    
-    
+    /**
+     * Return Altinn host
+     * 
+     * @return host
+     */
     public String getHost() {
     	return host;
     }
