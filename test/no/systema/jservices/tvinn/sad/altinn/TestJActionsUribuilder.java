@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import no.systema.jservices.tvinn.sad.altinn.proxy.ActionsUriBuilder;
-import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceOwnerCode;
+import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceOwner;
 
 public class TestJActionsUribuilder {
 
@@ -27,13 +27,13 @@ public class TestJActionsUribuilder {
 
 
 	@Test
-	public final void testMessagesFromSKD() {
+	public final void testMessagesFromSamlesider() {
 		String host = "host";
 		int orgnr = 12345678;
 		ActionsUriBuilder.messages(host, orgnr);
-		URI uri = ActionsUriBuilder.messages(host, orgnr, ServiceOwnerCode.SKD);
+		URI uri = ActionsUriBuilder.messages(host, orgnr, ServiceOwner.Samlesider);
 		assertEquals(uri.getHost(), host);
-		assertEquals(uri.getPath(), "/api/12345678/messages/$filter=ServiceOwnerCode eq 'SKD'");
+		assertEquals(uri.getPath(), "/api/12345678/messages/$filter=ServiceOwner eq 'Samlesider'");
 	}	
 	
 	

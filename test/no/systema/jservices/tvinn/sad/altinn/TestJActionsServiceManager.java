@@ -14,7 +14,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import no.systema.jservices.tvinn.sad.altinn.entities.MessagesHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.entities.MetadataHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.proxy.ActionsServiceManager;
-import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceOwnerCode;
+import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceOwner;
 
 @PropertySource(value = { "classpath:application-test.properties" })
 public class TestJActionsServiceManager {
@@ -53,9 +53,11 @@ public class TestJActionsServiceManager {
 	}
 	
 	@Test
-	public final void testGetMessagesForServiceOwnerCode() {
+	public final void testGetMessagesForServiceOwner_Samlesider() {
 		int orgnr = 810514442;    //810514442, 910021451
-		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwnerCode.SKD);
+
+		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwner.Samlesider);
+		result.forEach((message) ->  System.out.println("message from "+ServiceOwner.Samlesider+":"+message));
 		
 		assertNotNull(result); 
 	}	

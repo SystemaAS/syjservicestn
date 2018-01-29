@@ -1,6 +1,5 @@
 package no.systema.jservices.tvinn.sad.altinn.proxy;
 
-import java.io.Serializable;
 import java.net.URI;
 
 import org.springframework.web.util.UriComponents;
@@ -78,21 +77,21 @@ public class ActionsUriBuilder {
 	/**
 	 * Gets all messages for the given 'who', here orgnr. These can optionally be retrieved in the language specified.
 	 * 
-	 * Filtered on serviceownercode, e.g. SKD (=Skatteetaten)
+	 * Filtered on Serviceowner, e.g. SKD (=Skatteetaten)
 	 * 
 	 * @param host
 	 * @param orgnr
 	 * @param serviceOwneer
 	 * @return URI, ex. GET {who}/Messages?language={language}
 	 */
-	public static URI messages(String host, int orgnr, ServiceOwnerCode serviceOwneer) {
+	public static URI messages(String host, int orgnr, ServiceOwner serviceOwner) {
 
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
 				.scheme("https")
 				.host(host)
-				.path("/api/{who}/messages/$filter=ServiceOwnerCode eq \'"+serviceOwneer+"\'")
-				.build()
-				.expand(orgnr)
+				.path("/api/{who}/messages")
+			    .query("$filter={value}")
+			    .buildAndExpand(orgnr, "ServiceOwner eq \'"+serviceOwner+"\'")
 				.encode();
 
 		return uriComponents.toUri();

@@ -59,15 +59,15 @@ public class ActionsServiceManager {
 	}
 	
 	/**
-	 * Get all message for orgnr and specific {@link ServiceOwnerCode}
+	 * Get all message for orgnr and specific {@link ServiceOwner}
 	 * 
 	 * @see {@link ActionsUriBuilder}
 	 * @param orgnr
-	 * @param serviceOwnerCode
+	 * @param serviceOwner
 	 * @return List<MessagesHalRepresentation>
 	 */
-	public List<MessagesHalRepresentation> getMessages(int orgnr, ServiceOwnerCode serviceOwnerCode) {
-		URI uri = ActionsUriBuilder.messages(authorization.getHost(), orgnr,serviceOwnerCode);
+	public List<MessagesHalRepresentation> getMessages(int orgnr, ServiceOwner serviceOwner) {
+		URI uri = ActionsUriBuilder.messages(authorization.getHost(), orgnr,serviceOwner);
 		return getMessages(uri, orgnr);
 	}	
 	
@@ -120,7 +120,7 @@ public class ActionsServiceManager {
 		ResponseEntity<String> responseEntity = null;
 		
 		try {
-			logger.info("getMessage for " + orgnr);
+
 			responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entityHeadersOnly, String.class); 
 
 			if (responseEntity.getStatusCode() != HttpStatus.OK) {
@@ -144,7 +144,6 @@ public class ActionsServiceManager {
 		ResponseEntity<String> responseEntity = null;
 		
 		try {
-			logger.info("getMetadata for uri " + uri);
 
 			responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entityHeadersOnly, String.class); 
 
@@ -172,7 +171,6 @@ public class ActionsServiceManager {
 		ResponseEntity<String> responseEntity = null;
 		
 		try {
-			logger.info("getMetadata for " + message.getMessageId());
 
 			Optional<Link> link = message.getLinks().getLinkBy("metadata");
 			responseEntity = restTemplate.exchange(link.get().getHref(), HttpMethod.GET, entityHeadersOnly, String.class); 
