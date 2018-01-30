@@ -99,6 +99,36 @@ public class ActionsUriBuilder {
 	}
 	
 	/**
+	 * Gets all messages for the given 'who', here orgnr. These can optionally be retrieved in the language specified.
+	 * 
+	 * Filtered on Serviceowner, e.g. SKD (=Skatteetaten)
+	 * 
+	 * @param host
+	 * @param orgnr
+	 * @param serviceOwneer
+	 * @return URI, ex. GET {who}/Messages?language={language}
+	 */
+	public static URI messages(String host, int orgnr, ServiceOwner serviceOwner, ServiceCode serviceCode, ServiceEdition serviceEdition ) {
+
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.scheme("https")
+				.host(host)
+				.path("/api/{who}/messages")
+			    .query("$filter={expand1}")
+//			    .query("$ServiceCode={expand2}")
+//			    .query("$ServiceEdition={expand3}")
+			    .buildAndExpand(orgnr, "ServiceOwner eq \'"+serviceOwner+"\' and ServiceCode eq \'"+serviceCode.getCode()+"\' and ServiceEdition eq \'"+serviceEdition.getCode()+"\'" )
+				.encode();
+
+		return uriComponents.toUri();
+
+//		filter=Country_Region_Code eq 'ES' and Payment_Terms_Code eq '14 DAYS'
+		
+		
+		
+	}
+
+	/**
 	 * Contains all actions related to the authorization roles
 	 * 
 	 * @param host

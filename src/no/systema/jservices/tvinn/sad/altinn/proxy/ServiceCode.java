@@ -1,7 +1,8 @@
 package no.systema.jservices.tvinn.sad.altinn.proxy;
 
 /**
- * Enum for possible serviceowner in Altinn <br><br>
+ * Enum for possible servicecode in Altinn <br><br>
+ * To use in combination with {@link ServiceEdition}
  * 
  * For full list @see {@linkplain ActionsServiceManager} getMetadata
  * 
@@ -9,19 +10,15 @@ package no.systema.jservices.tvinn.sad.altinn.proxy;
  * @date 2018-01
  *
  */
-public enum ServiceOwner {
+public enum ServiceCode {
 	/**
-	 * SKD
+	 * 5012
 	 */
-	Skatteetaten("SKD"),
-	/**
-	 * ASF
-	 */
-	Samlesider("ASF");
+	Dagsobjor("5012");
 	
 	private final String code;
 
-	ServiceOwner(String code) {
+	ServiceCode(String code) {
 		this.code = code;
 	}
 

@@ -14,6 +14,8 @@ import org.springframework.context.support.AbstractApplicationContext;
 import no.systema.jservices.tvinn.sad.altinn.entities.MessagesHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.entities.MetadataHalRepresentation;
 import no.systema.jservices.tvinn.sad.altinn.proxy.ActionsServiceManager;
+import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceCode;
+import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceEdition;
 import no.systema.jservices.tvinn.sad.altinn.proxy.ServiceOwner;
 
 @PropertySource(value = { "classpath:application-test.properties" })
@@ -49,6 +51,8 @@ public class TestJActionsServiceManager {
 		int orgnr = 810514442;    //810514442, 910021451
 		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr);
 		
+		System.out.println("result.size="+result.size());
+		
 		assertNotNull(result); 
 	}
 	
@@ -56,11 +60,28 @@ public class TestJActionsServiceManager {
 	public final void testGetMessagesForServiceOwner_Samlesider() {
 		int orgnr = 810514442;    //810514442, 910021451
 
-		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwner.Samlesider);
-		result.forEach((message) ->  System.out.println("message from "+ServiceOwner.Samlesider+":"+message));
+		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwner.Skatteetaten);
+		result.forEach((message) ->  System.out.println("message from "+ServiceOwner.Skatteetaten+":"+message));
 		
 		assertNotNull(result); 
 	}	
+	
+	@Test
+	public final void testGetMessagesForServiceOwner_ServiceCode_ServiceEdition() {
+		int orgnr = 810514442;    //810514442, 910021451
+
+		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwner.Skatteetaten);
+		result.forEach((message) ->  System.out.println("message from "+ServiceOwner.Skatteetaten+":"+message));		
+		
+		
+		List<MessagesHalRepresentation> result2 = serviceManager.getMessages(orgnr, ServiceOwner.Skatteetaten, ServiceCode.Dagsobjor, ServiceEdition.Dagsobjor);
+		result2.forEach((message) ->  System.out.println("message from "+ServiceOwner.Skatteetaten+":"+message));
+		
+		System.out.println("result.size="+result.size());
+		System.out.println("result2.size="+result2.size());
+		
+		assertNotNull(result2); 
+	}
 	
 	
 	@Test

@@ -72,6 +72,24 @@ public class ActionsServiceManager {
 	}	
 	
 	/**
+	 * Get all message for orgnr and specific {@link ServiceOwner}, {@link ServiceOwner}, {@link ServiceEdition}
+	 * 
+	 * @see {@link ActionsUriBuilder}
+	 * @param orgnr
+	 * @param serviceOwner
+	 * @param serviceCode
+	 * @param serviceEdition
+	 * @return List<MessagesHalRepresentation>
+	 */
+	public List<MessagesHalRepresentation> getMessages(int orgnr, ServiceOwner serviceOwner, ServiceCode serviceCode, ServiceEdition serviceEdition) {
+		URI uri = ActionsUriBuilder.messages(authorization.getHost(), orgnr,serviceOwner, serviceCode, serviceEdition);
+		return getMessages(uri, orgnr);
+	}	
+	
+	
+	
+	
+	/**
 	 * Gets the list of available API-services in Altinn.
 	 * 
 	 * @see {@link ActionsUriBuilder}
