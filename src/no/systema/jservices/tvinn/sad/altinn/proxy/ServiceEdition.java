@@ -14,15 +14,15 @@ public enum ServiceEdition {
 	/**
 	 * 171208
 	 */
-	Dagsobjor("171208");
+	Dagsobjor(171208);
 	
-	private final String code;
+	private final int code;
 
-	ServiceEdition(String code) {
+	ServiceEdition(int code) {
 		this.code = code;
 	}
 
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 	

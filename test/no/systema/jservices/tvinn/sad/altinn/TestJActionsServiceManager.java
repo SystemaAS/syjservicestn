@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.altinn;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -60,8 +60,8 @@ public class TestJActionsServiceManager {
 	public final void testGetMessagesForServiceOwner_Samlesider() {
 		int orgnr = 810514442;    //810514442, 910021451
 
-		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwner.Skatteetaten);
-		result.forEach((message) ->  System.out.println("message from "+ServiceOwner.Skatteetaten+":"+message));
+		List<MessagesHalRepresentation> result = serviceManager.getMessages(orgnr, ServiceOwner.Samlesider);
+		result.forEach((message) ->  System.out.println("message from "+ServiceOwner.Samlesider+":"+message));
 		
 		assertNotNull(result); 
 	}	
@@ -77,10 +77,7 @@ public class TestJActionsServiceManager {
 		List<MessagesHalRepresentation> result2 = serviceManager.getMessages(orgnr, ServiceOwner.Skatteetaten, ServiceCode.Dagsobjor, ServiceEdition.Dagsobjor);
 		result2.forEach((message) ->  System.out.println("message from "+ServiceOwner.Skatteetaten+":"+message));
 		
-		System.out.println("result.size="+result.size());
-		System.out.println("result2.size="+result2.size());
-		
-		assertNotNull(result2); 
+		assertNotEquals(result, result2);
 	}
 	
 	

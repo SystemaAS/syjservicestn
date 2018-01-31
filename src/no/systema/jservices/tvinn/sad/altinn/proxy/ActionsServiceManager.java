@@ -14,7 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import de.otto.edison.hal.Link;
@@ -85,9 +84,6 @@ public class ActionsServiceManager {
 		URI uri = ActionsUriBuilder.messages(authorization.getHost(), orgnr,serviceOwner, serviceCode, serviceEdition);
 		return getMessages(uri, orgnr);
 	}	
-	
-	
-	
 	
 	/**
 	 * Gets the list of available API-services in Altinn.

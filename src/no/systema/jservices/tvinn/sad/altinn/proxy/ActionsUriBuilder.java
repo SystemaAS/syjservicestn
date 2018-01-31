@@ -115,19 +115,37 @@ public class ActionsUriBuilder {
 				.host(host)
 				.path("/api/{who}/messages")
 			    .query("$filter={expand1}")
-//			    .query("$ServiceCode={expand2}")
-//			    .query("$ServiceEdition={expand3}")
-			    .buildAndExpand(orgnr, "ServiceOwner eq \'"+serviceOwner+"\' and ServiceCode eq \'"+serviceCode.getCode()+"\' and ServiceEdition eq \'"+serviceEdition.getCode()+"\'" )
+			    .buildAndExpand(orgnr, "ServiceOwner eq \'"+serviceOwner+"\' and ServiceCode eq \'"+serviceCode.getCode()+"\' and ServiceEdition eq "+serviceEdition.getCode())
+			    .encode();
+
+		return uriComponents.toUri();
+
+	}
+
+	/**
+	 * Get the authentication url.
+	 * 
+	 * @param host
+	 * @param path
+	 * @return URI, ex. POST https://tt02.altinn.no/api/authentication/authenticatewithpassword?ForceEIAuthentication
+	 */
+	public static URI authentication(String host, String path) {
+
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.scheme("https")
+				.host(host)
+				.path(path)
+				.query("ForceEIAuthentication")
+				.build()
 				.encode();
 
 		return uriComponents.toUri();
 
-//		filter=Country_Region_Code eq 'ES' and Payment_Terms_Code eq '14 DAYS'
-		
-		
-		
-	}
-
+	}	
+	
+	
+	
+	
 	/**
 	 * Contains all actions related to the authorization roles
 	 * 

@@ -102,7 +102,7 @@ public class Authorization {
 
 		assert clientSSLCertificateKeystorePassword != null;
 
-		authUri = URI.create(authenticationUrl);
+		authUri = ActionsUriBuilder.authentication(host, authenticationUrl);
 		
 		try {
 			requestFactory = getRequestFactory();
