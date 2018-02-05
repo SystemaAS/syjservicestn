@@ -61,6 +61,7 @@ public class TvinnMaintExportResponseOutputterController_TR001R {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
+			logger.info("Inside syjsTR001R.do");
 			String user = request.getParameter("user");
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
