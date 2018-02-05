@@ -42,6 +42,7 @@ public class MessagesHalRepresentation extends HalRepresentation{
     @JsonProperty("DueDate")
     private String dueDate;    
 
+    
 	public String getMessageId() {
 		return messageId;
 	}
@@ -104,6 +105,46 @@ public class MessagesHalRepresentation extends HalRepresentation{
 
 	public void setServiceEdition(int serviceEdition) {
 		this.serviceEdition = serviceEdition;
+	}
+
+	public String getServiceOwner() {
+		return serviceOwner;
+	}
+
+	public void setServiceOwner(String serviceOwner) {
+		this.serviceOwner = serviceOwner;
+	}
+
+	public String getMessageLink() {
+		return messageLink;
+	}
+
+	public void setMessageLink(String messageLink) {
+		this.messageLink = messageLink;
+	}
+
+	public String getLastChangedDateTime() {
+		return lastChangedDateTime;
+	}
+
+	public void setLastChangedDateTime(String lastChangedDateTime) {
+		this.lastChangedDateTime = lastChangedDateTime;
+	}
+
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
 	}
 
 }

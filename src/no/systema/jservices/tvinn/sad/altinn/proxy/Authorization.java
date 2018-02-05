@@ -26,9 +26,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -207,6 +209,48 @@ public class Authorization {
 		return entityHeadersOnly;
 
     }   
+ 
+    /**
+     * For attachments, TODO
+     * 
+     * @return
+     */
+    public HttpEntity<ApiKey> getHttpEntityFileDownload()  {
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+        
+		ApiKey apiKeyDto = new ApiKey();		
+		apiKeyDto.setUserName(apiUsername);
+		apiKeyDto.setUserPassword(apiUserpassword);
+
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/hal+json");
+		headers.add(HttpHeaders.ACCEPT, "application/octet-stream");  
+		headers.add(HttpHeaders.HOST, host);
+		headers.add("ApiKey", apikey);
+
+		HttpEntity<ApiKey> entity = new HttpEntity<ApiKey>(apiKeyDto, headers);
+
+		ResponseEntity<byte[]> response = restTemplate.exchange(authUri, HttpMethod.POST, entity, byte[].class);			
+		logger.info("response="+response);
+		
+		List<String> setCookieList = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+		String cookie = null;
+		try {
+			cookie = setCookieList.get(0); 
+		} catch (Exception e) {
+			logger.error("Could not get Cookie from "+host, e);
+			throw new RuntimeException("Could not get Cookie from "+host, e);
+		}
+		headers.add(HttpHeaders.COOKIE, cookie);
+		HttpEntity<ApiKey> entityHeadersOnly = new HttpEntity<ApiKey>( headers);		
+		
+		return entityHeadersOnly;
+
+    }      
+    
+    
+    
     
     /**
      * Return Altinn host

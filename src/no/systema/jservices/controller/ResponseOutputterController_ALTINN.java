@@ -25,15 +25,15 @@ public class ResponseOutputterController_ALTINN {
 	/**
 	 * Entrance for accessing info in secure www.altinn.no, using .P12 certificate
 	 * 
-	 * @Example: http://gw.systema.no:8080/syjservicestn/altinnProxy.do?user=OSCAR&orgnr=810514442&servicecode=4814&serviceedition=3
+	 * @Example: http://gw.systema.no:8080/syjservicestn/altinnProxy.do?user=OSCAR&orgnr=810514442
 	 * 
 	 * @param session
-	 * @param request, user , orgnr, servicecode and serviceedition
-	 * @return ?
+	 * @param request, user 
+	 * @return status
 	 */	
 	@RequestMapping(value="altinnProxy.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String altinnInit(HttpSession session, HttpServletRequest request) {
+	public String altinnProxy(HttpSession session, HttpServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 
 		logger.info("altinnProxy.do");
@@ -47,15 +47,9 @@ public class ResponseOutputterController_ALTINN {
 			String orgnr = request.getParameter("orgnr");
 			Assert.notNull(orgnr, "orgnr must be delivered."); 
 
-			String servicecode = request.getParameter("servicecode");
-			Assert.notNull(servicecode, "servicecode must be delivered."); 	
-
-			String serviceedition = request.getParameter("serviceedition");
-			Assert.notNull(serviceedition, "serviceedition must be delivered."); 			
 			
-			sb.append(serviceManager.getMessages(Integer.parseInt(orgnr)));
+			serviceManager.putDagsobjorPDFRepresentationToPath(Integer.parseInt(orgnr));
 			
-			logger.info("appended getMessages");
 			
 		} catch (Exception e) {
 			// write std.output error output
