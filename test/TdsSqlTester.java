@@ -27,7 +27,7 @@ public class TdsSqlTester {
 			Connection conn = null;
 			*/
 			
-			String IP_SYSTEMA_AS400 = "10.13.1.22"; 
+			String IP_SYSTEMA_AS400 = "10.13.3.22"; 
 			String userId = "systema";
 			String pass = "straffe12";
 			
@@ -53,7 +53,7 @@ public class TdsSqlTester {
 				 where SVTX15_01 IN (:A1, :A2, :A3, :A4, :A5) AND         
 				       SVTX15_04 IN ('109', '110', '111') AND             
 				       SVTX15_33<>' ';                                    
-				 }*/
+				 }
 				 
 				 
 				 /*
@@ -178,7 +178,30 @@ public class TdsSqlTester {
 				 rs.close();
 				 stmt.close();
 				 conn.close();
-				 */				 
+				 */	
+				 
+				 
+				 
+				 StringBuffer sql = new StringBuffer();
+				 sql.append(" select hest, heur");
+				 sql.append(" from ura_alias"); //create alias syspedf.ura_alias for syspedf.hedummy(ura) //bil import
+				 
+				 PreparedStatement stmt = conn.prepareStatement(sql.toString());
+				 //_01
+				 
+
+				 ResultSet rs = stmt.executeQuery();
+				 while (rs.next()) {
+					 String field1 = rs.getString(1);
+					 String field2 = rs.getString(2);
+					 System.out.println(field1 + ", " + field2);
+					 //System.out.println(field1);
+				 }
+				 
+				 rs.close();
+				 stmt.close();
+				 conn.close();
+				 
 				 
 				 
 			 }else {
