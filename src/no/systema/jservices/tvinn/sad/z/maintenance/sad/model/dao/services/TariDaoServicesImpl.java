@@ -106,7 +106,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			StringBuffer sql = new StringBuffer();
 			sql = this.getSELECT_CLAUSE();
 			sql.append(" FROM tari ");
-			sql.append(" WHERE taalfa LIKE ?");
+			sql.append(" WHERE LOWER(taalfa) LIKE LOWER(?)");
 			
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { SQL_WILD_CARD + alfa + SQL_WILD_CARD }, new TariMapper());
 		}catch(Exception e){
@@ -120,13 +120,36 @@ public class TariDaoServicesImpl implements TariDaoServices {
 	}
 	
 	/**
+	 * Text search for toldtariff
+	 */
+	public List findByText(String tatxt, StringBuffer dbErrorStackTrace) {
+		List<TariDao> retval = new ArrayList<TariDao>();
+		String SQL_WILD_CARD = "%";
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql = this.getSELECT_CLAUSE();
+			sql.append(" FROM tari ");
+			sql.append(" WHERE LOWER(tatxt) LIKE LOWER(?)");
+			
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { SQL_WILD_CARD + tatxt + SQL_WILD_CARD }, new TariMapper());
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			dbErrorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	} 	
+	
+	/**
 	 * 
 	 * @param id
 	 * @param alfa
 	 * @param errorStackTrace
 	 * @return
 	 */
-	public List findForUpdate (String id, String alfa, StringBuffer errorStackTrace ){
+	public List findForUpdate (String id, String alfa, String txt, StringBuffer errorStackTrace ){
 		List<TariDao> retval = new ArrayList<TariDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
@@ -134,6 +157,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 			sql.append(" FROM tari ");
 			sql.append(" WHERE tatanr = ?");
 			sql.append(" AND taalfa = ?");
+			sql.append(" AND tatxt = ?");
 			
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id, alfa }, new TariMapper());
 		}catch(Exception e){
@@ -310,6 +334,7 @@ public class TariDaoServicesImpl implements TariDaoServices {
 	 */                                                                                                  
 	private JdbcTemplate jdbcTemplate = null;                                                            
 	public void setJdbcTemplate( JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}          
-	public JdbcTemplate getJdbcTemplate() {return this.jdbcTemplate;}                                    
+	public JdbcTemplate getJdbcTemplate() {return this.jdbcTemplate;}
+
 
 }

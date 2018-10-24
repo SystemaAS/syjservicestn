@@ -62,7 +62,7 @@ public class TvinnMainFellesResponseOutputterController_SAD010R {
 	 * 
 	 * @return
 	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSAD010R.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD010R.do?user=OSCAR&tatanr=2041000
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSAD010R.do?user=OSCAR&tatanr=2041000&tatxt=Solar
 	 * 
 	 */
 	@RequestMapping(value="syjsSAD010R.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -93,9 +93,10 @@ public class TvinnMainFellesResponseOutputterController_SAD010R {
 	            List list = null;
 				//do SELECT
 	            logger.info("Before SELECT ...");
-	            if( (dao.getTatanr()!=null && !"".equals(dao.getTatanr()))  && (dao.getTaalfa()!=null && !"".equals(dao.getTaalfa()))){
+	            
+	            if( (dao.getTatanr()!=null && !"".equals(dao.getTatanr()))  && (dao.getTaalfa()!=null && !"".equals(dao.getTaalfa())) && (dao.getTatxt()!=null && !"".equals(dao.getTatxt()))){
 	            	logger.info("findForUpdate");
-					list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dbErrorStackTrace);
+					list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dao.getTatxt(), dbErrorStackTrace);
 	            }else{
 					if( dao.getTatanr()!=null && !"".equals(dao.getTatanr()) ){
 						logger.info("findById");
@@ -103,7 +104,11 @@ public class TvinnMainFellesResponseOutputterController_SAD010R {
 					}else if( dao.getTaalfa()!=null && !"".equals(dao.getTaalfa()) ){
 						logger.info("findByAlfa");
 						list = this.tariDaoServices.findByAlfa(dao.getTaalfa(), dbErrorStackTrace);
-					}else{
+					}else if( dao.getTatxt()!=null && !"".equals(dao.getTatxt()) ){
+						logger.info("findByText");
+						list = this.tariDaoServices.findByText(dao.getTatxt(), dbErrorStackTrace);
+					}
+					else{
 						logger.info("getList (all)");
 						list = this.tariDaoServices.getList(dbErrorStackTrace);
 					}
@@ -196,7 +201,7 @@ public class TvinnMainFellesResponseOutputterController_SAD010R {
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dbErrorStackTrace);
+							list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dao.getTatxt(),dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
