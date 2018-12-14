@@ -11,22 +11,16 @@ public interface UnderEnhetCSVRepository {
 	/**
 	 * Retrieve a UnderEnhet by orgnr
 	 * 
-	 * @param orgNr, Integer
+	 * @param orgNr
 	 * @return HovedEnhet
 	 */
-	public UnderEnhet get(Integer orgNr) throws IOException; 
+	public UnderEnhet get(String orgNr) throws IOException; 
 	
 	/**
 	 * Download the underenheter.csv from data.brreg.no
 	 * 
 	 */
-	public void downloadCSVFile() throws IOException;
-	
-	/**
-	 * Check if underenheter.csv exist in path and create InputStream
-	 * 
-	 */
-	public void loadCSVFileFromPath() throws IOException;
+	public void downloadFile() throws IOException;
 	
 	/**
 	 * Setting RestTemplate, primary used for injection in tests.

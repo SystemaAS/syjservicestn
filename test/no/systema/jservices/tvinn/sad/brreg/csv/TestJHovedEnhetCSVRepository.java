@@ -7,13 +7,13 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.Enhet;
 
 public class TestJHovedEnhetCSVRepository {
 //	private static Logger logger = Logger.getLogger(TestJHovedEnhetCSVRepository.class.getName());
 
     ApplicationContext context = null;
-    HovedEnhetCSVRepository heRepo = null;
+    HovedEnhetCSVRepositoryImpl heRepo = null;
 
 	@Before
 	public void setUp() throws Exception {
@@ -26,9 +26,12 @@ public class TestJHovedEnhetCSVRepository {
 	@Test
 	public final void testHeCsvRespository() throws Exception{
 		heRepo.setRestTemplate(new RestTemplate());
-		HovedEnhet he = heRepo.get(917957584);
+		Enhet he = heRepo.get("917957584");
 		assertNotNull(he);
 
 	}
-
+	
+	
+	
+	
 }

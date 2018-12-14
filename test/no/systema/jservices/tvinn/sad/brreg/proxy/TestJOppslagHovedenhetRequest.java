@@ -28,7 +28,7 @@ public class TestJOppslagHovedenhetRequest {
 	boolean API = true;
 	
 
-	@Before
+//	@Before
 	public void setUp() throws Exception {
 		heRepo = new HovedEnhetCSVRepositoryImpl();
 		ueRepo = new UnderEnhetCSVRepositoryImpl();
@@ -42,8 +42,8 @@ public class TestJOppslagHovedenhetRequest {
 
 	@Test
 	public final void testValidOrgNr() throws Exception{
-		Integer orgNr = 974760673;
-		Enhet record = oppslagHovedenhetRequest.getEnhetRecord(orgNr, API);
+		String orgNr = "974760673";
+		Enhet record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord(orgNr, API);
 		Assert.assertNotNull(record);
 		Assert.assertEquals(record.getOrganisasjonsnummer(), orgNr);
 		Assert.assertThat(record.getKonkurs(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
@@ -54,10 +54,25 @@ public class TestJOppslagHovedenhetRequest {
 	}
 
 	@Test
+	public final void testValidOrgNrUnderEnhet() throws Exception{
+		String orgNr = "974760673";
+		UnderEnhet record = (UnderEnhet) oppslagHovedenhetRequest.getEnhetRecord(orgNr, API);
+		Assert.assertNotNull(record);
+		Assert.assertEquals(record.getOrganisasjonsnummer(), orgNr);
+		Assert.assertThat(record.getKonkurs(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
+		Assert.assertThat(record.getRegistrertIMvaregisteret(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
+		Assert.assertThat(record.getUnderAvvikling(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
+		Assert.assertThat(record.getUnderTvangsavviklingEllerTvangsopplosning(), AnyOf.anyOf(Is.is("J"), Is.is("N")));
+
+	}	
+	
+	
+	
+	@Test
 	public final void testInValidOrgNr() throws Exception{
 		Enhet record;
 		try {
-			record = oppslagHovedenhetRequest.getEnhetRecord(123456789, API);
+			record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord("123456789", API);
 			Assert.assertNull(record);
 		} catch (RestClientException e) {
 			Assert.fail("Exception not supposed...");
@@ -67,7 +82,7 @@ public class TestJOppslagHovedenhetRequest {
 
 	@Test
 	public final void testInValidOrgNrLenghtInSysped() throws Exception{
-		Enhet record = oppslagHovedenhetRequest.getEnhetRecord(1234567890, API);
+		Enhet record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord("1234567890", API);
 		Assert.assertNull(record);
 	}
 
@@ -76,7 +91,7 @@ public class TestJOppslagHovedenhetRequest {
 		oppslagHovedenhetRequest = new OppslagEnhetRequest("http://kalleanka.se/", heRepo, ueRepo, restTemplate);
 
 		try {
-			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
+			Enhet record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord("123", API);
 			Assert.assertNull("record should be null, meaning not found",record);
 		} catch (RestClientException e) {
 			Assert.fail("RestClientException should NOT have been thrown");
@@ -88,7 +103,7 @@ public class TestJOppslagHovedenhetRequest {
 	@Test
 	public final void testNotFoundInBrregAPI() throws Exception{
 		try {
-			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(123, API);
+			Enhet record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord("123", API);
 			Assert.assertNull("record should be null, meaning not found",record);
 		} catch (RestClientException e) {
 			Assert.fail("RestClientException should NOT have been thrown");
@@ -98,7 +113,7 @@ public class TestJOppslagHovedenhetRequest {
 	@Test
 	public final void testExistInAsHovedEnhetInCSV() throws Exception{
 		try {
-			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917861579, CSV); //917861579 in hovedenheter-minor.csv
+			Enhet record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord("917861579", CSV); //917861579 in hovedenheter-minor.csv
 			Assert.assertNotNull("917861579 should have been found in hovedenheter-minor.csv.", record);
 			HovedEnhet he = (HovedEnhet)record;
 			Assert.assertNotNull("Cast to HovedEnhet should be possible.", he);
@@ -112,15 +127,37 @@ public class TestJOppslagHovedenhetRequest {
 	@Test
 	public final void testExistInAsUnderEnhetInCSV() throws Exception{
 		try {
-			Enhet record = oppslagHovedenhetRequest.getEnhetRecord(917959935, CSV); //917959935 in underenheter-minor.csv
+			Enhet record = (Enhet) oppslagHovedenhetRequest.getEnhetRecord("917959935", CSV); //917959935 in underenheter-minor.csv
 			Assert.assertNotNull("917959935 should have been found in underenheter-minor.csv.", record);
-			UnderEnhet ue = (UnderEnhet)record;
-			Assert.assertNotNull("Cast to UnderEnhet should be possible.", ue);
 		} catch (RestClientException e) {
 			Assert.fail("RestClientException should NOT have been thrown");
 		}
 
 	}	
+	
+	
+	
+	@Test
+	public final void testSanityLenght() {
+		
+		String orgNr = "123456789";
+		if (!hasCorrectLenght(orgNr)) {
+			Assert.fail("too long..");
+		}
+		
+	}
+	
+	
+	private boolean hasCorrectLenght(String orgNr) {
+		System.out.println(orgNr.length());
+		if (orgNr.length() > 9){  
+			return false;
+		} else {
+			return true;
+		}
+	}	
+	
+	
 		
 	private String readFile(String jsonFile) throws Exception {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.springframework.web.client.RestTemplate;
 
-import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.Enhet;
 
 public interface HovedEnhetCSVRepository {
 
@@ -14,19 +14,13 @@ public interface HovedEnhetCSVRepository {
 	 * @param orgNr, Integer
 	 * @return HovedEnhet
 	 */
-	public HovedEnhet get(Integer orgNr) throws IOException; 
+	public Enhet get(String orgNr) throws IOException; 
 	
 	/**
 	 * Download the hovedenheter.csv from data.brreg.no
 	 * 
 	 */
-	public void downloadCSVFile()  throws IOException;
-	
-	/**
-	 * Check if hovedenheter.csv exist in path and create InputStream
-	 * 
-	 */
-	public void loadCSVFileFromPath()  throws IOException;
+	public void downloadFile()  throws IOException;
 	
 	/**
 	 * Setting RestTemplate, primary used for injection in tests.

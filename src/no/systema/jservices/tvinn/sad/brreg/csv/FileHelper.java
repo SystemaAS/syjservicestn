@@ -13,25 +13,27 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import no.systema.jservices.common.util.CommonClientHttpRequestInterceptor;
+import no.systema.jservices.common.util.CommonResponseErrorHandler;
 
 /**
  * This class helps managing files for HovedEnheter and Underenheter
  * 
  * 
  * @author Fredrik Möller
- * @date Dec 2, 2016
+ * @date Dec 2, 2016,
  *
  */
 public class FileHelper {
 	private static Logger logger = Logger.getLogger(FileHelper.class.getName());
 	private RestTemplate restTemplate = null;
 	public static String CATALINA_BASE = System.getProperty("catalina.base");
-	
+
 	/**
 	 * Constructor injects the RestTemplate
 	 * 
@@ -45,22 +47,32 @@ public class FileHelper {
 	/**
 	 * This method get file from url and save it on disk.
 	 * 
-	 * 
+	 * @param headerAccept value for Header.ACCEPT i request
 	 * @param downloadUrl the url where file is hosted.
 	 * @param filePath path to file.
 	 * @param writeFile  the name of the file to be saved on disk. Typically a *.gz
 	 * @param csvGzFile 
 	 * @throws IOException 
 	 */
-	public void downloadFile(String downloadUrl, String filePath, String writeFile) throws IOException  {
+	public void downloadFile(String headerAccept, String downloadUrl, String filePath, String writeFile) throws IOException  {
 		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+		restTemplate.setInterceptors(Arrays.asList(new CommonClientHttpRequestInterceptor()));
+		restTemplate.setErrorHandler(new CommonResponseErrorHandler());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
+		headers.add(HttpHeaders.ACCEPT, headerAccept);
+		headers.add(HttpHeaders.HOST, "data.brreg.no");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 
 		try {
-			ResponseEntity<byte[]> response = restTemplate.exchange(downloadUrl, HttpMethod.GET, entity, byte[].class, "1");
-			logger.info("File downloaded from:" + downloadUrl + ", size=" + response.getBody().length);
+			logger.info("downloadUrl="+downloadUrl);
+			ResponseEntity<byte[]> response = restTemplate.exchange(downloadUrl, HttpMethod.GET, entity, byte[].class);
+			logger.info("GET ready.");
+			if (response != null) {
+				logger.info("File downloaded from:" + downloadUrl);
+			} else {
+				logger.error("RESPONSE IS NULL!");
+			}
+			
 			if (response.getStatusCode() == HttpStatus.OK) {
 				ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
 				FileOutputStream fos = new FileOutputStream(CATALINA_BASE + filePath + writeFile);
@@ -75,13 +87,13 @@ public class FileHelper {
 				
 			}
 		} catch (RestClientException rcex) {
-			logger.info("Can not access :" + downloadUrl, rcex);
+			logger.info("Can not access " + downloadUrl, rcex);
 			throw rcex;
 		} catch (FileNotFoundException fnfex) {
-			logger.info("Can not find  :" + CATALINA_BASE + filePath + writeFile, fnfex);
+			logger.info("Can not find  " + CATALINA_BASE + filePath + writeFile, fnfex);
 			throw fnfex;
 		} catch (IOException ioex) {
-			logger.info("Can not use  :" + CATALINA_BASE + filePath + writeFile, ioex);
+			logger.info("Can not use  " + CATALINA_BASE + filePath + writeFile, ioex);
 			throw ioex;
 		}
 	

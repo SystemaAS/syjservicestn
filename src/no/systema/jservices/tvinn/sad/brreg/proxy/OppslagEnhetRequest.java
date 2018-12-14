@@ -10,28 +10,18 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import no.systema.jservices.common.brreg.proxy.entities.Enhet;
-import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
+import no.systema.jservices.common.brreg.proxy.entities.IEnhet;
 import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 import no.systema.jservices.common.mail.GMail;
 import no.systema.jservices.common.mail.GMailProperties;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
 import no.systema.jservices.tvinn.sad.brreg.csv.UnderEnhetCSVRepository;
+import no.systema.main.util.ApplicationPropertiesUtil;
 
 /**
  * Synchronous request against data.brreg.no and the service Oppslag på
  * Enhet
  * 
- * Hovedenheter
- * 
- * Enkeltpersonforetak, foreninger, selskap, sameier og andre som er registrert
- * i Enhetsregisteret. Enhet på øverste nivå i registreringsstrukturen i
- * Enhetsregisteret. Identifiseres med organisasjonsnummer.
- * 
- * 
- * Service: http://data.brreg.no/enhetsregisteret/enhet/{orgnr}.{format}, ex:
- * http://data.brreg.no/enhetsregisteret/enhet/974760673.json
- * 
- * format: json, (optional xml)
  * 
  * @author Fredrik Möller
  * @date Sep 21, 2016
@@ -49,7 +39,9 @@ public class OppslagEnhetRequest {
 	private HovedEnhetCSVRepository hovedEnhetCSVRepository = null;
 	private UnderEnhetCSVRepository underEnhetCSVRepository = null;
 	private RestTemplate restTemplate = null;
-	private static final Integer MAX_ORGNR_LENGHT = new Integer(999999999);
+	private static final int MAX_ORGNR_LENGHT = 9;
+	private final static String ENHETS_REGISTERET_UNDERENHET_URL = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenhetsregisteret.url");
+
 
 	/**
 	 * Constructor injection for enabling easier testing.
@@ -68,56 +60,68 @@ public class OppslagEnhetRequest {
 	
 	
 	/**
-	 * Get Enhet created from JSON from data.brreg.no or from CSV-file
+	 * Get Enhet created from JSON from data.brreg.no or from file
 	 * 
-	 * @param Integer orgNr
+	 * @param String orgNr
 	 * @param boolean useApi, true if accessing brreg.no api, false if using CSV-file
-	 * @return {@link Enhet} instances can be {@link HovedEnhet} or {@link UnderEnhet}
+	 * @return {@link IEnhet} instances can be {@link Enhet} or {@link UnderEnhet}
 	 * @throws RestClientException
 	 */
-	public Enhet getEnhetRecord(Integer orgNr, boolean useApi) throws RestClientException, IOException {
-		Enhet enhet = null;
+	public IEnhet getEnhetRecord(String orgNr, boolean useApi) throws RestClientException, IOException {
+		IEnhet i_enhet = null;
 		if (!hasCorrectLenght(orgNr)) {
-			logger.info("Organisasjonnummer: " + orgNr + " har feilaktig lengde, kan være maksimalt 9 sifre.");
-			return enhet;
+			logger.error("Organisasjonnummer: " + orgNr + " har feilaktig lengde, kan være maksimalt 9 sifre.");
+			return i_enhet;
 		}
 		if (useApi) {
-			enhet = getHovedEnhetFromAPI(orgNr);
-			// TODO: Add underenhet from api
-		} else {
-			enhet = getHovedEnhetFromCVS(orgNr);
-			if (enhet == null) {
-				enhet = getUnderEnhetFromCVS(orgNr);
-				if (enhet != null && (enhet.getOverordnetEnhet() != null)) {
-					HovedEnhet he = (HovedEnhet) getHovedEnhetFromCVS(enhet.getOverordnetEnhet());
+			i_enhet = getEnhetFromAPI(orgNr);
+			if (i_enhet == null) {
+				i_enhet = getUnderEnhetFromAPI(orgNr);
+				if (i_enhet != null && (i_enhet.getOverordnetEnhet() != null)) {
+					Enhet he = (Enhet) getEnhetFromAPI(i_enhet.getOverordnetEnhet());
 					if (he != null) {
-						enhet.setKonkurs(he.getKonkurs());
-						enhet.setRegistrertIMvaregisteret(he.getRegistrertIMvaregisteret());
-						enhet.setUnderAvvikling(he.getUnderAvvikling());
-						enhet.setUnderTvangsavviklingEllerTvangsopplosning(he.getUnderTvangsavviklingEllerTvangsopplosning());
+						i_enhet.setKonkurs(he.getKonkurs());
+						i_enhet.setRegistrertIMvaregisteret(he.getRegistrertIMvaregisteret());
+						i_enhet.setUnderAvvikling(he.getUnderAvvikling());
+						i_enhet.setUnderTvangsavviklingEllerTvangsopplosning(he.getUnderTvangsavviklingEllerTvangsopplosning());
+					}
+				}
+			}
+		} else {
+			i_enhet = getEnhet(orgNr);
+			if (i_enhet == null) {
+				i_enhet = getUnderEnhetFromAPI(orgNr);
+				if (i_enhet != null && (i_enhet.getOverordnetEnhet() != null)) {
+//					Enhet he = (Enhet) getEnhet(i_enhet.getOverordnetEnhet());
+					Enhet he = (Enhet) getEnhetFromAPI(i_enhet.getOverordnetEnhet());
+					if (he != null) {
+						i_enhet.setKonkurs(he.getKonkurs());
+						i_enhet.setRegistrertIMvaregisteret(he.getRegistrertIMvaregisteret());
+						i_enhet.setUnderAvvikling(he.getUnderAvvikling());
+						i_enhet.setUnderTvangsavviklingEllerTvangsopplosning(he.getUnderTvangsavviklingEllerTvangsopplosning());
 					}
 				}
 			}
 		}
 
+		return i_enhet;
+	}
+
+	private Enhet getEnhet(String orgNr) throws IOException {
+		Enhet enhet = null;
+		enhet = hovedEnhetCSVRepository.get(orgNr);
+		
 		return enhet;
 	}
 
-	private Enhet getHovedEnhetFromCVS(Integer orgNr) throws IOException {
-		HovedEnhet hovedenhet = null;
-		hovedenhet = hovedEnhetCSVRepository.get(orgNr);
-		
-		return hovedenhet;
-	}
-
-	private Enhet getUnderEnhetFromCVS(Integer orgNr) throws IOException  {
+	private UnderEnhet getUnderEnhet(String orgNr) throws IOException  {
 		UnderEnhet underEnhet = null;
 		underEnhet = underEnhetCSVRepository.get(orgNr);
 		return underEnhet;
 	}
 	
-	private Enhet getHovedEnhetFromAPI(Integer orgNr) {
-		HovedEnhet hovedenhet = null;
+	private Enhet getEnhetFromAPI(String orgNr) {
+		Enhet hovedenhet = null;
 		StringBuffer urlString = new StringBuffer();
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
@@ -125,7 +129,7 @@ public class OppslagEnhetRequest {
 
 		try {
 
-			hovedenhet = restTemplate.getForObject(urlString.toString(), HovedEnhet.class);
+			hovedenhet = restTemplate.getForObject(urlString.toString(), Enhet.class);
 
 		} catch (RestClientException ex) {
 			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
@@ -146,6 +150,37 @@ public class OppslagEnhetRequest {
 
 	}
 
+	private UnderEnhet getUnderEnhetFromAPI(String orgNr) {
+		UnderEnhet underEnhet = null;
+		StringBuffer urlString = new StringBuffer();
+		urlString.append(ENHETS_REGISTERET_UNDERENHET_URL);
+		urlString.append(orgNr);
+		urlString.append(JSON_FORMAT);
+
+		try {
+
+			underEnhet = restTemplate.getForObject(urlString.toString(), UnderEnhet.class);
+
+		} catch (RestClientException ex) {
+			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+			if (ex instanceof ResourceAccessException) {
+				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
+					sendMail(urlString, ex);
+				}
+				throw ex;
+			} 
+			if (ex instanceof HttpStatusCodeException) {
+				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
+				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+					// continue;
+				}
+			}
+		}
+		return underEnhet;
+
+	}
+	
+	
 	private void sendMail(StringBuffer urlString, RestClientException ex) {
 		logger.info(ex.getCause()+ ":: Sending mail to support from:"+GMailProperties.MAIL_USERNAME+ " to:"+GMailProperties.MAIL_BOX_SUPPORT);
 
@@ -161,8 +196,8 @@ public class OppslagEnhetRequest {
 
 	}
 
-	private boolean hasCorrectLenght(Integer orgNr) {
-		if (orgNr > MAX_ORGNR_LENGHT){  
+	private boolean hasCorrectLenght(String orgNr) {
+		if (orgNr.length() > MAX_ORGNR_LENGHT){  
 			return false;
 		} else {
 			return true;

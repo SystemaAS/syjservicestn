@@ -1,10 +1,12 @@
 package no.systema.jservices.tvinn.sad.brreg.csv;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
@@ -16,6 +18,10 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
 import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.FirmDaoServices;
 import no.systema.main.util.ApplicationPropertiesUtil;
@@ -32,8 +38,6 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  */
 public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	private static Logger logger = Logger.getLogger(UnderEnhetCSVRepositoryImpl.class.getName());
-	private Reader reader = null;
-	private FileInputStream fis = null;
 	private FileHelper fileHelper = null;
 
 	// For test
@@ -43,20 +47,22 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	//// private String csvFile = "underenheter-minor.csv";
 	// private String csvFile = "underenheter.csv";
 	// private String csvGzFile = "underenheter.csv.gz";
-	private String csvDownloadUrl = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.cvs.download.url");
+	private String downloadUrl = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.download.url");
+	private String headerAccept = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.download.accept");
 	private String filePath = ApplicationPropertiesUtil.getProperty("no.brreg.data.resources.filepath");
-	private String csvFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.csv.file");
-	private String csvGzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.csv.gz.file");
+	private String file = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.file");
+	private String gzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.gz.file");
 
-	private Map<Integer, UnderEnhet> brregMap = null;
+	private Map<String, UnderEnhet> brregMap = null;
 
 	@Override
-	public UnderEnhet get(Integer orgNr) throws IOException {
+	public UnderEnhet get(String orgNr) throws IOException {
 		if (brregMap == null) {
 			putAllUnderEnhetIntoMap();
 		}
-		UnderEnhet ue = brregMap.get(orgNr);
-		return ue;
+
+		return brregMap.get(orgNr);
+
 	}
 
 	@Override
@@ -65,10 +71,10 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	}
 
 	@Override
-	public void downloadCSVFile() throws IOException {
+	public void downloadFile() throws IOException {
 		try {
-			fileHelper.downloadFile(csvDownloadUrl, filePath, csvGzFile);
-			fileHelper.unGzip(csvGzFile, filePath, csvFile);
+			fileHelper.downloadFile(headerAccept, downloadUrl, filePath, gzFile);
+			fileHelper.unGzip(gzFile, filePath, file);
 		} catch (RestClientException ex) {
 			logger.info("RestClientException encountered: ", ex);
 			throw ex;
@@ -78,49 +84,35 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 		}
 	}
 
-	@Override
-	public void loadCSVFileFromPath() throws IOException {
-		try {
-			fis = new FileInputStream(FileHelper.CATALINA_BASE + filePath + csvFile);
-			reader = new InputStreamReader(fis);
-
-		} catch (IOException e) {
-			logger.info("ERROR reading file=" + FileHelper.CATALINA_BASE + filePath + csvFile + ". Check file. Exception=", e);
-			throw e;
-		}
-	}
-
-	private void loadCSVFileIntoMap() throws IOException {
-		UnderEnhet ue = null;
-		brregMap = new HashMap<Integer, UnderEnhet>();
+	private void loadFileIntoMap() throws IOException {
+		brregMap = new HashMap<String, UnderEnhet>();
+		ObjectMapper objectMapper = new ObjectMapper();
+		String pathName = FileHelper.CATALINA_BASE + filePath + file;
 
 		try {
-			Iterable<CSVRecord> records = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(reader);
 
-			for (CSVRecord record : records) {
-				ue = new UnderEnhet(record);
-				brregMap.put(ue.getOrganisasjonsnummer(), ue);
-			}
-
-			fis.close();
-			reader.close();
-			logger.info("Reader and InputStream closed.");
+			List<UnderEnhet> underEnheter = objectMapper.readValue(new File(pathName),new TypeReference<List<UnderEnhet>>() {});
+			logger.info("Putting "+underEnheter.size() +" underEnheter into map....");
+			underEnheter.forEach(underEnhet -> {
+				brregMap.put(underEnhet.getOrganisasjonsnummer(), underEnhet);
+			});
+			logger.info("..ready");
 
 		} catch (IOException e) {
-			logger.info("ERROR in Reader or csv parsing=" + reader + ".Exception=", e);
+			logger.info("ERROR retrieving file from pathName="+pathName+". Exception=", e);
 			throw e;
 		}
-	}
+	}	
+
 
 	private void putAllUnderEnhetIntoMap() throws IOException {
 		if (firmDaoServices.isNorwegianFirm()) {
 			logger.info("::isNorwegianFirm::, putAllUnderEnhetIntoMap");
 			fileHelper = new FileHelper(restTemplate);
-			downloadCSVFile();
-			logger.info("CSV file downloaded.");
-			loadCSVFileFromPath();
-			loadCSVFileIntoMap();
-			logger.info("CSV file loaded into Map.");
+			downloadFile();
+			logger.info("file downloaded.");
+			loadFileIntoMap();
+			logger.info("file loaded into Map.");
 		}
 	}
 

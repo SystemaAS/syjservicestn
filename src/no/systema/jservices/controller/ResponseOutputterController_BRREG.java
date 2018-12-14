@@ -30,10 +30,9 @@ public class ResponseOutputterController_BRREG {
 	/**
 	 * Returns a list of kunder that are validated against data.brreg.no and Enhetsregistret
 	 * 
-	 * Exempel: http://gw.systema.no:8080/syjservicestn/brregKundeDataKontroll.do?user=OSCAR&firmakode=SS
+	 * @Exempel: http://localhost:8080/syjservicestn/brregKundeDataKontroll.do?user=FREDRIK
 	 * 
 	 * @param session
-	 * @param request, userm firmakode
 	 * @return lista med kunddata att kontrollera
 	 */
 	@RequestMapping(value="brregKundeDataKontroll.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -43,6 +42,8 @@ public class ResponseOutputterController_BRREG {
 		JsonResponseWriter2 jsonWriter2 = new JsonResponseWriter2();
 		StringBuffer sb = new StringBuffer();
 
+		logger.info("brregKundeDataKontroll.do");
+		
 		try {
 			String user = request.getParameter("user");
 			// Check ALWAYS user in BRIDF

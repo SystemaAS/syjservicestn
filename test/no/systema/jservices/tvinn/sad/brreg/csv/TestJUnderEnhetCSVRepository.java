@@ -23,7 +23,7 @@ public class TestJUnderEnhetCSVRepository {
 	@Test
 	public final void testUeCsvRespository() throws Exception{
 		ueRepo.setRestTemplate(new RestTemplate());
-		UnderEnhet he = ueRepo.get(917959935);
+		UnderEnhet he = ueRepo.get("917959935");
 		assertNotNull(he);
 
 	}
