@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +49,20 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	private String gzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.gz.file");
 
 	private Map<String, Enhet> brregMap = null;
+	private List<Enhet> enheter = null;
 
 	@Override
 	public Enhet get(String orgNr) throws IOException {
-		if (brregMap == null) {
+		if (enheter == null) {
 			putAllHovedEnhetIntoMap();
 		}
 
-		return brregMap.get(orgNr);
+		Enhet f_enhet = enheter.stream()
+				  .filter(enhet -> orgNr.equals(enhet.getOrganisasjonsnummer()))
+				  .findAny()
+				  .orElse(null);		
+		
+		return f_enhet;
 		
 	}
 
@@ -85,13 +93,12 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 		String pathName = FileHelper.CATALINA_BASE + filePath + file;
 
 		try {
+			File file = new File(pathName);
+			logger.info("file="+file.getAbsolutePath());
+			logger.info("ObjectMapper reading values from file into List...");
+			enheter = objectMapper.readValue(file,new TypeReference<List<Enhet>>() {});
+			logger.info("....ready.");
 
-			List<Enhet> enheter = objectMapper.readValue(new File(pathName),new TypeReference<List<Enhet>>() {});
-			logger.info("Putting "+enheter.size() +" enheter into map....");
-			enheter.forEach(enhet -> {
-				brregMap.put(enhet.getOrganisasjonsnummer(), enhet);
-			});
-			logger.info("...ready");
 			
 		} catch (IOException e) {
 			logger.info("ERROR retrieving file from pathName="+pathName+". Exception=", e);

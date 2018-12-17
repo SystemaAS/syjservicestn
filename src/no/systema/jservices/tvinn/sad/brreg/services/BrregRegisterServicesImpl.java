@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -74,12 +76,11 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 			} else {
 				if (isHovedEnhet(i_enhet)) {
 					i_enhet = (Enhet) i_enhet;
-					if (isKonkurs(i_enhet) || !isMvareRegistret(i_enhet) || isUnderAvvikling(i_enhet)) {
+					if (i_enhet.getKonkurs() || !i_enhet.getRegistrertIMvaregisteret() || i_enhet.getUnderAvvikling() || i_enhet.getUnderTvangsavviklingEllerTvangsopplosning()) {  //UnderEnhet could have been decorated
 						checkedRecord.setKundeNr(cundfDao.getKundnr());
 						checkedRecord.setKundeNavn(cundfDao.getKnavn());
 						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
 						checkedRecord.setExistsAsHovedEnhet("J");
-						logger.info("enhet.getKonkurs()="+i_enhet.getKonkurs());
 						if (i_enhet.getKonkurs()) {
 							checkedRecord.setKonkurs("J");
 						} else {
@@ -107,7 +108,7 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 				} else { // is UnderEnhet
 					i_enhet = (UnderEnhet) i_enhet;
-					if (isKonkurs(i_enhet) || !isMvareRegistret(i_enhet) || isUnderAvvikling(i_enhet)) {  //UnderEnhet could have been decorated
+					if (i_enhet.getKonkurs() || !i_enhet.getRegistrertIMvaregisteret() || i_enhet.getUnderAvvikling() || i_enhet.getUnderTvangsavviklingEllerTvangsopplosning()) {  //UnderEnhet could have been decorated
 						checkedRecord.setKundeNr(cundfDao.getKundnr());
 						checkedRecord.setKundeNavn(cundfDao.getKnavn());
 						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());

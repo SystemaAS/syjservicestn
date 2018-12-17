@@ -155,7 +155,7 @@ public class OppslagEnhetRequest {
 		StringBuffer urlString = new StringBuffer();
 		urlString.append(ENHETS_REGISTERET_UNDERENHET_URL);
 		urlString.append(orgNr);
-		urlString.append(JSON_FORMAT);
+//		urlString.append(JSON_FORMAT);
 
 		try {
 
