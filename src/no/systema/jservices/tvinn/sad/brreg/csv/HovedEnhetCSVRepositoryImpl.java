@@ -2,11 +2,7 @@ package no.systema.jservices.tvinn.sad.brreg.csv;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +44,6 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	private String file = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.file");
 	private String gzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.hovedenheter.gz.file");
 
-	private Map<String, Enhet> brregMap = null;
 	private List<Enhet> enheter = null;
 
 	@Override
@@ -66,12 +61,6 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 		
 	}
 
-
-	@Override
-	public void clearMap() {
-		brregMap = null;
-	}		
-	
 	@Override
 	public void downloadFile() throws IOException {
 		try {
@@ -88,7 +77,6 @@ public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
 	}
 	
 	private void loadFileIntoMap() throws IOException {
-		brregMap = new HashMap<String, Enhet>();
 		ObjectMapper objectMapper = new ObjectMapper();
 		String pathName = FileHelper.CATALINA_BASE + filePath + file;
 

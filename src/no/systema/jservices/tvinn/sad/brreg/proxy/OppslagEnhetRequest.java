@@ -90,9 +90,10 @@ public class OppslagEnhetRequest {
 		} else {
 			i_enhet = getEnhet(orgNr);
 			if (i_enhet == null) {
+				/*Underenhet from API*/
 				i_enhet = getUnderEnhetFromAPI(orgNr);
 				if (i_enhet != null && (i_enhet.getOverordnetEnhet() != null)) {
-//					Enhet he = (Enhet) getEnhet(i_enhet.getOverordnetEnhet());
+					/*Enhet from API*/
 					Enhet he = (Enhet) getEnhetFromAPI(i_enhet.getOverordnetEnhet());
 					if (he != null) {
 						i_enhet.setKonkurs(he.getKonkurs());
@@ -125,26 +126,28 @@ public class OppslagEnhetRequest {
 		StringBuffer urlString = new StringBuffer();
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
-		urlString.append(JSON_FORMAT);
+//		urlString.append(JSON_FORMAT);
 
 		try {
 
 			hovedenhet = restTemplate.getForObject(urlString.toString(), Enhet.class);
 
 		} catch (RestClientException ex) {
-			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-			if (ex instanceof ResourceAccessException) {
-				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
-					sendMail(urlString, ex);
-				}
-				throw ex;
-			} 
-			if (ex instanceof HttpStatusCodeException) {
-				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
-				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-					// continue;
-				}
-			}
+			logger.info("RestClientException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+//			if (ex instanceof ResourceAccessException) {
+//				logger.info("ResourceAccessException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+//				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
+//					sendMail(urlString, ex);
+//				}
+//				throw ex;
+//			} 
+//			if (ex instanceof HttpStatusCodeException) {
+//				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
+//				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+//					// continue;
+//				}
+//			}
+			//continue
 		}
 		return hovedenhet;
 
@@ -162,19 +165,23 @@ public class OppslagEnhetRequest {
 			underEnhet = restTemplate.getForObject(urlString.toString(), UnderEnhet.class);
 
 		} catch (RestClientException ex) {
-			logger.info("RestClientErrorException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-			if (ex instanceof ResourceAccessException) {
-				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
-					sendMail(urlString, ex);
-				}
-				throw ex;
-			} 
-			if (ex instanceof HttpStatusCodeException) {
-				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
-				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-					// continue;
-				}
-			}
+			logger.info("RestClientException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+
+//			if (ex instanceof ResourceAccessException) {
+//				logger.info("ResourceAccessException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+//				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
+//					sendMail(urlString, ex);
+//				}
+//				throw ex;
+//			} 
+//			if (ex instanceof HttpStatusCodeException) {
+//				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
+//				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+//					// continue;
+//				}
+//			}
+
+		//continue
 		}
 		return underEnhet;
 

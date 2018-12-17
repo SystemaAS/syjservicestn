@@ -2,6 +2,7 @@ package no.systema.jservices.tvinn.sad.brreg.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import no.systema.jservices.common.brreg.proxy.entities.Enhet;
 import no.systema.jservices.common.brreg.proxy.entities.IEnhet;
 import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
+import no.systema.jservices.common.util.CommonClientHttpRequestInterceptor;
+import no.systema.jservices.common.util.CommonResponseErrorHandler;
 import no.systema.jservices.model.dao.entities.CundfDao;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.tvinn.sad.brreg.csv.HovedEnhetCSVRepository;
@@ -29,6 +32,11 @@ import no.systema.main.util.ApplicationPropertiesUtil;
 public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	private static Logger logger = Logger.getLogger(BrregRegisterServicesImpl.class.getName());
 	private final static String ENHETS_REGISTERET_URL = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url");
+	private final static String API = ApplicationPropertiesUtil.getProperty("no.brreg.data.from.api");
+	
+	static {
+		logger.info("API="+API);
+	}
 	
 	@Override
 	public Enhet get(String orgnr) throws RestClientException, IOException {
@@ -50,7 +58,7 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		return checkedKunderList;
 	}
 
-	private List getCheckedKunderList(List kunderForValideringList) throws RestClientException,  IOException {
+	private List getCheckedKunderList(List kunderForValideringList) throws RestClientException, IOException {
 		List<EnhetRegisteretDataCheckDao> checkedKunderList = new ArrayList<EnhetRegisteretDataCheckDao>();
 		EnhetRegisteretDataCheckDao checkedRecord = null;
 		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository, restTemplate);
@@ -59,12 +67,17 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 			CundfDao cundfDao = (CundfDao) iterator.next();
 			IEnhet i_enhet = null;
 			if (passSanityCheck(cundfDao.getSyrg().trim())) {
-				i_enhet = oppslagHovedenhetRequest.getEnhetRecord(cundfDao.getSyrg().trim(), false);
+				if (Boolean.valueOf(API)) {
+					i_enhet = oppslagHovedenhetRequest.getEnhetRecord(cundfDao.getSyrg().trim(), true);
+//					logger.info("i_enhet=" + ReflectionToStringBuilder.toString(i_enhet, ToStringStyle.MULTI_LINE_STYLE));
+				} else {
+					i_enhet = oppslagHovedenhetRequest.getEnhetRecord(cundfDao.getSyrg().trim(), false);
+				}
 			}
 			checkedRecord = new EnhetRegisteretDataCheckDao();
 
 			if (i_enhet == null) {
-				//logger.info("ERROR: Enhet for " + cundfDao.getSyrg().trim() + " not found.");
+//				logger.error("ERROR: Enhet for " + cundfDao.getSyrg().trim() + " not found.");
 				checkedRecord.setKundeNr(cundfDao.getKundnr());
 				checkedRecord.setKundeNavn(cundfDao.getKnavn());
 				checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
@@ -75,8 +88,19 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 
 			} else {
 				if (isHovedEnhet(i_enhet)) {
+//					logger.info("Enhet for " + cundfDao.getSyrg().trim() + " found!");
 					i_enhet = (Enhet) i_enhet;
-					if (i_enhet.getKonkurs() || !i_enhet.getRegistrertIMvaregisteret() || i_enhet.getUnderAvvikling() || i_enhet.getUnderTvangsavviklingEllerTvangsopplosning()) {  //UnderEnhet could have been decorated
+					// Sanity check, orgnr can have been deleted, then all values set to <null>, here check on konkurs
+					if (i_enhet.getKonkurs() == null) {
+						checkedRecord.setKundeNr(cundfDao.getKundnr());
+						checkedRecord.setKundeNavn(cundfDao.getKnavn());
+						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
+						checkedRecord.setExistsAsHovedEnhet("-");
+						checkedRecord.setExistsAsUnderEnhet("-");
+
+						checkedKunderList.add(checkedRecord);
+
+					} else if (i_enhet.getKonkurs() || !i_enhet.getRegistrertIMvaregisteret() || i_enhet.getUnderAvvikling() || i_enhet.getUnderTvangsavviklingEllerTvangsopplosning()) { // UnderEnhet
 						checkedRecord.setKundeNr(cundfDao.getKundnr());
 						checkedRecord.setKundeNavn(cundfDao.getKnavn());
 						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
@@ -101,14 +125,25 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 						} else {
 							checkedRecord.setUnderTvangsavviklingEllerTvangsopplosning("N");
 						}
-//						checkedRecord.setOrganisasjonsForm(enhet.getOrganisasjonsform());
 
 						checkedKunderList.add(checkedRecord);
+
 					}
 
 				} else { // is UnderEnhet
+//					logger.info("Underenhet for " + cundfDao.getSyrg().trim() + " found!");
 					i_enhet = (UnderEnhet) i_enhet;
-					if (i_enhet.getKonkurs() || !i_enhet.getRegistrertIMvaregisteret() || i_enhet.getUnderAvvikling() || i_enhet.getUnderTvangsavviklingEllerTvangsopplosning()) {  //UnderEnhet could have been decorated
+					// Sanity check, orgnr can have been deleted, then all values set to <null>, here check on konkur
+					if (i_enhet.getKonkurs() == null) {
+						checkedRecord.setKundeNr(cundfDao.getKundnr());
+						checkedRecord.setKundeNavn(cundfDao.getKnavn());
+						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
+						checkedRecord.setExistsAsHovedEnhet("-");
+						checkedRecord.setExistsAsUnderEnhet("-");
+
+						checkedKunderList.add(checkedRecord);
+
+					} else if (i_enhet.getKonkurs() || !i_enhet.getRegistrertIMvaregisteret() || i_enhet.getUnderAvvikling() || i_enhet.getUnderTvangsavviklingEllerTvangsopplosning()) {
 						checkedRecord.setKundeNr(cundfDao.getKundnr());
 						checkedRecord.setKundeNavn(cundfDao.getKnavn());
 						checkedRecord.setOrgNr(cundfDao.getSyrg().trim());
@@ -135,18 +170,15 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 						} else {
 							checkedRecord.setUnderTvangsavviklingEllerTvangsopplosning("N");
 						}
-//						checkedRecord.setOrganisasjonsForm(enhet.getOrganisasjonsform());
 
 						checkedKunderList.add(checkedRecord);
+
 					}
+
 				}
-				
+
 			}
 		}
-
-		
-		hovedEnhetCSVRepository.clearMap();
-		underEnhetCSVRepository.clearMap();
 		
 		return checkedKunderList;
 
@@ -160,31 +192,6 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		}
 		return isEnhet;
 	}
-
-	private boolean isUnderAvvikling(IEnhet enhet) {
-		boolean underAvvikling = false;
-		if (enhet.getUnderAvvikling()) {
-			underAvvikling = true;
-		}
-		return underAvvikling;
-	}
-
-	private boolean isKonkurs(IEnhet enhet) {
-		boolean konkurs = false;
-		if (enhet.getKonkurs()) {
-			konkurs = true;
-		}
-		return konkurs;
-	}
-
-	private boolean isMvareRegistret(IEnhet enhet) {
-		boolean mVareRegistret = false;
-		if (enhet.getRegistrertIMvaregisteret()) {
-			mVareRegistret = true;
-		}
-		return mVareRegistret;
-	}
-
 
 	private boolean passSanityCheck(String orgNr) {
 		if (!isNumber(orgNr)) {
@@ -255,6 +262,8 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 		this.restTemplate = value;
 	}
 	public RestTemplate getRestTemplate() {
+		restTemplate.setInterceptors(Arrays.asList(new CommonClientHttpRequestInterceptor()));
+		restTemplate.setErrorHandler(new CommonResponseErrorHandler());
 		return this.restTemplate;
 	}	
     	

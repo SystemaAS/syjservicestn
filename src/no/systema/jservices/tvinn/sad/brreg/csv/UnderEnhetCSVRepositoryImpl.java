@@ -1,16 +1,9 @@
 package no.systema.jservices.tvinn.sad.brreg.csv;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import no.systema.jservices.common.brreg.proxy.entities.HovedEnhet;
 import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services.FirmDaoServices;
 import no.systema.main.util.ApplicationPropertiesUtil;
@@ -53,21 +45,22 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	private String file = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.file");
 	private String gzFile = ApplicationPropertiesUtil.getProperty("no.brreg.data.underenheter.gz.file");
 
-	private Map<String, UnderEnhet> brregMap = null;
+	private List<UnderEnhet> underEnheter = null;
 
 	@Override
 	public UnderEnhet get(String orgNr) throws IOException {
-		if (brregMap == null) {
+		if (underEnheter == null) {
 			putAllUnderEnhetIntoMap();
 		}
 
-		return brregMap.get(orgNr);
+		UnderEnhet f_enhet = underEnheter.stream()
+				  .filter(enhet -> orgNr.equals(enhet.getOrganisasjonsnummer()))
+				  .findAny()
+				  .orElse(null);		
+		
+		return f_enhet;
 
-	}
 
-	@Override
-	public void clearMap() {
-		brregMap = null;
 	}
 
 	@Override
@@ -85,17 +78,15 @@ public class UnderEnhetCSVRepositoryImpl implements UnderEnhetCSVRepository {
 	}
 
 	private void loadFileIntoMap() throws IOException {
-		brregMap = new HashMap<String, UnderEnhet>();
 		ObjectMapper objectMapper = new ObjectMapper();
 		String pathName = FileHelper.CATALINA_BASE + filePath + file;
 
 		try {
 
-			List<UnderEnhet> underEnheter = objectMapper.readValue(new File(pathName),new TypeReference<List<UnderEnhet>>() {});
-			logger.info("Putting "+underEnheter.size() +" underEnheter into map....");
-			underEnheter.forEach(underEnhet -> {
-				brregMap.put(underEnhet.getOrganisasjonsnummer(), underEnhet);
-			});
+			File file = new File(pathName);
+			logger.info("file="+file.getAbsolutePath());
+			logger.info("ObjectMapper reading values from file into List...");
+			underEnheter = objectMapper.readValue(file,new TypeReference<List<UnderEnhet>>() {});
 			logger.info("..ready");
 
 		} catch (IOException e) {

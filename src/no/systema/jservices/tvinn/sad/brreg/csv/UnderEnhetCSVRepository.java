@@ -29,10 +29,4 @@ public interface UnderEnhetCSVRepository {
 	 */
 	public void setRestTemplate(RestTemplate restTemplate);	
 	
-	/**
-	 * Set Map to null.
-	 * The map that is holding Enheter.
-	 * 
-	 */
-	public void clearMap();
 }
