@@ -87,7 +87,7 @@ public class ResponseOutputterController_BRREG {
 	/**
 	 * Return record from data.brreg.no. Adressing Hovedenhet and Underenehet
 	 * 
-	 * Exempel: http://gw.systema.no:8080/syjservicestn/brreg.do?user=OSCAR&orgnr=936809219
+	 * Exempel: http://localhost:8080/syjservicestn/brreg.do?user=OSCAR&orgnr=936809219
 	 * 
 	 * @param session
 	 * @param request, user and orgnr
@@ -113,7 +113,7 @@ public class ResponseOutputterController_BRREG {
 				if (record != null) {
 						sb.append(jsonWriter.setJsonResult_Common_GetComposite(userName, record));	
 				} else {
-					errMsg = "ERROR on SELECT: Can not find Enhet on orgnr=,"+orgnr +"  Check: http://data.brreg.no/enhetsregisteret/enhet/"+orgnr+".json";
+					errMsg = "ERROR on SELECT: Can not find Enhet on orgnr="+orgnr;
 					status = "error";
 					logger.info("After get Enhet from brregRegisterServices :" + " " + status + errMsg);
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
