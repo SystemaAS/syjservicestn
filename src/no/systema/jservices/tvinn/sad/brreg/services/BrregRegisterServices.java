@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.web.client.RestClientException;
 
-import no.systema.jservices.common.brreg.proxy.entities.Enhet;
+import no.systema.jservices.common.brreg.proxy.entities.IEnhet;
 import no.systema.jservices.model.dao.services.CundfDaoServices;
 import no.systema.jservices.tvinn.sad.brreg.proxy.OppslagEnhetRequest;
 
@@ -36,6 +36,6 @@ public interface BrregRegisterServices {
 	 * @param orgnr
 	 * @return a Enhet, if exists, else null.
 	 */
-	public Enhet get(String orgnr) throws RestClientException, IOException ;
+	public IEnhet get(String orgnr) throws RestClientException, IOException ;
 
 }

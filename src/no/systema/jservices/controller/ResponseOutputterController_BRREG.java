@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import no.systema.jservices.common.brreg.proxy.entities.Enhet;
+import no.systema.jservices.common.brreg.proxy.entities.IEnhet;
 import no.systema.jservices.common.json.JsonResponseWriter2;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.model.dao.services.BridfDaoServices;
@@ -96,7 +97,7 @@ public class ResponseOutputterController_BRREG {
 	@RequestMapping(value="brreg.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String brreg(HttpSession session, HttpServletRequest request) {
-		JsonResponseWriter2<Enhet> jsonWriter = new JsonResponseWriter2<Enhet>();
+		JsonResponseWriter2<IEnhet> jsonWriter = new JsonResponseWriter2<IEnhet>();
 		StringBuffer sb = new StringBuffer();
 		String orgnr = request.getParameter("orgnr");
 		
@@ -109,7 +110,7 @@ public class ResponseOutputterController_BRREG {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 
 			if ((userName != null && !"".equals(userName))) {
-				Enhet record = brregRegisterServices.get(orgnr);
+				IEnhet record = brregRegisterServices.get(orgnr);
 				if (record != null) {
 						sb.append(jsonWriter.setJsonResult_Common_GetComposite(userName, record));	
 				} else {

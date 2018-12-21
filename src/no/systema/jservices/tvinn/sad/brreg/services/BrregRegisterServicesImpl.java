@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,12 +37,12 @@ public class BrregRegisterServicesImpl implements BrregRegisterServices {
 	}
 	
 	@Override
-	public Enhet get(String orgnr) throws RestClientException, IOException {
-		IEnhet enhet = null;
+	public IEnhet get(String orgnr) throws RestClientException, IOException {
+		IEnhet i_enhet = null;
 		OppslagEnhetRequest oppslagHovedenhetRequest = new OppslagEnhetRequest(ENHETS_REGISTERET_URL, hovedEnhetCSVRepository, underEnhetCSVRepository, restTemplate);
-		enhet = oppslagHovedenhetRequest.getEnhetRecord(orgnr.trim(), true);
+		i_enhet = oppslagHovedenhetRequest.getEnhetRecord(orgnr.trim(), true);
 
-		return (Enhet) enhet;
+		return i_enhet;
 	}	
 	
 	@Override
