@@ -126,28 +126,19 @@ public class OppslagEnhetRequest {
 		StringBuffer urlString = new StringBuffer();
 		urlString.append(serviceUrl);
 		urlString.append(orgNr);
-//		urlString.append(JSON_FORMAT);
 
 		try {
 
 			hovedenhet = restTemplate.getForObject(urlString.toString(), Enhet.class);
 
 		} catch (RestClientException ex) {
-			logger.info("RestClientException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-//			if (ex instanceof ResourceAccessException) {
-//				logger.info("ResourceAccessException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-//				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
-//					sendMail(urlString, ex);
-//				}
-//				throw ex;
-//			} 
-//			if (ex instanceof HttpStatusCodeException) {
-//				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
-//				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-//					// continue;
-//				}
-//			}
-			//continue
+			if (ex instanceof HttpStatusCodeException) {
+				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
+				if (!httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+					logger.error("RestClientException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+				}
+			}
+			// continue
 		}
 		return hovedenhet;
 
@@ -158,30 +149,19 @@ public class OppslagEnhetRequest {
 		StringBuffer urlString = new StringBuffer();
 		urlString.append(ENHETS_REGISTERET_UNDERENHET_URL);
 		urlString.append(orgNr);
-//		urlString.append(JSON_FORMAT);
 
 		try {
 
 			underEnhet = restTemplate.getForObject(urlString.toString(), UnderEnhet.class);
 
 		} catch (RestClientException ex) {
-			logger.info("RestClientException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-
-//			if (ex instanceof ResourceAccessException) {
-//				logger.info("ResourceAccessException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
-//				if (GMailProperties.SEND_MAIL_TO_SUPPORT_BOX) {
-//					sendMail(urlString, ex);
-//				}
-//				throw ex;
-//			} 
-//			if (ex instanceof HttpStatusCodeException) {
-//				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
-//				if (httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-//					// continue;
-//				}
-//			}
-
-		//continue
+			if (ex instanceof HttpStatusCodeException) {
+				HttpStatusCodeException httpException = (HttpStatusCodeException) ex;
+				if (!httpException.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+					logger.error("RestClientException in data.brreg.no response on:" + urlString.toString() + " :Exception=" + ex);
+				}
+			}
+			// continue
 		}
 		return underEnhet;
 

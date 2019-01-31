@@ -36,7 +36,8 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 	    SYLAND 2A Landkod = blank eller 'NO'
 */				
 		StringBuffer sqlBuffer = new StringBuffer(this.getSELECT_FROM_CLAUSE());
-		sqlBuffer.append(" and (syland = 'NO' or NULLIF(syland, '') IS NULL) ");
+//		sqlBuffer.append(" and (syland = 'NO' or NULLIF(syland, '') IS NULL) ");
+		sqlBuffer.append(" where (syland = 'NO' or NULLIF(syland, '') IS NULL) ");
 		sqlBuffer.append(" and NULLIF(syrg, '') IS NOT NULL ");
 		sqlBuffer.append(" and syrg <> '000000000'");
 
@@ -73,8 +74,11 @@ public class CundfDaoServicesImpl implements CundfDaoServices {
 		sql.append(" syutlp, sypoge, systat, syselg, syiat1, syiat2, sycoty, syfr01, syfr02, ");
 		sql.append(" syfr03, syfr04, syfr05, syfr06, sysalu, syepos, aknrku, vatkku, xxbre, ");
 		sql.append(" xxlen, xxinm3, xxinlm, rnraku, golk, kundgr, pnpbku, adr21, eori ");
-		sql.append(" FROM ");sql.append(cundfTableName); sql.append(" a, firm b");
-		sql.append(" WHERE a.firma = b.fifirm ");
+//		sql.append(" FROM ");sql.append(cundfTableName); sql.append(" a, firm b");
+//		sql.append(" WHERE a.firma = b.fifirm ");
+
+		sql.append(" FROM cundfa24");
+		
 		
 		return sql.toString();
 	}	
