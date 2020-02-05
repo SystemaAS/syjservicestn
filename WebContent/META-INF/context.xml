@@ -1,6 +1,6 @@
 <!-- The contents of this file will be loaded for each web application -->
 
-<Context debug="1" reloadable="true">
+<Context reloadable="true">
   
   <!-- This refers to the Resource (conf/context.xml) in Tomcat Server -->
   <ResourceLink global="jdbc/syjservicesDS" name="jdbc/syjservicesDS" type="javax.sql.DataSource"/>
