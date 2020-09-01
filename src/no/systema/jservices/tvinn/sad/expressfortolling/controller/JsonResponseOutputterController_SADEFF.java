@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.expressfortolling.controller.rules.SADEFFR_U;
 import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.entities.SadeffDao;
 import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.services.SadeffDaoServices;
 //import no.systema.jservices.tvinn.sad.z.maintenance.felles.controller.rules.SAD010R_U;
@@ -62,7 +63,7 @@ public class JsonResponseOutputterController_SADEFF {
 	 * 
 	 * @return
 	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADEFFR.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADEFFR.do?user=OSCAR&efavd=1
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADEFFR.do?user=OSCAR&efuuid=2350cab2-98f0-4b54-a4f7-a2ae453e61bd
 	 * 
 	 */
 	@RequestMapping(value="syjsSADEFFR.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -93,19 +94,14 @@ public class JsonResponseOutputterController_SADEFF {
 	            List list = null;
 				//do SELECT
 	            logger.warn("Before SELECT ...");
-	            
-	            if( (dao.getEfuuid()!=null && !"".equals("mera villkor"))){
-	            	logger.info("findForUpdate");
-					//list = this.sadeffDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dao.getTatxt(), dbErrorStackTrace);
-	            }else{
-					if( dao.getEfuuid()!=null && !"".equals(dao.getEfuuid()) ){
-						logger.info("findById");
-						//list = this.sadeffDaoServices.findById(dao.getTatanr(), dbErrorStackTrace);
-					}else{
-						logger.warn("getList (all)");
-						list = this.sadeffDaoServices.getList(dbErrorStackTrace);
-					}
-	            }
+	            if( dao.getEfuuid()!=null && !"".equals(dao.getEfuuid()) ){
+					logger.warn("findById");
+					list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+				}else{
+					logger.warn("getList (all)");
+					list = this.sadeffDaoServices.getList(dbErrorStackTrace);
+				}
+
 				//process result
 				if (list!=null){
 					//write the final JSON output
@@ -149,15 +145,15 @@ public class JsonResponseOutputterController_SADEFF {
 	 * @return
 	 * 
 	 */
-	/*
-	@RequestMapping(value="syjsSAD010R_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	
+	@RequestMapping(value="syjsSADEFFR_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSAD010R_U.do");
+			logger.info("Inside syjsSADEFFR_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -169,17 +165,17 @@ public class JsonResponseOutputterController_SADEFF {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			TariDao dao = new TariDao();
+			SadeffDao dao = new SadeffDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SAD010R_U rulerLord = new SAD010R_U();
+            SADEFFR_U rulerLord = new SADEFFR_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.tariDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.sadeffDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -189,11 +185,11 @@ public class JsonResponseOutputterController_SADEFF {
 				}else{
 				  if(rulerLord.isValidInput(dao, userName, mode)){
 						logger.info("Before UPDATE ...");
-						List<TariDao> list = new ArrayList<TariDao>();
+						List<SadeffDao> list = new ArrayList<SadeffDao>();
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.tariDaoServices.findForUpdate(dao.getTatanr(), dao.getTaalfa(), dao.getTatxt(),dbErrorStackTrace);
+							list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -201,10 +197,10 @@ public class JsonResponseOutputterController_SADEFF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
-								dmlRetval = this.tariDaoServices.insert(dao, dbErrorStackTrace);
+								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						}else if("U".equals(mode)){
-							 dmlRetval = this.tariDaoServices.update(dao, dbErrorStackTrace);
+							 dmlRetval = this.sadeffDaoServices.update(dao, dbErrorStackTrace);
 						}
 						
 				  }else{
@@ -245,7 +241,7 @@ public class JsonResponseOutputterController_SADEFF {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------

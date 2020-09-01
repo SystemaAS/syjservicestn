@@ -48,10 +48,28 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 		return retval;
 	}
 	/**
-	 * N/A
+	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		return null;
+		List<SadeffDao> retval = new ArrayList<SadeffDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" select * from sadeff where efuuid = ? ");
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadeffDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
 	}
 	
 	
@@ -65,16 +83,27 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*TODO
+
 		try{
-			SadlDao dao = (SadlDao)daoObj;
+			SadeffDao dao = (SadeffDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadl (slknr, slalfa, sltxt, sloppl, sltanr, sltn, slvekt, slpva, slsats, SLKDAÆ, SLKDSÆ, slcref, slto )");
-			sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+			sql.append(" INSERT INTO sadeff (efuuid, efst, efavd, efpro, efdtr, efsg, efst2, eftsd, efst3, efdtin, ");
+			sql.append(" efeta, efetm, efata, efatm, ef3039e, efeid, efknd, efrgd, eftm, eftmt, ");
+			sql.append(" efktyp, efktypt, efklk, efkmrk, efplk, efpmrk, efsjaf, efsjae, efsjalk, efsjadt, efbekr ) ");
+			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?) ");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSlknr(), dao.getSlalfa(), dao.getSltxt(),
-				dao.getSloppl(), dao.getSltanr(), dao.getSltn(), dao.getSlvekt(), dao.getSlpva(), dao.getSlsats(), dao.getSlkdae(), dao.getSlkdse(), dao.getSlcref(), dao.getSlto() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+					dao.getEfuuid(),
+					dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
+					dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
+					dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
+					dao.getEfbekr(),
+
+					} );
+			
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -83,7 +112,7 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	/**
@@ -91,24 +120,25 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*
+		
 		try{
-			SadlDao dao = (SadlDao)daoObj;
+			SadeffDao dao = (SadeffDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			sql.append(" UPDATE sadl SET sltxt = ? , sloppl = ? , sltanr = ? , sltn = ? , slvekt = ? , ");
-			sql.append(" slpva = ? , slsats = ? , SLKDAÆ = ? , SLKDSÆ = ? , slcref = ?, slto = ? ");
+			sql.append(" UPDATE sadeff SET efst = ?, efavd = ?, efpro = ?, efdtr = ?, efsg = ?, efst2 = ?, eftsd = ?, efst3 = ?, efdtin = ?,  ");
+			sql.append(" efeta = ? , efetm = ? , efata = ? , efatm = ? , ef3039e = ?, efeid = ?, efknd = ?, efrgd = ?, eftm = ?, eftmt = ?, ");
+			sql.append(" efktyp = ? , efktypt = ? , efklk = ? , efkmrk = ? , efplk = ?, efpmrk = ?, efsjaf = ?, efsjae = ?, efsjalk = ?, efsjadt = ?, ");
+			sql.append(" efbekr = ?  ");
 			//id's
-			sql.append(" WHERE slknr = ? ");
-			sql.append(" AND slalfa = ? ");
+			sql.append(" WHERE efuuid = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getSltxt(), dao.getSloppl(), dao.getSltanr(), dao.getSltn(), dao.getSlvekt(),
-						dao.getSlpva(), dao.getSlsats(), dao.getSlkdae(), dao.getSlkdse(), dao.getSlcref(),
-						dao.getSlto(),
+						dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
+						dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
+						dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
+						dao.getEfbekr(),
 						//id's
-						dao.getSlknr(),
-						dao.getSlalfa(),
+						dao.getEfuuid(),
 						} );
 			
 		}catch(Exception e){
@@ -119,7 +149,7 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 		
 	}
@@ -128,19 +158,18 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*
+		
 		try{
-			SadlDao dao = (SadlDao)daoObj;
+			SadeffDao dao = (SadeffDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" DELETE from sadl ");
+			sql.append(" DELETE from sadeff ");
 			//id's
-			sql.append(" WHERE slknr = ? ");
-			sql.append(" AND slalfa = ? ");
+			sql.append(" WHERE efuuid = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getSlknr(), dao.getSlalfa() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfuuid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -149,23 +178,8 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	private StringBuffer getSELECT_CLAUSE(){
-		//Compatibility issue on special characters (ø,æ, etc)
-		//All columns with special characters (NO,SE,DK) such as ö,ä,ø, etc MUST be defined with CAPITAL LETTERS, otherwise the selection in SQL will be invalid
-		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT slstat, CHAR(slknr) slknr, slalfa, SUBSTR(sltxt, 1, 20) sltxt, sloppl, CHAR(slvekt) slvekt, CHAR(sltanr) sltanr, sltar, slpva, ");
-		sql.append(" CHAR(slsats) slsats, sltn, SLKDAÆ slkdae, SLKDSÆ slkdse, slto, slcref, ");
-		sql.append(" SUBSTR(sltxt, 21, 1) r31, SUBSTR(sltxt, 22, 1) pref, SUBSTR(sltxt, 23, 1) mf ");
-		
-		
-		return sql;
 	}
 	
 	/**                                                                                                  
