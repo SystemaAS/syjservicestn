@@ -93,7 +93,7 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 			sql.append(" efktyp, efktypt, efklk, efkmrk, efplk, efpmrk, efsjaf, efsjae, efsjalk, efsjadt, efbekr ) ");
 			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,?) ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					dao.getEfuuid(),
