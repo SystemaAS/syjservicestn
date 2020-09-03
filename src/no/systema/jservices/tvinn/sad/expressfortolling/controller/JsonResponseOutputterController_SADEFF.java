@@ -8,7 +8,7 @@ import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -34,6 +34,7 @@ import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.services.Sadef
 //import no.systema.jservices.tvinn.sad.z.maintenance.felles.controller.rules.SAD010R_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
 
+
 //rules
 
 
@@ -54,7 +55,6 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
 @Controller
 public class JsonResponseOutputterController_SADEFF {
 	private static Logger logger = Logger.getLogger(JsonResponseOutputterController_SADEFF.class.getName());
-	
 	/**
 	 * FreeForm Source:
 	 * 	 File: 		SADEFF
@@ -93,10 +93,13 @@ public class JsonResponseOutputterController_SADEFF {
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
-	            logger.warn("Before SELECT ...");
-	            if( dao.getEfuuid()!=null && !"".equals(dao.getEfuuid()) ){
+	            logger.info("Before SELECT ...");
+	            if( StringUtils.isNotEmpty(dao.getEfuuid()) ){
 					logger.warn("findById");
 					list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+				}else if( this.isDoFind(dao) ){
+					logger.warn("find");
+					list = this.sadeffDaoServices.find(dao, dbErrorStackTrace);
 				}else{
 					logger.warn("getList (all)");
 					list = this.sadeffDaoServices.getList(dbErrorStackTrace);
@@ -131,7 +134,20 @@ public class JsonResponseOutputterController_SADEFF {
 		session.invalidate();
 		return sb.toString();
 	}
-	
+	/**
+	 * To find if a deeper search of a dataset is needed
+	 * @param dao
+	 * @return
+	 */
+	private boolean isDoFind(SadeffDao dao){
+		boolean retval = false;
+		if(dao.getEfavd()>0 || dao.getEfpro()>0 || 
+			StringUtils.isNotEmpty(dao.getEfsg())){
+			retval = true;
+		}
+		
+		return retval;
+	}
 	/**
 	 * 
 	 * Update Database DML operations

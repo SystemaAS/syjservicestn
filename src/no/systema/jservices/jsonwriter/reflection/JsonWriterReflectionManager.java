@@ -38,6 +38,13 @@ public class JsonWriterReflectionManager {
 						if(counter>1){ jsonReflectionOutput.append(JsonConstants.JSON_FIELD_SEPARATOR ); }
 						jsonReflectionOutput.append(JsonConstants.JSON_QUOTES + field + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + this.jsonFixMgr.cleanRecord(value).trim() + JsonConstants.JSON_QUOTES);
 						counter ++;
+					}else if(returnType.equals(Integer.class)){
+						String field = theMethod.getName().replace("get", "").toLowerCase();
+						Integer value = (Integer)theMethod.invoke(record);
+						//logger.info(fieldName + "XX" + value);
+						if(counter>1){ jsonReflectionOutput.append(JsonConstants.JSON_FIELD_SEPARATOR ); }
+						jsonReflectionOutput.append(JsonConstants.JSON_QUOTES + field + JsonConstants.JSON_QUOTES + ":" + value);
+						counter ++;
 					}
 				}
 				
