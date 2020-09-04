@@ -25,7 +25,7 @@ public class SadeffDao implements IDao {
 	private Integer efata = 0; //SONET (8,0) ATA-dato
 	private Integer efatm = 0; //SONET (6,0) ATA-tid
 	//
-	private Integer ef3039e = 0; //SONET (6,0) ATA-tid
+	private Integer ef3039e = 0; //SONET (6,0) Ekspedisjonsenhet
 	private String efeid = ""; //TEGN (18) Ekportid
 	//
 	private Integer efknd = 0; //SONET (8,0) Deklarant/Tr.sportør
