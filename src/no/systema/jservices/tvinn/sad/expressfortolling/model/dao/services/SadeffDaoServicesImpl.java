@@ -200,12 +200,12 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" DELETE from sadeff ");
+			sql.append(" UPDATE sadeff set efst2 = ? ");
 			//id's
 			sql.append(" WHERE efuuid = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst2(), dao.getEfuuid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

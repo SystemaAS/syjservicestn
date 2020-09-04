@@ -46,8 +46,8 @@ public class SADEFFR_U {
 	public boolean isValidInputForDelete(SadeffDao dao, String user, String mode){
 		boolean retval = true;
 		if( strMgr.isNotEmpty(user) && strMgr.isNotEmpty(mode )){
-			//check dao
-			if(strMgr.isNotEmpty(dao.getEfuuid())){
+			//check dao for uuid and status=D
+			if(strMgr.isNotEmpty(dao.getEfuuid()) && strMgr.isNotEmpty(dao.getEfst2())){
 				//OK
 			}else{
 				retval = false;
