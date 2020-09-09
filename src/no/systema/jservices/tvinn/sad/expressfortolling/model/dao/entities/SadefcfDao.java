@@ -21,11 +21,10 @@ public class SadefcfDao implements IDao {
 	private String cltrid = ""; //TEGN (17) Bilnr
 	private Integer cl3039e = 0; //SONET (6,0) Eksped.enhet
 	private String cllkf = ""; //TEGN (2) Land of loading
-	
 	private String clsdf = ""; //TEGN (5) Place of loading
 	private String clsdft = ""; //TEGN (30) Place of loading
+	
 	private String cllkt = ""; //TEGN (2) Land of unloading
-	//
 	private String clsdt = ""; //TEGN (5) Place of unloading
 	private String clsdtt = ""; //TEGN (30) Place of unloading
 	private String clpr = ""; //TEGN (2) Procedure
