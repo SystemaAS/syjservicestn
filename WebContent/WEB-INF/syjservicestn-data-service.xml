@@ -172,6 +172,7 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
+  
   <!--///////////////////
         NativeExtractor 
       ///////////////////
@@ -187,5 +188,7 @@
             <ref bean="dataSource"/>
         </property>
   </bean>
- 
+
+  <import resource="classpath:syjservicescommon-data-service.xml" />
+   
  </beans>

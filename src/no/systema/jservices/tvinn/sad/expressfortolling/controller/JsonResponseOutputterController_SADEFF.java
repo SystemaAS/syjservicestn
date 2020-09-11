@@ -261,20 +261,11 @@ public class JsonResponseOutputterController_SADEFF {
 	//----------------
 	//WIRED SERVICES
 	//----------------
-	@Qualifier ("sadeffDaoServices")
+	@Autowired
 	private SadeffDaoServices sadeffDaoServices;
+	
 	@Autowired
-	@Required
-	public void setSadeffDaoServices (SadeffDaoServices value){ this.sadeffDaoServices = value; }
-	public SadeffDaoServices getSadeffDaoServices(){ return this.sadeffDaoServices; }
-	
-	
-	@Qualifier ("bridfDaoServices")
 	private BridfDaoServices bridfDaoServices;
-	@Autowired
-	@Required
-	public void setBridfDaoServices (BridfDaoServices value){ this.bridfDaoServices = value; }
-	public BridfDaoServices getBridfDaoServices(){ return this.bridfDaoServices; }
 	
 }
 
