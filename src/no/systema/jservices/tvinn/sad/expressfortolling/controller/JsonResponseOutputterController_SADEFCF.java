@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.expressfortolling.controller.rules.SADEFCFR_U;
 import no.systema.jservices.tvinn.sad.expressfortolling.controller.rules.SADEFFR_U;
 import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.entities.SadefcfDao;
 import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.entities.SadeffDao;
@@ -168,7 +169,7 @@ public class JsonResponseOutputterController_SADEFCF {
 	 * @return
 	 * 
 	 */
-	/*
+	
 	@RequestMapping(value="syjsSADEFCFR_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
@@ -188,17 +189,17 @@ public class JsonResponseOutputterController_SADEFCF {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadeffDao dao = new SadeffDao();
+			SadefcfDao dao = new SadefcfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SADEFFR_U rulerLord = new SADEFFR_U();
+            SADEFCFR_U rulerLord = new SADEFCFR_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.sadeffDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.sadefcfDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -212,18 +213,18 @@ public class JsonResponseOutputterController_SADEFCF {
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+							list = this.sadefcfDaoServices.findById(String.valueOf(dao.getClpro()), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
-								errMsg = "ERROR on UPDATE: Code exists already";
+								errMsg = "ERROR on UPDATE: Record exists already";
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
-								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
+								dmlRetval = this.sadefcfDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						}else if("U".equals(mode)){
-							 dmlRetval = this.sadeffDaoServices.update(dao, dbErrorStackTrace);
+							 dmlRetval = this.sadefcfDaoServices.update(dao, dbErrorStackTrace);
 						}
 						
 				  }else{
@@ -264,7 +265,7 @@ public class JsonResponseOutputterController_SADEFCF {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
