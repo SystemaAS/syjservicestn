@@ -214,6 +214,72 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 		return retval;
 	}
 	
+	/**
+	 * When the release of a record is necessary. Usually when the record must return to an unbound state = without a tur(clpro)
+	 * @param daoObj
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public int release(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadefcfDao dao = (SadefcfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadefcf set clpro = ? ");
+			//id's
+			sql.append(" WHERE clpro = ? AND cltdn = ? ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 0, dao.getClpro(), dao.getCltdn() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
+	/**
+	 * When the release of a record is necessary. Usually when the record must return to an unbound state = without a tur(clpro)
+	 * @param daoObj
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public int bindTur(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadefcfDao dao = (SadefcfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadefcf set clpro = ? ");
+			//id's
+			sql.append(" WHERE clpro = ? AND cltdn = ? ");
+			
+			//params
+			logger.warn(sql.toString());
+			logger.warn(dao.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getClpro(), 0, dao.getCltdn() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                
 	 *                                                                                                   

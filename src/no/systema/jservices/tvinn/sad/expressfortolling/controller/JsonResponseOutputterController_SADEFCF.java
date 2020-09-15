@@ -75,6 +75,8 @@ public class JsonResponseOutputterController_SADEFCF {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
+		String pickFlag = request.getParameter("pick");
+		
 		try{
 			logger.info("Inside syjsSADEFCFR");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
@@ -105,12 +107,18 @@ public class JsonResponseOutputterController_SADEFCF {
 					}else{
 						logger.warn("findById");
 						list = this.sadefcfDaoServices.findById(String.valueOf(dao.getClpro()), dbErrorStackTrace);
-						
 					}
 				
-				}else{
-					logger.warn("getList (all)");
-					list = this.sadefcfDaoServices.getList(dbErrorStackTrace);
+				}else{ 
+					if(StringUtils.isNotEmpty(pickFlag)){
+						//in order to get all orphan records, those without a tur (clpro). This case is used in order to pick a record
+						//to a parent tur and eliminate the orphan state
+						logger.warn("pick special case...");
+	            		list = this.sadefcfDaoServices.find(dao, dbErrorStackTrace);
+					}else{
+						logger.warn("getList (all)");
+						list = this.sadefcfDaoServices.getList(dbErrorStackTrace);
+					}
 				}
 
 				//process result
@@ -223,8 +231,20 @@ public class JsonResponseOutputterController_SADEFCF {
 							}else{
 								dmlRetval = this.sadefcfDaoServices.insert(dao, dbErrorStackTrace);
 							}
-						}else if("U".equals(mode)){
-							 dmlRetval = this.sadefcfDaoServices.update(dao, dbErrorStackTrace);
+						}else{
+							//Update
+							if("U".equals(mode)){
+								logger.info("Before UPDATE ...");
+								dmlRetval = this.sadefcfDaoServices.update(dao, dbErrorStackTrace);
+							//R=Release	
+							}else if("R".equals(mode)){
+								logger.warn("Before RELEASE ...");
+								dmlRetval = this.sadefcfDaoServices.release(dao, dbErrorStackTrace);
+							//B=Bind
+							}else if("B".equals(mode)){
+								logger.warn("Before BIND ...");
+								dmlRetval = this.sadefcfDaoServices.bindTur(dao, dbErrorStackTrace);
+							}
 						}
 						
 				  }else{
