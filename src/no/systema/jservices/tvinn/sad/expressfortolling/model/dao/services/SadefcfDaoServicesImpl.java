@@ -163,6 +163,8 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			sql.append(" clprt = ? , cletyp = ? , cletypt = ? , cleid = ? , cleser = ?  ");
 			//id's
 			sql.append(" WHERE clpro = ? ");
+			sql.append(" AND cltdn = ? ");
+			
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
@@ -170,7 +172,7 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 						dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
 						dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(), dao.getCleser(),
 						//id's
-						dao.getClpro(),
+						dao.getClpro(),dao.getCltdn(),
 						} );
 			
 		}catch(Exception e){
@@ -222,18 +224,19 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 	 */
 	public int release(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
+		int DELETE_VALUE_TUR = 0;
 		
 		try{
 			SadefcfDao dao = (SadefcfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadefcf set clpro = ? ");
+			sql.append(" UPDATE sadefcf set clpro = ?, clst = ? ");
 			//id's
 			sql.append(" WHERE clpro = ? AND cltdn = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 0, dao.getClpro(), dao.getCltdn() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { DELETE_VALUE_TUR, dao.getClst(), dao.getClpro(), dao.getCltdn() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
