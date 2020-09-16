@@ -10,4 +10,6 @@ import java.util.*;
  */
 public interface SadeffDaoServices extends IDaoServices { 
 	public List find(Object dao,StringBuffer errorStackTrace);
+	public int updateStatus(Object daoObj, StringBuffer errorStackTrace);
+	public int updateManifestStatus(Object daoObj, StringBuffer errorStackTrace);
 }

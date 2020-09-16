@@ -217,6 +217,12 @@ public class JsonResponseOutputterController_SADEFF {
 							}
 						}else if("U".equals(mode)){
 							 dmlRetval = this.sadeffDaoServices.update(dao, dbErrorStackTrace);
+							 
+						}else if("US".equals(mode)){
+							 dmlRetval = this.sadeffDaoServices.updateStatus(dao, dbErrorStackTrace);
+							 
+						}else if("UMS".equals(mode)){
+							 dmlRetval = this.sadeffDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
 						}
 						
 				  }else{
