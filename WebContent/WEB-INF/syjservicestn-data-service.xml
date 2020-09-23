@@ -171,7 +171,9 @@
   <bean id="sadefcfDaoServices" class="no.systema.jservices.tvinn.sad.expressfortolling.model.dao.services.SadefcfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <bean id="sadefdefDaoServices" class="no.systema.jservices.tvinn.sad.expressfortolling.model.dao.services.SadefdefDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   <!--///////////////////
         NativeExtractor 
