@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import no.systema.jservices.common.dao.services.TellgeDaoService;
 import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.entities.SadefcfDao;
 import no.systema.jservices.tvinn.sad.expressfortolling.model.dao.entities.SadeffDao;
 import no.systema.main.util.DbErrorMessageManager;
@@ -61,9 +63,34 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			sql.append(" select * from sadefcf where clpro = ?" );
 			params.add(dao.getClpro());
+			sql.append(" and clavd = ? " ); 
+			params.add(dao.getClavd());
+			//filter
+			if(Math.abs(dao.getCltdn())>0){ sql.append(" and cltdn = ? "); params.add(dao.getCltdn()); }
+			logger.warn(sql.toString());
+			logger.warn(params.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadefcfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	
+	public List pick(Object obj,StringBuffer errorStackTrace){
+		SadefcfDao dao = (SadefcfDao)obj;
+		List<SadefcfDao> retval = new ArrayList<SadefcfDao>();
+		LinkedList<Object> params = new LinkedList<Object>();
+		
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select * from sadefcf where clpro = ?" );
+			params.add(dao.getClpro());
 			//walk through the filter fields
-			if(dao.getClavd()>0){ sql.append(" and clavd = ? " ); params.add(dao.getClavd()); }
-			if(dao.getCltdn()>0){ sql.append(" and cltdn = ? "); params.add(dao.getCltdn()); }
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadefcfDao.class));
@@ -103,7 +130,27 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 		return retval;
 	}
 	
-	
+	public List findById (String pro, String tdn, StringBuffer errorStackTrace ){
+		List<SadefcfDao> retval = new ArrayList<SadefcfDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" select * from sadefcf where clpro = ? and cltdn = ? ");
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { pro, tdn }, new BeanPropertyRowMapper(SadefcfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	
 	
 	/**
@@ -114,10 +161,16 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-
+		logger.warn("D");
 		try{
 			SadefcfDao dao = (SadefcfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
+			//cltdn must be negativt according to YBC
+			logger.warn("E");
+			int x = -1 * this.tellgeDaoService.getGenoAndIncrementAfterFetch("EKSPFORT");
+			logger.warn("teller:" + x);
+			dao.setCltdn(x);
+			logger.warn("F");
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" INSERT INTO sadefcf (clst, clavd, clpro, cltdn, clrg, cl0068a, cl0068b, clntk, clvkb, ");
 			sql.append(" clvt, cltrid, cl3039e, cllkf, clsdf, clsdft, cllkt, clsdt, clsdtt, clpr, ");
@@ -125,6 +178,9 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			sql.append(" VALUES(?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,? ) ");
+			
+			logger.warn(sql.toString());
+			logger.warn(dao.toString());
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					dao.getClst(),dao.getClavd(), dao.getClpro(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(),
@@ -291,4 +347,10 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 	public void setJdbcTemplate( JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}          
 	public JdbcTemplate getJdbcTemplate() {return this.jdbcTemplate;}                                    
 
+	@Autowired
+	private TellgeDaoService tellgeDaoService = null;                                                            
+	public void setTellgeDaoService( TellgeDaoService tellgeDaoService) {this.tellgeDaoService = tellgeDaoService;}          
+	public TellgeDaoService getTellgeDaoService() {return this.tellgeDaoService;}
+
+	
 }

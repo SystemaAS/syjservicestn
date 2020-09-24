@@ -100,7 +100,7 @@ public class JsonResponseOutputterController_SADEFCF {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            if( dao.getClpro()>0) {
-	            	if( dao.getClavd()>0 && dao.getCltdn()>0) {
+	            	if( Math.abs(dao.getCltdn())>0) {
 	            		logger.warn("find");
 	            		list = this.sadefcfDaoServices.find(dao, dbErrorStackTrace);
 	            		
@@ -114,7 +114,7 @@ public class JsonResponseOutputterController_SADEFCF {
 						//in order to get all orphan records, those without a tur (clpro). This case is used in order to pick a record
 						//to a parent tur and eliminate the orphan state
 						logger.warn("pick special case...");
-	            		list = this.sadefcfDaoServices.find(dao, dbErrorStackTrace);
+	            		list = this.sadefcfDaoServices.pick(dao, dbErrorStackTrace);
 					}else{
 						logger.warn("getList (all)");
 						list = this.sadefcfDaoServices.getList(dbErrorStackTrace);
@@ -215,26 +215,21 @@ public class JsonResponseOutputterController_SADEFCF {
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
 				}else{
-				  if(rulerLord.isValidInput(dao, userName, mode)){
-						logger.info("Before UPDATE ...");
-						List<SadeffDao> list = new ArrayList<SadeffDao>();
-						
+					logger.info("Before UPDATE ...");
+					List<SadeffDao> list = new ArrayList<SadeffDao>();
+					if(rulerLord.isValidInput(dao, userName, mode)){
 						//do ADD
 						if("A".equals(mode)){
-							list = this.sadefcfDaoServices.findById(String.valueOf(dao.getClpro()), dbErrorStackTrace);
-							//check if there is already such a code. If it does, stop the update
-							if(list!=null && list.size()>0){
-								//write JSON error output
-								errMsg = "ERROR on UPDATE: Record exists already";
-								status = "error";
-								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-							}else{
+							logger.warn("Before INSERT...");
+							//cltdn will be created in the insert by a counter (TELLGE db-table)
+							if(dao.getCltdn() == 0){
+								logger.warn("doInsert now...");
 								dmlRetval = this.sadefcfDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						}else{
 							//Update
 							if("U".equals(mode)){
-								logger.info("Before UPDATE ...");
+								logger.warn("Before UPDATE ...");
 								dmlRetval = this.sadefcfDaoServices.update(dao, dbErrorStackTrace);
 							//R=Release	
 							}else if("R".equals(mode)){
@@ -246,13 +241,12 @@ public class JsonResponseOutputterController_SADEFCF {
 								dmlRetval = this.sadefcfDaoServices.bindTur(dao, dbErrorStackTrace);
 							}
 						}
-						
-				  }else{
+					}else{
 						//write JSON error output
 						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-				  }
+					}
 				}
 				//----------------------------------
 				//check returns from dml operations

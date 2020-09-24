@@ -10,6 +10,8 @@ import java.util.*;
  */
 public interface SadefcfDaoServices extends IDaoServices { 
 	public List find(Object dao,StringBuffer errorStackTrace);
+	public List pick(Object dao,StringBuffer errorStackTrace);
+	public List findById (String pro, String tdn, StringBuffer errorStackTrace );
 	public int release(Object daoObj, StringBuffer errorStackTrace);
 	public int bindTur(Object daoObj, StringBuffer errorStackTrace);
 }

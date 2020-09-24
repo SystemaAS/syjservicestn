@@ -19,10 +19,9 @@ public class SADEFCFR_U {
 	public boolean isValidInput(SadefcfDao dao, String user, String mode){
 		boolean retval = true;
 		
-		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
+		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
-			
-			if( dao.getClpro()>0 && dao.getClavd()>0){ 
+			if(dao.getClpro()>0){ 
 			}else{
 				retval = false;
 			}
@@ -31,6 +30,8 @@ public class SADEFCFR_U {
 		}
 		return retval;
 	}
+	
+	
 	/**
 	 * 
 	 * @param dao
