@@ -174,10 +174,10 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" INSERT INTO sadefcf (clst, clavd, clpro, cltdn, clrg, cl0068a, cl0068b, clntk, clvkb, ");
 			sql.append(" clvt, cltrid, cl3039e, cllkf, clsdf, clsdft, cllkt, clsdt, clsdtt, clpr, ");
-			sql.append(" clprt, cletyp, cletypt, cleid, cleser ) ");
+			sql.append(" clprt, cletyp, cletypt, cleid, cleser, cltrnr, clnas, clnak ) ");
 			sql.append(" VALUES(?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,? ) ");
+			sql.append(" ?,?,?,?,?, ?,?,? ) ");
 			
 			logger.warn(sql.toString());
 			logger.warn(dao.toString());
@@ -185,7 +185,7 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					dao.getClst(),dao.getClavd(), dao.getClpro(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(),
 					dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
-					dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(), dao.getCleser(),
+					dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(), dao.getCleser(), dao.getCltrnr(), dao.getClnas(), dao.getClnak()
 
 					} );
 			
@@ -216,7 +216,7 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			*/
 			sql.append(" UPDATE sadefcf SET clst = ?, clavd = ?, cltdn = ?, clrg = ?, cl0068a = ?, cl0068b = ?, clntk = ?, clvkb = ?,  ");
 			sql.append(" clvt = ? , cltrid = ? , cl3039e = ? , cllkf = ? , clsdf = ?, clsdft = ?, cllkt = ?, clsdt = ?, clsdtt = ?, clpr = ?, ");
-			sql.append(" clprt = ? , cletyp = ? , cletypt = ? , cleid = ? , cleser = ?  ");
+			sql.append(" clprt = ? , cletyp = ? , cletypt = ? , cleid = ? , cleser = ?, cltrnr = ? , clnas = ? , clnak = ? ");
 			//id's
 			sql.append(" WHERE clpro = ? ");
 			sql.append(" AND cltdn = ? ");
@@ -226,7 +226,7 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 						dao.getClst(), dao.getClavd(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(), 
 						dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
-						dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(), dao.getCleser(),
+						dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(),  dao.getCleser(), dao.getCltrnr(), dao.getClnas(), dao.getClnak(),
 						//id's
 						dao.getClpro(),dao.getCltdn(),
 						} );

@@ -13,6 +13,11 @@ public class SadefcfDao implements IDao {
 	private Integer clavd = 0; //SONET (4,0) avd
 	private Integer cltdn = 0; //SONET (7,0) Oppdnr.
 	private String clrg = ""; //TEGN (11) orgnr
+	
+	private String cltrnr = ""; //TEGN (18) MRN-nr
+	private String clnas = ""; //TEGN (30) Avsender
+	private String clnak = ""; //TEGN (30) Mottaker
+	
 	private Integer cl0068a = 0; //SONET (8,0) Sendingsdato
 	private Integer cl0068b = 0; //SONET (6,0) Sendingssekvens
 	private Integer clntk = 0; //SONET (7) Total kolli
