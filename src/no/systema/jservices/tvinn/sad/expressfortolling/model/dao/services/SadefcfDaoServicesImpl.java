@@ -167,7 +167,7 @@ public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//cltdn must be negativt according to YBC
 			logger.warn("E");
-			int x = -1 * this.tellgeDaoService.getGenoAndIncrementAfterFetch("EKSPFORT");
+			int x = this.tellgeDaoService.getGenoAndIncrementAfterFetch("EKSPFORT");
 			logger.warn("teller:" + x);
 			dao.setCltdn(x);
 			logger.warn("F");
