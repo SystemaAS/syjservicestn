@@ -47,7 +47,7 @@ public class SADEFFR_U {
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D
-			if(StringUtils.isNotEmpty(dao.getEfuuid()) && StringUtils.isNotEmpty(dao.getEfst())){
+			if(StringUtils.isNotEmpty(dao.getEfuuid()) && StringUtils.isNotEmpty(dao.getEfst2())){
 				//OK
 			}else{
 				retval = false;
