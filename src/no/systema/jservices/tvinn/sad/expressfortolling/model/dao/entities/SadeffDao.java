@@ -13,7 +13,7 @@ public class SadeffDao implements IDao {
  	private Integer efavd = 0; //SONET (4,0) Avdeling
 	private Integer efpro = 0; //SONET (8,0) Turnr
 	private Integer efdtr = 0; //SONET (8,0) Reg.dato
-	private Integer _efdtrt = 0; //SONET (8,0) own-Reg.dato
+	private Integer own_efdtr = 0; //SONET (8,0) own-Reg.dato
 	
 	private String efsg = ""; //TEGN (3) Signatur
 	private String efst2 = ""; //TEGN (1) Status om manifest
@@ -21,6 +21,7 @@ public class SadeffDao implements IDao {
 	private String efst3 = ""; //TEGN (1) Status om inpassering
 	private Integer efdtin = 0; //SONET (8,0) Innsendingsdato
 	private Integer efeta = 0; //SONET (8,0) ETA-dato
+	private Integer own_efeta = 0; //SONET (8,0) ETA-dato
 	private Integer efetm = 0; //SONET (6,0) ETA-tid
 	private Integer efata = 0; //SONET (8,0) ATA-dato
 	private Integer efatm = 0; //SONET (6,0) ATA-tid

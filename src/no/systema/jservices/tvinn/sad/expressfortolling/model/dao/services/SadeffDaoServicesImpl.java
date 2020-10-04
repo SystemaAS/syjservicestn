@@ -63,7 +63,9 @@ public class SadeffDaoServicesImpl implements SadeffDaoServices {
 			if(dao.getEfpro()>0){ sql.append(" and efpro = ? "); params.add(dao.getEfpro()); }
 			if(StringUtils.isNotEmpty(dao.getEfsg())){ sql.append(" and efsg = ? "); params.add(dao.getEfsg()); }
 			if(dao.getEfdtr()>0){ sql.append(" and efdtr >= ? "); params.add(dao.getEfdtr()); }
-			if(dao.get_efdtrt()>0){ sql.append(" and efdtr <= ? "); params.add(dao.get_efdtrt()); }
+			if(dao.getOwn_efdtr()>0){ sql.append(" and efdtr <= ? "); params.add(dao.getOwn_efdtr()); }
+			if(dao.getEfeta()>0){ sql.append(" and efeta >= ? "); params.add(dao.getEfeta()); }
+			if(dao.getOwn_efeta()>0){ sql.append(" and efeta <= ? "); params.add(dao.getOwn_efeta()); }
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadeffDao.class));
