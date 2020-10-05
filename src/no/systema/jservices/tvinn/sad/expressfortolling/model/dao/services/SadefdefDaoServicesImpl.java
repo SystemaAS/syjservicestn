@@ -31,7 +31,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 		try{
 			StringBuffer sql = new StringBuffer();
 			//sql.append(" select * from sadeff order by rrn(sadeff) desc");
-			sql.append(" select * from sadefdef order by efdtr desc");
+			sql.append(" select * from sadefdef order by efavd");
 			sql.append(" FETCH FIRST 500 ROWS ONLY ");
 			
 			logger.warn(sql.toString());
@@ -56,10 +56,9 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from sadefdef where efuuid LIKE ?" );
+			sql.append(" select * from sadefdef where avd LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
-			if(dao.getEfavd()>0){ sql.append(" and efavd = ? " ); params.add(dao.getEfavd()); }
 			if(dao.getEfpro()>0){ sql.append(" and efpro = ? "); params.add(dao.getEfpro()); }
 			if(StringUtils.isNotEmpty(dao.getEfsg())){ sql.append(" and efsg = ? "); params.add(dao.getEfsg()); }
 			if(dao.getEfdtr()>0){ sql.append(" and efdtr >= ? "); params.add(dao.getEfdtr()); }
@@ -88,7 +87,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" select * from sadefdef where efuuid = ? ");
+			sql.append(" select * from sadefdef where efavd = ? ");
 			
 			logger.warn(sql.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadefdefDao.class));
@@ -165,7 +164,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 			sql.append(" efktyp = ? , efktypt = ? , efklk = ? , efkmrk = ? , efplk = ?, efpmrk = ?, efsjaf = ?, efsjae = ?, efsjalk = ?, efsjadt = ?, ");
 			sql.append(" efbekr = ?  ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE avd = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
@@ -174,7 +173,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 						dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
 						dao.getEfbekr(),
 						//id's
-						dao.getEfuuid(),
+						dao.getEfavd(),
 						} );
 			
 		}catch(Exception e){
@@ -200,12 +199,12 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadefdef set efst = ? ");
+			sql.append(" DELETE from sadefdef ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE efavd = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfavd() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -218,69 +217,6 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 		return retval;
 	}
 	
-	/**
-	 * 
-	 * @param daoObj
-	 * @param errorStackTrace
-	 * @return
-	 */
-	public int updateStatus(Object daoObj, StringBuffer errorStackTrace){
-		int retval = 0;
-		
-		try{
-			SadefdefDao dao = (SadefdefDao)daoObj;
-				
-			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadefdef set efst = ? ");
-			//id's
-			sql.append(" WHERE efuuid = ? ");
-			
-			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
-			
-		}catch(Exception e){
-			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
-			//Chop the message to comply to JSON-validation
-			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
-			retval = -1;
-		}
-		
-		return retval;
-	}
-	
-	/**
-	 * 
-	 * @param daoObj
-	 * @param errorStackTrace
-	 * @return
-	 */
-	public int updateManifestStatus(Object daoObj, StringBuffer errorStackTrace){
-		int retval = 0;
-		
-		try{
-			SadefdefDao dao = (SadefdefDao)daoObj;
-				
-			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadefdef set efst2 = ? ");
-			//id's
-			sql.append(" WHERE efuuid = ? ");
-			
-			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst2(), dao.getEfuuid() } );
-			
-		}catch(Exception e){
-			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
-			//Chop the message to comply to JSON-validation
-			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
-			retval = -1;
-		}
-		
-		return retval;
-	}
 	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                

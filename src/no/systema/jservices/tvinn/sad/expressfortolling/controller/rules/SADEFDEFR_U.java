@@ -18,17 +18,14 @@ public class SADEFDEFR_U {
 	 * @param mode
 	 * @return
 	 */
-	/*
+	
 	public boolean isValidInput(SadefdefDao dao, String user, String mode){
 		boolean retval = true;
 		
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( StringUtils.isNotEmpty(dao.getEfuuid())){ /* && !"".equals(dao.getKvakod())) &&
-				(dao.getKvakrs()!=null && !"".equals(dao.getKvakrs())) && 
-				(dao.getKvaomr()!=null && !"".equals(dao.getKvaomr())) && 
-				(dao.getKvadt()!=null && !"".equals(dao.getKvadt())) ){
+			if( dao.getEfavd()>0 ){
 			}else{
 				retval = false;
 			}
@@ -37,7 +34,7 @@ public class SADEFDEFR_U {
 		}
 		return retval;
 	}
-	*/
+	
 	/**
 	 * 
 	 * @param dao
@@ -45,12 +42,12 @@ public class SADEFDEFR_U {
 	 * @param mode
 	 * @return
 	 */
-	/*
+	
 	public boolean isValidInputForDelete(SadefdefDao dao, String user, String mode){
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D
-			if(StringUtils.isNotEmpty(dao.getEfuuid()) && StringUtils.isNotEmpty(dao.getEfst())){
+			if(dao.getEfavd()>0){
 				//OK
 			}else{
 				retval = false;
@@ -61,5 +58,5 @@ public class SADEFDEFR_U {
 		
 		return retval;
 	}
-	*/
+	
 }

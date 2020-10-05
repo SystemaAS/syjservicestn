@@ -83,9 +83,9 @@ public class JsonResponseOutputterController_SADEFDEF {
 	            List list = null;
 				//do SELECT
 	            logger.info("Before SELECT ...");
-	            if( StringUtils.isNotEmpty(dao.getEfuuid()) ){
+	            if( dao.getEfavd()>0 ){
 					logger.warn("findById");
-					list = this.SadefdefDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+					list = this.SadefdefDaoServices.findById(String.valueOf(dao.getEfavd()), dbErrorStackTrace);
 				}else if( this.isDoFind(dao) ){
 					logger.warn("find");
 					list = this.SadefdefDaoServices.find(dao, dbErrorStackTrace);
@@ -124,7 +124,7 @@ public class JsonResponseOutputterController_SADEFDEF {
 		return sb.toString();
 	}
 	/**
-	 * To find if a deeper search of a dataset is needed
+	 * To find if a deeper search of a data set is needed
 	 * @param dao
 	 * @return
 	 */
@@ -151,7 +151,7 @@ public class JsonResponseOutputterController_SADEFDEF {
 	 * 
 	 */
 	
-	/*
+	
 	@RequestMapping(value="syjsSADEFDEFR_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
@@ -196,7 +196,7 @@ public class JsonResponseOutputterController_SADEFDEF {
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.SadefdefDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+							list = this.SadefdefDaoServices.findById(String.valueOf(dao.getEfavd()), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -209,11 +209,6 @@ public class JsonResponseOutputterController_SADEFDEF {
 						}else if("U".equals(mode)){
 							 dmlRetval = this.SadefdefDaoServices.update(dao, dbErrorStackTrace);
 							 
-						}else if("US".equals(mode)){
-							 dmlRetval = this.SadefdefDaoServices.updateStatus(dao, dbErrorStackTrace);
-							 
-						}else if("UMS".equals(mode)){
-							 dmlRetval = this.SadefdefDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
 						}
 						
 				  }else{
@@ -254,7 +249,7 @@ public class JsonResponseOutputterController_SADEFDEF {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
