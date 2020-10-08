@@ -56,7 +56,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from sadefdef where avd LIKE ?" );
+			sql.append(" select * from sadefdef where efavd LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
 			if(dao.getEfpro()>0){ sql.append(" and efpro = ? "); params.add(dao.getEfpro()); }
@@ -137,7 +137,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
+			logger.warn(writer.toString());
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
@@ -164,7 +164,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 			sql.append(" efktyp = ? , efktypt = ? , efklk = ? , efkmrk = ? , efplk = ?, efpmrk = ?, efsjaf = ?, efsjae = ?, efsjalk = ?, efsjadt = ?, ");
 			sql.append(" efbekr = ?  ");
 			//id's
-			sql.append(" WHERE avd = ? ");
+			sql.append(" WHERE efavd = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
@@ -178,7 +178,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info("Exception in update Sadl:"+writer.toString());
+			logger.warn("Exception in update Sadl:"+writer.toString());
 			e.printStackTrace();
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
@@ -208,7 +208,7 @@ public class SadefdefDaoServicesImpl implements SadefdefDaoServices {
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
+			logger.warn(writer.toString());
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;

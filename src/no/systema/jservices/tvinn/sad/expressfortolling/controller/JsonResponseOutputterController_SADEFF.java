@@ -141,8 +141,9 @@ public class JsonResponseOutputterController_SADEFF {
 	 */
 	private boolean isDoFind(SadeffDao dao){
 		boolean retval = false;
-		if(dao.getEfavd()>0 || dao.getEfpro()>0 || 
-			StringUtils.isNotEmpty(dao.getEfsg())){
+		if(dao.getEfavd()>0 || dao.getEfpro()>0 || StringUtils.isNotEmpty(dao.getEfsg())){
+			retval = true;
+		}else if(dao.getEfdtr()>0 || dao.getEfeta()>0) {
 			retval = true;
 		}
 		
