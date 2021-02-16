@@ -111,7 +111,7 @@ public class JsonResponseOutputterController {
 	
 	/**
 	 * Test call for db connection = OK
-	 * http://localhost:8080/syjservices/syjsdbconn.do?user=OSCAR
+	 * http://localhost:8080/syjservicestn/syjsdbconn.do?user=OSCAR
 	 * @return
 	 */
 	@RequestMapping(value="syjsdbconn.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -120,13 +120,13 @@ public class JsonResponseOutputterController {
 		JsonResponseWriter jsonWriter = new JsonResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		try{
-			logger.info("Inside syjsdbconn");
+			logger.warn("Inside syjsdbconn");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			
 			//get list
-			logger.info("Before dao getList");
+			logger.warn("Before dao getList");
 			List<IDao> list = this.dbConnectionTesterDaoServices.getList();
-			logger.info("After dao getList");
+			logger.warn("After dao getList");
 			String userName = "DBTESTER";
 			
 			//process result
@@ -143,7 +143,7 @@ public class JsonResponseOutputterController {
 			}
 			
 		}catch(Exception e){
-			return "ERROR [JsonResponseOutputterController]";
+			return "ERROR [JsonResponseOutputterController] - " + e;
 		}
 	    
 		return sb.toString();
