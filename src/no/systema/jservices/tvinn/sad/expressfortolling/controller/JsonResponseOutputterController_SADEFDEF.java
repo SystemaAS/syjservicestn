@@ -7,7 +7,7 @@ import java.util.*;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +43,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
 
 @Controller
 public class JsonResponseOutputterController_SADEFDEF {
-	private static Logger logger = Logger.getLogger(JsonResponseOutputterController_SADEFDEF.class.getName());
+	private static Logger logger = LogManager.getLogger(JsonResponseOutputterController_SADEFDEF.class.getName());
 	/**
 	 * FreeForm Source:
 	 * 	 File: 		SADEFDEF

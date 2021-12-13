@@ -4,14 +4,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import no.systema.main.util.JsonSpecialCharactersManager;
 import no.systema.main.util.constants.JsonConstants;
 import no.systema.jservices.model.dao.entities.IDao; 
 
 public class JsonWriterReflectionManager {
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
-	private static Logger logger = Logger.getLogger(JsonWriterReflectionManager.class.getName());
+	private static Logger logger = LogManager.getLogger(JsonWriterReflectionManager.class.getName());
 	
 	/**
 	 * 

@@ -3,7 +3,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sad.controller.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import no.systema.jservices.common.util.StringUtils;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
@@ -25,7 +25,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services
  * @date May 30, 2016
  */
 public class SAD004R_U {
-	private static Logger logger = Logger.getLogger(SAD004R_U.class.getName());
+	private static Logger logger = LogManager.getLogger(SAD004R_U.class.getName());
 
 	private JsonResponseWriter jsonWriter = new JsonResponseWriter();
 	private TariDaoServices tariDaoServices = null;

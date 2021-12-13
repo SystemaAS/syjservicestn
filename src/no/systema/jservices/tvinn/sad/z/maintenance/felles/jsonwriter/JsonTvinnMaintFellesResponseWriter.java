@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.KodtlbDao;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
@@ -21,7 +21,7 @@ import no.systema.main.util.constants.JsonConstants;
  */
 public class JsonTvinnMaintFellesResponseWriter extends JsonResponseWriter{
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
-	private static Logger logger = Logger.getLogger(JsonTvinnMaintFellesResponseWriter.class.getName());
+	private static Logger logger = LogManager.getLogger(JsonTvinnMaintFellesResponseWriter.class.getName());
 	
 	/**
 	 * 

@@ -9,7 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -37,7 +37,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services
 
 @Controller
 public class TvinnMaintExportResponseOutputterController_TVI99D {
-	private static Logger logger = Logger.getLogger(TvinnMaintExportResponseOutputterController_TVI99D.class.getName());
+	private static Logger logger = LogManager.getLogger(TvinnMaintExportResponseOutputterController_TVI99D.class.getName());
 
 	@Qualifier("tvineDaoServices")
 	private TvineDaoServices tvineDaoServices;

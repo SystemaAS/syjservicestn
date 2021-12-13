@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.mapper;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.KodtlbDao;
@@ -17,7 +17,7 @@ import java.text.DecimalFormatSymbols;
  * 
  */
 public class KodtlbMapper implements RowMapper {
-	private static Logger logger = Logger.getLogger(KodtlbMapper.class.getName());
+	private static Logger logger = LogManager.getLogger(KodtlbMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	KodtlbDao dao = new KodtlbDao();

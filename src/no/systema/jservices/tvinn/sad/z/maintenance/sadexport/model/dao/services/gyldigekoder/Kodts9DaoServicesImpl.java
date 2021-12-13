@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.service
 import java.io.Writer;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.mapper.gyldigekoder.Kodts9Mapper;
@@ -16,7 +16,7 @@ import no.systema.main.util.DbErrorMessageManager;
  *  
  */
 public class Kodts9DaoServicesImpl implements Kodts9DaoServices {
-	private static Logger logger = Logger.getLogger(Kodts9DaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(Kodts9DaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

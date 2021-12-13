@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,7 +30,7 @@ import no.systema.jservices.common.util.CommonResponseErrorHandler;
  *
  */
 public class FileHelper {
-	private static Logger logger = Logger.getLogger(FileHelper.class.getName());
+	private static Logger logger = LogManager.getLogger(FileHelper.class.getName());
 	private RestTemplate restTemplate = null;
 	public static String CATALINA_BASE = System.getProperty("catalina.base");
 

@@ -9,8 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+ 
+import org.apache.logging.log4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -54,7 +54,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
 
 @Controller
 public class JsonResponseOutputterController_SADEFF {
-	private static Logger logger = Logger.getLogger(JsonResponseOutputterController_SADEFF.class.getName());
+	private static Logger logger = LogManager.getLogger(JsonResponseOutputterController_SADEFF.class.getName());
 	/**
 	 * FreeForm Source:
 	 * 	 File: 		SADEFF

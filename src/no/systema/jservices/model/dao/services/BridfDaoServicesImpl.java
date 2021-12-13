@@ -1,7 +1,7 @@
 package no.systema.jservices.model.dao.services;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import no.systema.jservices.model.dao.mapper.BridfMapper;
 import no.systema.jservices.model.dao.entities.BridfDao;
@@ -13,7 +13,7 @@ import no.systema.jservices.model.dao.entities.BridfDao;
  * 
  */
 public class BridfDaoServicesImpl implements BridfDaoServices {
-	private static Logger logger = Logger.getLogger(BridfDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(BridfDaoServicesImpl.class.getName());
 	
 	/**
 	 * @param userName

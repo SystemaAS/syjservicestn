@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.gyldigekoder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import java.util.*;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.gyldigekoder.KodtscDao;
@@ -14,7 +14,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services
  */
 public class SAD002_KODTSCR_U {
 	private KodtscDaoServices kodtscDaoServices = new KodtscDaoServicesImpl();
-	private static Logger logger = Logger.getLogger(SAD002_KODTSCR_U.class.getName());
+	private static Logger logger = LogManager.getLogger(SAD002_KODTSCR_U.class.getName());
 	
 	public SAD002_KODTSCR_U(){ }
 	

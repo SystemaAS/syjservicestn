@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+ 
+import org.apache.logging.log4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +49,7 @@ import no.systema.main.util.JsonSpecialCharactersManager;
 
 @Controller
 public class JsonResponseOutputterController {
-	private static Logger logger = Logger.getLogger(JsonResponseOutputterController.class.getName());
+	private static Logger logger = LogManager.getLogger(JsonResponseOutputterController.class.getName());
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
 	private static String JSON_START = "{";
 	private static String JSON_END = "}";

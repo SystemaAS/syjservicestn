@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -26,7 +26,7 @@ import no.systema.jservices.tvinn.sad.brreg.services.BrregRegisterServices;
 
 @Controller
 public class ResponseOutputterController_BRREG {
-	private static Logger logger = Logger.getLogger(ResponseOutputterController_BRREG.class.getName());
+	private static Logger logger = LogManager.getLogger(ResponseOutputterController_BRREG.class.getName());
 
 	/**
 	 * Returns a list of kunder that are validated against data.brreg.no and Enhetsregistret

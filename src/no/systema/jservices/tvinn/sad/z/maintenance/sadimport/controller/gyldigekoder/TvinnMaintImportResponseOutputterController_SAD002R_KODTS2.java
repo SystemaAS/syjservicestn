@@ -9,8 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+ 
+import org.apache.logging.log4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -54,7 +54,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.g
 
 @Controller
 public class TvinnMaintImportResponseOutputterController_SAD002R_KODTS2 {
-	private static Logger logger = Logger.getLogger(TvinnMaintImportResponseOutputterController_SAD002R_KODTS2.class.getName());
+	private static Logger logger = LogManager.getLogger(TvinnMaintImportResponseOutputterController_SAD002R_KODTS2.class.getName());
 	
 	/**
 	 * Source:

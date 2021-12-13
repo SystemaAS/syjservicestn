@@ -3,7 +3,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.SaehDao;
@@ -17,7 +17,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class SaehDaoServicesImpl implements SaehDaoServices {
-	private static Logger logger = Logger.getLogger(SaehDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(SaehDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	public List getList(StringBuffer errorStackTrace){

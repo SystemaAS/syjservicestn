@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.SadlDao;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * 
  */
 public class SadlMapper implements RowMapper {
-	private static Logger logger = Logger.getLogger(SadlMapper.class.getName());
+	private static Logger logger = LogManager.getLogger(SadlMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	SadlDao dao = new SadlDao();

@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.service
 import java.io.Writer;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.KodtlikMapper;
@@ -16,7 +16,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class KodtlikDaoServicesImpl implements KodtlikDaoServices {
-	private static Logger logger = Logger.getLogger(KodtlikDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(KodtlikDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

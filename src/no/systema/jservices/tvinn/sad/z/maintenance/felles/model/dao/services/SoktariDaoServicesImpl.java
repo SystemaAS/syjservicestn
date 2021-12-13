@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.services;
 import java.io.Writer;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.SoktariDao;
@@ -18,7 +18,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class SoktariDaoServicesImpl implements SoktariDaoServices {
-	private static Logger logger = Logger.getLogger(SoktariDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(SoktariDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

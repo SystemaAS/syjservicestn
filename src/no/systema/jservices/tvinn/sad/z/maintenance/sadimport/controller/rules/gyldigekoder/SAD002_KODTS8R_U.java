@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.gyldigekoder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -17,7 +17,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.services
  */
 public class SAD002_KODTS8R_U {
 	private Kodts8DaoServices kodts8DaoServices = new Kodts8DaoServicesImpl();
-	private static Logger logger = Logger.getLogger(SAD002_KODTS8R_U.class.getName());
+	private static Logger logger = LogManager.getLogger(SAD002_KODTS8R_U.class.getName());
 	
 	public SAD002_KODTS8R_U(){ }
 	

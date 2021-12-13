@@ -3,7 +3,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.controller.rules
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrkodfDao;
@@ -20,7 +20,7 @@ import no.systema.main.util.MessageSourceHelper;
  * @date Okt 2, 2016
  */
 public class TR030R_U {
-	private static Logger logger = Logger.getLogger(TR030R_U.class.getName());
+	private static Logger logger = LogManager.getLogger(TR030R_U.class.getName());
 	private JsonResponseWriter jsonWriter = new JsonResponseWriter();
 	private MessageSourceHelper messageSourceHelper = new MessageSourceHelper();
 	private TrughDaoServices trughDaoServices = null;

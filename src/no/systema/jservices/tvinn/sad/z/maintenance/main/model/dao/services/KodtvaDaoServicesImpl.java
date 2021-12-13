@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.services;
 import java.io.Writer;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.main.model.dao.entities.KodtvaDao;
@@ -16,7 +16,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class KodtvaDaoServicesImpl implements KodtvaDaoServices {
-	private static Logger logger = Logger.getLogger(KodtvaDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(KodtvaDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	

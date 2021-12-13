@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper.gyldigekoder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.gyldigekoder.KodtsaDao;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * 
  */
 public class KodtsaMapper implements RowMapper {
-	private static Logger logger = Logger.getLogger(KodtsaMapper.class.getName());
+	private static Logger logger = LogManager.getLogger(KodtsaMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	KodtsaDao dao = new KodtsaDao();

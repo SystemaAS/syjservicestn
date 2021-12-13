@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.mapper;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.TariDao;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * 
  */
 public class TariMapper implements RowMapper {
-	private static Logger logger = Logger.getLogger(TariMapper.class.getName());
+	private static Logger logger = LogManager.getLogger(TariMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	TariDao dao = new TariDao();

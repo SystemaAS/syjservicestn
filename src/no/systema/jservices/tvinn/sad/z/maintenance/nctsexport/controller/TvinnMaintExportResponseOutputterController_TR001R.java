@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -39,7 +39,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.service
 
 @Controller
 public class TvinnMaintExportResponseOutputterController_TR001R {
-	private static Logger logger = Logger.getLogger(TvinnMaintExportResponseOutputterController_TR001R.class.getName());
+	private static Logger logger = LogManager.getLogger(TvinnMaintExportResponseOutputterController_TR001R.class.getName());
 	
 
 	/**

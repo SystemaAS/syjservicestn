@@ -4,7 +4,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrughDao;
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.mapper.TrughMapper;
@@ -17,7 +17,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class TrughDaoServicesImpl implements TrughDaoServices {
-	private static Logger logger = Logger.getLogger(TrughDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(TrughDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 
 	@Override

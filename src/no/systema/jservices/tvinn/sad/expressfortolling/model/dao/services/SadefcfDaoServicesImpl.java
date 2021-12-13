@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +22,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class SadefcfDaoServicesImpl implements SadefcfDaoServices {
-	private static Logger logger = Logger.getLogger(SadefcfDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(SadefcfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	private String SQL_WILD_CARD = "%";
 	

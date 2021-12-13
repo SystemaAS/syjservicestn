@@ -3,7 +3,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.model.dao.entities.CundfDao;
@@ -13,7 +13,7 @@ import no.systema.main.util.DbErrorMessageManager;
 
 
 public class CundfDaoServicesImpl implements CundfDaoServices {
-	private static Logger logger = Logger.getLogger(CundfDaoServicesImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(CundfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	private String cundfTableName = ApplicationPropertiesUtil.getProperty("no.systema.table.name.cundf");
 

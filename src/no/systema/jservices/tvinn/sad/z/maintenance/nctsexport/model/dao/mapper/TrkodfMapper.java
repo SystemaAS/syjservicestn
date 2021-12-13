@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TrkodfDao;
@@ -18,7 +18,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entitie
  * 
  */
 public class TrkodfMapper implements RowMapper {
-	private static Logger logger = Logger.getLogger(TrkodfMapper.class.getName());
+	private static Logger logger = LogManager.getLogger(TrkodfMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	
