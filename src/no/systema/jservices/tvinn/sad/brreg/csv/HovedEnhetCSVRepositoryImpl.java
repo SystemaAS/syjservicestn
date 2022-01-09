@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -27,7 +27,7 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  * @date Dec, 2016
  */
 public class HovedEnhetCSVRepositoryImpl implements HovedEnhetCSVRepository {
-	private static Logger logger = LogManager.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(HovedEnhetCSVRepositoryImpl.class.getName());
 	private FileHelper fileHelper = null;
 
 	//For test

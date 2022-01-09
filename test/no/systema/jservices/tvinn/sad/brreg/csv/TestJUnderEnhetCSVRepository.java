@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import no.systema.jservices.common.brreg.proxy.entities.UnderEnhet;
 
 public class TestJUnderEnhetCSVRepository {
-//	private static Logger logger = LogManager.getLogger(TestJCSVRespository.class.getName());
+//	private static Logger logger = LoggerFactory.getLogger(TestJCSVRespository.class.getName());
 
     ApplicationContext context = null;
     UnderEnhetCSVRepository ueRepo = null;

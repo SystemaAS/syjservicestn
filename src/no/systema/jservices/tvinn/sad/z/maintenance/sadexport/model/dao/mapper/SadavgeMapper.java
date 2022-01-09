@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities.SadavgeDao;
@@ -18,7 +18,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.entities
  * 
  */
 public class SadavgeMapper implements RowMapper<Object> {
-	private static Logger logger = LogManager.getLogger(SadavgeMapper.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(SadavgeMapper.class.getName());
 	
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 		SadavgeDao dao = new SadavgeDao();

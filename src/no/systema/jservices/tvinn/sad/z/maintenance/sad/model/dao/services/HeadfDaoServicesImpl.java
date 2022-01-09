@@ -3,7 +3,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sad.model.dao.entities.HeadfDao;
@@ -18,7 +18,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class HeadfDaoServicesImpl implements HeadfDaoServices {
-	private static Logger logger = LogManager.getLogger(HeadfDaoServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(HeadfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 
 
  
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -52,7 +52,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.controller.rules.g
 
 @Controller
 public class TvinnMaintExportResponseOutputterController_SAD002R_KODTS9 {
-	private static Logger logger = LogManager.getLogger(TvinnMaintExportResponseOutputterController_SAD002R_KODTS9.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(TvinnMaintExportResponseOutputterController_SAD002R_KODTS9.class.getName());
 	
 	/**
 	 * Source:

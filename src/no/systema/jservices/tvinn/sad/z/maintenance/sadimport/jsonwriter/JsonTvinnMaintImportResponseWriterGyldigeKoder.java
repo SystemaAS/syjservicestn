@@ -3,7 +3,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.jsonwriter;
 import java.util.*;
 
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.*;
 import no.systema.jservices.jsonwriter.JsonResponseWriter;
@@ -18,7 +18,7 @@ import no.systema.main.util.constants.JsonConstants;
  */
 public class JsonTvinnMaintImportResponseWriterGyldigeKoder extends JsonResponseWriter {
 	private static JsonSpecialCharactersManager jsonFixMgr = new JsonSpecialCharactersManager();
-	private static Logger logger = LogManager.getLogger(JsonTvinnMaintImportResponseWriterGyldigeKoder.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(JsonTvinnMaintImportResponseWriterGyldigeKoder.class.getName());
 	//go to parent
 	
 }

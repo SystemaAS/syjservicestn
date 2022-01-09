@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.mapper;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.model.dao.entities.KodtsiDao;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * 
  */
 public class KodtsiMapper implements RowMapper {
-	private static Logger logger = LogManager.getLogger(KodtsiMapper.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(KodtsiMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	KodtsiDao dao = new KodtsiDao();

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -28,7 +28,7 @@ import no.systema.main.util.ApplicationPropertiesUtil;
 
 
 public class BrregRegisterServicesImpl implements BrregRegisterServices {
-	private static Logger logger = LogManager.getLogger(BrregRegisterServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(BrregRegisterServicesImpl.class.getName());
 	private final static String ENHETS_REGISTERET_URL = ApplicationPropertiesUtil.getProperty("no.brreg.data.enhetsregisteret.url");
 	private final static String API = ApplicationPropertiesUtil.getProperty("no.brreg.data.from.api");
 	

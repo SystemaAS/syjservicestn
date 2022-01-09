@@ -9,7 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -40,7 +40,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadexport.model.dao.services
 
 @Controller
 public class TvinnMaintExportResponseOutputterController_SAD015 {
-	private static Logger logger = LogManager.getLogger(TvinnMaintExportResponseOutputterController_SAD015.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(TvinnMaintExportResponseOutputterController_SAD015.class.getName());
 
 	@Qualifier("sadavgeDaoServices")
 	private SadavgeDaoServices sadavgeDaoServices;

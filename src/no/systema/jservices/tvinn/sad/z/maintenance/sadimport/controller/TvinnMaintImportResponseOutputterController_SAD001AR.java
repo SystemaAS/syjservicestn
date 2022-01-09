@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 
 
  
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -55,7 +55,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.controller.rules.S
 
 @Controller
 public class TvinnMaintImportResponseOutputterController_SAD001AR {
-	private static Logger logger = LogManager.getLogger(TvinnMaintImportResponseOutputterController_SAD001AR.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(TvinnMaintImportResponseOutputterController_SAD001AR.class.getName());
 	
 	/**
 	 * FreeForm Source:

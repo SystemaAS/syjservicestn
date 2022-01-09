@@ -1,0 +1,34 @@
+<configuration scan="true" debug="false">
+  <property name="LOG_DIR" value="${catalina.home}/logs" />
+  <property name="LOG_FILE" value="${LOG_DIR}/logsg_syjservicestn.log" />
+  <property name="OWN_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%p] %c:%L - %m%n" />
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <!--  <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+      <pattern>${OWN_PATTERN}</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_FILE}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!-- daily rollover -->
+        <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}</fileNamePattern>
+        <!-- keep 30 days' worth of history capped at 3GB total size -->
+        <maxHistory>30</maxHistory>
+        <totalSizeCap>50MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+        <pattern>${OWN_PATTERN}</pattern>
+    </encoder>
+</appender>  
+
+
+  <logger name="no.systema" level="WARN" additivity="false"> 
+        <appender-ref ref="FILE" /> 
+  </logger> 
+    
+  <root level="error">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>

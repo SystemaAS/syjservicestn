@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 
 
  
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -54,7 +54,7 @@ import no.systema.jservices.jsonwriter.reflection.JsonWriterReflectionManager;
 
 @Controller
 public class TvinnMaintSadResponseOutputterController_SAD002R_KODTSA {
-	private static Logger logger = LogManager.getLogger(TvinnMaintSadResponseOutputterController_SAD002R_KODTSA.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(TvinnMaintSadResponseOutputterController_SAD002R_KODTSA.class.getName());
 	
 	/**
 	 * Source:

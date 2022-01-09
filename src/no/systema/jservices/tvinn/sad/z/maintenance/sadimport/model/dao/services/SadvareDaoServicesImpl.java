@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.service
 import java.io.Writer;
 import java.util.*;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper.SadvareMapper;
@@ -16,7 +16,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class SadvareDaoServicesImpl implements SadvareDaoServices {
-	private static Logger logger = LogManager.getLogger(SadvareDaoServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(SadvareDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

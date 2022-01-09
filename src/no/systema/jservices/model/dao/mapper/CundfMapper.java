@@ -1,6 +1,6 @@
 package no.systema.jservices.model.dao.mapper;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.model.dao.entities.CundfDao;
@@ -19,7 +19,7 @@ import java.util.List;
  * 
  */
 public class CundfMapper implements RowMapper {
-	private static Logger logger = LogManager.getLogger(CundfMapper.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(CundfMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	CundfDao dao = new CundfDao();

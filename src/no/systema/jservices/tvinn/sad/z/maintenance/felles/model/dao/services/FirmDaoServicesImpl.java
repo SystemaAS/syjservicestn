@@ -6,7 +6,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
@@ -23,7 +23,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class FirmDaoServicesImpl implements FirmDaoServices {
-	private static Logger logger = LogManager.getLogger(FirmDaoServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(FirmDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

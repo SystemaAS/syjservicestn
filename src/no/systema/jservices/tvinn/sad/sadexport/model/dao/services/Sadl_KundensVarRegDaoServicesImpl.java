@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.util.*;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 
@@ -18,7 +18,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class Sadl_KundensVarRegDaoServicesImpl implements Sadl_KundensVarRegDaoServices {
-	private static Logger logger = LogManager.getLogger(Sadl_KundensVarRegDaoServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(Sadl_KundensVarRegDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

@@ -1,6 +1,6 @@
 package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.mapper;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.entities.CundfLikvKodeDao;
@@ -17,7 +17,7 @@ import java.text.DecimalFormatSymbols;
  * 
  */
 public class CundfLikvKodeMapper implements RowMapper {
-	private static Logger logger = LogManager.getLogger(CundfLikvKodeMapper.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(CundfLikvKodeMapper.class.getName());
 	
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
     	CundfLikvKodeDao dao = new CundfLikvKodeDao();

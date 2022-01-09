@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.z.maintenance.sadimport.model.dao.service
 import java.io.Writer;
 import java.util.*;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ import no.systema.main.util.DbErrorMessageManager;
  * 
  */
 public class KodttsDaoServicesImpl implements KodttsDaoServices {
-	private static Logger logger = LogManager.getLogger(KodttsDaoServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(KodttsDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	/**

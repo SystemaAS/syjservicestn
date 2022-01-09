@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.z.maintenance.nctsexport.model.dao.entities.TransitKodeTypeDao;
@@ -22,7 +22,7 @@ import no.systema.main.util.MessageSourceHelper;
  * 
  */
 public class TrkodfDaoServicesImpl implements TrkodfDaoServices {
-	private static Logger logger = LogManager.getLogger(TrkodfDaoServicesImpl.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(TrkodfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	
 	@Override

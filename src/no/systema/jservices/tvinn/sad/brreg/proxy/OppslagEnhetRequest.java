@@ -2,7 +2,7 @@ package no.systema.jservices.tvinn.sad.brreg.proxy;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
@@ -28,7 +28,7 @@ import no.systema.main.util.ApplicationPropertiesUtil;
  *
  */
 public class OppslagEnhetRequest {
-	private static Logger logger = LogManager.getLogger(OppslagEnhetRequest.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(OppslagEnhetRequest.class.getName());
 	private String serviceUrl = null;
 	private static final String JSON_FORMAT = ".json";
 	// For test
