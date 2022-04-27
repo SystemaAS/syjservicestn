@@ -95,27 +95,27 @@ public class JsonResponseOutputterController_SADEFCMF {
 	            List list = null;
 				//do SELECT
 	            logger.info("Before SELECT ...");
-	            if( dao.getCmavd()>0) {
-	            	if( Math.abs(dao.getCmtdn())>0) {
-	            		logger.warn("find");
-	            		list = this.sadefcmfDaoServices.find(dao, dbErrorStackTrace);
-	            		//in case we are picking a specific line
-	            		if(StringUtils.isNotEmpty(pickFlag)){
-	            			list = this.sadefcmfDaoServices.pick(dao, dbErrorStackTrace);
-	            		}
-					}
-				}
-				//process result
-				if (list!=null){
+	            if( dao.getCmavd()>0 && Math.abs(dao.getCmtdn())>0) {
+	            	
+            		logger.warn("find");
+            		list = this.sadefcmfDaoServices.find(dao, dbErrorStackTrace);
+            		//in case we are picking
+            		if(StringUtils.isNotEmpty(pickFlag)){
+            			list = this.sadefcmfDaoServices.pick(dao, dbErrorStackTrace);
+            		}
+	            	//process result
+					if (list==null){ list = new ArrayList(); }
 					//write the final JSON output
 					sb.append(jsonWriter.setJsonResult_Common_GetList(userName, list));
-				}else{
+					
+				}else {
 					//write JSON error output
-					errMsg = "ERROR on SELECT: list is NULL?  Try to check: <DaoServices>.getList";
+					errMsg = "ERROR on SELECT";
 					status = "error";
-					logger.warn("After SELECT:" + " " + status + errMsg );
+					dbErrorStackTrace.append("request input parameters are invalid or missing: <cmavd, cmtdn> ?");
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}
+				
 			}else{
 				//write JSON error output
 				errMsg = "ERROR on SELECT";
@@ -148,7 +148,7 @@ public class JsonResponseOutputterController_SADEFCMF {
 	 * @return
 	 * 
 	 */
-	/*
+	
 	@RequestMapping(value="syjsSADEFCMF_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
@@ -156,7 +156,8 @@ public class JsonResponseOutputterController_SADEFCMF {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSADEFCMF_U.do");
+			logger.warn("Inside syjsSADEFCMF_U.do");
+			logger.warn("cmtdn:" + request.getParameter("cmtdn"));
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -168,17 +169,18 @@ public class JsonResponseOutputterController_SADEFCMF {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadefcfDao dao = new SadefcfDao();
+			SadefcmfDao dao = new SadefcmfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
+            logger.warn(dao.toString());
             //rules
-            SADEFCFR_U rulerLord = new SADEFCFR_U();
+            SADEFCMF_U rulerLord = new SADEFCMF_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.sadefcfDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.sadefcmfDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -186,31 +188,21 @@ public class JsonResponseOutputterController_SADEFCMF {
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
 				}else{
-					logger.info("Before UPDATE ...");
-					List<SadeffDao> list = new ArrayList<SadeffDao>();
+					logger.warn("Before UPDATE ...");
+					List<SadefcmfDao> list = new ArrayList<SadefcmfDao>();
 					if(rulerLord.isValidInput(dao, userName, mode)){
+						logger.warn("ok rulerLord");
 						//do ADD
 						if("A".equals(mode)){
 							logger.warn("Before INSERT...");
 							//cltdn will be created in the insert by a counter (TELLGE db-table)
-							if(dao.getCltdn() == 0){
-								logger.warn("doInsert now...");
-								dmlRetval = this.sadefcfDaoServices.insert(dao, dbErrorStackTrace);
-							}
+							logger.warn("doInsert now...");
+							dmlRetval = this.sadefcmfDaoServices.insert(dao, dbErrorStackTrace);
+							
 						}else{
-							//Update
-							if("U".equals(mode)){
-								logger.warn("Before UPDATE ...");
-								dmlRetval = this.sadefcfDaoServices.update(dao, dbErrorStackTrace);
-							//R=Release	
-							}else if("R".equals(mode)){
-								logger.warn("Before RELEASE ...");
-								dmlRetval = this.sadefcfDaoServices.release(dao, dbErrorStackTrace);
-							//B=Bind
-							}else if("B".equals(mode)){
-								logger.warn("Before BIND ...");
-								dmlRetval = this.sadefcfDaoServices.bindTur(dao, dbErrorStackTrace);
-							}
+							//Update mode=U
+							logger.warn("Before UPDATE ...");
+							dmlRetval = this.sadefcmfDaoServices.update(dao, dbErrorStackTrace);							
 						}
 					}else{
 						//write JSON error output
@@ -248,9 +240,10 @@ public class JsonResponseOutputterController_SADEFCMF {
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
 		session.invalidate();
+		logger.warn(sb.toString());
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------

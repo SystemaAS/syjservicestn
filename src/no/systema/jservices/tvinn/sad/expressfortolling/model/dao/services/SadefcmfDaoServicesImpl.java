@@ -64,7 +64,7 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			sql.append(" select * from sadefcmf where cmavd = ?" );
 			params.add(dao.getCmavd());
-			sql.append(" and cltdn = ? " ); 
+			sql.append(" and cmtdn = ? " ); 
 			params.add(dao.getCmtdn());
 			//filter
 			//if(Math.abs(dao.getCltdn())>0){ sql.append(" and cltdn = ? "); params.add(dao.getCltdn()); }
@@ -168,33 +168,20 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		logger.warn("D");
-		/*
+		logger.warn("Insert...");
+		
 		try{
 			SadefcmfDao dao = (SadefcmfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			//cltdn must be negativt according to YBC
-			logger.warn("E");
-			int x = this.tellgeDaoService.getGenoAndIncrementAfterFetch("EKSPFORT");
-			logger.warn("teller:" + x);
-			dao.setCltdn(x);
-			logger.warn("F");
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadefcf (clst, clavd, clpro, cltdn, clrg, cl0068a, cl0068b, clntk, clvkb, ");
-			sql.append(" clvt, cltrid, cl3039e, cllkf, clsdf, clsdft, cllkt, clsdt, clsdtt, clpr, ");
-			sql.append(" clprt, cletyp, cletypt, cleid, cleser, cltrnr, clnas, clnak ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?, ?,?,? ) ");
+			sql.append(" INSERT INTO sadefcmf (cmavd, cmtdn, cmli, cmavde, cmtdne, cmetyp, cmetypt, cmeid, cmeser ) ");
+			sql.append(" VALUES( ?,?,?,?,?,?,?,?,? ) ");
 			
 			logger.warn(sql.toString());
 			logger.warn(dao.toString());
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getClst(),dao.getClavd(), dao.getClpro(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(),
-					dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
-					dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(), dao.getCleser(), dao.getCltrnr(), dao.getClnas(), dao.getClnak()
-
+					dao.getCmavd(),dao.getCmtdn(), dao.getCmli(), dao.getCmavde(), dao.getCmtdne(), dao.getCmetyp(), dao.getCmetypt(), dao.getCmeid(), dao.getCmeser()
 					} );
 			
 			
@@ -205,7 +192,7 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	/**
@@ -213,27 +200,23 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*
+		
 		try{
-			SadefcfDao dao = (SadefcfDao)daoObj;
+			SadefcmfDao dao = (SadefcmfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
-			
-			sql.append(" UPDATE sadefcf SET clst = ?, clavd = ?, cltdn = ?, clrg = ?, cl0068a = ?, cl0068b = ?, clntk = ?, clvkb = ?,  ");
-			sql.append(" clvt = ? , cltrid = ? , cl3039e = ? , cllkf = ? , clsdf = ?, clsdft = ?, cllkt = ?, clsdt = ?, clsdtt = ?, clpr = ?, ");
-			sql.append(" clprt = ? , cletyp = ? , cletypt = ? , cleid = ? , cleser = ?, cltrnr = ? , clnas = ? , clnak = ? ");
+			sql.append(" UPDATE sadefcmf SET cmavde = ?, cmtdne = ?, cmetyp = ?, cmeid = ?, cmeser = ?  ");
 			//id's
-			sql.append(" WHERE clpro = ? ");
-			sql.append(" AND cltdn = ? ");
+			sql.append(" WHERE cmavd = ? ");
+			sql.append(" AND cmtdn = ? ");
+			sql.append(" AND cmli = ? ");
 			
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getClst(), dao.getClavd(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(), 
-						dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
-						dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(),  dao.getCleser(), dao.getCltrnr(), dao.getClnas(), dao.getClnak(),
-						//id's
-						dao.getClpro(),dao.getCltdn(),
-						} );
+				dao.getCmavde(), dao.getCmtdne(), dao.getCmetyp(), dao.getCmetypt(), dao.getCmeid(), dao.getCmeser(),
+				//id's
+				dao.getCmavd(),dao.getCmtdn(), dao.getCmli(),
+				} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -243,7 +226,7 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 		
 	}
@@ -252,18 +235,19 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		/*
+		
 		try{
-			SadefcfDao dao = (SadefcfDao)daoObj;
+			SadefcmfDao dao = (SadefcmfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadefcf set clst = ? ");
-			//id's
-			sql.append(" WHERE clpro = ? ");
-			
+			sql.append(" DELETE FROM sadefcmf " );
+			//ids
+			sql.append(" WHERE cmavd = ? ");
+			sql.append(" AND cmtdn = ? ");
+			sql.append(" AND cmli = ? ");		
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getClst(), dao.getClpro() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getCmavd(),dao.getCmtdn(), dao.getCmli() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -272,7 +256,7 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 	}
 	
