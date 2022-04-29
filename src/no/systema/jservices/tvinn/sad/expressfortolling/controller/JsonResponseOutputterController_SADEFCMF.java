@@ -199,10 +199,14 @@ public class JsonResponseOutputterController_SADEFCMF {
 							logger.warn("doInsert now...");
 							dmlRetval = this.sadefcmfDaoServices.insert(dao, dbErrorStackTrace);
 							
-						}else{
+						}else if("D".equals(mode)){
+							//Delete mode=D
+							logger.warn("Before DELETE ...");
+							dmlRetval = this.sadefcmfDaoServices.delete(dao, dbErrorStackTrace);							
+						}else {
 							//Update mode=U
 							logger.warn("Before UPDATE ...");
-							dmlRetval = this.sadefcmfDaoServices.update(dao, dbErrorStackTrace);							
+							dmlRetval = this.sadefcmfDaoServices.update(dao, dbErrorStackTrace);
 						}
 					}else{
 						//write JSON error output

@@ -243,11 +243,11 @@ public class SadefcmfDaoServicesImpl implements SadefcmfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" DELETE FROM sadefcmf " );
 			//ids
-			sql.append(" WHERE cmavd = ? ");
-			sql.append(" AND cmtdn = ? ");
-			sql.append(" AND cmli = ? ");		
+			sql.append(" WHERE cmli = ? ");
+			sql.append(" AND cmavd = ? ");
+			sql.append(" AND cmtdn = ? ");		
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getCmavd(),dao.getCmtdn(), dao.getCmli() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getCmli(),dao.getCmavd(), dao.getCmtdn() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
