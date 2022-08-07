@@ -178,6 +178,11 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
+  <!-- EKSPRESS FORTOLLING 2 -->
+  <bean id="sadexmfDaoServices" class="no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.services.SadexmfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
   <!--///////////////////
         NativeExtractor 
       ///////////////////
