@@ -73,9 +73,10 @@ public class JsonResponseOutputterController_SADEXMF {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSADEXMF");
+			logger.warn("Inside syjsSADEXMF");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
+			logger.warn("User:" + user);
 			
 			//Check ALWAYS user in BRIDF
             String userName = this.bridfDaoServices.findNameById(user);
