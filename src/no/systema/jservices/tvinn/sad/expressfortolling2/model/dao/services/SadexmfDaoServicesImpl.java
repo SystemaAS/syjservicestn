@@ -236,21 +236,25 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 	 * @param errorStackTrace
 	 * @return
 	 */
-	/*
-	public int updateManifestStatus(Object daoObj, StringBuffer errorStackTrace){
+	
+	public int updateLrnMrn(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadexmfDao dao = (SadexmfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadeff set efst2 = ? ");
+			sql.append(" UPDATE sadexmf set emuuid = ?, emmid = ? ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE emavd = ? ");
+			sql.append(" AND empro = ?" );
+			sql.append(" AND emmid = '' " );
+			sql.append(" AND emuuid = '' " );
+			
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst2(), dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmavd(), dao.getEmpro() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -262,7 +266,7 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 		
 		return retval;
 	}
-	*/
+	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                
 	 *                                                                                                   

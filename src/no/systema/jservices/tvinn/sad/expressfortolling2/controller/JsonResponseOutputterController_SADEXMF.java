@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEXMF_U;
 //import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEFFR_U;
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexmfDao;
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.services.SadexmfDaoServices;
@@ -153,25 +154,25 @@ public class JsonResponseOutputterController_SADEXMF {
 	/**
 	 * 
 	 * Update Database DML operations
-	 * File: 	SADEFF
-	 * Member: 	SADEFF Ekspressfortolling - UPDATE SPECIFIC
+	 * File: 	SADEXMF
+	 * Member: 	SADEXMF Ekspressfortolling - UPDATE SPECIFIC
 	 * 
-	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSADEFFR_U.do?user=OSCAR&mode=U/A/D
+	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSADEXMF_U.do?user=OSCAR&mode=U/A/D
 	 *
 	 * @param session
 	 * @param request
 	 * @return
 	 * 
 	 */
-	/*
-	@RequestMapping(value="syjsSADEFFR_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	
+	@RequestMapping(value="syjsSADEXMF_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSADEFFR_U.do");
+			logger.info("Inside syjsSADEXMF_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -183,17 +184,17 @@ public class JsonResponseOutputterController_SADEXMF {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadeffDao dao = new SadeffDao();
+			SadexmfDao dao = new SadexmfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SADEFFR_U rulerLord = new SADEFFR_U();
+            SADEXMF_U rulerLord = new SADEXMF_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.sadeffDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
+						//dmlRetval = this.sadexmfDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -201,13 +202,13 @@ public class JsonResponseOutputterController_SADEXMF {
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
 				}else{
-				  if(rulerLord.isValidInput(dao, userName, mode)){
+				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
 						logger.info("Before UPDATE ...");
-						List<SadeffDao> list = new ArrayList<SadeffDao>();
+						List<SadexmfDao> list = new ArrayList<SadexmfDao>();
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+							/*list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -216,16 +217,24 @@ public class JsonResponseOutputterController_SADEXMF {
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
 								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
+							}*/
+						}else if("UL".equals(mode)){
+							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
+								dmlRetval = this.sadexmfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on UPDATE LRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
-						}else if("U".equals(mode)){
-							 dmlRetval = this.sadeffDaoServices.update(dao, dbErrorStackTrace);
-							 
+						}
+						/*
 						}else if("US".equals(mode)){
 							 dmlRetval = this.sadeffDaoServices.updateStatus(dao, dbErrorStackTrace);
 							 
 						}else if("UMS".equals(mode)){
 							 dmlRetval = this.sadeffDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
-						}
+						}*/
 						
 				  }else{
 						//write JSON error output
@@ -265,7 +274,7 @@ public class JsonResponseOutputterController_SADEXMF {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
