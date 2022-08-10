@@ -250,8 +250,6 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 			sql.append(" WHERE emavd = ? ");
 			sql.append(" AND empro = ?" );
 			sql.append(" AND emmid = '' " );
-			sql.append(" AND emuuid = '' " );
-			
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmavd(), dao.getEmpro() } );

@@ -24,7 +24,7 @@ public class SADEXMF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEmavd()>0 && dao.getEmpro()>0 && StringUtils.isNotEmpty(dao.getEmuuid()) && StringUtils.isNotEmpty(dao.getEmmid()) ){ 
+			if( dao.getEmavd()>0 && dao.getEmpro()>0  ){ 
 				//OK
 			}else{
 				retval = false;
@@ -40,7 +40,7 @@ public class SADEXMF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEmavd()>0 && dao.getEmpro()>0 && StringUtils.isNotEmpty(dao.getEmmid()) ){ 
+			if( dao.getEmavd()>0 && dao.getEmpro()>0 ){ 
 				//OK
 			}else{
 				retval = false;

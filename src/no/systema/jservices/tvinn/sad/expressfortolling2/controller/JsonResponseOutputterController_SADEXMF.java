@@ -187,6 +187,11 @@ public class JsonResponseOutputterController_SADEXMF {
 			SadexmfDao dao = new SadexmfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
+            logger.warn("avd:" + dao.getEmavd().toString());
+            logger.warn("pro:" + dao.getEmpro().toString());
+            logger.warn("user:" + user);
+            logger.warn("mode:" + mode);
+            
             //rules
             SADEXMF_U rulerLord = new SADEXMF_U();
 			//Start processing now
