@@ -85,7 +85,6 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
 		List<SadexhfDao> retval = new ArrayList<SadexhfDao>();
-		/* NOT NEEDED since find will do. Due to complex keys avd,pro,tdn
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
@@ -103,7 +102,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = null;
 		}
-		*/
+		
 		return retval;
 	}
 	

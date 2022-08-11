@@ -96,11 +96,15 @@ public class JsonResponseOutputterController_SADEXHF {
 	            List list = null;
 				//do SELECT
 	            logger.info("Before SELECT ...");
-	            if( this.isDoFind(dao) ){
+	            if( StringUtils.isNotEmpty(dao.getEhmid()) ){
+					logger.warn("findById");
+					list = this.sadexhfDaoServices.findById(dao.getEhmid(), dbErrorStackTrace);
+					
+				}else if( this.isDoFind(dao) ){
 					logger.warn("find");
 					list = this.sadexhfDaoServices.find(dao, dbErrorStackTrace);
+					
 				}else{
-					logger.warn("getList (all)");
 					logger.warn("getList (all)");
 					list = this.sadexhfDaoServices.getList(dbErrorStackTrace);
 				}

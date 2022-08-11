@@ -60,8 +60,8 @@ public class SADEXHF_U {
 	public boolean isValidInputForDelete(SadexhfDao dao, String user, String mode){
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
-			//check dao for uuid and status=D
-			if( dao.getEhavd()>0 && dao.getEhpro()>0 && dao.getEhtdn()>0 ) { 
+			//check dao for ehmid and status=D
+			if( StringUtils.isNotEmpty(dao.getEhmid()) ) { 
 				//OK
 			}else{
 				retval = false;
