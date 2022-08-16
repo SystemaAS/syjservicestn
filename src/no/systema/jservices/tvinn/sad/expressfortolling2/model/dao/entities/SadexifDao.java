@@ -16,7 +16,7 @@ public class SadexifDao implements IDao {
 	private Integer eilid  = 0; // sonet        5  0       5        26        begge    dekl. linjenr
 	private Integer eilit  = 0; // sonet        5  0       5        31        begge    ncts linjenr
 	private String eigty  = ""; // tegn            2       2        36        begge    godstype    
-	private Double eibl   = 0.0; // sonet       13  2      13        38        begge    linje beløp       
+	private String eibl   = ""; // sonet       13  2      13        38        begge    linje beløp       
 	private String eival  = ""; // tegn            3       3        51        begge    valutakode        
 	private String eirge  = ""; // tegn           17      17        54        begge    autorisert økonomi
 	private String eiroe  = ""; // tegn            2       2        71        begge    rollen operatør   
@@ -25,8 +25,8 @@ public class SadexifDao implements IDao {
 	private String eickd  = ""; // tegn            9       9       193        begge    cuscode           
 	private Integer eivnt  = 0; // sonet        8  0       8       202        begge    tariffnr          
 	private String eiunnr = ""; // tegn            4       4       210        begge    un-nummer         
-	private Double eicvkn = 0.0; // sonet       11  3      11       214        begge    nettovekt         
-	private Double eicvkb = 0.0; // sonet       11  3      11       225        begge    bruttovekt        
+	private String eicvkn = ""; // sonet       11  3      11       214        begge    nettovekt         
+	private String eicvkb = ""; // sonet       11  3      11       225        begge    bruttovekt        
 	private String eiunit = ""; // tegn           35      35       236        begge    supplementaryunits
 	private String eilk   = ""; // tegn            2       2       271        begge    opprinnelses land 
 	private String eimk   = ""; // tegn           17      17       273        begge    merking           

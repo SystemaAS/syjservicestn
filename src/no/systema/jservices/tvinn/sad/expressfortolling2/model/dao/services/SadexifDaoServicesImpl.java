@@ -9,7 +9,7 @@ import org.slf4j.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexhfDao;
+import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexifDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -18,8 +18,8 @@ import no.systema.main.util.DbErrorMessageManager;
  * @date Aug 2022
  * 
  */
-public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
-	private static Logger logger = LoggerFactory.getLogger(SadexhfDaoServicesImpl.class.getName());
+public class SadexifDaoServicesImpl implements SadexifDaoServices {
+	private static Logger logger = LoggerFactory.getLogger(SadexifDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	private String SQL_WILD_CARD = "%";
 	
@@ -27,14 +27,14 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 	 * N/A
 	 */
 	public List getList(StringBuffer errorStackTrace){
-		List<SadexhfDao> retval = new ArrayList<SadexhfDao>();
+		List<SadexifDao> retval = new ArrayList<SadexifDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from sadexhf order by ehtdn desc");
+			sql.append(" select * from sadexif order by eiavd, eipro, eitdn, eili");
 			sql.append(" FETCH FIRST 500 ROWS ONLY ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(),  new BeanPropertyRowMapper(SadexhfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(),  new BeanPropertyRowMapper(SadexifDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -49,26 +49,24 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 	 * get a data set with where clause
 	 */
 	public List find(Object obj,StringBuffer errorStackTrace){
-		SadexhfDao dao = (SadexhfDao)obj;
-		List<SadexhfDao> retval = new ArrayList<SadexhfDao>();
+		SadexifDao dao = (SadexifDao)obj;
+		List<SadexifDao> retval = new ArrayList<SadexifDao>();
 		LinkedList<Object> params = new LinkedList<Object>();
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from sadexhf where ehavd LIKE ?" );
+			sql.append(" select * from sadexif where eiavd LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
-			if(dao.getEhavd()>0){ sql.append(" and ehavd = ? " ); params.add(dao.getEhavd()); }
-			if(dao.getEhpro()>0){ sql.append(" and ehpro = ? "); params.add(dao.getEhpro()); }
-			if(dao.getEhtdn()>0){ sql.append(" and ehtdn = ? "); params.add(dao.getEhtdn()); }
+			if(dao.getEiavd()>0){ sql.append(" and eiavd = ? " ); params.add(dao.getEiavd()); }
+			if(dao.getEipro()>0){ sql.append(" and eipro = ? "); params.add(dao.getEipro()); }
+			if(dao.getEitdn()>0){ sql.append(" and eitdn = ? "); params.add(dao.getEitdn()); }
 			
-			if(StringUtils.isNotEmpty(dao.getEhmid())){ sql.append(" and ehmid = ? "); params.add(dao.getEhmid()); }
-			if(StringUtils.isNotEmpty(dao.getEhst())){ sql.append(" and ehst = ? "); params.add(dao.getEhst()); }
-			if(StringUtils.isNotEmpty(dao.getEhst2())){ sql.append(" and ehst2 = ? "); params.add(dao.getEhst2()); }
-			if(StringUtils.isNotEmpty(dao.getEhst3())){ sql.append(" and ehst3 = ? "); params.add(dao.getEhst3()); }
+			if(dao.getEili()>0){ sql.append(" and eili = ? "); params.add(dao.getEili()); }
+			if(StringUtils.isNotEmpty(dao.getEist())){ sql.append(" and eist = ? "); params.add(dao.getEist()); }
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadexhfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadexifDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -84,16 +82,16 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		List<SadexhfDao> retval = new ArrayList<SadexhfDao>();
+		List<SadexifDao> retval = new ArrayList<SadexifDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" select * from sadexhf where ehmid = ? ");
+			sql.append(" select * from sadexif where eiavd = ? "); //TODO...
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadexhfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadexifDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -231,43 +229,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 		
 		return retval;
 	}
-	*/
-	/**
-	 * 
-	 * @param daoObj
-	 * @param errorStackTrace
-	 * @return
-	 */
 	
-	public int updateLrnMrn(Object daoObj, StringBuffer errorStackTrace){
-		int retval = 0;
-		
-		try{
-			SadexhfDao dao = (SadexhfDao)daoObj;
-				
-			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadexhf set ehuuid = ?, ehmid = ? ");
-			//id's
-			sql.append(" WHERE ehavd = ? ");
-			sql.append(" AND ehpro = ?" );
-			sql.append(" AND ehtdn = ?" );
-			
-			sql.append(" AND ehmid = '' " );
-			
-			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhavd(), dao.getEhpro(), dao.getEhtdn() } );
-			
-		}catch(Exception e){
-			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
-			//Chop the message to comply to JSON-validation
-			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
-			retval = -1;
-		}
-		
-		return retval;
-	}
 	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                

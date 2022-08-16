@@ -42,7 +42,7 @@ public class SadexhfDao implements IDao {
 	private String ehemr  = ""; // tegn           50      50       490        begge    epostadr/tlf repre.
 	private String ehemrt = ""; // tegn            2       2       540        begge    kodetype repre.    
 	private Integer ehcnin = 0; // sonet        2  0       2       542        begge    container indikator
-	private Double ehvkb = 0.0; // sonet       13  3      13       544        begge    total vekt         
+	private String ehvkb = ""; // sonet       13  3      13       544        begge    total vekt         
 	private String ehucr  = ""; // tegn           50      50       557        begge    ref.nr ucr         
 	private Integer ehntk  = 0; // sonet        7  0       7       607        begge    total kolli        
 	private String ehvt   = ""; // tegn           30      30       614        begge    varebeskrivelse
@@ -94,7 +94,7 @@ public class SadexhfDao implements IDao {
 	private String ehdkht = ""; // tegn            4       4      1400        begge    house dokumenttype  
 	private String ehtcmp = ""; // tegn            1       1      1404        begge    betalingsmåte       
 	private String ehtcva = ""; // tegn            3       3      1405        begge    valutakode          
-	private Double ehtcbl = 0.0; //sonet       11  2      11      1408        begge    beløp               
+	private String ehtcbl = ""; //sonet       11  2      11      1408        begge    beløp               
 	private String ehlkr1 = ""; // tegn            2       2      1419        begge    landkode1 reiserute 
 	private String ehlkr2 = ""; // tegn            2       2      1421        begge    landkode2 reiserute 
 	private String ehlkr3 = ""; // tegn            2       2      1423        begge    landkode3 reiserute 
