@@ -34,6 +34,22 @@ public class SADEXMF_U {
 		}
 		return retval;
 	}
+	public boolean isValidInputForUpdateLrn(SadexmfDao dao, String user, String mode){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
+			//check dao
+			
+			if( dao.getEmavd()>0 && dao.getEmpro()>0 && StringUtils.isNotEmpty(dao.getEmuuid()) && StringUtils.isNotEmpty(dao.getEmmid())  ){ 
+				//OK
+			}else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
 	public boolean isValidInputForUpdate(SadexmfDao dao, String user, String mode){
 		boolean retval = true;
 		

@@ -198,6 +198,40 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 	}
 	
 	/**
+	 * DELETE Light
+	 * Happens when the record must be retained and not removed. 
+	 * 
+	 */
+	public int deleteLight(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadexmfDao dao = (SadexmfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadexmf set emuuid = '', emmid = '' ");
+			//id's
+			sql.append(" WHERE emavd = ? ");
+			sql.append(" AND empro = ?" );
+			sql.append(" AND emmid = ? " );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+		
+	}
+	
+	/**
 	 * 
 	 * @param daoObj
 	 * @param errorStackTrace
@@ -253,6 +287,39 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmavd(), dao.getEmpro() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	/**
+	 * This method is used for the update of LRN after an API PUT (Update with mrn)
+	 * @param daoObj
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public int updateLrn(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadexmfDao dao = (SadexmfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadexmf set emuuid = ? ");
+			//id's
+			sql.append(" WHERE emavd = ? ");
+			sql.append(" AND empro = ?" );
+			sql.append(" AND emmid = ?" );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(),  dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

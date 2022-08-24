@@ -172,7 +172,7 @@ public class JsonResponseOutputterController_SADEXMF {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSADEXMF_U.do");
+			logger.warn("Inside syjsSADEXMF_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -223,23 +223,40 @@ public class JsonResponseOutputterController_SADEXMF {
 							}else{
 								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
 							}*/
-						}else if("UL".equals(mode)){
+						}else if("ULM".equals(mode)){
+							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
 								dmlRetval = this.sadexmfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on UPDATE LRN/MRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+						}else if("UL".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForUpdateLrn(dao, userName, mode)){
+								dmlRetval = this.sadexmfDaoServices.updateLrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on UPDATE LRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
-						}
-						/*
-						}else if("US".equals(mode)){
-							 dmlRetval = this.sadeffDaoServices.updateStatus(dao, dbErrorStackTrace);
 							 
-						}else if("UMS".equals(mode)){
-							 dmlRetval = this.sadeffDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
-						}*/
+						}else if("DL".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
+								dmlRetval = this.sadexmfDaoServices.deleteLight(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on DELETE-LIGHT invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							 
+						}
 						
 				  }else{
 						//write JSON error output
