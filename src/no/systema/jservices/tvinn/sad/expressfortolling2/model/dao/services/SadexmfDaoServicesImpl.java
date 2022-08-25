@@ -210,14 +210,14 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadexmf set emuuid = '', emmid = '' ");
+			sql.append(" UPDATE sadexmf set emuuid = '', emmid = '', emdtin = ? ");
 			//id's
 			sql.append(" WHERE emavd = ? ");
 			sql.append(" AND empro = ?" );
 			sql.append(" AND emmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmdtin(), dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -279,14 +279,14 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadexmf set emuuid = ?, emmid = ? ");
+			sql.append(" UPDATE sadexmf set emuuid = ?, emmid = ?, emdtin = ? ");
 			//id's
 			sql.append(" WHERE emavd = ? ");
 			sql.append(" AND empro = ?" );
 			sql.append(" AND emmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmavd(), dao.getEmpro() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmdtin(),  dao.getEmavd(), dao.getEmpro() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -312,14 +312,14 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadexmf set emuuid = ? ");
+			sql.append(" UPDATE sadexmf set emuuid = ?, emdtin = ?  ");
 			//id's
 			sql.append(" WHERE emavd = ? ");
 			sql.append(" AND empro = ?" );
 			sql.append(" AND emmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(),  dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmdtin(), dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
