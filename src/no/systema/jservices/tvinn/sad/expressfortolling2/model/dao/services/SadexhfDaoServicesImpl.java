@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexhfDao;
+import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexmfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -232,6 +233,44 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 		return retval;
 	}
 	*/
+	
+	
+	/**
+	 * DELETE Light
+	 * Happens when the record must be retained and not removed. 
+	 * 
+	 */
+	public int deleteLight(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadexhfDao dao = (SadexhfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			//TODO with sendDate --> sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '', emdtin = ? ");
+			sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '' ");
+			//id's
+			sql.append(" WHERE ehavd = ? ");
+			sql.append(" AND ehpro = ?" );
+			sql.append(" AND ehtdn = ?" );
+			sql.append(" AND ehmid = ? " );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhavd(), dao.getEhpro(), dao.getEhpro(), dao.getEhmid() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+		
+	}
+	
 	/**
 	 * 
 	 * @param daoObj
@@ -268,6 +307,38 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 		
 		return retval;
 	}
+	
+	public int updateLrn(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadexhfDao dao = (SadexhfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			//sql.append(" UPDATE sadexhf set ehuuid = ?, ehdtin = ?  ");
+			sql.append(" UPDATE sadexhf set ehuuid = ?  ");
+			//id's
+			sql.append(" WHERE ehavd = ? ");
+			sql.append(" AND ehpro = ?" );
+			sql.append(" AND ehtdn = ?" );
+			sql.append(" AND ehmid = ?" );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhmid() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
+	
 	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                

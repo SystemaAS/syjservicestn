@@ -224,7 +224,7 @@ public class JsonResponseOutputterController_SADEXHF {
 							}else{
 								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
 							}*/
-						}else if("UL".equals(mode)){
+						}else if("ULM".equals(mode)){
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
 								dmlRetval = this.sadexhfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
 							}else {
@@ -233,23 +233,31 @@ public class JsonResponseOutputterController_SADEXHF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
-						}else if("U".equals(mode)){
-							if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
-								//TODO ->dmlRetval = this.sadexhfDaoServices.update(dao, dbErrorStackTrace);
+						}else if("UL".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForUpdateLrn(dao, userName, mode)){
+								dmlRetval = this.sadexhfDaoServices.updateLrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on UPDATE LRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
-						}
-						/*
-						}else if("US".equals(mode)){
-							 dmlRetval = this.sadeffDaoServices.updateStatus(dao, dbErrorStackTrace);
-							 
-						}else if("UMS".equals(mode)){
-							 dmlRetval = this.sadeffDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
-						}*/
+						}else if("DL".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								//Delete light means updating the record with blanks ehuuid and ehmid. The record will exists but without any id.
+								dmlRetval = this.sadexhfDaoServices.deleteLight(dao, dbErrorStackTrace);
+								
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on DELETE-LIGHT invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							  
+						} 
+						
 						
 				  }else{
 						//write JSON error output
