@@ -257,7 +257,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			sql.append(" AND ehmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhavd(), dao.getEhpro(), dao.getEhpro(), dao.getEhmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
