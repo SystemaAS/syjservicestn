@@ -249,7 +249,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			//TODO with sendDate --> sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '', emdtin = ? ");
-			sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '' ");
+			sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '', ehst = '', ehst2 = '', ehst3 = '' ");
 			//id's
 			sql.append(" WHERE ehavd = ? ");
 			sql.append(" AND ehpro = ?" );
@@ -286,7 +286,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadexhf set ehuuid = ?, ehmid = ? ");
+			sql.append(" UPDATE sadexhf set ehuuid = ?, ehmid = ?, ehst = ?, ehst2 = ?, ehst3 = ? ");
 			//id's
 			sql.append(" WHERE ehavd = ? ");
 			sql.append(" AND ehpro = ?" );
@@ -295,7 +295,8 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			sql.append(" AND ehmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhavd(), dao.getEhpro(), dao.getEhtdn() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),
+																dao.getEhavd(), dao.getEhpro(), dao.getEhtdn() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -317,7 +318,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			//sql.append(" UPDATE sadexhf set ehuuid = ?, ehdtin = ?  ");
-			sql.append(" UPDATE sadexhf set ehuuid = ?  ");
+			sql.append(" UPDATE sadexhf set ehuuid = ?, ehst = ?, ehst2 = ?, ehst3 = ?  ");
 			//id's
 			sql.append(" WHERE ehavd = ? ");
 			sql.append(" AND ehpro = ?" );
@@ -325,7 +326,8 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			sql.append(" AND ehmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(), 
+																dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

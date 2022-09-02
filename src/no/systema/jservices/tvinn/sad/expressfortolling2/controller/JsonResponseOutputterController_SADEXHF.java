@@ -190,8 +190,13 @@ public class JsonResponseOutputterController_SADEXHF {
             logger.warn("avd:" + dao.getEhavd().toString());
             logger.warn("pro:" + dao.getEhpro().toString());
             logger.warn("tdn:" + dao.getEhtdn().toString());
+            logger.warn("status1:" + dao.getEhst());
+            logger.warn("status2:" + dao.getEhst2());
+            logger.warn("status3:" + dao.getEhst3());
+            
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
+            
             
             //rules
             SADEXHF_U rulerLord = new SADEXHF_U();
