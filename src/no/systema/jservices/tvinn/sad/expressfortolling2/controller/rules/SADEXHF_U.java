@@ -25,7 +25,7 @@ public class SADEXHF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEhavd()>0 && dao.getEhpro()>0 && dao.getEhtdn()>0 ){ 
+			if( dao.getEhavd()>=0 && dao.getEhpro()>=0 && dao.getEhtdn()>0 ){ 
 				//OK
 			}else{
 				retval = false;
@@ -42,7 +42,7 @@ public class SADEXHF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEhavd()>0 && dao.getEhpro()>0 && dao.getEhtdn()>0 && StringUtils.isNotEmpty(dao.getEhuuid()) && StringUtils.isNotEmpty(dao.getEhmid())  ){ 
+			if( dao.getEhavd()>=0 && dao.getEhpro()>=0 && dao.getEhtdn()>0 && StringUtils.isNotEmpty(dao.getEhuuid()) && StringUtils.isNotEmpty(dao.getEhmid())  ){ 
 				//OK
 			}else{
 				retval = false;
@@ -59,7 +59,7 @@ public class SADEXHF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEhavd()>0 && dao.getEhpro()>0 && dao.getEhtdn()>0 ){ 
+			if( dao.getEhavd()>=0 && dao.getEhpro()>=0 && dao.getEhtdn()>0 ){ 
 				//OK
 			}else{
 				retval = false;

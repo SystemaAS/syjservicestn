@@ -190,6 +190,9 @@ public class JsonResponseOutputterController_SADEXHF {
             logger.warn("avd:" + dao.getEhavd().toString());
             logger.warn("pro:" + dao.getEhpro().toString());
             logger.warn("tdn:" + dao.getEhtdn().toString());
+            logger.warn("lrn:" + dao.getEhuuid().toString());
+            logger.warn("mrn:" + dao.getEhmid().toString());
+            
             logger.warn("status1:" + dao.getEhst());
             logger.warn("status2:" + dao.getEhst2());
             logger.warn("status3:" + dao.getEhst3());
@@ -214,7 +217,7 @@ public class JsonResponseOutputterController_SADEXHF {
 					}
 				}else{
 				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
-						logger.info("Before UPDATE ...");
+						logger.warn("Before UPDATE ...");
 						List<SadexhfDao> list = new ArrayList<SadexhfDao>();
 						
 						//do ADD
@@ -230,7 +233,9 @@ public class JsonResponseOutputterController_SADEXHF {
 								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
 							}*/
 						}else if("ULM".equals(mode)){
+							logger.warn("BEFORE validation LrnMrn ...");
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
+								logger.warn("AFTER validation LrnMrn ...");
 								dmlRetval = this.sadexhfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
@@ -240,7 +245,9 @@ public class JsonResponseOutputterController_SADEXHF {
 							}
 						}else if("UL".equals(mode)){
 							logger.warn("MODE:" + mode);
+							logger.warn("BEFORE validation Lrn ...");
 							if(rulerLord.isValidInputForUpdateLrn(dao, userName, mode)){
+								logger.warn("AFTER validation Lrn ...");
 								dmlRetval = this.sadexhfDaoServices.updateLrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output

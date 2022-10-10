@@ -289,10 +289,19 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			sql.append(" UPDATE sadexhf set ehuuid = ?, ehmid = ?, ehst = ?, ehst2 = ?, ehst3 = ? ");
 			//id's
 			sql.append(" WHERE ehavd = ? ");
-			sql.append(" AND ehpro = ?" );
-			sql.append(" AND ehtdn = ?" );
+			sql.append(" AND ehpro = ? " );
+			sql.append(" AND ehtdn = ? " );
 			
 			sql.append(" AND ehmid = '' " );
+			
+			logger.warn("ehuuid:" + dao.getEhuuid());
+			logger.warn("ehmid:" + dao.getEhmid());
+			logger.warn("st:" + dao.getEhst());
+			logger.warn("st2:" + dao.getEhst2());
+			logger.warn("st3:" + dao.getEhst3());
+			logger.warn("avd:" + String.valueOf(dao.getEhavd()));
+			logger.warn("pro:" + String.valueOf(dao.getEhpro()));
+			logger.warn("tdn:" + String.valueOf(dao.getEhtdn()));
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),
