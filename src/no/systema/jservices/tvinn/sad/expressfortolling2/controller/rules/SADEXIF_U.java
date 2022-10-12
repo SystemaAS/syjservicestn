@@ -24,7 +24,7 @@ public class SADEXIF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEiavd()>0 && dao.getEipro()>0 && dao.getEitdn()>0 && dao.getEili()>0){ 
+			if( dao.getEiavd()>=0 && dao.getEipro()>0 && dao.getEitdn()>0 && dao.getEili()>0){ 
 				//OK
 			}else{
 				retval = false;
@@ -45,7 +45,7 @@ public class SADEXIF_U {
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for ehmid and status=D
-			if( dao.getEiavd()>0 && dao.getEipro()>0 && dao.getEitdn()>0 && dao.getEili()>0){ 
+			if( dao.getEiavd()>=0 && dao.getEipro()>0 && dao.getEitdn()>0 && dao.getEili()>0){ 
 				//OK
 			}else{
 				retval = false;
