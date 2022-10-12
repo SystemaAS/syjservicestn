@@ -51,6 +51,8 @@ public class SadexhfDao implements IDao {
 	private String eheid  = ""; // tegn           18      18       676        begge    eksport id     
 	private String ehpr   = ""; // tegn            2       2       694        begge    prosedyre      
 	private String ehprt  = ""; // tegn           30      30       696        begge    prosedyre tekst
+	private String ehupr   = ""; // tegn            2       2       694        begge    prosedyre outgoing     
+	private String ehuprt  = ""; // tegn           30      30       696        begge    prosedyre tekst outgoing
 	private String ehrg   = ""; // tegn           11      11       726        begge    org.nr             
 	private Integer eh0068a= 0; // sonet        8  0       8       737        begge    sendingsdato       
 	private Integer eh0068b= 0; // sonet        6  0       6       745        begge    sendingssekv       
