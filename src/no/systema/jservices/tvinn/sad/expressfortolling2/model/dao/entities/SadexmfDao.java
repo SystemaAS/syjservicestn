@@ -130,7 +130,9 @@ public class SadexmfDao implements IDao {
 	private String emsdut = ""; // tegn           30      30      1900        begge    place of unloading  
 	private String emsca  = ""; // tegn           17      17      1930        begge    org.nr supplychainac
 	private String emscar = ""; // tegn            2       2      1947        begge    role supplychainacto
-	private String emrcem = ""; // tegn           50      50      1949        begge    releasedconf. epost.
+	private String emrcem1 = ""; // tegn           50      50      1949        begge    releasedconf. epost.
+	private String emrcem2 = ""; // tegn           50      50      1949        begge    releasedconf. epost.
+	private String emrcem3 = ""; // tegn           50      50      1949        begge    releasedconf. epost.
 	private String emerr  = ""; // tegn           50      50      1999        begge    feilmelding ved snd 
 	
 	

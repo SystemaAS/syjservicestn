@@ -97,12 +97,13 @@ public class JsonResponseOutputterController_SADEXMF {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            if( StringUtils.isNotEmpty(dao.getEmmid()) ){
-					logger.warn("findById");
+					logger.warn("inside: findById");
 					list = this.sadexmfDaoServices.findById(dao.getEmmid(), dbErrorStackTrace);
 				}else if( this.isDoFind(dao) ){
-					logger.warn("find");
+					logger.warn("inside: doFind");
 					list = this.sadexmfDaoServices.find(dao, dbErrorStackTrace);
 				}else{
+					logger.warn("inside: getList (all)");
 					logger.warn("getList (all)");
 					list = this.sadexmfDaoServices.getList(dbErrorStackTrace);
 				}
