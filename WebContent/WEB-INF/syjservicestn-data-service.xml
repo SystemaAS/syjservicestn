@@ -188,6 +188,9 @@
   <bean id="sadexifDaoServices" class="no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.services.SadexifDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <bean id="sadexlogDaoServices" class="no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.services.SadexlogDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   <!--///////////////////
