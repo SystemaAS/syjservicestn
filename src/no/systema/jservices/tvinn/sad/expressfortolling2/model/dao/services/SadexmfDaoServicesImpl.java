@@ -210,14 +210,14 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadexmf set emuuid = '', emmid = '', emst = '', emst2 = '', emst3 = '', emdtin = ? ");
+			sql.append(" UPDATE sadexmf set emuuid = '', emmid = '', emst2 = ?, emst3 = '', emdtin = ? ");
 			//id's
 			sql.append(" WHERE emavd = ? ");
 			sql.append(" AND empro = ?" );
 			sql.append(" AND emmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmdtin(), dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmst2(), dao.getEmdtin(), dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

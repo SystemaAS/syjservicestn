@@ -247,9 +247,8 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			SadexhfDao dao = (SadexhfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			//TODO with sendDate --> sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '', emdtin = ? ");
-			sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '', ehst = '', ehst2 = '', ehst3 = '' ");
+			//
+			sql.append(" UPDATE sadexhf set ehuuid = '', ehmid = '' , ehst2 = ?, ehst3 = '' ");
 			//id's
 			sql.append(" WHERE ehavd = ? ");
 			sql.append(" AND ehpro = ?" );
@@ -257,7 +256,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 			sql.append(" AND ehmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhst2(), dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
