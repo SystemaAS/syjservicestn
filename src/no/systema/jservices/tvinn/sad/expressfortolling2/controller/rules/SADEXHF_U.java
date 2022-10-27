@@ -53,6 +53,29 @@ public class SADEXHF_U {
 		return retval;
 	}
 	
+	/**
+	 * 
+	 * @param dao
+	 * @param user
+	 * @param mode
+	 * @return
+	 */
+	public boolean isValidInputForUpdateStatus3(SadexhfDao dao, String user, String mode){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
+			//check dao
+			if( StringUtils.isNotEmpty(dao.getEhdkh()) && StringUtils.isNotEmpty(dao.getEhst3())  ){ 
+				//OK
+			}else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
+	
 	public boolean isValidInputForUpdate(SadexhfDao dao, String user, String mode){
 		boolean retval = true;
 		

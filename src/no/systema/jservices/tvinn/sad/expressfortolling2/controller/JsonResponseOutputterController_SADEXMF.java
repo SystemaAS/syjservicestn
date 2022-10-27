@@ -192,6 +192,7 @@ public class JsonResponseOutputterController_SADEXMF {
             logger.warn("pro:" + dao.getEmpro().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
+            logger.warn("emst2:" + dao.getEmst2());
             
             //rules
             SADEXMF_U rulerLord = new SADEXMF_U();

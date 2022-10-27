@@ -206,21 +206,21 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 	 * @param errorStackTrace
 	 * @return
 	 */
-	/*
-	public int updateStatus(Object daoObj, StringBuffer errorStackTrace){
+	
+	public int updateStatus3(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadexhfDao dao = (SadexhfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadeff set efst = ? ");
+			sql.append(" UPDATE sadexhf set ehst3 = ? ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE ehdkh = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhst3(), dao.getEhdkh() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -232,7 +232,7 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 		
 		return retval;
 	}
-	*/
+	
 	
 	
 	/**

@@ -310,7 +310,7 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 		
 		try{
 			SadexmfDao dao = (SadexmfDao)daoObj;
-				
+			//DEBUG logger.warn(daoObj.toString());	
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE sadexmf set emuuid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ?  ");

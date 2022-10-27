@@ -199,7 +199,8 @@ public class JsonResponseOutputterController_SADEXHF {
             
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
-            
+            //
+            logger.warn("documentNumber:" + dao.getEhdkh());
             
             //rules
             SADEXHF_U rulerLord = new SADEXHF_U();
@@ -215,6 +216,19 @@ public class JsonResponseOutputterController_SADEXHF {
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
+				}else if("US3".equals(mode)){
+					logger.warn("MODE:" + mode);
+					logger.warn("BEFORE update of status3 ...");
+					if(rulerLord.isValidInputForUpdateStatus3(dao, userName, mode)){
+						logger.warn("AFTER validation status3 ...");
+						dmlRetval = this.sadexhfDaoServices.updateStatus3(dao, dbErrorStackTrace);
+					}else {
+						//write JSON error output
+						errMsg = "ERROR on UPDATE documentNumber: status3 (rulerLord)?  Try to check: <DaoServices>.updateStatus3...";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}
+					
 				}else{
 				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
 						logger.warn("Before UPDATE ...");
