@@ -26,7 +26,9 @@ public class SADEXMF_U {
 			
 			if( dao.getEmavd()>0 && dao.getEmpro()>0  ){ 
 				//OK
-			}else{
+			} else if( StringUtils.isNotEmpty(dao.getEmuuid())){ 
+				//OK
+			} else{
 				retval = false;
 			}
 		}else{
@@ -58,7 +60,9 @@ public class SADEXMF_U {
 			
 			if( dao.getEmavd()>0 && dao.getEmpro()>0 ){ 
 				//OK
-			}else{
+			} else if(StringUtils.isNotEmpty(dao.getEmuuid())){ 
+				//OK
+			} else{
 				retval = false;
 			}
 		}else{

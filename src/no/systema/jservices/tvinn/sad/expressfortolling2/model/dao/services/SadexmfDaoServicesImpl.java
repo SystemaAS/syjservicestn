@@ -9,6 +9,7 @@ import org.slf4j.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexhfDao;
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexmfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
@@ -104,7 +105,31 @@ public class SadexmfDaoServicesImpl implements SadexmfDaoServices {
 		return retval;
 	}
 	
-	
+	/**
+	 * 
+	 */
+	public List findByLrn (String id, StringBuffer errorStackTrace ){
+		List<SadexmfDao> retval = new ArrayList<SadexmfDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" select * from sadexmf where emuuid = ? ");
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadexmfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		
+		return retval;
+	}
 	
 	
 	/**

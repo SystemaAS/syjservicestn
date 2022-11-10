@@ -10,6 +10,7 @@ import java.util.*;
  */
 public interface SadexmfDaoServices extends IDaoServices { 
 	public List find(Object dao,StringBuffer errorStackTrace);
+	public List findByLrn (String id, StringBuffer errorStackTrace );
 	public int updateLrnMrn(Object daoObj, StringBuffer errorStackTrace);
 	public int updateLrn(Object daoObj, StringBuffer errorStackTrace);
 	public int deleteLight(Object daoObj, StringBuffer errorStackTrace);

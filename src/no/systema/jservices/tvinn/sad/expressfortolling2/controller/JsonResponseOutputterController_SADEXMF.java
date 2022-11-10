@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEXMF_U;
+import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexhfDao;
 //import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEFFR_U;
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexmfDao;
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.services.SadexmfDaoServices;
@@ -102,6 +103,9 @@ public class JsonResponseOutputterController_SADEXMF {
 				}else if( this.isDoFind(dao) ){
 					logger.warn("inside: doFind");
 					list = this.sadexmfDaoServices.find(dao, dbErrorStackTrace);
+				}else if( this.isDoFindByLrn(dao) ){
+					logger.warn("inside: doFindByLrn");
+					list = this.sadexmfDaoServices.findByLrn(dao.getEmuuid(), dbErrorStackTrace);
 				}else{
 					logger.warn("inside: getList (all)");
 					logger.warn("getList (all)");
@@ -152,6 +156,14 @@ public class JsonResponseOutputterController_SADEXMF {
 		
 		return retval;
 	}
+	private boolean isDoFindByLrn(SadexmfDao dao){
+		boolean retval = false;
+		if(StringUtils.isNotEmpty(dao.getEmuuid())){
+			retval = true;
+		}
+		
+		return retval;
+	}
 	/**
 	 * 
 	 * Update Database DML operations
@@ -193,6 +205,10 @@ public class JsonResponseOutputterController_SADEXMF {
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             logger.warn("emst2:" + dao.getEmst2());
+            logger.warn("emuuid:" + dao.getEmuuid());
+            logger.warn("emmid:" + dao.getEmmid());
+            
+            
             
             //rules
             SADEXMF_U rulerLord = new SADEXMF_U();
@@ -210,7 +226,7 @@ public class JsonResponseOutputterController_SADEXMF {
 					}
 				}else{
 				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
-						logger.info("Before UPDATE ...");
+						logger.warn("Before UPDATE ...");
 						List<SadexmfDao> list = new ArrayList<SadexmfDao>();
 						
 						//do ADD
