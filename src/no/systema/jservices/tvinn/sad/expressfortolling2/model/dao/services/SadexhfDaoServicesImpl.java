@@ -107,6 +107,28 @@ public class SadexhfDaoServicesImpl implements SadexhfDaoServices {
 		return retval;
 	}
 	
+	public List findByLrn (String id, StringBuffer errorStackTrace ){
+		List<SadexhfDao> retval = new ArrayList<SadexhfDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" select * from sadexhf where ehuuid = ? ");
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadexhfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		
+		return retval;
+	}
 	
 	
 	

@@ -104,6 +104,10 @@ public class JsonResponseOutputterController_SADEXHF {
 					logger.warn("find");
 					list = this.sadexhfDaoServices.find(dao, dbErrorStackTrace);
 					
+				}else if( this.isDoFindByLrn(dao) ){
+					logger.warn("findByLrn");
+					list = this.sadexhfDaoServices.findByLrn(dao.getEhuuid(), dbErrorStackTrace);
+					
 				}else{
 					logger.warn("getList (all)");
 					list = this.sadexhfDaoServices.getList(dbErrorStackTrace);
@@ -151,6 +155,14 @@ public class JsonResponseOutputterController_SADEXHF {
 		
 		return retval;
 	}
+	private boolean isDoFindByLrn(SadexhfDao dao){
+		boolean retval = false;
+		if(StringUtils.isNotEmpty(dao.getEhuuid())){
+			retval = true;
+		}
+		
+		return retval;
+	}
 	/**
 	 * 
 	 * Update Database DML operations
@@ -172,7 +184,7 @@ public class JsonResponseOutputterController_SADEXHF {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSADEXHF_U.do");
+			logger.warn("Inside syjsSADEXHF_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
