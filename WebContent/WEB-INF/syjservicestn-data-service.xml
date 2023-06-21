@@ -192,6 +192,10 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
+   <!-- NCTS5 NO FORTOLLING -->
+  <bean id="nctsecDaoServices" class="no.systema.jservices.tvinn.sad.ncts5export.model.dao.services.NctsecDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   <!--///////////////////
         NativeExtractor 
