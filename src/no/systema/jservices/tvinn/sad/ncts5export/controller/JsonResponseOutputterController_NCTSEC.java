@@ -98,9 +98,15 @@ public class JsonResponseOutputterController_NCTSEC {
 	            logger.warn("Before SELECT ..." + dao.getTcavd() + " - " + dao.getTctdn() );
 	            
 	            if( dao.getTcavd()>0 && dao.getTctdn()>0) {
-	            	logger.warn("findById");
-					list = this.nctsecDaoServices.findById(String.valueOf(dao.getTcavd()), String.valueOf(dao.getTctdn()), dbErrorStackTrace);
-					logger.debug(list.toString());
+	            	if(dao.getTcli()>0) {
+	            		logger.warn("findById");
+	            		list = this.nctsecDaoServices.findById(dao.getTcavd(), dao.getTctdn(), dbErrorStackTrace);
+	            		logger.debug(list.toString());
+	            	}else {
+	            		logger.warn("findById");
+	            		list = this.nctsecDaoServices.findById(dao.getTcavd(), dao.getTctdn(), dbErrorStackTrace);
+	            		logger.debug(list.toString());
+	            	}
 				}
 
 				//process result

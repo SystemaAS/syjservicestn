@@ -9,5 +9,6 @@ import java.util.*;
  * 
  */
 public interface NctsecDaoServices extends IDaoServices { 
-	public List findById (String avd, String tdn, StringBuffer errorStackTrace );
+	public List findById (Integer avd, Integer tdn, StringBuffer errorStackTrace );
+	public List findById (Integer avd, Integer tdn, Integer lineNr, StringBuffer errorStackTrace );
 }

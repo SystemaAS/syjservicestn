@@ -58,7 +58,7 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 		return retval;
 	}
 	
-	public List findById (String avd, String tdn, StringBuffer errorStackTrace ){
+	public List findById (Integer avd, Integer tdn, StringBuffer errorStackTrace ){
 		List<NctsecDao> retval = new ArrayList<NctsecDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
@@ -68,10 +68,31 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 			sql.append(" select * from nctsec where tcavd = ? and tctdn = ?  ");
 			
 			logger.info(sql.toString());
-			int i_avd = Integer.valueOf(avd);
-			int i_tdn = Integer.valueOf(tdn);
-			logger.info("tcavd:" + i_avd + "/tctdn:" + i_tdn);
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { i_avd, i_tdn }, new BeanPropertyRowMapper(NctsecDao.class));
+			logger.info("tcavd:" + avd + "/tctdn:" + tdn);
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, tdn }, new BeanPropertyRowMapper(NctsecDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
+	
+	public List findById (Integer avd, Integer tdn, Integer lineNr, StringBuffer errorStackTrace ){
+		List<NctsecDao> retval = new ArrayList<NctsecDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" select * from nctsec where tcavd = ? and tctdn = ? and tcli = ?  ");
+			
+		
+			logger.info("tcavd:" + avd + "/tctdn:" + tdn + "tcli:" + lineNr);
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, tdn, lineNr }, new BeanPropertyRowMapper(NctsecDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
