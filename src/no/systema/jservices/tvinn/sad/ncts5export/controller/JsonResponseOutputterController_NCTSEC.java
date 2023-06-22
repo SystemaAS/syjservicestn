@@ -177,14 +177,14 @@ public class JsonResponseOutputterController_NCTSEC {
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
-					/*if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.sadefcfDaoServices.delete(dao, dbErrorStackTrace);
+					if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
+						dmlRetval = this.nctsecDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-					}*/
+					}
 				}else{
 					logger.info("Before UPDATE ...");
 					List<NctsecDao> list = new ArrayList<NctsecDao>();

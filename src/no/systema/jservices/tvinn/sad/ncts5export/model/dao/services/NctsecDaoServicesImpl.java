@@ -190,14 +190,11 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadefcf set clst = ? ");
-			//id's
-			sql.append(" WHERE clpro = ? ");
+			sql.append(" DELETE from nctsec where tcavd = ? and tctdn = ? and tcli = ? ");
 			
 			//params
-			/*
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getClst(), dao.getClpro() } );
-			*/
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getTcavd(), dao.getTctdn(), dao.getTcli() } );
+			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
