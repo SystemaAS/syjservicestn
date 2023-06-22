@@ -67,8 +67,11 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
 			sql.append(" select * from nctsec where tcavd = ? and tctdn = ?  ");
 			
-			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, tdn }, new BeanPropertyRowMapper(NctsecDao.class));
+			logger.info(sql.toString());
+			int i_avd = Integer.valueOf(avd);
+			int i_tdn = Integer.valueOf(tdn);
+			logger.info("tcavd:" + i_avd + "/tctdn:" + i_tdn);
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { i_avd, i_tdn }, new BeanPropertyRowMapper(NctsecDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -93,27 +96,34 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 		int retval = 0;
 		try{
 			NctsecDao dao = (NctsecDao)daoObj;
-			StringBuffer sql = new StringBuffer();
-			//cltdn must be negativt according to YBC
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadefcf (clst, clavd, clpro, cltdn, clrg, cl0068a, cl0068b, clntk, clvkb, ");
-			sql.append(" clvt, cltrid, cl3039e, cllkf, clsdf, clsdft, cllkt, clsdt, clsdtt, clpr, ");
-			sql.append(" clprt, cletyp, cletypt, cleid, cleser, cltrnr, clnas, clnak ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?, ?,?,? ) ");
+			//get the next lineNr in turn
+			dao.setTcli(this.getLineNr(dao.getTcavd(), dao.getTctdn(), errorStackTrace));
 			
-			logger.warn(sql.toString());
-			logger.warn(dao.toString());
-			//params
-			/*
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getClst(),dao.getClavd(), dao.getClpro(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(),
-					dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
-					dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(), dao.getCleser(), dao.getCltrnr(), dao.getClnas(), dao.getClnak()
-
-					} );
-			*/
+			if(dao.getTcli()>0) {
+				StringBuffer sql = new StringBuffer();
+				//cltdn must be negativt according to YBC
+				//DEBUG --> logger.info("mydebug");
+				sql.append(" INSERT INTO nctsec (tcavd, tctdn, tcli, tcln, tcdk, tcalk, tcblk, tcvktb, ");
+				sql.append(" tcucr, tcavd2, tctdn2, tcxext, tcrole, tcidr, tctaty, tctaid, tctalk, tcpdty , ");
+				sql.append(" tcpdrf, tcpdin, tcsdty, tcsdrf, tcsdln, tcsdin, tctdty, tctdrf, tcadty, ");
+				sql.append(" tcadrf, tcaicd, tcaitx, tctrch  ) ");
+				sql.append(" VALUES(?,?,?,?,?,?,?,?, ");
+				sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
+				sql.append(" ?,?,?,?,?,?,?,?,?, ");
+				sql.append(" ?,?,?,? ) ");
+				
+				logger.warn(sql.toString());
+				logger.warn(dao.toString());
+				//params
+				
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+						dao.getTcavd(),dao.getTctdn(), dao.getTcli(), dao.getTcln(), dao.getTcdk(), dao.getTcalk(), dao.getTcblk(), dao.getTcvktb(),
+						dao.getTcucr(), dao.getTcavd2(), dao.getTctdn2(), dao.getTcxext(), dao.getTcrole(), dao.getTcidr(), dao.getTctaty(), dao.getTctaid(), dao.getTctalk(), dao.getTcpdty(),
+						dao.getTcpdrf(), dao.getTcpdin(), dao.getTcsdty(), dao.getTcsdrf(), dao.getTcsdln(), dao.getTcsdin(), dao.getTctdty(), dao.getTctdrf(), dao.getTcadty(), 
+						dao.getTcadrf(), dao.getTcaicd(), dao.getTcaitx(), dao.getTctrch()
+	
+						} );
+			}
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -199,6 +209,31 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 		return retval;
 	}
 	
+	private Integer getLineNr(Integer avd, Integer opd, StringBuffer errorStackTrace)  {
+		Integer retval = 0;
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select max(tcli + 1) from nctsec where tcavd = ? and tctdn = ?");
+			
+			logger.info(sql.toString());
+			String tmp = this.jdbcTemplate.queryForObject( sql.toString(), new Object[] { avd, opd} , String.class);
+			if(StringUtils.isEmpty(tmp)){
+				retval = 1;
+			}else {
+				retval = Integer.valueOf(tmp);
+			}
+			logger.info("New lineNr (for insert):" + retval);
+			
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                

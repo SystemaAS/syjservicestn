@@ -24,11 +24,11 @@
 </appender>  
 
 
-  <logger name="no.systema" level="WARN" additivity="false"> 
+  <logger name="no.systema" level="info" additivity="false"> 
         <appender-ref ref="FILE" /> 
   </logger> 
     
-  <root level="error">
+  <root level="info">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

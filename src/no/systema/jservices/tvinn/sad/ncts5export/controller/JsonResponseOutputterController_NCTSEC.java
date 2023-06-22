@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -28,8 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.expressfortolling.controller.rules.SADEFCFR_U;
-import no.systema.jservices.tvinn.sad.expressfortolling.controller.rules.SADEFFR_U;
+import no.systema.jservices.tvinn.sad.ncts5export.controller.rules.NCTSEC_U;
 import no.systema.jservices.tvinn.sad.ncts5export.model.dao.entities.NctsecDao;
 import no.systema.jservices.tvinn.sad.ncts5export.model.dao.services.NctsecDaoServices;
 //import no.systema.jservices.tvinn.sad.z.maintenance.felles.controller.rules.SAD010R_U;
@@ -53,7 +53,7 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
  * 
  */
 
-@Controller
+@RestController
 public class JsonResponseOutputterController_NCTSEC {
 	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_NCTSEC.class.getName());
 	/**
@@ -148,7 +148,7 @@ public class JsonResponseOutputterController_NCTSEC {
 	 * 
 	 */
 	
-	/*
+	
 	@RequestMapping(value="syjsNCTSEC_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
@@ -156,7 +156,7 @@ public class JsonResponseOutputterController_NCTSEC {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.info("Inside syjsSADEFCFR_U.do");
+			logger.info("Inside syjsNCTSEC_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -168,56 +168,53 @@ public class JsonResponseOutputterController_NCTSEC {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadefcfDao dao = new SadefcfDao();
+			NctsecDao dao = new NctsecDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             //rules
-            SADEFCFR_U rulerLord = new SADEFCFR_U();
+            NCTSEC_U rulerLord = new NCTSEC_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
-					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+					/*if(rulerLord.isValidInputForDelete(dao, userName, mode)){
 						dmlRetval = this.sadefcfDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-					}
+					}*/
 				}else{
 					logger.info("Before UPDATE ...");
-					List<SadeffDao> list = new ArrayList<SadeffDao>();
-					if(rulerLord.isValidInput(dao, userName, mode)){
-						//do ADD
-						if("A".equals(mode)){
+					List<NctsecDao> list = new ArrayList<NctsecDao>();
+					//do ADD
+					if("A".equals(mode)){
+						if(rulerLord.isValidInputForInsert(dao, userName, mode)){
 							logger.warn("Before INSERT...");
-							//cltdn will be created in the insert by a counter (TELLGE db-table)
-							if(dao.getCltdn() == 0){
-								logger.warn("doInsert now...");
-								dmlRetval = this.sadefcfDaoServices.insert(dao, dbErrorStackTrace);
-							}
+							dmlRetval = this.nctsecDaoServices.insert(dao, dbErrorStackTrace);
+						
 						}else{
-							//Update
-							if("U".equals(mode)){
-								logger.warn("Before UPDATE ...");
-								dmlRetval = this.sadefcfDaoServices.update(dao, dbErrorStackTrace);
-							//R=Release	
-							}else if("R".equals(mode)){
-								logger.warn("Before RELEASE ...");
-								dmlRetval = this.sadefcfDaoServices.release(dao, dbErrorStackTrace);
-							//B=Bind
-							}else if("B".equals(mode)){
-								logger.warn("Before BIND ...");
-								dmlRetval = this.sadefcfDaoServices.bindTur(dao, dbErrorStackTrace);
-							}
+							//write JSON error output
+							errMsg = "ERROR on INSERT: invalid (rulerLord)?  Try to check: <DaoServices>.insert";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 						}
+						
 					}else{
-						//write JSON error output
-						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
-						status = "error";
-						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+						//Update
+						if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
+							logger.warn("Before UPDATE ...");
+							dmlRetval = this.nctsecDaoServices.update(dao, dbErrorStackTrace);
+							
+						}else{
+							//write JSON error output
+							errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+						}
 					}
+					
 				}
 				//----------------------------------
 				//check returns from dml operations
@@ -250,7 +247,7 @@ public class JsonResponseOutputterController_NCTSEC {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
