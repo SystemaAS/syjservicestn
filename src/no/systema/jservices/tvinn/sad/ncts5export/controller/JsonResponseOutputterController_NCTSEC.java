@@ -99,11 +99,11 @@ public class JsonResponseOutputterController_NCTSEC {
 	            
 	            if( dao.getTcavd()>0 && dao.getTctdn()>0) {
 	            	if(dao.getTcli()>0) {
-	            		logger.warn("findById");
-	            		list = this.nctsecDaoServices.findById(dao.getTcavd(), dao.getTctdn(), dbErrorStackTrace);
+	            		logger.warn("findById single line (tcli)");
+	            		list = this.nctsecDaoServices.findById(dao.getTcavd(), dao.getTctdn(), dao.getTcli(), dbErrorStackTrace);
 	            		logger.debug(list.toString());
 	            	}else {
-	            		logger.warn("findById");
+	            		logger.warn("findById all lines");
 	            		list = this.nctsecDaoServices.findById(dao.getTcavd(), dao.getTctdn(), dbErrorStackTrace);
 	            		logger.debug(list.toString());
 	            	}

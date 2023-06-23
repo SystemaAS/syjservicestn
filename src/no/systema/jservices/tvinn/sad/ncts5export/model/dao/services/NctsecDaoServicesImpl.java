@@ -166,28 +166,27 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 			NctsecDao dao = (NctsecDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//TEST
-			/*sql.append(" UPDATE sadeff SET efavd = ? " );
-			sql.append(" WHERE efuuid = ? ");
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfavd(),  dao.getEfuuid() });
-			*/
-			sql.append(" UPDATE sadefcf SET clst = ?, clavd = ?, cltdn = ?, clrg = ?, cl0068a = ?, cl0068b = ?, clntk = ?, clvkb = ?,  ");
-			sql.append(" clvt = ? , cltrid = ? , cl3039e = ? , cllkf = ? , clsdf = ?, clsdft = ?, cllkt = ?, clsdt = ?, clsdtt = ?, clpr = ?, ");
-			sql.append(" clprt = ? , cletyp = ? , cletypt = ? , cleid = ? , cleser = ?, cltrnr = ? , clnas = ? , clnak = ? ");
+			
+			sql.append(" UPDATE nctsec SET tcln = ?, tcdk = ?, tcalk = ?, tcblk = ?, tcvktb = ?, ");
+			sql.append(" tcucr = ?, tcavd2 = ?, tctdn2 = ?, tcxext = ?, tcrole = ?, tcidr = ?, tctaty = ?, tctaid = ?, tctalk = ?, tcpdty = ?, ");
+			sql.append(" tcpdrf = ?, tcpdin = ?, tcsdty = ?, tcsdrf = ?, tcsdln = ?, tcsdin = ?, tctdty = ?, tctdrf = ?, tcadty = ?, ");
+			sql.append(" tcadrf = ?, tcaicd = ?, tcaitx = ?, tctrch = ?  ");
 			//id's
-			sql.append(" WHERE clpro = ? ");
-			sql.append(" AND cltdn = ? ");
+			sql.append(" WHERE tcavd = ? ");
+			sql.append(" AND tctdn = ? ");
+			sql.append(" AND tcli = ? ");
 			
 			
-			//params
-			/*
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getClst(), dao.getClavd(), dao.getCltdn(), dao.getClrg(), dao.getCl0068a(), dao.getCl0068b(), dao.getClntk(), dao.getClvkb(), 
-						dao.getClvt(), dao.getCltrid(), dao.getCl3039e(), dao.getCllkf(), dao.getClsdf(), dao.getClsdft(), dao.getCllkt(), dao.getClsdt(), dao.getClsdtt(), dao.getClpr(),
-						dao.getClprt(), dao.getCletyp(), dao.getCletypt(), dao.getCleid(),  dao.getCleser(), dao.getCltrnr(), dao.getClnas(), dao.getClnak(),
-						//id's
-						dao.getClpro(),dao.getCltdn(),
-						} );
-			*/
+					dao.getTcln(), dao.getTcdk(), dao.getTcalk(), dao.getTcblk(), dao.getTcvktb(),
+					dao.getTcucr(), dao.getTcavd2(), dao.getTctdn2(), dao.getTcxext(), dao.getTcrole(), dao.getTcidr(), dao.getTctaty(), dao.getTctaid(), dao.getTctalk(), dao.getTcpdty(),
+					dao.getTcpdrf(), dao.getTcpdin(), dao.getTcsdty(), dao.getTcsdrf(), dao.getTcsdln(), dao.getTcsdin(), dao.getTctdty(), dao.getTctdrf(), dao.getTcadty(), 
+					dao.getTcadrf(), dao.getTcaicd(), dao.getTcaitx(), dao.getTctrch(),
+					//id's
+					dao.getTcavd(),dao.getTctdn(), dao.getTcli()
+
+					} );
+			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info("Exception in update Sadefcf:"+writer.toString());
