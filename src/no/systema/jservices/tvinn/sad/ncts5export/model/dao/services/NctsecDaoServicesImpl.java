@@ -94,6 +94,11 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 			logger.info("tcavd:" + avd + "/tctdn:" + tdn + "tcli:" + lineNr);
 			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, tdn, lineNr }, new BeanPropertyRowMapper(NctsecDao.class));
 			
+			for(NctsecDao record : retval) {
+				retval = this.findPartiesById(record, errorStackTrace);
+
+			}
+			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
 			logger.info(writer.toString());
@@ -200,12 +205,12 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 			
 			//deal with parties...
 			if(retval > -1) {
-				if(StringUtils.isNotEmpty(dao.getTcnas())){
-					//no update. Just delete and insert record
-					retval = this.deleteParties(dao, errorStackTrace);
+				//no update. Just delete and insert record
+				retval = this.deleteParties(dao, errorStackTrace);
+				//only if this minimum exist
+				if(StringUtils.isNotEmpty(dao.getTcnas())) {
 					retval = this.insertParties(dao, errorStackTrace);
 				}
-				
 			}
 			
 		}catch(Exception e){
@@ -279,8 +284,11 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 	}
 	
 	
-	private List findPartiesById (Integer avd, Integer tdn, Integer lineNr, StringBuffer errorStackTrace ){
+	private List findPartiesById (NctsecDao daoParent, StringBuffer errorStackTrace ){
 		List<NctsecDao> retval = new ArrayList<NctsecDao>();
+		
+		List<NctsecDao> tmpList = new ArrayList<NctsecDao>();
+		
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
@@ -289,8 +297,36 @@ public class NctsecDaoServicesImpl implements NctsecDaoServices {
 			sql.append(" select * from nctsecam where tcavd = ? and tctdn = ? and tcli = ? ");
 			
 			logger.info(sql.toString());
-			logger.info("tcavd:" + avd + "/tctdn:" + tdn + "/tcli:" + lineNr);
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { avd, tdn, lineNr }, new BeanPropertyRowMapper(NctsecDao.class));
+			logger.info("tcavd:" + daoParent.getTcavd() + "/tctdn:" + daoParent.getTctdn() + "/tcli:" + daoParent.getTcli());
+			tmpList = this.jdbcTemplate.query( sql.toString(), new Object[] { daoParent.getTcavd(), daoParent.getTctdn(), daoParent.getTcli() }, new BeanPropertyRowMapper(NctsecDao.class));
+			
+			//handover to parent dao to fill with child-record if applicable
+			if(tmpList != null && !tmpList.isEmpty()) {
+				for (NctsecDao record : tmpList) {
+					daoParent.setTckns(record.getTckns());
+					daoParent.setTcnas(record.getTcnas());
+					daoParent.setTcad1s(record.getTcad1s());
+					daoParent.setTcpns(record.getTcpns());
+					daoParent.setTcpss(record.getTcpss());
+					daoParent.setTclks(record.getTclks());
+					daoParent.setTctins(record.getTctins());
+					daoParent.setTccps(record.getTccps());
+					daoParent.setTctls(record.getTctls());
+					daoParent.setTcems(record.getTcems());
+					//
+					daoParent.setTcknk(record.getTcknk());
+					daoParent.setTcnak(record.getTcnak());
+					daoParent.setTcad1k(record.getTcad1k());
+					daoParent.setTcpnk(record.getTcpnk());
+					daoParent.setTcpsk(record.getTcpsk());
+					daoParent.setTclkk(record.getTclkk());
+					daoParent.setTctink(record.getTctink());
+					
+				}
+			}
+			
+			retval.add(daoParent);
+			
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
