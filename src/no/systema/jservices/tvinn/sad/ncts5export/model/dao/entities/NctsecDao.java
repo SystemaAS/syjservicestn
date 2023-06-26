@@ -49,4 +49,25 @@ public class NctsecDao implements IDao {
 	private String tctrch  = ""; // tegn    1 Betal.sätt
 
 	
+	//NCTSECAM - db table (parties)
+	//Avsender
+	private Integer tckns = 0; //sonet 8 Kundenr selger
+	private String tcnas = ""; //char 30 Navn selger
+	private String tcad1s = ""; //char 30 Adress 1 selger
+	private String tcpns = ""; //char 9 postnr selger
+	private String tcpss = ""; //char 24 city selger
+	private String tclks = ""; //char 2 land code selger
+	private String tctins = ""; //char 17 TIN-nr selger
+	private String tccps = ""; //char 30 Kontakt person selger
+	private String tctls = ""; //char 20 telefon selger
+	private String tcems = ""; //char 50 email selger	
+	//Mottaker		
+	private Integer tcknk = 0; //sonet 8 Kundenr kjøper
+	private String tcnak = ""; //char 30 Navn kjøper
+	private String tcad1k = ""; //char 30 Adress 1 kjøper
+	private String tcpnk = ""; //char 9 postnr kjøper
+	private String tcpsk = ""; //char 24 city kjøper
+	private String tclkk = ""; //char 2 land code kjøper
+	private String tctink = ""; //char 17 TIN-nr kjøper
+	
 }
