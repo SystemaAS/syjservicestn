@@ -45,8 +45,8 @@ public class SadmotfDao implements IDao {
 	private String etktkd = ""; // varchar(1), Mode av transportKD
 	
 	private String etsjaf = ""; // varchar(50), Sjåfør navn
-	private String etsjaem = ""; // varchar(2), Epostadr/tlf
-	private String etsjaemt = ""; // varchar(2), Epostadr/tlf typ (TE-EM) 
+	private String etems = ""; // varchar(50), Epostadr/tlf
+	private String etemst = ""; // varchar(2), Epostadr/tlf typ (TE-EM) 
 	
 	private Integer etknt = 0; // numeric(8),  Representative
 	private String etrgt = ""; // varchar(17), Orgnr Repres.
@@ -58,7 +58,7 @@ public class SadmotfDao implements IDao {
 	private String etpst = ""; // varchar(24), Poststed
 	private String etlkt = ""; // varchar(2) , Landkod
 	private String etpbt = ""; // varchar(15) , Postbox
-	private String etemt = ""; // varchar(2), Epostadr/tlf 
+	private String etemt = ""; // varchar(50), Epostadr/tlf 
 	private String etemtt = ""; // varchar(2), Epostadr/tlf typ (TE-EM)
 	
 	private String etdkm = ""; // varchar(50), Master Dokumentnr 

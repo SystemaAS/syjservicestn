@@ -58,27 +58,27 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
  */
 
 @Controller
-public class JsonResponseOutputterController_OSCDIT {
-	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_OSCDIT.class.getName());
+public class JsonResponseOutputterController_SADMOTF {
+	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_SADMOTF.class.getName());
 	/**
 	 * FreeForm Source:
-	 * 	 File: 		OSCDIT
+	 * 	 File: 		SADMOTF
 	 * 	 Member: 	SAD DIGITOLL - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsOSCDIT.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsOSCDIT.do?user=OSCAR&emmid=whatever...
+	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADMOTF.do?user=OSCAR
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADMOTF.do?user=OSCAR&etmid=whatever...
 	 * 
 	 */
-	@RequestMapping(value="syjsOSCDIT.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSADMOTF.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsRList( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsOSCDIT");
+			logger.warn("Inside syjsSADMOTF");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			logger.warn("User:" + user);
@@ -102,17 +102,17 @@ public class JsonResponseOutputterController_OSCDIT {
 	            logger.warn("Before SELECT ...");
 	            if( StringUtils.isNotEmpty(dao.getEtmid()) ){
 					logger.warn("inside: findById");
-					list = this.oscditDaoServices.findById(dao.getEtmid(), dbErrorStackTrace);
+					list = this.sadmotfDaoServices.findById(dao.getEtmid(), dbErrorStackTrace);
 				}else if( this.isDoFind(dao) ){
 					logger.warn("inside: doFind");
-					list = this.oscditDaoServices.find(dao, dbErrorStackTrace);
+					list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
 				}else if( this.isDoFindByLrn(dao) ){
 					logger.warn("inside: doFindByLrn");
-					list = this.oscditDaoServices.findByLrn(dao.getEtuuid(), dbErrorStackTrace);
+					list = this.sadmotfDaoServices.findByLrn(dao.getEtuuid(), dbErrorStackTrace);
 				}else{
 					logger.warn("inside: getList (all)");
 					logger.warn("getList (all)");
-					list = this.oscditDaoServices.getList(dbErrorStackTrace);
+					list = this.sadmotfDaoServices.getList(dbErrorStackTrace);
 				}
 	            logger.warn("After SELECT ..." );
 	            
@@ -171,10 +171,10 @@ public class JsonResponseOutputterController_OSCDIT {
 	/**
 	 * 
 	 * Update Database DML operations
-	 * File: 	OSCDIT
-	 * Member: 	OSCDIT Ekspressfortolling - UPDATE SPECIFIC
+	 * File: 	SADMOTF
+	 * Member: 	SADMOTF Ekspressfortolling - UPDATE SPECIFIC
 	 * 
-	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsOSCDIT_U.do?user=OSCAR&mode=U/A/D
+	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSADMOTF_U.do?user=OSCAR&mode=U/A/D
 	 *
 	 * @param session
 	 * @param request
@@ -182,14 +182,14 @@ public class JsonResponseOutputterController_OSCDIT {
 	 * 
 	 */
 	
-	@RequestMapping(value="syjsOSCDIT_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSADMOTF_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsOSCDIT_U.do");
+			logger.warn("Inside syjsSADMOTF_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -209,8 +209,8 @@ public class JsonResponseOutputterController_OSCDIT {
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             //logger.warn("emst2:" + dao.getEmst2());
-            logger.warn("emuuid:" + dao.getEtuuid());
-            logger.warn("emmid:" + dao.getEtmid());
+            logger.warn("etuuid:" + dao.getEtuuid());
+            logger.warn("etmid:" + dao.getEtmid());
             
             
             
@@ -248,7 +248,7 @@ public class JsonResponseOutputterController_OSCDIT {
 						}else if("ULM".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
-								dmlRetval = this.oscditDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
+								dmlRetval = this.sadmotfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on UPDATE LRN/MRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
@@ -258,7 +258,7 @@ public class JsonResponseOutputterController_OSCDIT {
 						}else if("UL".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrn(dao, userName, mode)){
-								dmlRetval = this.oscditDaoServices.updateLrn(dao, dbErrorStackTrace);
+								dmlRetval = this.sadmotfDaoServices.updateLrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on UPDATE LRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
@@ -270,7 +270,7 @@ public class JsonResponseOutputterController_OSCDIT {
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
 								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
-								dmlRetval = this.oscditDaoServices.deleteLight(dao, dbErrorStackTrace);
+								dmlRetval = this.sadmotfDaoServices.deleteLight(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on DELETE-LIGHT invalid (rulerLord)?  Try to check: <DaoServices>.update";
@@ -323,7 +323,7 @@ public class JsonResponseOutputterController_OSCDIT {
 	//WIRED SERVICES
 	//----------------
 	@Autowired
-	private SadmotfDaoServices oscditDaoServices;
+	private SadmotfDaoServices sadmotfDaoServices;
 	
 	@Autowired
 	private BridfDaoServices bridfDaoServices;
