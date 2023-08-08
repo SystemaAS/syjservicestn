@@ -8,7 +8,7 @@ import java.util.*;
  * @date Aug 2023
  * 
  */
-public interface OscditDaoServices extends IDaoServices { 
+public interface SadmotfDaoServices extends IDaoServices { 
 	public List find(Object dao,StringBuffer errorStackTrace);
 	public List findByLrn (String id, StringBuffer errorStackTrace );
 	public int updateLrnMrn(Object daoObj, StringBuffer errorStackTrace);

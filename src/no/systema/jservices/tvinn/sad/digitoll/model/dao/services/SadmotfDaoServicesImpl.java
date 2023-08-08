@@ -9,7 +9,7 @@ import org.slf4j.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.OscditDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -18,24 +18,24 @@ import no.systema.main.util.DbErrorMessageManager;
  * @date Aug 2023
  * 
  */
-public class OscditDaoServicesImpl implements OscditDaoServices {
-	private static Logger logger = LoggerFactory.getLogger(OscditDaoServicesImpl.class.getName());
+public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
+	private static Logger logger = LoggerFactory.getLogger(SadmotfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	private String SQL_WILD_CARD = "%";
-	private String TABLE_NAME = "oscdit";
+	private String TABLE_NAME = "sadmotf";
 	
 	/**
 	 * N/A
 	 */
 	public List getList(StringBuffer errorStackTrace){
-		List<OscditDao> retval = new ArrayList<OscditDao>();
+		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			sql.append(" select * from " + this.TABLE_NAME + " order by etdtr desc");
 			sql.append(" FETCH FIRST 500 ROWS ONLY ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(),  new BeanPropertyRowMapper(OscditDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(),  new BeanPropertyRowMapper(SadmotfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -50,8 +50,8 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 	 * get a data set with where clause
 	 */
 	public List find(Object obj,StringBuffer errorStackTrace){
-		OscditDao dao = (OscditDao)obj;
-		List<OscditDao> retval = new ArrayList<OscditDao>();
+		SadmotfDao dao = (SadmotfDao)obj;
+		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
 		LinkedList<Object> params = new LinkedList<Object>();
 		
 		try{
@@ -68,7 +68,7 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 			//if(dao.getOwn_efeta()>0){ sql.append(" and emetad <= ? "); params.add(dao.getOwn_efeta()); }
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(OscditDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadmotfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -84,7 +84,7 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		List<OscditDao> retval = new ArrayList<OscditDao>();
+		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
@@ -93,7 +93,7 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 			sql.append(" select * from " + this.TABLE_NAME + " where etmid = ? ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(OscditDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmotfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -109,7 +109,7 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 	 * 
 	 */
 	public List findByLrn (String id, StringBuffer errorStackTrace ){
-		List<OscditDao> retval = new ArrayList<OscditDao>();
+		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
@@ -118,7 +118,7 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 			sql.append(" select * from " + this.TABLE_NAME + " where etuuid = ? ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(OscditDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmotfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -231,18 +231,18 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 		int retval = 0;
 		
 		try{
-			OscditDao dao = (OscditDao)daoObj;
+			SadmotfDao dao = (SadmotfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = '', etmid = '' ");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = '', etmid = '', etst2 = ?, etst3 = '', etdtin = ?  ");
 			//id's
 			sql.append(" WHERE etavd = ? ");
 			sql.append(" AND etpro = ?" );
 			sql.append(" AND etmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtavd(), dao.getEtpro(), dao.getEtmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst2(), dao.getEtdtin(), dao.getEtavd(), dao.getEtpro(), dao.getEtmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -300,19 +300,19 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 		int retval = 0;
 		
 		try{
-			OscditDao dao = (OscditDao)daoObj;
+			SadmotfDao dao = (SadmotfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			//sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, emmid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ? ");
 			//id's
-			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etmid = ?, etst = ?");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etmid = ?, etdtin = ?, etst = ?, etst2 = ?, etst3 = ?  ");
 			sql.append(" WHERE etavd = ? ");
 			sql.append(" AND etpro = ?" );
 			sql.append(" AND etmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtmid(), dao.getEtst(),  
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtmid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(), dao.getEtst3(), 
 															dao.getEtavd(), dao.getEtpro() } );
 			
 		}catch(Exception e){
@@ -335,20 +335,18 @@ public class OscditDaoServicesImpl implements OscditDaoServices {
 		int retval = 0;
 		
 		try{
-			OscditDao dao = (OscditDao)daoObj;
+			SadmotfDao dao = (SadmotfDao)daoObj;
 			//DEBUG logger.warn(daoObj.toString());	
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etst = ?");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etdtin = ?, etst = ?, etst2 = ?, etst3 = ?  ");
 			//id's
 			sql.append(" WHERE etavd = ? ");
 			sql.append(" AND etpro = ?" );
 			sql.append(" AND etmid = ?" );
 			
 			//params
-			//retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmdtin(), dao.getEmst(), dao.getEmst2(), dao.getEmst3(),
-			//													dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtst(),
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(), dao.getEtst3(),
 																	dao.getEtavd(), dao.getEtpro(), dao.getEtmid() } );
 			
 		}catch(Exception e){

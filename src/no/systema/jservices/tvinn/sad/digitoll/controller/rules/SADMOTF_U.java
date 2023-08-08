@@ -2,14 +2,14 @@ package no.systema.jservices.tvinn.sad.digitoll.controller.rules;
 
 import org.apache.commons.lang3.StringUtils;
 
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.OscditDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 
 /**
  * 
  * @author oscardelatorre
  * @date Aug 2023
  */
-public class OSCDIT_U {
+public class SADMOTF_U {
 
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class OSCDIT_U {
 	 * @param mode
 	 * @return
 	 */
-	public boolean isValidInputForUpdateLrnMrn(OscditDao dao, String user, String mode){
+	public boolean isValidInputForUpdateLrnMrn(SadmotfDao dao, String user, String mode){
 		boolean retval = true;
 		
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
@@ -36,7 +36,7 @@ public class OSCDIT_U {
 		}
 		return retval;
 	}
-	public boolean isValidInputForUpdateLrn(OscditDao dao, String user, String mode){
+	public boolean isValidInputForUpdateLrn(SadmotfDao dao, String user, String mode){
 		boolean retval = true;
 		
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
@@ -52,7 +52,7 @@ public class OSCDIT_U {
 		}
 		return retval;
 	}
-	public boolean isValidInputForUpdate(OscditDao dao, String user, String mode){
+	public boolean isValidInputForUpdate(SadmotfDao dao, String user, String mode){
 		boolean retval = true;
 		
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
@@ -77,7 +77,7 @@ public class OSCDIT_U {
 	 * @param mode
 	 * @return
 	 */
-	public boolean isValidInputForDelete(OscditDao dao, String user, String mode){
+	public boolean isValidInputForDelete(SadmotfDao dao, String user, String mode){
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D

@@ -6,35 +6,67 @@ import lombok.Data;
 import no.systema.jservices.model.dao.entities.IDao;
 
 @Data
-public class OscditDao implements IDao {
+public class SadmotfDao implements IDao {
 	
 	private String etst = ""; // varchar(1) , 
-	private String etuuid = ""; // varchar(36), 
-	private String etmid = ""; // varchar(18), 
 	private Integer etavd = 0; // numeric(4) default 0,
 	private Integer etpro = 0; // numeric(8) default 0, 
-	private Integer etdtr = 0; // numeric(8) default 0, etsg varchar(8),
+	private Integer etlnrt = 0; // numeric(7) default 0, Løpenummer
+	private Integer etdtr = 0; // numeric(8) default 0, Reg.dato
 	private String etsg = ""; // varchar(3)
-	private String etnar = ""; // varchar(30), etrgr varchar(17), 
-	private String etstr = ""; // varchar(3), etpsr varchar(24),
-	private String etlkr = ""; // varchar(2) , etad1r varchar(30), 
-	private String etpnr = ""; // varchar(9), etemr varchar(50),
-	private String etemrt = ""; // varchar(2), etkmrk varchar(30) , 
-	private String etktyp = ""; // varchar(2), etktm varchar(4) ,
-	private String etklk = ""; // varchar(2), etktkd varchar(1), 
-	private String etsjaf = ""; // varchar(50), etsjaemr varchar(50), 
-	private String etsjaemrt = ""; // varchar(2), etnat varchar(30) , 
-	private String etrgt = ""; // varchar(17), etpst varchar(24), 
-	private String etlkt = ""; // varchar(2), etad1t varchar(30), 
-	private String etpnt = ""; // varchar(9), etemt varchar(50), 
-	private String etemtt = ""; // varchar(2),ettsd varchar(8), 
-	private Integer etetad = 0; // numeric(8) default 0, 
-	private Integer etetat = 0; // numeric(6) default 0, 
-	private Integer etstad = 0; // numeric(8) default 0, 
-	private Integer etstat = 0; // numeric(6) default 0, 
-	private String etdkm = ""; // varchar(50), etdkmt varchar(4)
+	private String etst2 = ""; // varchar(1) , Status om manifest
+	private String etuuid = ""; // varchar(36), LRN
+	private String etmid = ""; // varchar(18),  MRN
+	private String etst3 = ""; // varchar(1) , Status om inpassering
+	private Integer etdtin = 0; // numeric(8) , Innsendingsdato
 	
-
+	private Integer etetad = 0; // numeric(8) default 0, ETA date
+	private Integer etetat = 0; // numeric(6) default 0, ETA tid 
+	private Integer etshed = 0; // numeric(8) default 0, Sheduled avg-dt
+	private Integer etshet = 0; // numeric(6) default 0, Sheduled avg-tid
+	
+	private Integer etknr = 0; // numeric(8),  Representative
+	private String etrgr = ""; // varchar(17), Orgnr Repres.
+	private String etnar = ""; // varchar(30), Navn
+	private String etna2r = ""; // varchar(30), SubDivvision
+	private String etad1r = ""; // varchar(30), Gateadr.
+	private String etnrr = ""; // varchar(15), Husnr.
+	private String etpnr = ""; // varchar(9),  Postnr.
+	private String etpsr = ""; // varchar(24), Poststed
+	private String etlkr = ""; // varchar(2) , Landkod
+	private String etpbr = ""; // varchar(15) , Postbox
+	
+	private String etemr = ""; // varchar(50), Epostadr/tlf  
+	private String etemrt = ""; // varchar(2),   Epostadr/tlf typ (TE-EM)
+	private String etkmrk = ""; // varchar(30), Kjennemerke (reg.nr)
+	private String etktyp = ""; // varchar(2), Kjøretøy type
+	private String etklk = ""; // varchar(2), Kjøretøynasjonalitet
+	private String etcref = ""; // varchar(17), Convay/turRef/flight
+	private String etktkd = ""; // varchar(1), Mode av transportKD
+	
+	private String etsjaf = ""; // varchar(50), Sjåfør navn
+	private String etsjaem = ""; // varchar(2), Epostadr/tlf
+	private String etsjaemt = ""; // varchar(2), Epostadr/tlf typ (TE-EM) 
+	
+	private Integer etknt = 0; // numeric(8),  Representative
+	private String etrgt = ""; // varchar(17), Orgnr Repres.
+	private String etnat = ""; // varchar(30), Navn
+	private String etna2t = ""; // varchar(30), SubDivvision
+	private String etad1t = ""; // varchar(30), Gateadr.
+	private String etnrt = ""; // varchar(15), Husnr.
+	private String etpnt = ""; // varchar(9),  Postnr.
+	private String etpst = ""; // varchar(24), Poststed
+	private String etlkt = ""; // varchar(2) , Landkod
+	private String etpbt = ""; // varchar(15) , Postbox
+	private String etemt = ""; // varchar(2), Epostadr/tlf 
+	private String etemtt = ""; // varchar(2), Epostadr/tlf typ (TE-EM)
+	
+	private String etdkm = ""; // varchar(50), Master Dokumentnr 
+	private String etdkmt = ""; // varchar(4), Master Dokumenttype
+	
+	private String ettsd = ""; // varchar(8), Passeringstollsted
+	private String emerr = ""; // varchar(50), Feilmelding ved SND
+		
 	
 }
 

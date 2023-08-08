@@ -194,7 +194,7 @@
   
   
   <!-- Digitoll V2 -->
-  <bean id="oscditDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.OscditDaoServicesImpl">
+  <bean id="sadmotfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmotfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   

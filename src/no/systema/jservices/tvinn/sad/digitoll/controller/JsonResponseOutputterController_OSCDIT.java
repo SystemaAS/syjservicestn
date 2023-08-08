@@ -28,9 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.digitoll.controller.rules.OSCDIT_U;
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.OscditDao;
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.OscditDaoServices;
+import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOTF_U;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmotfDaoServices;
 import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEXMF_U;
 import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexhfDao;
 //import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEFFR_U;
@@ -93,7 +93,7 @@ public class JsonResponseOutputterController_OSCDIT {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				//bind attributes is any
-				OscditDao dao = new OscditDao();
+				SadmotfDao dao = new SadmotfDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
 	            binder.bind(request);
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
@@ -150,7 +150,7 @@ public class JsonResponseOutputterController_OSCDIT {
 	 * @param dao
 	 * @return
 	 */
-	private boolean isDoFind(OscditDao dao){
+	private boolean isDoFind(SadmotfDao dao){
 		boolean retval = false;
 		if(dao.getEtavd()>0 || dao.getEtpro()>0 || StringUtils.isNotEmpty(dao.getEtsg())){
 			retval = true;
@@ -160,7 +160,7 @@ public class JsonResponseOutputterController_OSCDIT {
 		
 		return retval;
 	}
-	private boolean isDoFindByLrn(OscditDao dao){
+	private boolean isDoFindByLrn(SadmotfDao dao){
 		boolean retval = false;
 		if(StringUtils.isNotEmpty(dao.getEtuuid())){
 			retval = true;
@@ -201,7 +201,7 @@ public class JsonResponseOutputterController_OSCDIT {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			OscditDao dao = new OscditDao();
+			SadmotfDao dao = new SadmotfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             logger.warn("avd:" + dao.getEtavd().toString());
@@ -215,7 +215,7 @@ public class JsonResponseOutputterController_OSCDIT {
             
             
             //rules
-            OSCDIT_U rulerLord = new OSCDIT_U();
+            SADMOTF_U rulerLord = new SADMOTF_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
@@ -323,7 +323,7 @@ public class JsonResponseOutputterController_OSCDIT {
 	//WIRED SERVICES
 	//----------------
 	@Autowired
-	private OscditDaoServices oscditDaoServices;
+	private SadmotfDaoServices oscditDaoServices;
 	
 	@Autowired
 	private BridfDaoServices bridfDaoServices;
