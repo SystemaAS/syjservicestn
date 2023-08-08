@@ -198,6 +198,10 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
+  <bean id="sadmomfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmomfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
   
   
    <!-- NCTS5 NO FORTOLLING -->
