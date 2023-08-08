@@ -179,27 +179,4 @@ CREATE TABLE SYSPEDF.OSCDIT (
 }
 
 
-
-
-insert into oscdit (
-etavd, etpro, etnar,
-etrgr, etstr, etpsr, etlkr, etad1r,  
-etpnr, etemr, etemrt,
-etkmrk, etktyp, etktm, etklk,
-etktkd, etsjaf, etsjaemr, etsjaemrt,
-etnat, etrgt, etpst, etlkt,
-etad1t, etpnt, etemt, etemtt, ettsd,
-etetad, etetat, etstad, etstat,
-etdkm, etdkmt
-  ) values (
-1, 501941, 'VesternGeco AS',
-'936809219', '2', 'OSLO', 'NO', 'Skippergt. 8-10',
-'0152', '22335760', 'TE',
-'AA123456', '10', '31', 'NO',
-'4', 'OLA NORMANN', 'ola@normann.com', 'EM',
-'CarrierGeco AS', '931234998', 'OSLO', 'NO',
-'Dodensvei. 1-2', '0152', 'tarzan@dvei.com', 'EM', 'NO351001',
-20231001, 1700, 20231002, 1600,
-'TEST-FraktDocNr-20230511', 'N730'
-)
 */
