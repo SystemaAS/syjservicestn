@@ -13,8 +13,8 @@ public class SadmomfDao implements IDao {
 	private String emmid = "";  //tegn           18    mrn       
 	private Integer emavd = 0;  //sonet        4  0    avdeling     
 	private Integer empro= 0;  //sonet        8  0     turnummer    
-	private Integer emlnrt= 0;  //sonet        7  0    løpenummer             
-	private Integer emlnrm= 0;  //sonet        4  0    m-lnr innen transp     
+	private Integer emlnrt= 0;  //sonet        7  0    løpenummer (KEY i transport)            
+	private Integer emlnrm= 0;  //sonet        4  0    m-lnr innen transp   (KEY)  
 	private Integer emdtr= 0;  //sonet        8  0     registreringsdato      
 	private String emsg = "";    //tegn            3   signatur               
 	private String emst2 = "";   //tegn            1   status om manifest 

@@ -11,7 +11,7 @@ public class SadmotfDao implements IDao {
 	private String etst = ""; // varchar(1) , 
 	private Integer etavd = 0; // numeric(4) default 0,
 	private Integer etpro = 0; // numeric(8) default 0, 
-	private Integer etlnrt = 0; // numeric(7) default 0, Løpenummer
+	private Integer etlnrt = 0; // numeric(7) default 0, Løpenummer (KEY)
 	private Integer etdtr = 0; // numeric(8) default 0, Reg.dato
 	private String etsg = ""; // varchar(3)
 	private String etst2 = ""; // varchar(1) , Status om manifest
