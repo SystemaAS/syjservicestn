@@ -231,7 +231,7 @@ public class JsonResponseOutputterController_SADMOTF {
 				}else{
 				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
 						logger.warn("Before UPDATE ...");
-						List<SadexmfDao> list = new ArrayList<SadexmfDao>();
+						List<SadmotfDao> list = new ArrayList<SadmotfDao>();
 						
 						//do ADD
 						if("A".equals(mode)){
