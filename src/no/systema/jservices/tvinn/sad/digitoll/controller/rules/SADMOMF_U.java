@@ -24,7 +24,7 @@ public class SADMOMF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEmavd()>0 && dao.getEmpro()>0  ){ 
+			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>0  ){ 
 				//OK
 			} else if( StringUtils.isNotEmpty(dao.getEmuuid())){ 
 				//OK
@@ -42,7 +42,7 @@ public class SADMOMF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEmavd()>0 && dao.getEmpro()>0 && StringUtils.isNotEmpty(dao.getEmuuid()) && StringUtils.isNotEmpty(dao.getEmmid())  ){ 
+			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>0 && StringUtils.isNotEmpty(dao.getEmuuid()) && StringUtils.isNotEmpty(dao.getEmmid())  ){ 
 				//OK
 			}else{
 				retval = false;
@@ -58,7 +58,7 @@ public class SADMOMF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEmavd()>0 && dao.getEmpro()>0 ){ 
+			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>0 ){ 
 				//OK
 			} else if(StringUtils.isNotEmpty(dao.getEmuuid())){ 
 				//OK
@@ -81,7 +81,7 @@ public class SADMOMF_U {
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D
-			if( dao.getEmavd()>0 && dao.getEmpro()>0 && StringUtils.isNotEmpty(dao.getEmmid()) ){ 
+			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>0 && StringUtils.isNotEmpty(dao.getEmmid()) ){ 
 				//OK
 			}else{
 				retval = false;

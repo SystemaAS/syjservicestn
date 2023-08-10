@@ -55,11 +55,14 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from "  + TABLE_NAME+ " where emavd LIKE ?" );
+			sql.append(" select * from "  + TABLE_NAME+ " where emlnrt LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
-			if(dao.getEmavd()>0){ sql.append(" and emavd = ? " ); params.add(dao.getEmavd()); }
-			if(dao.getEmpro()>0){ sql.append(" and empro = ? "); params.add(dao.getEmpro()); }
+			//if(dao.getEmavd()>0){ sql.append(" and emavd = ? " ); params.add(dao.getEmavd()); }
+			//if(dao.getEmpro()>0){ sql.append(" and empro = ? "); params.add(dao.getEmpro()); }
+			
+			if(dao.getEmlnrt()>0){ sql.append(" and emlnrt = ? " ); params.add(dao.getEmlnrt()); }
+			if(dao.getEmlnrm()>0){ sql.append(" and emlnrm = ? "); params.add(dao.getEmlnrm()); }
 			if(StringUtils.isNotEmpty(dao.getEmsg())){ sql.append(" and efsg = ? "); params.add(dao.getEmsg()); }
 			if(dao.getEmdtr()>0){ sql.append(" and emdtr >= ? "); params.add(dao.getEmdtr()); }
 			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
@@ -236,12 +239,12 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = '', emmid = '', emst2 = ?, emst3 = '', emdtin = ? ");
 			//id's
-			sql.append(" WHERE emavd = ? ");
-			sql.append(" AND empro = ?" );
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ?" );
 			sql.append(" AND emmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmst2(), dao.getEmdtin(), dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmst2(), dao.getEmdtin(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -305,13 +308,13 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = ?, emmid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ? ");
 			//id's
-			sql.append(" WHERE emavd = ? ");
-			sql.append(" AND empro = ?" );
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ?" );
 			sql.append(" AND emmid = '' " );
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmdtin(), dao.getEmst(), dao.getEmst2(), dao.getEmst3(),  
-															dao.getEmavd(), dao.getEmpro() } );
+															dao.getEmlnrt(), dao.getEmlnrm() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -339,13 +342,13 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ?  ");
 			//id's
-			sql.append(" WHERE emavd = ? ");
-			sql.append(" AND empro = ?" );
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ?" );
 			sql.append(" AND emmid = ?" );
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmdtin(), dao.getEmst(), dao.getEmst2(), dao.getEmst3(),
-																dao.getEmavd(), dao.getEmpro(), dao.getEmmid() } );
+																dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
