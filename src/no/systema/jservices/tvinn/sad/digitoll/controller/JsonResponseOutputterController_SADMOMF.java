@@ -3,40 +3,24 @@ package no.systema.jservices.tvinn.sad.digitoll.controller;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Field;
 import java.util.*;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 import org.apache.commons.lang3.StringUtils;
  
 import org.slf4j.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOMF_U;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmomfDaoServices;
-import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEXMF_U;
-import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexhfDao;
-//import no.systema.jservices.tvinn.sad.expressfortolling2.controller.rules.SADEFFR_U;
-import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.entities.SadexmfDao;
-import no.systema.jservices.tvinn.sad.expressfortolling2.model.dao.services.SadexmfDaoServices;
-//import no.systema.jservices.tvinn.sad.z.maintenance.felles.controller.rules.SAD010R_U;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
 
 
@@ -232,7 +216,7 @@ public class JsonResponseOutputterController_SADMOMF {
 				}else{
 				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
 						logger.warn("Before UPDATE ...");
-						List<SadexmfDao> list = new ArrayList<SadexmfDao>();
+						List<SadmomfDao> list = new ArrayList<SadmomfDao>();
 						
 						//do ADD
 						if("A".equals(mode)){

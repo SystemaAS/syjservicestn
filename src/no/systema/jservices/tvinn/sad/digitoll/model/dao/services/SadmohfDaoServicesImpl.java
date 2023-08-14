@@ -9,7 +9,7 @@ import org.slf4j.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmohfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -18,23 +18,23 @@ import no.systema.main.util.DbErrorMessageManager;
  * @date Aug 2023
  * 
  */
-public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
-	private static Logger logger = LoggerFactory.getLogger(SadmomfDaoServicesImpl.class.getName());
+public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
+	private static Logger logger = LoggerFactory.getLogger(SadmohfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	private String SQL_WILD_CARD = "%";
-	private String TABLE_NAME = "sadmomf";
+	private String TABLE_NAME = "sadmohf";
 	/**
 	 * N/A
 	 */
 	public List getList(StringBuffer errorStackTrace){
-		List<SadmomfDao> retval = new ArrayList<SadmomfDao>();
+		List<SadmohfDao> retval = new ArrayList<SadmohfDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from " + TABLE_NAME+ " order by emdtr desc");
+			sql.append(" select * from " + TABLE_NAME+ " order by ehdts desc");
 			sql.append(" FETCH FIRST 500 ROWS ONLY ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(),  new BeanPropertyRowMapper(SadmomfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(),  new BeanPropertyRowMapper(SadmohfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -49,28 +49,29 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 * get a data set with where clause
 	 */
 	public List find(Object obj,StringBuffer errorStackTrace){
-		SadmomfDao dao = (SadmomfDao)obj;
-		List<SadmomfDao> retval = new ArrayList<SadmomfDao>();
+		SadmohfDao dao = (SadmohfDao)obj;
+		List<SadmohfDao> retval = new ArrayList<SadmohfDao>();
 		LinkedList<Object> params = new LinkedList<Object>();
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from "  + TABLE_NAME+ " where emlnrt LIKE ?" );
+			sql.append(" select * from "  + TABLE_NAME+ " where ehlnrh LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
 			//if(dao.getEmavd()>0){ sql.append(" and emavd = ? " ); params.add(dao.getEmavd()); }
 			//if(dao.getEmpro()>0){ sql.append(" and empro = ? "); params.add(dao.getEmpro()); }
 			
-			if(dao.getEmlnrt()>0){ sql.append(" and emlnrt = ? " ); params.add(dao.getEmlnrt()); }
-			if(dao.getEmlnrm()>0){ sql.append(" and emlnrm = ? "); params.add(dao.getEmlnrm()); }
-			if(StringUtils.isNotEmpty(dao.getEmsg())){ sql.append(" and emsg = ? "); params.add(dao.getEmsg()); }
-			if(dao.getEmdtr()>0){ sql.append(" and emdtr >= ? "); params.add(dao.getEmdtr()); }
+			if(dao.getEhlnrt()>0){ sql.append(" and ehlnrt = ? " ); params.add(dao.getEhlnrt()); }
+			if(dao.getEhlnrm()>0){ sql.append(" and ehlnrm = ? "); params.add(dao.getEhlnrm()); }
+			if(dao.getEhlnrh()>0){ sql.append(" and ehlnrh = ? "); params.add(dao.getEhlnrh()); }
+			
+			if(dao.getEhdts()>0){ sql.append(" and ehdts >= ? "); params.add(dao.getEhdts()); }
 			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
 			//if(dao.getEfeta()>0){ sql.append(" and emetad >= ? "); params.add(dao.getEmetad()); }
 			//if(dao.getOwn_efeta()>0){ sql.append(" and emetad <= ? "); params.add(dao.getOwn_efeta()); }
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadmomfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadmohfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -86,16 +87,16 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		List<SadmomfDao> retval = new ArrayList<SadmomfDao>();
+		List<SadmohfDao> retval = new ArrayList<SadmohfDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" select * from " + TABLE_NAME+ " where emmid = ? ");
+			sql.append(" select * from " + TABLE_NAME+ " where ehmid = ? ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmomfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmohfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -111,16 +112,16 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 * 
 	 */
 	public List findByLrn (String id, StringBuffer errorStackTrace ){
-		List<SadmomfDao> retval = new ArrayList<SadmomfDao>();
+		List<SadmohfDao> retval = new ArrayList<SadmohfDao>();
 		try{
 			StringBuffer sql = new StringBuffer();
 			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
 			//when issuing select * from ...
 			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
-			sql.append(" select * from "  + TABLE_NAME+ " where emuuid = ? ");
+			sql.append(" select * from "  + TABLE_NAME+ " where ehuuid = ? ");
 			
 			logger.warn(sql.toString());
-			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmomfDao.class));
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmohfDao.class));
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -233,18 +234,19 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		int retval = 0;
 		
 		try{
-			SadmomfDao dao = (SadmomfDao)daoObj;
+			SadmohfDao dao = (SadmohfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = '', emmid = '', emst2 = ?, emst3 = '', emdtin = ? ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = '', ehmid = '', ehst2 = ?, ehst3 = '', ehdts = ? ");
 			//id's
-			sql.append(" WHERE emlnrt = ? ");
-			sql.append(" AND emlnrm = ?" );
-			sql.append(" AND emmid = ? " );
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ?" );
+			sql.append(" AND ehlnrh = ?" );
+			sql.append(" AND ehmid = ? " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmst2(), dao.getEmdtin(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhst2(), dao.getEhdts(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -302,19 +304,20 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		int retval = 0;
 		
 		try{
-			SadmomfDao dao = (SadmomfDao)daoObj;
+			SadmohfDao dao = (SadmohfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = ?, emmid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ? ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehmid = ?, ehdts = ?, ehst = ?, ehst2 = ?, ehst3 = ? ");
 			//id's
-			sql.append(" WHERE emlnrt = ? ");
-			sql.append(" AND emlnrm = ?" );
-			sql.append(" AND emmid = '' " );
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ?" );
+			sql.append(" AND ehlnrh = ?" );
+			sql.append(" AND ehmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmdtin(), dao.getEmst(), dao.getEmst2(), dao.getEmst3(),  
-															dao.getEmlnrt(), dao.getEmlnrm() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),  
+															dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -336,19 +339,20 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		int retval = 0;
 		
 		try{
-			SadmomfDao dao = (SadmomfDao)daoObj;
+			SadmohfDao dao = (SadmohfDao)daoObj;
 			//DEBUG logger.warn(daoObj.toString());	
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ?  ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehdts = ?, ehst = ?, ehst2 = ?, ehst3 = ?  ");
 			//id's
-			sql.append(" WHERE emlnrt = ? ");
-			sql.append(" AND emlnrm = ?" );
-			sql.append(" AND emmid = ?" );
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ?" );
+			sql.append(" AND ehlnrh = ?" );
+			sql.append(" AND ehmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmdtin(), dao.getEmst(), dao.getEmst2(), dao.getEmst3(),
-																dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),
+																dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

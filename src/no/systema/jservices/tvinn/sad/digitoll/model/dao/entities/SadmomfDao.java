@@ -29,7 +29,8 @@ public class SadmomfDao implements IDao {
 	private Integer emknt= 0;  //sonet        8  0     transportør          
 	private String emrgt = "";    //tegn           17  org.nr transportør   
 	private Integer emknm = 0;    //sonet        8  0  mottaker             
-	private String emrgm = "";    //tegn           17  org.nr mottaker      
+	private String emrgm = "";    //tegn           17  org.nr mottaker  
+	private Integer emtppm = 0;   //sonet           1   Type of person
 	private String emnam = "";    //tegn           30  navn mottaker        
 	private String emna2m = "";   //tegn           30  subdivvision mottak. 
 	private String emad1m = "";   //tegn           30  gateadr. mottaker
@@ -41,7 +42,8 @@ public class SadmomfDao implements IDao {
 	private String ememm = "";    //tegn           50  ep.adr/tlf mottaker  
 	private String ememmt = "";   //tegn            2  kodetype mottaker    
 	private Integer emkns = 0;   //sonet        8  0   avsender             
-	private String emrgs = "";   //tegn           17   org.nr avsender      
+	private String emrgs = "";   //tegn           17   org.nr avsender
+	private Integer emtpps = 0;   //sonet           1   Type of person
 	private String emnas = "";   //tegn           30   navn avsender        
 	private String emna2s = "";   //tegn           30  subdivvision avsend. 
 	private String emad1s = "";   //tegn           30  gateadr. avsender    

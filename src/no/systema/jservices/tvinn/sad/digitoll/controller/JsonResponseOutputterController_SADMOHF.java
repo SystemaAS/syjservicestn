@@ -3,10 +3,8 @@ package no.systema.jservices.tvinn.sad.digitoll.controller;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Field;
 import java.util.*;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+
 
 import org.apache.commons.lang3.StringUtils;
  
@@ -19,20 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOTF_U;
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmotfDaoServices;
+import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOHF_U;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmohfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmohfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
-
-
-//rules
-
-
-
 
 
 /**
@@ -47,27 +38,27 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
  */
 
 @Controller
-public class JsonResponseOutputterController_SADMOTF {
-	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_SADMOTF.class.getName());
+public class JsonResponseOutputterController_SADMOHF {
+	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_SADMOHF.class.getName());
 	/**
 	 * FreeForm Source:
-	 * 	 File: 		SADMOTF
+	 * 	 File: 		SADMOHF
 	 * 	 Member: 	SAD DIGITOLL - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADMOTF.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADMOTF.do?user=OSCAR&etmid=whatever...
+	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADMOHF.do?user=OSCAR
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADMOHF.do?user=OSCAR&ehlnrh=3...
 	 * 
 	 */
-	@RequestMapping(value="syjsSADMOTF.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSADMOHF.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsRList( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsSADMOTF");
+			logger.warn("Inside syjsSADMOHF");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			logger.warn("User:" + user);
@@ -82,26 +73,26 @@ public class JsonResponseOutputterController_SADMOTF {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				//bind attributes is any
-				SadmotfDao dao = new SadmotfDao();
+				SadmohfDao dao = new SadmohfDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
 	            binder.bind(request);
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
 	            logger.warn("Before SELECT ...");
-	            if( StringUtils.isNotEmpty(dao.getEtmid()) ){
+	            if( StringUtils.isNotEmpty(dao.getEhmid()) ){
 					logger.warn("inside: findById");
-					list = this.sadmotfDaoServices.findById(dao.getEtmid(), dbErrorStackTrace);
+					list = this.sadmohfDaoServices.findById(dao.getEhmid(), dbErrorStackTrace);
 				}else if( this.isDoFind(dao) ){
 					logger.warn("inside: doFind");
-					list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
+					list = this.sadmohfDaoServices.find(dao, dbErrorStackTrace);
 				}else if( this.isDoFindByLrn(dao) ){
 					logger.warn("inside: doFindByLrn");
-					list = this.sadmotfDaoServices.findByLrn(dao.getEtuuid(), dbErrorStackTrace);
+					list = this.sadmohfDaoServices.findByLrn(dao.getEhuuid(), dbErrorStackTrace);
 				}else{
 					logger.warn("inside: getList (all)");
 					logger.warn("getList (all)");
-					list = this.sadmotfDaoServices.getList(dbErrorStackTrace);
+					list = this.sadmohfDaoServices.getList(dbErrorStackTrace);
 				}
 	            logger.warn("After SELECT ..." );
 	            
@@ -139,19 +130,20 @@ public class JsonResponseOutputterController_SADMOTF {
 	 * @param dao
 	 * @return
 	 */
-	private boolean isDoFind(SadmotfDao dao){
+	private boolean isDoFind(SadmohfDao dao){
 		boolean retval = false;
-		if(dao.getEtavd()>0 || dao.getEtpro()>0 || StringUtils.isNotEmpty(dao.getEtsg())){
+		if(dao.getEhlnrt()>0 || dao.getEhlnrm()>0 || dao.getEhlnrh()>0 ){
 			retval = true;
-		}else if(dao.getEtdtr()>0 || dao.getEtetad()>0) {
+		}//else if(dao.getEmdtr()>0 || dao.getEmetad()>0) {
+		else if(dao.getEhdts()>0 ) {
 			retval = true;
 		}
 		
 		return retval;
 	}
-	private boolean isDoFindByLrn(SadmotfDao dao){
+	private boolean isDoFindByLrn(SadmohfDao dao){
 		boolean retval = false;
-		if(StringUtils.isNotEmpty(dao.getEtuuid())){
+		if(StringUtils.isNotEmpty(dao.getEhuuid())){
 			retval = true;
 		}
 		
@@ -160,10 +152,10 @@ public class JsonResponseOutputterController_SADMOTF {
 	/**
 	 * 
 	 * Update Database DML operations
-	 * File: 	SADMOTF
-	 * Member: 	SADMOTF Ekspressfortolling - UPDATE SPECIFIC
+	 * File: 	SADMOHF
+	 * Member: 	SADMOHF Ekspressfortolling - UPDATE SPECIFIC
 	 * 
-	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSADMOTF_U.do?user=OSCAR&mode=U/A/D
+	 * @Example UPDATE: http://gw.systema.no:8080/syjservicestn/syjsSADMOHF_U.do?user=OSCAR&mode=U/A/D
 	 *
 	 * @param session
 	 * @param request
@@ -171,14 +163,14 @@ public class JsonResponseOutputterController_SADMOTF {
 	 * 
 	 */
 	
-	@RequestMapping(value="syjsSADMOTF_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSADMOHF_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsSADMOTF_U.do");
+			logger.warn("Inside syjsSADMOHF_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -190,21 +182,24 @@ public class JsonResponseOutputterController_SADMOTF {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadmotfDao dao = new SadmotfDao();
+			SadmohfDao dao = new SadmohfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            logger.warn("avd:" + dao.getEtavd().toString());
-            logger.warn("pro:" + dao.getEtpro().toString());
+            logger.warn("avd:" + dao.getEhavd().toString());
+            logger.warn("pro:" + dao.getEhpro().toString());
+            logger.warn("lnrt:" + dao.getEhlnrt().toString());
+            logger.warn("lnrm:" + dao.getEhlnrm().toString());
+            logger.warn("lnrh:" + dao.getEhlnrh().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             //logger.warn("emst2:" + dao.getEmst2());
-            logger.warn("etuuid:" + dao.getEtuuid());
-            logger.warn("etmid:" + dao.getEtmid());
+            logger.warn("etuuid:" + dao.getEhuuid());
+            logger.warn("etmid:" + dao.getEhmid());
             
             
             
             //rules
-            SADMOTF_U rulerLord = new SADMOTF_U();
+            SADMOHF_U rulerLord = new SADMOHF_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
@@ -220,7 +215,7 @@ public class JsonResponseOutputterController_SADMOTF {
 				}else{
 				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
 						logger.warn("Before UPDATE ...");
-						List<SadmotfDao> list = new ArrayList<SadmotfDao>();
+						List<SadmohfDao> list = new ArrayList<SadmohfDao>();
 						
 						//do ADD
 						if("A".equals(mode)){
@@ -237,7 +232,7 @@ public class JsonResponseOutputterController_SADMOTF {
 						}else if("ULM".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
-								dmlRetval = this.sadmotfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
+								dmlRetval = this.sadmohfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on UPDATE LRN/MRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
@@ -247,7 +242,7 @@ public class JsonResponseOutputterController_SADMOTF {
 						}else if("UL".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrn(dao, userName, mode)){
-								dmlRetval = this.sadmotfDaoServices.updateLrn(dao, dbErrorStackTrace);
+								dmlRetval = this.sadmohfDaoServices.updateLrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on UPDATE LRN: invalid (rulerLord)?  Try to check: <DaoServices>.update";
@@ -259,7 +254,7 @@ public class JsonResponseOutputterController_SADMOTF {
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
 								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
-								dmlRetval = this.sadmotfDaoServices.deleteLight(dao, dbErrorStackTrace);
+								dmlRetval = this.sadmohfDaoServices.deleteLight(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on DELETE-LIGHT invalid (rulerLord)?  Try to check: <DaoServices>.update";
@@ -312,7 +307,7 @@ public class JsonResponseOutputterController_SADMOTF {
 	//WIRED SERVICES
 	//----------------
 	@Autowired
-	private SadmotfDaoServices sadmotfDaoServices;
+	private SadmohfDaoServices sadmohfDaoServices;
 	
 	@Autowired
 	private BridfDaoServices bridfDaoServices;
