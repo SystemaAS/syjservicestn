@@ -24,7 +24,7 @@ public class SADMOTF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEtavd()>0 && dao.getEtpro()>0  ){ 
+			if( dao.getEtlnrt()>0){ 
 				//OK
 			} else if( StringUtils.isNotEmpty(dao.getEtuuid())){ 
 				//OK
@@ -42,7 +42,7 @@ public class SADMOTF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao
 			
-			if( dao.getEtavd()>0 && dao.getEtpro()>0 && StringUtils.isNotEmpty(dao.getEtuuid()) && StringUtils.isNotEmpty(dao.getEtmid())  ){ 
+			if( dao.getEtlnrt()>0 && StringUtils.isNotEmpty(dao.getEtuuid()) && StringUtils.isNotEmpty(dao.getEtmid())  ){ 
 				//OK
 			}else{
 				retval = false;
@@ -58,7 +58,7 @@ public class SADMOTF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEtavd()>0 && dao.getEtpro()>0 ){ 
+			if( dao.getEtlnrt()>0 ){ 
 				//OK
 			} else if(StringUtils.isNotEmpty(dao.getEtuuid())){ 
 				//OK
@@ -81,7 +81,7 @@ public class SADMOTF_U {
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D
-			if( dao.getEtavd()>0 && dao.getEtpro()>0 && StringUtils.isNotEmpty(dao.getEtmid()) ){ 
+			if( dao.getEtlnrt()>0 && StringUtils.isNotEmpty(dao.getEtmid()) ){ 
 				//OK
 			}else{
 				retval = false;

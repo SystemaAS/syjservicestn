@@ -63,10 +63,10 @@ public class SadmohfDao implements IDao  {
 	private String ehpbm = ""; //      tegn           15      15       792        begge    postbox mottaker    
 	private String ehemm = ""; //      tegn           50      50       807        begge    ep.adr/tlf mottaker 
 	private String ehemmt = ""; //     tegn            2       2       857        begge    kodetype mottaker   
-	private String emlka = ""; //      tegn            2       2       859        begge    land of acceptance  
-	private String emsda = ""; //      tegn            5       5       861        begge    place of acceptance 
-	private String emsdat = ""; //     tegn           30      30       866        begge    place of delivery   
-	private String emlkd = ""; //      tegn            2       2       896        begge    land of delivery     
-	private String emsdd = ""; //      tegn            5       5       898        begge    place of delivery    
-	private String emsddt = ""; //     tegn           30      30       903        begge    place of delivery
+	private String ehlka = ""; //      tegn            2       2       859        begge    land of acceptance  
+	private String ehsda = ""; //      tegn            5       5       861        begge    place of acceptance 
+	private String ehsdat = ""; //     tegn           30      30       866        begge    place of delivery   
+	private String ehlkd = ""; //      tegn            2       2       896        begge    land of delivery     
+	private String ehsdd = ""; //      tegn            5       5       898        begge    place of delivery    
+	private String ehsddt = ""; //     tegn           30      30       903        begge    place of delivery
 }

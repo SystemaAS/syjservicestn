@@ -141,7 +141,8 @@ public class JsonResponseOutputterController_SADMOTF {
 	 */
 	private boolean isDoFind(SadmotfDao dao){
 		boolean retval = false;
-		if(dao.getEtavd()>0 || dao.getEtpro()>0 || StringUtils.isNotEmpty(dao.getEtsg())){
+		//if(dao.getEtavd()>0 || dao.getEtpro()>0 || StringUtils.isNotEmpty(dao.getEtsg())){
+		if(dao.getEtlnrt()>0 || StringUtils.isNotEmpty(dao.getEtsg())){
 			retval = true;
 		}else if(dao.getEtdtr()>0 || dao.getEtetad()>0) {
 			retval = true;
@@ -193,8 +194,7 @@ public class JsonResponseOutputterController_SADMOTF {
 			SadmotfDao dao = new SadmotfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            logger.warn("avd:" + dao.getEtavd().toString());
-            logger.warn("pro:" + dao.getEtpro().toString());
+            logger.warn("lnrt:" + dao.getEtavd().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             //logger.warn("emst2:" + dao.getEmst2());
