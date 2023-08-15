@@ -187,14 +187,14 @@ public class JsonResponseOutputterController_SADMOHF {
             binder.bind(request);
             logger.warn("avd:" + dao.getEhavd().toString());
             logger.warn("pro:" + dao.getEhpro().toString());
-            logger.warn("lnrt:" + dao.getEhlnrt().toString());
-            logger.warn("lnrm:" + dao.getEhlnrm().toString());
-            logger.warn("lnrh:" + dao.getEhlnrh().toString());
+            logger.warn("ehlnrt:" + dao.getEhlnrt().toString());
+            logger.warn("ehlnrm:" + dao.getEhlnrm().toString());
+            logger.warn("ehlnrh:" + dao.getEhlnrh().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             //logger.warn("emst2:" + dao.getEmst2());
-            logger.warn("etuuid:" + dao.getEhuuid());
-            logger.warn("etmid:" + dao.getEhmid());
+            logger.warn("ehuuid:" + dao.getEhuuid());
+            logger.warn("ehmid:" + dao.getEhmid());
             
             
             

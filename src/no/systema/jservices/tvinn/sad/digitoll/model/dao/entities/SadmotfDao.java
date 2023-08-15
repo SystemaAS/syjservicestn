@@ -49,8 +49,8 @@ public class SadmotfDao implements IDao {
 	private String etems = ""; // varchar(50), Epostadr/tlf
 	private String etemst = ""; // varchar(2), Epostadr/tlf typ (TE-EM) 
 	
-	private Integer etknt = 0; // numeric(8),  Representative
-	private String etrgt = ""; // varchar(17), Orgnr Repres.
+	private Integer etknt = 0; // numeric(8),  Carrier
+	private String etrgt = ""; // varchar(17), Orgnr Carrier.
 	private String etnat = ""; // varchar(30), Navn
 	private String etna2t = ""; // varchar(30), SubDivvision
 	private String etad1t = ""; // varchar(30), Gateadr.
