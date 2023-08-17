@@ -84,7 +84,8 @@ public class JsonResponseOutputterController_SADMOTF {
 				//bind attributes is any
 				SadmotfDao dao = new SadmotfDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
-	            binder.bind(request);
+				binder.bind(request);
+				logger.info("...bind params:" + dao.toString());
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
@@ -145,6 +146,8 @@ public class JsonResponseOutputterController_SADMOTF {
 		if(dao.getEtlnrt()>0 || StringUtils.isNotEmpty(dao.getEtsg())){
 			retval = true;
 		}else if(dao.getEtdtr()>0 || dao.getEtetad()>0) {
+			retval = true;
+		}else if(dao.getEtavd()>0 || dao.getEtpro()>0) { //usually from web-GUI
 			retval = true;
 		}
 		

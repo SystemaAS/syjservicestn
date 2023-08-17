@@ -61,9 +61,9 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			sql.append(" select * from " + this.TABLE_NAME + " where etlnrt LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
-			if(dao.getEtavd()>0){ sql.append(" and etlnrt = ? " ); params.add(dao.getEtlnrt()); }
-			//if(dao.getEtavd()>0){ sql.append(" and etavd = ? " ); params.add(dao.getEtavd()); }
-			//if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
+			if(dao.getEtlnrt()>0){ sql.append(" and etlnrt = ? " ); params.add(dao.getEtlnrt()); }
+			if(dao.getEtavd()>0){ sql.append(" and etavd = ? " ); params.add(dao.getEtavd()); }
+			if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
 			if(StringUtils.isNotEmpty(dao.getEtsg())){ sql.append(" and etsg = ? "); params.add(dao.getEtsg()); }
 			if(dao.getEtdtr()>0){ sql.append(" and etdtr >= ? "); params.add(dao.getEtdtr()); }
 			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
