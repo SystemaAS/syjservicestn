@@ -29,6 +29,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 	 */
 	public List getList(StringBuffer errorStackTrace){
 		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
+		
 		try{
 			StringBuffer sql = new StringBuffer();
 			sql.append(" select * from " + this.TABLE_NAME + " order by etdtr desc");
@@ -46,6 +47,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		}
 		return retval;
 	}
+	
 	/**
 	 * get a data set with where clause
 	 */
