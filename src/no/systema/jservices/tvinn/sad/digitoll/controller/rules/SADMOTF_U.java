@@ -80,8 +80,8 @@ public class SADMOTF_U {
 	public boolean isValidInputForDelete(SadmotfDao dao, String user, String mode){
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
-			//check dao for uuid and status=D
-			if( dao.getEtlnrt()>0 && StringUtils.isNotEmpty(dao.getEtmid()) ){ 
+			//check dao for lnrt and status=D
+			if( dao.getEtlnrt()>0 ){ 
 				//OK
 			}else{
 				retval = false;
