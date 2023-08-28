@@ -13,6 +13,7 @@ public class SadmotfDao implements IDao {
 	private Integer etpro = 0; // numeric(8) default 0, 
 	private Integer etlnrt = 0; // numeric(7) default 0, Løpenummer (KEY)
 	private Integer etdtr = 0; // numeric(8) default 0, Reg.dato
+	private Integer etdtr_to = 0; //only for search pupposes (from...to)
 	private String etsg = ""; // varchar(3)
 	private String etst2 = ""; // varchar(1) , Status om manifest
 	private String etuuid = ""; // varchar(36), LRN
@@ -21,6 +22,7 @@ public class SadmotfDao implements IDao {
 	private Integer etdtin = 0; // numeric(8) , Innsendingsdato
 	
 	private Integer etetad = 0; // numeric(8) default 0, ETA date
+	private Integer etetad_to = 0; //only for search pupposes (from...to)
 	private Integer etetat = 0; // numeric(6) default 0, ETA tid 
 	private Integer etshed = 0; // numeric(8) default 0, Sheduled avg-dt
 	private Integer etshet = 0; // numeric(6) default 0, Sheduled avg-tid

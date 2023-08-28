@@ -65,14 +65,19 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			if(dao.getEtavd()>0){ sql.append(" and etavd = ? " ); params.add(dao.getEtavd()); }
 			if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
 			if(StringUtils.isNotEmpty(dao.getEtsg())){ sql.append(" and etsg = ? "); params.add(dao.getEtsg()); }
+			//dates
 			if(dao.getEtdtr()>0){ 
 				sql.append(" and etdtr >= ? "); params.add(dao.getEtdtr()); 
 			}
-			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
+			if(dao.getEtdtr_to()>0){ 
+				sql.append(" and etdtr <= ? "); params.add(dao.getEtdtr_to()); 
+			}
 			if(dao.getEtetad()>0){ 
 				sql.append(" and etetad >= ? "); params.add(dao.getEtetad()); 
 			}
-			//if(dao.getOwn_efeta()>0){ sql.append(" and emetad <= ? "); params.add(dao.getOwn_efeta()); }
+			if(dao.getEtetad_to()>0){ 
+				sql.append(" and etetad <= ? "); params.add(dao.getEtetad_to()); 
+			}
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadmotfDao.class));
