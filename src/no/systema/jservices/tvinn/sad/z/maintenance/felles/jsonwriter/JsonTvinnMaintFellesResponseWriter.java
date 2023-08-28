@@ -144,6 +144,37 @@ public class JsonTvinnMaintFellesResponseWriter extends JsonResponseWriter{
 		
 		return sb.toString();
 	}
+	/**
+	 * 
+	 * @param user
+	 * @param status
+	 * @param id
+	 * @return
+	 */
+	public String setJsonSimpleValidResult(String user, String status, Integer id){
+		StringBuffer sb = new StringBuffer();
+		//build the return JSON
+		sb.append(JsonConstants.JSON_START);
+		sb.append(this.setFieldQuotes("user") + ":" + this.setFieldQuotes(user) + ",");
+		sb.append(this.setFieldQuotes("errMsg") + ":" + this.setFieldQuotes("") + ",");
+		sb.append(this.setFieldQuotes("list") + ":");
+		sb.append(JsonConstants.JSON_OPEN_LIST);
+		//START RECORD
+		sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
+		sb.append(JsonConstants.JSON_QUOTES + "status" + JsonConstants.JSON_QUOTES + ":" + JsonConstants.JSON_QUOTES + status + JsonConstants.JSON_QUOTES);
+		sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
+		//NEW RECORD
+		sb.append(JsonConstants.JSON_RECORD_SEPARATOR);
+		sb.append(JsonConstants.JSON_OPEN_LIST_RECORD);
+		sb.append(JsonConstants.JSON_QUOTES + "id" + JsonConstants.JSON_QUOTES + ":" + id );
+		sb.append(JsonConstants.JSON_CLOSE_LIST_RECORD);
+		
+		//END LIST OF RECORDS
+		sb.append(JsonConstants.JSON_CLOSE_LIST);
+		sb.append(JsonConstants.JSON_END);
+		
+		return sb.toString();
+	}
 	
 	/**
 	 * 

@@ -57,8 +57,7 @@ public class SADMOTF_U {
 		
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
-			
-			if( dao.getEtlnrt()>0 ){ 
+			if( dao.getEtlnrt()>= 0  ){ //Insert = 0, Update > 0
 				//OK
 			} else if(StringUtils.isNotEmpty(dao.getEtuuid())){ 
 				//OK

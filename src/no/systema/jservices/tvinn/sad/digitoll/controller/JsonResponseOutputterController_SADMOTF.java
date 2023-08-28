@@ -197,7 +197,7 @@ public class JsonResponseOutputterController_SADMOTF {
 			SadmotfDao dao = new SadmotfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            logger.warn("lnrt:" + dao.getEtavd().toString());
+            logger.warn("etlnrt:" + dao.getEtlnrt().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             //logger.warn("emst2:" + dao.getEmst2());
@@ -233,24 +233,19 @@ public class JsonResponseOutputterController_SADMOTF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
+								logger.info(mode + " " + " INSERT...");
 								dmlRetval = this.sadmotfDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						
 						}else if("U".equals(mode)){
-							list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
-							//check if there is already such a code. If it does, stop the update
-							if(list!=null && list.size()>0){
-								//write JSON error output
-								errMsg = "ERROR on UPDATE: record exists already!!" + list.toString();
-								status = "error";
-								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-							}else{
-								dmlRetval = this.sadmotfDaoServices.update(dao, dbErrorStackTrace);
-							}
+							logger.info("########_AAA:" + dao.toString());
+							dmlRetval = this.sadmotfDaoServices.update(dao, dbErrorStackTrace);
+							
 						
 						}else if("ULM".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
+								logger.info(mode + " " + " UPDATE LRN/MRN...");
 								dmlRetval = this.sadmotfDaoServices.updateLrnMrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
@@ -262,6 +257,7 @@ public class JsonResponseOutputterController_SADMOTF {
 						}else if("UL".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrn(dao, userName, mode)){
+								logger.info(mode + " " + " UPDATE LRN...");
 								dmlRetval = this.sadmotfDaoServices.updateLrn(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
@@ -273,6 +269,7 @@ public class JsonResponseOutputterController_SADMOTF {
 						}else if("DL".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								logger.info(mode + " " + " DELETE LIGHT...");
 								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
 								dmlRetval = this.sadmotfDaoServices.deleteLight(dao, dbErrorStackTrace);
 							}else {
@@ -300,7 +297,7 @@ public class JsonResponseOutputterController_SADMOTF {
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}else{
 					//OK UPDATE
-					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dmlRetval));
 				}
 				
 			}else{
