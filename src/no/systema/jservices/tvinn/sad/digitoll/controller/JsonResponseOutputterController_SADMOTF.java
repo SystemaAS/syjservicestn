@@ -233,12 +233,13 @@ public class JsonResponseOutputterController_SADMOTF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
-								logger.info(mode + " " + " INSERT...");
+								logger.info("MODE:" + mode + " " + " INSERT...");
 								dmlRetval = this.sadmotfDaoServices.insert(dao, dbErrorStackTrace);
 							}
 						
 						}else if("U".equals(mode)){
-							logger.info("########_AAA:" + dao.toString());
+							logger.debug("########_AAA:" + dao.toString());
+							logger.info("MODE:" + mode + " " + " UPDATE...");
 							dmlRetval = this.sadmotfDaoServices.update(dao, dbErrorStackTrace);
 							
 						
@@ -296,8 +297,12 @@ public class JsonResponseOutputterController_SADMOTF {
 					status = "error";
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}else{
-					//OK UPDATE
-					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dmlRetval));
+					//OK INSERT/UPDATE
+					if("A".equals(mode)){
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dmlRetval));
+					}else {
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+					}
 				}
 				
 			}else{

@@ -189,8 +189,9 @@ public class JsonResponseOutputterController_SADMOMF {
 			SadmomfDao dao = new SadmomfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            logger.warn("avd:" + dao.getEmavd().toString());
-            logger.warn("pro:" + dao.getEmpro().toString());
+            logger.warn("emlnrt:" + dao.getEmlnrt().toString());
+            logger.warn("emlnrm:" + dao.getEmlnrm().toString());
+            
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
             //logger.warn("emst2:" + dao.getEmst2());
@@ -220,7 +221,9 @@ public class JsonResponseOutputterController_SADMOMF {
 						
 						//do ADD
 						if("A".equals(mode)){
-							/*list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+							if(dao.getEmlnrm()>0) { //if this happens then there is something wrong since this will be an UPDATE ... (just in case)
+								list = this.sadmomfDaoServices.find(dao, dbErrorStackTrace);
+							}
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -228,8 +231,15 @@ public class JsonResponseOutputterController_SADMOMF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
-								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
-							}*/
+								logger.info("MODE:" + mode + " " + " INSERT...");
+								dmlRetval = this.sadmomfDaoServices.insert(dao, dbErrorStackTrace);
+							}
+						}else if("U".equals(mode)){
+							logger.debug("########_AAA:" + dao.toString());
+							logger.info("MODE:" + mode + " " + " UPDATE...");
+							dmlRetval = this.sadmomfDaoServices.update(dao, dbErrorStackTrace);
+							
+						
 						}else if("ULM".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
@@ -281,8 +291,12 @@ public class JsonResponseOutputterController_SADMOMF {
 					status = "error";
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}else{
-					//OK UPDATE
-					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+					//OK INSERT/UPDATE
+					if("A".equals(mode)){
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dao.getEmlnrt(), dmlRetval ));
+					}else {
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+					}
 				}
 				
 			}else{

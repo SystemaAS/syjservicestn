@@ -194,10 +194,12 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
+		
 		//in order to get the id for a "find"
 		if(retval >= 0) {
 			retval = nextEtlnrt;
 		}
+		
 		return retval;
 		
 	}

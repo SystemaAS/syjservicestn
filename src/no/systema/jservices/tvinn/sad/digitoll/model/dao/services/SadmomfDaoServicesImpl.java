@@ -63,8 +63,13 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			
 			if(dao.getEmlnrt()>0){ sql.append(" and emlnrt = ? " ); params.add(dao.getEmlnrt()); }
 			if(dao.getEmlnrm()>0){ sql.append(" and emlnrm = ? "); params.add(dao.getEmlnrm()); }
+			if(dao.getEmavd()>0){ sql.append(" and emavd = ? " ); params.add(dao.getEmavd()); }
+			if(dao.getEmpro()>0){ sql.append(" and empro = ? "); params.add(dao.getEmpro()); }
 			if(StringUtils.isNotEmpty(dao.getEmsg())){ sql.append(" and emsg = ? "); params.add(dao.getEmsg()); }
-			if(dao.getEmdtr()>0){ sql.append(" and emdtr >= ? "); params.add(dao.getEmdtr()); }
+			//dates
+			if(dao.getEmdtr()>0){ 
+				sql.append(" and emdtr >= ? "); params.add(dao.getEmdtr()); 
+			}
 			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
 			//if(dao.getEfeta()>0){ sql.append(" and emetad >= ? "); params.add(dao.getEmetad()); }
 			//if(dao.getOwn_efeta()>0){ sql.append(" and emetad <= ? "); params.add(dao.getOwn_efeta()); }
@@ -142,28 +147,40 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO
-		/*
+		
+		int nextEmlnrm = -1;
+		
 		try{
-			SadexmfDao dao = (SadexmfDao)daoObj;
+			SadmomfDao dao = (SadmomfDao)daoObj;
+			nextEmlnrm =  getNextEmlnrm( dao.getEmlnrt());
+			dao.setEmlnrm(nextEmlnrm);		
+			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadexmf (TODO-->>, efst, efavd, efpro, efdtr, efsg, efst2, eftsd, efst3, efdtin, ");
-			sql.append(" efeta, efetm, efata, efatm, ef3039e, efeid, efknd, efrgd, eftm, eftmt, ");
-			sql.append(" efktyp, efktypt, efklk, efkmrk, efplk, efpmrk, efsjaf, efsjae, efsjalk, efsjadt, efbekr ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,? ) ");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( emavd, empro, emlnrt, emlnrm, ");
+			sql.append(" emdtr, emsg, emst, emst2, emuuid, emmid, emst3, emdtin, ematdd, emcn, emvkb, ");
+			sql.append(" emknm, emrgm, emtppm,emnam, emad1m, empnm, empsm, emlkm, empbm, ememm, ememmt,  ");
+			sql.append(" emkns, emrgs, emtpps, emnas, emad1s, empns, empss, emlks, empbs, emems, ememst,  ");
+			sql.append(" emdkm, emdkmt, emc1ty, emc1ps, emc1ss, emc1id, emc2ty, emc2ps, emc2ss, emc2id,  emc3ty, emc3ps, emc3ss, emc3id,  ");
+			sql.append(" emlkl, emsdl, emsdlt, emlku, emsdu, emsdut, emlkd, emsdd, emsddt ) ");
+			
+			sql.append(" VALUES ( ?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,? ) ");
+			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getEfuuid(),
-					dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
-					dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
-					dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
-					dao.getEfbekr(),
-
-					} );
+			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(),		
+			dao.getEmdtr(), dao.getEmsg(), dao.getEmst(), dao.getEmst2(), dao.getEmuuid(), dao.getEmmid(), dao.getEmst3(), dao.getEmdtin(), dao.getEmatdd(), dao.getEmcn(), dao.getEmvkb(),
+			dao.getEmknm(), dao.getEmrgm(), dao.getEmtppm(), dao.getEmnam(), dao.getEmad1m(), dao.getEmpnm(), dao.getEmpsm(), dao.getEmlkm(), dao.getEmpbm(), dao.getEmemm(), dao.getEmemmt(),
+			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmad1s(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
+			dao.getEmdkm(), dao.getEmdkmt(), dao.getEmc1ty(), dao.getEmc1ps(), dao.getEmc1ss(), dao.getEmc1id(), dao.getEmc2ty(), dao.getEmc2ps(), dao.getEmc2ss(), dao.getEmc2id(), dao.getEmc3ty(), dao.getEmc3ps(), dao.getEmc3ss(), dao.getEmc3id(),
+			dao.getEmlkl(), dao.getEmsdl(), dao.getEmsdlt(), dao.getEmlku(), dao.getEmsdu(), dao.getEmsdut(), dao.getEmlkd(), dao.getEmsdd(), dao.getEmsddt(),
 			
+			} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -172,7 +189,12 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
+		//in order to get the id for a "find"
+		if(retval >= 0) {
+			retval = nextEmlnrm;
+		}
+		
 		return retval;
 		
 	}
@@ -181,28 +203,32 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO
-		/*
+		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadmomfDao dao = (SadmomfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" UPDATE sadeff SET efst = ?, efavd = ?, efpro = ?, efdtr = ?, efsg = ?, efst2 = ?, eftsd = ?, efst3 = ?, efdtin = ?,  ");
-			sql.append(" efeta = ? , efetm = ? , efata = ? , efatm = ? , ef3039e = ?, efeid = ?, efknd = ?, efrgd = ?, eftm = ?, eftmt = ?, ");
-			sql.append(" efktyp = ? , efktypt = ? , efklk = ? , efkmrk = ? , efplk = ?, efpmrk = ?, efsjaf = ?, efsjae = ?, efsjalk = ?, efsjadt = ?, ");
-			sql.append(" efbekr = ?  ");
+			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET emavd = ?, empro = ?,  ");
+			sql.append(" emdtr = ?, emsg = ?, emst = ?, emst2 = ?, emuuid = ?, emmid = ?, emst3 = ?, emdtin = ?, ematdd = ?, emcn = ?, emvkb = ?, ");
+			sql.append(" emknm = ? , emrgm = ? , emtppm = ? ,emnam = ?, emad1m = ?, empnm = ?, empsm = ?, emlkm = ?, empbm = ?, ememm = ?, ememmt = ?, ");
+			sql.append(" emkns = ? , emrgs = ? , emtpps = ? , emnas = ?, emad1s = ?, empns = ?, empss = ?, emlks = ?, empbs = ?, emems = ?, ememst = ?, ");
+			sql.append(" emdkm = ? , emdkmt = ? , emc1ty = ? , emc1ps = ? , emc1ss = ?, emc1id = ?, emc2ty = ? , emc2ps = ? , emc2ss = ?, emc2id = ?,  emc3ty = ? , emc3ps = ? , emc3ss = ?, emc3id = ?, ");
+			sql.append(" emlkl = ? , emsdl = ? , emsdlt = ?, emlku = ?, emsdu = ?, emsdut = ?, emlkd = ?, emsdd = ?, emsddt = ? ");
+			
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE emlnrt = ? AND emlnrm = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
-						dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
-						dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
-						dao.getEfbekr(),
-						//id's
-						dao.getEfuuid(),
-						} );
+			dao.getEmavd(), dao.getEmpro(),		
+			dao.getEmdtr(), dao.getEmsg(), dao.getEmst(), dao.getEmst2(), dao.getEmuuid(), dao.getEmmid(), dao.getEmst3(), dao.getEmdtin(), dao.getEmatdd(), dao.getEmcn(), dao.getEmvkb(),
+			dao.getEmknm(), dao.getEmrgm(), dao.getEmtppm(), dao.getEmnam(), dao.getEmad1m(), dao.getEmpnm(), dao.getEmpsm(), dao.getEmlkm(), dao.getEmpbm(), dao.getEmemm(), dao.getEmemmt(),
+			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmad1s(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
+			dao.getEmdkm(), dao.getEmdkmt(), dao.getEmc1ty(), dao.getEmc1ps(), dao.getEmc1ss(), dao.getEmc1id(), dao.getEmc2ty(), dao.getEmc2ps(), dao.getEmc2ss(), dao.getEmc2id(), dao.getEmc3ty(), dao.getEmc3ps(), dao.getEmc3ss(), dao.getEmc3id(),
+			dao.getEmlkl(), dao.getEmsdl(), dao.getEmsdlt(), dao.getEmlku(), dao.getEmsdu(), dao.getEmsdut(), dao.getEmlkd(), dao.getEmsdd(), dao.getEmsddt(),
+			//id's
+			dao.getEmlnrt(), dao.getEmlnrm(),
+			} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -212,7 +238,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 		
 	}
@@ -359,6 +385,20 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		}
 		
 		return retval;
+	}
+	
+	private int getNextEmlnrm(Integer emlnrt) {
+		int retval = 0;
+	
+		StringBuffer sql = new StringBuffer();
+		//DEBUG --> logger.info("mydebug");
+		sql.append(" SELECT max(emlnrm)+1 from " + this.TABLE_NAME  );
+		sql.append(" WHERE emlnrt = ? " );
+		
+		retval = this.jdbcTemplate.queryForObject( sql.toString(), new Object[] { emlnrt }, Integer.class);
+			
+		return retval;
+
 	}
 	
 	/**                                                                                                  
