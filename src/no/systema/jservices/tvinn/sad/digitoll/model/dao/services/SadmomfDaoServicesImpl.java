@@ -157,14 +157,14 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( emavd, empro, emlnrt, emlnrm, ");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( emavd, empro, emlnrt, emlnrm, emknt, emrgt, ");
 			sql.append(" emdtr, emsg, emst, emst2, emuuid, emmid, emst3, emdtin, ematdd, emcn, emvkb, ");
 			sql.append(" emknm, emrgm, emtppm,emnam, emad1m, empnm, empsm, emlkm, empbm, ememm, ememmt,  ");
 			sql.append(" emkns, emrgs, emtpps, emnas, emad1s, empns, empss, emlks, empbs, emems, ememst,  ");
 			sql.append(" emdkm, emdkmt, emc1ty, emc1ps, emc1ss, emc1id, emc2ty, emc2ps, emc2ss, emc2id,  emc3ty, emc3ps, emc3ss, emc3id,  ");
 			sql.append(" emlkl, emsdl, emsdlt, emlku, emsdu, emsdut, emlkd, emsdd, emsddt ) ");
 			
-			sql.append(" VALUES ( ?,?,?,?, ");
+			sql.append(" VALUES ( ?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
@@ -173,7 +173,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(),		
+			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmknt(), dao.getEmrgt(),		
 			dao.getEmdtr(), dao.getEmsg(), dao.getEmst(), dao.getEmst2(), dao.getEmuuid(), dao.getEmmid(), dao.getEmst3(), dao.getEmdtin(), dao.getEmatdd(), dao.getEmcn(), dao.getEmvkb(),
 			dao.getEmknm(), dao.getEmrgm(), dao.getEmtppm(), dao.getEmnam(), dao.getEmad1m(), dao.getEmpnm(), dao.getEmpsm(), dao.getEmlkm(), dao.getEmpbm(), dao.getEmemm(), dao.getEmemmt(),
 			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmad1s(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
@@ -208,7 +208,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			SadmomfDao dao = (SadmomfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET emavd = ?, empro = ?,  ");
+			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET emavd = ?, empro = ?, emknt = ?, emrgt = ?, ");
 			sql.append(" emdtr = ?, emsg = ?, emst = ?, emst2 = ?, emuuid = ?, emmid = ?, emst3 = ?, emdtin = ?, ematdd = ?, emcn = ?, emvkb = ?, ");
 			sql.append(" emknm = ? , emrgm = ? , emtppm = ? ,emnam = ?, emad1m = ?, empnm = ?, empsm = ?, emlkm = ?, empbm = ?, ememm = ?, ememmt = ?, ");
 			sql.append(" emkns = ? , emrgs = ? , emtpps = ? , emnas = ?, emad1s = ?, empns = ?, empss = ?, emlks = ?, empbs = ?, emems = ?, ememst = ?, ");
@@ -220,7 +220,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-			dao.getEmavd(), dao.getEmpro(),		
+			dao.getEmavd(), dao.getEmpro(), dao.getEmknt(), dao.getEmrgt(),		
 			dao.getEmdtr(), dao.getEmsg(), dao.getEmst(), dao.getEmst2(), dao.getEmuuid(), dao.getEmmid(), dao.getEmst3(), dao.getEmdtin(), dao.getEmatdd(), dao.getEmcn(), dao.getEmvkb(),
 			dao.getEmknm(), dao.getEmrgm(), dao.getEmtppm(), dao.getEmnam(), dao.getEmad1m(), dao.getEmpnm(), dao.getEmpsm(), dao.getEmlkm(), dao.getEmpbm(), dao.getEmemm(), dao.getEmemmt(),
 			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmad1s(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
