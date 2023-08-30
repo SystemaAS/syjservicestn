@@ -81,7 +81,7 @@ public class SADMOMF_U {
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D
-			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>0 && StringUtils.isNotEmpty(dao.getEmmid()) ){ 
+			if( (dao.getEmlnrt()>0 && dao.getEmlnrm()>0) || StringUtils.isNotEmpty(dao.getEmmid()) ){ 
 				//OK
 			}else{
 				retval = false;

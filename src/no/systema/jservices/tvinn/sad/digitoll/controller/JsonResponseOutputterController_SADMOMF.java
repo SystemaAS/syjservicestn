@@ -194,7 +194,8 @@ public class JsonResponseOutputterController_SADMOMF {
             
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
-            //logger.warn("emst2:" + dao.getEmst2());
+            logger.warn("emst:" + dao.getEmst());
+            logger.warn("emst2:" + dao.getEmst2());
             logger.warn("etuuid:" + dao.getEmuuid());
             logger.warn("etmid:" + dao.getEmmid());
             
@@ -207,7 +208,7 @@ public class JsonResponseOutputterController_SADMOMF {
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						//dmlRetval = this.sadexmfDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
+						dmlRetval = this.sadmomfDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -269,6 +270,18 @@ public class JsonResponseOutputterController_SADMOMF {
 							}else {
 								//write JSON error output
 								errMsg = "ERROR on DELETE-LIGHT invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							 
+						}else if("US".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
+								dmlRetval = this.sadmomfDaoServices.updateStatus(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on Update Status invalid (rulerLord)?  Try to check: <DaoServices>.update";
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}

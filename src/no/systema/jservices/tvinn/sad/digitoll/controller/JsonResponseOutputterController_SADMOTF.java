@@ -225,7 +225,9 @@ public class JsonResponseOutputterController_SADMOTF {
 						
 						//do ADD
 						if("A".equals(mode)){
-							list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
+							if(dao.getEtlnrt()>0) { //if this happens then there is something wrong since this will be an UPDATE ... (just in case)
+								list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
+							}
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output

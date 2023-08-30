@@ -147,13 +147,21 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		
 		int nextEmlnrm = -1;
 		
+		logger.info("before INSERT");
 		try{
+			
 			SadmomfDao dao = (SadmomfDao)daoObj;
-			nextEmlnrm =  getNextEmlnrm( dao.getEmlnrt());
-			dao.setEmlnrm(nextEmlnrm);		
+			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
+			List list = this.find(daoObj, errorStackTrace);
+			logger.info(list.toString());
+			if(list==null || list.size()<=0 ) {
+				nextEmlnrm = 1;
+			}else {
+				nextEmlnrm =  getNextEmlnrm( dao.getEmlnrt());
+			}
+			dao.setEmlnrm(nextEmlnrm);
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
@@ -194,7 +202,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		if(retval >= 0) {
 			retval = nextEmlnrm;
 		}
-		
+		logger.info("after INSERT --> retval:" + nextEmlnrm);
 		return retval;
 		
 	}
@@ -244,10 +252,44 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	}
 	/**
 	 * DELETE
+	 * This record is not used at the moment.
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
-		//NA --> refer to update status. There is never a true DELETE
-		return 0;
+		int retval = 0;
+		
+		try{
+			SadmomfDao dao = (SadmomfDao)daoObj;
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append(" DELETE fromss "  + this.TABLE_NAME );
+			if(StringUtils.isNotEmpty(dao.getEmmid())) {
+				sql.append(" WHERE emmid = ? ");
+				logger.info(sql.toString() + " emmid:" + dao.getEmmid());
+				
+				//params
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getEmmid(),
+				} );
+			}else {
+				sql.append(" WHERE emlnrt = ? AND emlnrm = ? ");
+				logger.info(sql.toString() + " emlnrt:" + dao.getEmlnrt() + " emlnrm:" + dao.getEmlnrm());
+				
+				//params
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getEmlnrt(), dao.getEmlnrm(),
+				} );
+			}
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in update Sadl:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
 	}
 	
 	/**
@@ -290,21 +332,22 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	 * @param errorStackTrace
 	 * @return
 	 */
-	/*
+	
 	public int updateStatus(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadmomfDao dao = (SadmomfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadeff set efst = ? ");
+			sql.append(" UPDATE sadmomf set emst = ? ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmst(), dao.getEmlnrt(), dao.getEmlnrm() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -316,7 +359,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		
 		return retval;
 	}
-	*/
+	
 	/**
 	 * 
 	 * @param daoObj
@@ -389,13 +432,14 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	
 	private int getNextEmlnrm(Integer emlnrt) {
 		int retval = 0;
-	
+		logger.info("emlnrt for NextSeed:" + emlnrt);
+		
 		StringBuffer sql = new StringBuffer();
 		//DEBUG --> logger.info("mydebug");
 		sql.append(" SELECT max(emlnrm)+1 from " + this.TABLE_NAME  );
 		sql.append(" WHERE emlnrt = ? " );
 		
-		retval = this.jdbcTemplate.queryForObject( sql.toString(), new Object[] { emlnrt }, Integer.class);
+		retval = this.jdbcTemplate.queryForObject( sql.toString(), Integer.class, emlnrt );
 			
 		return retval;
 
