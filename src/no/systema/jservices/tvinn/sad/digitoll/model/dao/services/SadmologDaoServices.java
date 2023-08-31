@@ -9,5 +9,5 @@ import java.util.*;
  * 
  */
 public interface SadmologDaoServices extends IDaoServices { 
-	
+	public List find(Object dao,StringBuffer errorStackTrace);
 }

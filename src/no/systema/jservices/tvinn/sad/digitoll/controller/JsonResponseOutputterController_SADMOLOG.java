@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
 
- 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmologDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmologDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
 
@@ -38,18 +39,14 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
 public class JsonResponseOutputterController_SADMOLOG {
 	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_SADMOLOG.class.getName());
 	/**
-	 * FreeForm Source:
-	 * 	 File: 		SADMOLOG
-	 * 	 Member: 	SAD Ekpressfortolling - LOG errors
-	 *  
+	 * File: 	SADMOLOG
+	 * Member: 	SADMOLOG Digitoll - SELECT SPECIFIC Error
 	 * 
-	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADMOLOG.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADMOLOG.do?user=OSCAR&emmid=whatever...
+	 * @Example SELECT: http://gw.systema.no:8080/syjservicestn/syjsSADMOLOG.do?user=OSCAR&ellnrt=...
+	 *
 	 * 
-	 */
-	//NA
-	/*
+	 *
+	*/
 	@RequestMapping(value="syjsSADMOLOG.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsRList( HttpSession session, HttpServletRequest request) {
@@ -57,7 +54,7 @@ public class JsonResponseOutputterController_SADMOLOG {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsSADEXHF");
+			logger.warn("Inside syjsSADMOLOG");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			logger.warn("User:" + user);
@@ -72,24 +69,21 @@ public class JsonResponseOutputterController_SADMOLOG {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				//bind attributes is any
-				SadexhfDao dao = new SadexhfDao();
+				SadmologDao dao = new SadmologDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
 	            binder.bind(request);
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
 	            logger.info("Before SELECT ...");
-	            if( StringUtils.isNotEmpty(dao.getEhmid()) ){
-					logger.warn("findById");
-					list = this.sadexhfDaoServices.findById(dao.getEhmid(), dbErrorStackTrace);
-					
-				}else if( this.isDoFind(dao) ){
+	            
+				if( this.isDoFind(dao) ){
 					logger.warn("find");
-					list = this.sadexhfDaoServices.find(dao, dbErrorStackTrace);
+					list = this.sadmologDaoServices.find(dao, dbErrorStackTrace);
 					
 				}else{
 					logger.warn("getList (all)");
-					list = this.sadexhfDaoServices.getList(dbErrorStackTrace);
+					list = this.sadmologDaoServices.getList(dbErrorStackTrace);
 				}
 
 				//process result
@@ -121,7 +115,7 @@ public class JsonResponseOutputterController_SADMOLOG {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	
 	/**
 	 * 
@@ -224,6 +218,17 @@ public class JsonResponseOutputterController_SADMOLOG {
 		return sb.toString();
 	}
 	
+	private boolean isDoFind(SadmologDao dao){
+		boolean retval = false;
+		if(dao.getEllnrt()>0 || dao.getEllnrm()>0 || dao.getEllnrh()>0){
+			retval = true;
+		}//else if(dao.getEmdtr()>0 || dao.getEmetad()>0) {
+		else if(dao.getEldate()>0 ) {
+			retval = true;
+		}
+		
+		return retval;
+	}
 	//----------------
 	//WIRED SERVICES
 	//----------------

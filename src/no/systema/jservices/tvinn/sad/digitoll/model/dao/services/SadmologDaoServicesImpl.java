@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmologDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -34,8 +35,41 @@ public class SadmologDaoServicesImpl implements SadmologDaoServices {
 	 * get a data set with where clause
 	 */
 	public List find(Object obj,StringBuffer errorStackTrace){
-		//NA
-		return null;
+		SadmologDao dao = (SadmologDao)obj;
+		List<SadmologDao> retval = new ArrayList<SadmologDao>();
+		LinkedList<Object> params = new LinkedList<Object>();
+		
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select * from sadmolog where ellnrt LIKE ?" );
+			params.add(SQL_WILD_CARD);
+			//walk through the filter fields
+			//if(dao.getEmavd()>0){ sql.append(" and emavd = ? " ); params.add(dao.getEmavd()); }
+			//if(dao.getEmpro()>0){ sql.append(" and empro = ? "); params.add(dao.getEmpro()); }
+			
+			if(dao.getEllnrt()>0){ sql.append(" and ellnrt = ? " ); params.add(dao.getEllnrt()); }
+			//include 0 
+			sql.append(" and ellnrm = ? "); params.add(dao.getEllnrm()); 
+			sql.append(" and ellnrh = ? "); params.add(dao.getEllnrh()); 
+			
+			if(dao.getElavd()>0){ sql.append(" and elavd = ? " ); params.add(dao.getElavd()); }
+			if(dao.getElpro()>0){ sql.append(" and elpro = ? "); params.add(dao.getElpro()); }
+			//dates
+			/*if(dao.getEldate()>0){ 
+				sql.append(" and emdtr >= ? "); params.add(dao.getEldate()); 
+			}*/
+			logger.warn(sql.toString());
+			logger.warn(params.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadmologDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
 	}
 	
 	/**
