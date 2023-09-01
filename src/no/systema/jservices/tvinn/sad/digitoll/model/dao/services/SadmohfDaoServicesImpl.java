@@ -210,28 +210,32 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO
-		/*
+		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadmohfDao dao = (SadmohfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" UPDATE sadeff SET efst = ?, efavd = ?, efpro = ?, efdtr = ?, efsg = ?, efst2 = ?, eftsd = ?, efst3 = ?, efdtin = ?,  ");
-			sql.append(" efeta = ? , efetm = ? , efata = ? , efatm = ? , ef3039e = ?, efeid = ?, efknd = ?, efrgd = ?, eftm = ?, eftmt = ?, ");
-			sql.append(" efktyp = ? , efktypt = ? , efklk = ? , efkmrk = ? , efplk = ?, efpmrk = ?, efsjaf = ?, efsjae = ?, efsjalk = ?, efsjadt = ?, ");
-			sql.append(" efbekr = ?  ");
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET  ehavd = ?, ehpro = ?, ehtdn = ?,   ");
+			sql.append(" ehst = ?, ehst2 = ?, ehst3 = ?, ehuuid = ?, ehmid = ?, ehdts = ?, ehtms = ?, ehcnin = ?, ehvkb = ?, ehntk = ?, ");
+			sql.append(" ehvt = ?, ehdkh = ?, ehdkht = ?, ehpr = ?, ehprt = ?, ehupr = ?, ehuprt = ?, ehrg = ?, eh0068a = ?, eh0068b = ?, ehtrnr = ?,  ");
+			sql.append(" ehtrty = ?, ehetyp = ?, ehetypt = ?, eheid = ?, ehkns = ?, ehrgs = ?, ehtpps = ?, ehnas = ?, ehna2s = ?, ehad1s = ?, ehnrs = ?,  ");
+			sql.append(" ehpns = ?, ehpss = ?, ehlks = ?, ehpbs = ?, ehems = ?, ehemst = ?, ehknm = ?, ehrgm = ?, ehtppm = ?, ehnam = ?,  ehna2m = ?, ehad1m = ?, ehnrm = ?, ehpnm = ?,  ");
+			sql.append(" ehpsm = ?, ehlkm = ?, ehpbm = ?, ehemm = ?, ehemmt = ?, ehlka = ?, ehsda = ?, ehsdat = ?, ehlkd = ?, ehsdd = ?, ehsddt = ?  ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE ehlnrt = ? AND ehlnrm = ? AND ehlnrh = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
-						dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
-						dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
-						dao.getEfbekr(),
-						//id's
-						dao.getEfuuid(),
-						} );
+			dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), 		
+			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(),
+			dao.getEhvt(), dao.getEhdkh(), dao.getEhdkht(), dao.getEhpr(), dao.getEhprt(), dao.getEhupr(), dao.getEhuprt(), dao.getEhrg(), dao.getEh0068a(), dao.getEh0068b(), dao.getEhtrnr(),
+			dao.getEhtrty(), dao.getEhetyp(), dao.getEhetypt(), dao.getEheid(), dao.getEhkns(), dao.getEhrgs(), dao.getEhtpps(), dao.getEhnas(), dao.getEhna2s(), dao.getEhad1s(), dao.getEhnrs(),
+			dao.getEhpns(), dao.getEhpss(), dao.getEhlks(), dao.getEhpbs(), dao.getEhems(), dao.getEhemst(), dao.getEhknm(), dao.getEhrgm(), dao.getEhtppm(), dao.getEhnam(), dao.getEhna2m(), dao.getEhad1m(), dao.getEhnrm(), dao.getEhpnm(),
+			dao.getEhpsm(), dao.getEhlkm(), dao.getEhpbm(), dao.getEhemm(), dao.getEhemmt(), dao.getEhlka(), dao.getEhsda(), dao.getEhsdat(), dao.getEhlkd(), dao.getEhsdd(),  dao.getEhsddt(),
+			//id's
+			dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(),
+			} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -241,16 +245,48 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 		
 	}
 	/**
 	 * DELETE
+	 * This method is not used at the moment.
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
-		//NA --> refer to update status. There is never a true DELETE
-		return 0;
+		int retval = 0;
+		try{
+			SadmohfDao dao = (SadmohfDao)daoObj;
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append(" DELETE from "  + this.TABLE_NAME );
+			if(StringUtils.isNotEmpty(dao.getEhmid())) {
+				sql.append(" WHERE ehmid = ? ");
+				logger.info(sql.toString() + " ehmid:" + dao.getEhmid());
+				
+				//params
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getEhmid(),
+				} );
+			}else {
+				sql.append(" WHERE ehlnrt = ? AND ehlnrm = ? AND ehlnrh = ? ");
+				logger.info(sql.toString() + " ehlnrt:" + dao.getEhlnrt() + " ehlnrm:" + dao.getEhlnrm() + " ehlnrh:" + dao.getEhlnrh());
+				
+				//params
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(),
+				} );
+			}
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in update Sadl:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		return retval; 
 	}
 	
 	/**

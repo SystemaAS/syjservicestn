@@ -252,7 +252,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 	}
 	/**
 	 * DELETE
-	 * This record is not used at the moment.
+	 * This method is not used at the moment.
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
@@ -261,7 +261,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			SadmomfDao dao = (SadmomfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" DELETE fromss "  + this.TABLE_NAME );
+			sql.append(" DELETE from "  + this.TABLE_NAME );
 			if(StringUtils.isNotEmpty(dao.getEmmid())) {
 				sql.append(" WHERE emmid = ? ");
 				logger.info(sql.toString() + " emmid:" + dao.getEmmid());
