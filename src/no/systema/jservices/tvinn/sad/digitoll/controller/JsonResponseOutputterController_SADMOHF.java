@@ -192,7 +192,8 @@ public class JsonResponseOutputterController_SADMOHF {
             logger.warn("ehlnrh:" + dao.getEhlnrh().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
-            //logger.warn("emst2:" + dao.getEmst2());
+            logger.warn("ehst:" + dao.getEhst());
+            logger.warn("ehst2:" + dao.getEhst2());
             logger.warn("ehuuid:" + dao.getEhuuid());
             logger.warn("ehmid:" + dao.getEhmid());
             
@@ -219,7 +220,10 @@ public class JsonResponseOutputterController_SADMOHF {
 						
 						//do ADD
 						if("A".equals(mode)){
-							/*list = this.sadeffDaoServices.findById(dao.getEfuuid(), dbErrorStackTrace);
+							logger.warn("Before INSERT ...");
+							if(dao.getEhlnrh()>0) { //if this happens then there is something wrong since this will be an UPDATE ... (just in case)
+								list = this.sadmohfDaoServices.find(dao, dbErrorStackTrace);
+							}
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
 								//write JSON error output
@@ -227,8 +231,15 @@ public class JsonResponseOutputterController_SADMOHF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}else{
-								dmlRetval = this.sadeffDaoServices.insert(dao, dbErrorStackTrace);
-							}*/
+								logger.info("MODE:" + mode + " " + " INSERT...");
+								dmlRetval = this.sadmohfDaoServices.insert(dao, dbErrorStackTrace);
+							}
+						}else if("U".equals(mode)){
+							logger.debug("########_AAA:" + dao.toString());
+							logger.info("MODE:" + mode + " " + " UPDATE...");
+							dmlRetval = this.sadmohfDaoServices.update(dao, dbErrorStackTrace);
+							
+						
 						}else if("ULM".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForUpdateLrnMrn(dao, userName, mode)){
@@ -280,7 +291,13 @@ public class JsonResponseOutputterController_SADMOHF {
 					status = "error";
 					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 				}else{
-					//OK UPDATE
+					//OK INSERT/UPDATE
+					if("A".equals(mode)){
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dao.getEhlnrt(), dao.getEhlnrm(), dmlRetval ));
+					}else {
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+					}
+					
 					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
 				}
 				

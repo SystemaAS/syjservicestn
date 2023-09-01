@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmohfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -64,6 +65,8 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			if(dao.getEhlnrt()>0){ sql.append(" and ehlnrt = ? " ); params.add(dao.getEhlnrt()); }
 			if(dao.getEhlnrm()>0){ sql.append(" and ehlnrm = ? "); params.add(dao.getEhlnrm()); }
 			if(dao.getEhlnrh()>0){ sql.append(" and ehlnrh = ? "); params.add(dao.getEhlnrh()); }
+			if(dao.getEhavd()>0){ sql.append(" and ehavd = ? " ); params.add(dao.getEhavd()); }
+			if(dao.getEhpro()>0){ sql.append(" and ehpro = ? "); params.add(dao.getEhpro()); }
 			
 			if(dao.getEhdts()>0){ sql.append(" and ehdts >= ? "); params.add(dao.getEhdts()); }
 			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
@@ -143,28 +146,48 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO
-		/*
+		int nextEhlnrh = -1;
+		
+		logger.info("before INSERT");
 		try{
-			SadexmfDao dao = (SadexmfDao)daoObj;
+			
+			SadmohfDao dao = (SadmohfDao)daoObj;
+			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
+			List list = this.find(daoObj, errorStackTrace);
+			logger.info(list.toString());
+			if(list==null || list.size()<=0 ) {
+				nextEhlnrh = 1;
+			}else {
+				nextEhlnrh =  getNextEhlnrh( dao.getEhlnrt(), dao.getEhlnrm() );
+			}
+			dao.setEhlnrh(nextEhlnrh);
+			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadexmf (TODO-->>, efst, efavd, efpro, efdtr, efsg, efst2, eftsd, efst3, efdtin, ");
-			sql.append(" efeta, efetm, efata, efatm, ef3039e, efeid, efknd, efrgd, eftm, eftmt, ");
-			sql.append(" efktyp, efktypt, efklk, efkmrk, efplk, efpmrk, efsjaf, efsjae, efsjalk, efsjadt, efbekr ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( ehavd, ehpro, ehtdn, ehlnrt, ehlnrm, ehlnrh,  ");
+			sql.append(" ehst, ehst2, ehst3, ehuuid, ehmid, ehdts, ehtms, ehcnin, ehvkb, ehntk, ");
+			sql.append(" ehvt, ehdkh, ehdkht, ehpr, ehprt, ehupr, ehuprt, ehrg, eh0068a, eh0068b, ehtrnr,  ");
+			sql.append(" ehtrty, ehetyp, ehetypt, eheid, ehkns, ehrgs, ehtpps, ehnas, ehna2s, ehad1s, ehnrs,  ");
+			sql.append(" ehpns, ehpss, ehlks, ehpbs, ehems, ehemst, ehknm, ehrgm, ehtppm, ehnam,  ehna2m, ehad1m, ehnrm, ehpnm,  ");
+			sql.append(" ehpsm, ehlkm, ehpbm, ehemm, ehemmt, ehlka, ehsda, ehsdat, ehlkd, ehsdd, ehsddt ) ");
+			
+			sql.append(" VALUES ( ?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,? ) ");
+			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getEfuuid(),
-					dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
-					dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
-					dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
-					dao.getEfbekr(),
-
-					} );
+			dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(),		
+			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(),
+			dao.getEhvt(), dao.getEhdkh(), dao.getEhdkht(), dao.getEhpr(), dao.getEhprt(), dao.getEhupr(), dao.getEhuprt(), dao.getEhrg(), dao.getEh0068a(), dao.getEh0068b(), dao.getEhtrnr(),
+			dao.getEhtrty(), dao.getEhetyp(), dao.getEhetypt(), dao.getEheid(), dao.getEhkns(), dao.getEhrgs(), dao.getEhtpps(), dao.getEhnas(), dao.getEhna2s(), dao.getEhad1s(), dao.getEhnrs(),
+			dao.getEhpns(), dao.getEhpss(), dao.getEhlks(), dao.getEhpbs(), dao.getEhems(), dao.getEhemst(), dao.getEhknm(), dao.getEhrgm(), dao.getEhtppm(), dao.getEhnam(), dao.getEhna2m(), dao.getEhad1m(), dao.getEhnrm(), dao.getEhpnm(),
+			dao.getEhpsm(), dao.getEhlkm(), dao.getEhpbm(), dao.getEhemm(), dao.getEhemmt(), dao.getEhlka(), dao.getEhsda(), dao.getEhsdat(), dao.getEhlkd(), dao.getEhsdd(),  dao.getEhsddt(),
 			
+			} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -173,7 +196,12 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
+		//in order to get the id for a "find"
+		if(retval >= 0) {
+			retval = nextEhlnrh;
+		}
+		logger.info("after INSERT --> retval:" + nextEhlnrh);
 		return retval;
 		
 	}
@@ -363,6 +391,26 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 		}
 		
 		return retval;
+	}
+	/**
+	 * 
+	 * @param ehlnrt
+	 * @param ehlnrm
+	 * @return
+	 */
+	private int getNextEhlnrh(Integer ehlnrt, Integer ehlnrm) {
+		int retval = 0;
+		logger.info("ehlnrt/ehlnrm for NextSeed:" + ehlnrt + "/" + ehlnrm);
+		
+		StringBuffer sql = new StringBuffer();
+		//DEBUG --> logger.info("mydebug");
+		sql.append(" SELECT max(ehlnrh)+1 from " + this.TABLE_NAME  );
+		sql.append(" WHERE ehlnrt = ? AND ehlnrm = ? " );
+		
+		retval = this.jdbcTemplate.queryForObject( sql.toString(), new Object[] { ehlnrt, ehlnrm },  Integer.class );
+			
+		return retval;
+
 	}
 	
 	/**                                                                                                  

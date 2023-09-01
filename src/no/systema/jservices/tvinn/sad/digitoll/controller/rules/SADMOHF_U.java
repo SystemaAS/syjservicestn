@@ -58,7 +58,7 @@ public class SADMOHF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEhlnrt()>0 && dao.getEhlnrm()>0 && dao.getEhlnrh()>0){ 
+			if( dao.getEhlnrt()>0 && dao.getEhlnrm()>0 && dao.getEhlnrh()>=0){ 
 				//OK
 			} else if(StringUtils.isNotEmpty(dao.getEhuuid())){ 
 				//OK
@@ -81,7 +81,7 @@ public class SADMOHF_U {
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
 			//check dao for uuid and status=D
-			if( dao.getEhlnrt()>0 && dao.getEhlnrm()>0 && dao.getEhlnrh()>0 && StringUtils.isNotEmpty(dao.getEhmid()) ){ 
+			if( (dao.getEhlnrt()>0 && dao.getEhlnrm()>0 && dao.getEhlnrh()>0) || StringUtils.isNotEmpty(dao.getEhmid()) ){ 
 				//OK
 			}else{
 				retval = false;

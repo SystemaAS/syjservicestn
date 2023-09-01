@@ -58,7 +58,7 @@ public class SADMOMF_U {
 		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
 			//check dao
 			
-			if( dao.getEmlnrt()>=0 && dao.getEmlnrm()>=0 ){ 
+			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>=0 ){ 
 				//OK
 			} else if(StringUtils.isNotEmpty(dao.getEmuuid())){ 
 				//OK
