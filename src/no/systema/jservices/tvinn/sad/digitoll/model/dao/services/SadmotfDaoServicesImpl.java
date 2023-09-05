@@ -9,6 +9,7 @@ import org.slf4j.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
@@ -304,21 +305,20 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 	 * @param errorStackTrace
 	 * @return
 	 */
-	/*
+	
 	public int updateStatus(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadmotfDao dao = (SadmotfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadeff set efst = ? ");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etst = ? ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
-			
+			sql.append(" WHERE etlnrt = ? ");
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst(), dao.getEtlnrt() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -330,7 +330,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		
 		return retval;
 	}
-	*/
+	
 	/**
 	 * 
 	 * @param daoObj

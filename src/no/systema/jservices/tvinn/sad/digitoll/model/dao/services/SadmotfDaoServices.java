@@ -14,6 +14,7 @@ public interface SadmotfDaoServices extends IDaoServices {
 	public int updateLrnMrn(Object daoObj, StringBuffer errorStackTrace);
 	public int updateLrn(Object daoObj, StringBuffer errorStackTrace);
 	public int deleteLight(Object daoObj, StringBuffer errorStackTrace);
+	public int updateStatus(Object daoObj, StringBuffer errorStackTrace);
 	
 	
 }
