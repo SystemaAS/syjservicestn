@@ -330,21 +330,23 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 	 * @param errorStackTrace
 	 * @return
 	 */
-	/*
 	public int updateStatus(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadmohfDao dao = (SadmohfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadeff set efst = ? ");
+			sql.append(" UPDATE sadmohf set ehst = ? ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ? ");
+			sql.append(" AND ehlnrh = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhst(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh() } );
+			
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -356,7 +358,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 		
 		return retval;
 	}
-	*/
+	
 	/**
 	 * 
 	 * @param daoObj
