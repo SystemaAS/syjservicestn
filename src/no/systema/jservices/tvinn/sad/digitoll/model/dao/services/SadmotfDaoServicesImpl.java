@@ -313,11 +313,12 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			SadmotfDao dao = (SadmotfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
+			logger.info("mydebug..." + "etst=" + dao.getEtst() + " etlnrt=" + dao.getEtlnrt());
 			sql.append(" UPDATE " + this.TABLE_NAME + " set etst = ? ");
 			//id's
 			sql.append(" WHERE etlnrt = ? ");
 			//params
+			logger.info(sql.toString());
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst(), dao.getEtlnrt() } );
 			
 		}catch(Exception e){

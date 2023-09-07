@@ -36,7 +36,37 @@ public class SadmohfDao implements IDao  {
 	private String ehtrty = ""; //     tegn            4       4       341        begge    ref.type cude   
 	private String ehetyp = ""; //     tegn            2       2       345        begge    type            
 	private String ehetypt = ""; //    tegn           30      30       347        begge    type tekst      
-	private String eheid = ""; //      tegn           18      18       377        begge    eksport id      
+	private String eheid = ""; //      tegn           18      18       377        begge    eksport id    
+	
+	private String ehetyp2 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt2 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid2 = ""; //      tegn           18      18       377        begge    eksport id  
+	
+	private String ehetyp3 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt3 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid3 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp4 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt4 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid4 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp5 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt5 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid5 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp6 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt6 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid6 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp7 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt7 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid7 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp8 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt8 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid8 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp9 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt9 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid9 = ""; //      tegn           18      18       377        begge    eksport id  
+	private String ehetyp10 = ""; //     tegn            2       2       345        begge    type            
+	private String ehetypt10 = ""; //    tegn           30      30       347        begge    type tekst      
+	private String eheid10 = ""; //      tegn           18      18       377        begge    eksport id  
+	
 	private Integer ehkns = 0; //      sonet        8  0       8       395        begge    avsender        
 	private String ehrgs = ""; //      tegn           17      17       403        begge    org.nr avsender
 	private Integer ehtpps = 0;   //sonet           1   Type of person

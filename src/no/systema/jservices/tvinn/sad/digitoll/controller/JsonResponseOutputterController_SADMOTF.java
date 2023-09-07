@@ -200,7 +200,7 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("etlnrt:" + dao.getEtlnrt().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
-            //logger.warn("emst2:" + dao.getEmst2());
+            logger.warn("etst:" + dao.getEtst());
             logger.warn("etuuid:" + dao.getEtuuid());
             logger.warn("etmid:" + dao.getEtmid());
             
