@@ -160,7 +160,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			
 			SadmotfDao dao = (SadmotfDao)daoObj;
 			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
-			List list = this.find(daoObj, errorStackTrace);
+			List list = this.getList(errorStackTrace);
 			logger.info(list.toString());
 			if(list==null || list.size()<=0 ) {
 				nextEtlnrt = 1;
