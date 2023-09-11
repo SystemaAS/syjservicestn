@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
+import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOHF_U;
+import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOIF_U;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmohfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmoifDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmoifDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
@@ -127,6 +130,113 @@ public class JsonResponseOutputterController_SADMOIF {
 		return sb.toString();
 	}
 	
+	
+	@RequestMapping(value="syjsSADMOIF_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String syjsR_U( HttpSession session, HttpServletRequest request) {
+		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
+		StringBuffer sb = new StringBuffer();
+		
+		try{
+			logger.warn("Inside syjsSADMOIF_U.do");
+			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			String user = request.getParameter("user");
+			String mode = request.getParameter("mode");
+			//Check ALWAYS user in BRIDF
+            String userName = this.bridfDaoServices.findNameById(user);
+            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
+            String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+			
+			//bind attributes is any
+			SadmoifDao dao = new SadmoifDao();
+			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+            binder.bind(request);
+            logger.warn("avd:" + dao.getEiavd().toString());
+            logger.warn("pro:" + dao.getEipro().toString());
+            logger.warn("eilnrt:" + dao.getEilnrt().toString());
+            logger.warn("eilnrm:" + dao.getEilnrm().toString());
+            logger.warn("eilnrh:" + dao.getEilnrh().toString());
+            logger.warn("user:" + user);
+            logger.warn("mode:" + mode);
+            logger.warn("eist:" + dao.getEist());
+            
+            
+            
+            
+            //rules
+            SADMOIF_U rulerLord = new SADMOIF_U();
+			//Start processing now
+			if(userName!=null && !"".equals(userName)){
+				int dmlRetval = 0;
+				if("D".equals(mode)){
+					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+						dmlRetval = this.sadmoifDaoServices.delete(dao, dbErrorStackTrace);
+					}else{
+						//write JSON error output
+						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}
+				}else{
+				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
+						logger.warn("Before UPDATE ...");
+						//do ADD
+						if("A".equals(mode)){
+							logger.info("MODE:" + mode + " " + " INSERT...");
+							dmlRetval = this.sadmoifDaoServices.insert(dao, dbErrorStackTrace);
+							
+						}else if("U".equals(mode)){
+							logger.info("MODE:" + mode + " " + " UPDATE...");
+							dmlRetval = this.sadmoifDaoServices.update(dao, dbErrorStackTrace);
+							 
+						}
+						
+				  }else{
+						//write JSON error output
+						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				  }
+				}
+				//----------------------------------
+				//check returns from dml operations
+				//----------------------------------
+				if(dmlRetval<0){
+					//write JSON error output
+					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+					status = "error";
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}else{
+					//OK INSERT/UPDATE
+					if("A".equals(mode)){
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dao.getEilnrt(), dao.getEilnrm(), dao.getEilnrh(), dmlRetval ));
+					}else {
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+					}
+					
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+				}
+				
+			}else{
+				//write JSON error output
+				errMsg = "ERROR on UPDATE";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+			
+		}catch(Exception e){
+			//write std.output error output
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+		session.invalidate();
+		return sb.toString();
+	}
 	//----------------
 	//WIRED SERVICES
 	//----------------

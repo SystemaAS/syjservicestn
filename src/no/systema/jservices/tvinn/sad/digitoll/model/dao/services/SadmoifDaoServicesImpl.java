@@ -9,6 +9,7 @@ import org.slf4j.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmohfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmoifDao;
 import no.systema.main.util.DbErrorMessageManager;
 
@@ -128,28 +129,37 @@ public class SadmoifDaoServicesImpl implements SadmoifDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO
-		/*
+		int nextEili = -1;
+		
+		logger.info("before INSERT");
 		try{
-			SadexmfDao dao = (SadexmfDao)daoObj;
+			
+			SadmoifDao dao = (SadmoifDao)daoObj;
+			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
+			List list = this.find(daoObj, errorStackTrace);
+			logger.info(list.toString());
+			if(list==null || list.size()<=0 ) {
+				nextEili= 1;
+			}else {
+				nextEili =  getNextEili( dao.getEilnrt(), dao.getEilnrm(), dao.getEilnrh() );
+			}
+			dao.setEili(nextEili);
+			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO sadexmf (TODO-->>, efst, efavd, efpro, efdtr, efsg, efst2, eftsd, efst3, efdtin, ");
-			sql.append(" efeta, efetm, efata, efatm, ef3039e, efeid, efknd, efrgd, eftm, eftmt, ");
-			sql.append(" efktyp, efktypt, efklk, efkmrk, efplk, efpmrk, efsjaf, efsjae, efsjalk, efsjadt, efbekr ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,? ) ");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( eist, eipro, eiavd, eitdn, eili,  ");
+			sql.append(" eilnrt, eilnrm, eilnrh, eibl, eistk, eivnt, eirge, eiroe) ");
+			
+			sql.append(" VALUES ( ?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,? ) ");
+			
+			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getEfuuid(),
-					dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
-					dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
-					dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
-					dao.getEfbekr(),
-
-					} );
+			dao.getEist(), dao.getEipro(), dao.getEiavd(), dao.getEitdn(), dao.getEili(), 		
+			dao.getEilnrt(), dao.getEilnrm(), dao.getEilnrh(), dao.getEibl(), dao.getEistk(), dao.getEivnt(), dao.getEirge(), dao.getEiroe(), 
 			
+			} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -158,7 +168,12 @@ public class SadmoifDaoServicesImpl implements SadmoifDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
+		//in order to get the id for a "find"
+		if(retval >= 0) {
+			retval = nextEili;
+		}
+		logger.info("after INSERT --> retval:" + nextEili);
 		return retval;
 		
 	}
@@ -167,28 +182,24 @@ public class SadmoifDaoServicesImpl implements SadmoifDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO
-		/*
+		
 		try{
-			SadeffDao dao = (SadeffDao)daoObj;
+			SadmoifDao dao = (SadmoifDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append(" UPDATE sadeff SET efst = ?, efavd = ?, efpro = ?, efdtr = ?, efsg = ?, efst2 = ?, eftsd = ?, efst3 = ?, efdtin = ?,  ");
-			sql.append(" efeta = ? , efetm = ? , efata = ? , efatm = ? , ef3039e = ?, efeid = ?, efknd = ?, efrgd = ?, eftm = ?, eftmt = ?, ");
-			sql.append(" efktyp = ? , efktypt = ? , efklk = ? , efkmrk = ? , efplk = ?, efpmrk = ?, efsjaf = ?, efsjae = ?, efsjalk = ?, efsjadt = ?, ");
-			sql.append(" efbekr = ?  ");
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET  eist = ?, eipro = ?, eiavd = ?, eitdn = ?,   ");
+			sql.append(" eibl = ?, eistk = ?, eivnt = ?, eirge = ?, eiroe = ? ");
 			//id's
-			sql.append(" WHERE efuuid = ? ");
+			sql.append(" WHERE eilnrt = ? AND eilnrm = ? AND eilnrh = ? AND eili = ? ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getEfst(), dao.getEfavd(), dao.getEfpro(), dao.getEfdtr(), dao.getEfsg(), dao.getEfst2(), dao.getEftsd(), dao.getEfst3(), dao.getEfdtin(),
-						dao.getEfeta(), dao.getEfetm(), dao.getEfata(), dao.getEfatm(), dao.getEf3039e(), dao.getEfeid(), dao.getEfknd(), dao.getEfrgd(), dao.getEftm(), dao.getEftmt(),
-						dao.getEfktyp(), dao.getEfktypt(), dao.getEfklk(), dao.getEfkmrk(), dao.getEfplk(), dao.getEfpmrk(), dao.getEfsjaf(), dao.getEfsjae(), dao.getEfsjalk(), dao.getEfsjadt(),
-						dao.getEfbekr(),
-						//id's
-						dao.getEfuuid(),
-						} );
+			dao.getEist(), dao.getEipro(), dao.getEiavd(), dao.getEitdn(), 		
+			dao.getEibl(), dao.getEistk(), dao.getEivnt(), dao.getEirge(), dao.getEiroe(), 
+			//id's
+			dao.getEilnrt(), dao.getEilnrm(), dao.getEilnrh(), dao.getEili(),
+			} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
@@ -198,7 +209,7 @@ public class SadmoifDaoServicesImpl implements SadmoifDaoServices {
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
+		
 		return retval;
 		
 	}
@@ -206,80 +217,54 @@ public class SadmoifDaoServicesImpl implements SadmoifDaoServices {
 	 * DELETE
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
-		//NA --> refer to update status. There is never a true DELETE
-		return 0;
-	}
-	
-	/**
-	 * DELETE Light
-	 * Happens when the record must be retained and not removed. 
-	 * 
-	 */
-	public int deleteLight(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//TODO ..
-		/*
 		try{
 			SadmoifDao dao = (SadmoifDao)daoObj;
-				
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = '', ehmid = '', ehst2 = ?, ehst3 = '', ehdts = ? ");
-			//id's
-			sql.append(" WHERE ehlnrt = ? ");
-			sql.append(" AND ehlnrm = ?" );
-			sql.append(" AND ehlnrh = ?" );
-			sql.append(" AND ehmid = ? " );
 			
+			sql.append(" DELETE from "  + this.TABLE_NAME );
+			sql.append(" WHERE eilnrt = ? AND eilnrm = ? AND eilnrh = ? AND eili = ? ");
+			logger.info(sql.toString() + " eilnrt:" + dao.getEilnrt() + " eilnrm:" + dao.getEilnrm() + " eilnrh:" + dao.getEilnrh() + " eili:" + dao.getEili());
+				
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhst2(), dao.getEhdts(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+			dao.getEilnrt(), dao.getEilnrm(), dao.getEilnrh(), dao.getEili()
+			} );
+			
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
+			logger.info("Exception in update Sadl:"+writer.toString());
+			e.printStackTrace();
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
 			retval = -1;
 		}
-		*/
-		return retval;
-		
+		return retval; 
 	}
+	
 	
 	/**
 	 * 
-	 * @param daoObj
-	 * @param errorStackTrace
+	 * @param eilnrt
+	 * @param eilnrm
+	 * @param eilnrh
 	 * @return
 	 */
-	/*
-	public int updateStatus(Object daoObj, StringBuffer errorStackTrace){
+	private int getNextEili(Integer eilnrt, Integer eilnrm, Integer eilnrh ) {
 		int retval = 0;
+		logger.info("eilnrt/eilnrm/eilnrh for NextSeed:" + eilnrt + "/" + eilnrm + "/" + eilnrh);
 		
-		try{
-			SadeffDao dao = (SadeffDao)daoObj;
-				
-			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE sadeff set efst = ? ");
-			//id's
-			sql.append(" WHERE efuuid = ? ");
-			
-			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEfst(), dao.getEfuuid() } );
-			
-		}catch(Exception e){
-			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
-			//Chop the message to comply to JSON-validation
-			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
-			retval = -1;
-		}
+		StringBuffer sql = new StringBuffer();
+		//DEBUG --> logger.info("mydebug");
+		sql.append(" SELECT max(eili)+1 from " + this.TABLE_NAME  );
+		sql.append(" WHERE eilnrt = ? AND eilnrm = ? AND eilnrh = ? " );
 		
+		retval = this.jdbcTemplate.queryForObject( sql.toString(), new Object[] { eilnrt, eilnrm, eilnrh },  Integer.class );
+			
 		return retval;
+
 	}
-	*/
-	
 	
 	
 	/**                                                                                                  
