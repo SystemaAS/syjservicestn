@@ -351,7 +351,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			//id's
 			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etmid = ?, etdtin = ?, etst = ?, etst2 = ?, etst3 = ?  ");
 			sql.append(" WHERE etlnrt = ? ");
-			sql.append(" AND etmid = '' " );
+			//sql.append(" AND etmid = '' " );
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtmid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(), dao.getEtst3(), 
