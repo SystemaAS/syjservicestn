@@ -385,7 +385,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			//id's
 			sql.append(" WHERE emlnrt = ? ");
 			sql.append(" AND emlnrm = ?" );
-			sql.append(" AND emmid = '' " );
+			//sql.append(" AND emmid = '' " );
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmuuid(), dao.getEmmid(), dao.getEmdtin(), dao.getEmst(), dao.getEmst2(), dao.getEmst3(),  

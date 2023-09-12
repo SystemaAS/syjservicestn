@@ -397,7 +397,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			sql.append(" WHERE ehlnrt = ? ");
 			sql.append(" AND ehlnrm = ?" );
 			sql.append(" AND ehlnrh = ?" );
-			sql.append(" AND ehmid = '' " );
+			//sql.append(" AND ehmid = '' " );
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),  
