@@ -331,6 +331,70 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		return retval;
 		
 	}
+	/**
+	 * 
+	 * @param daoObj
+	 * @param toEmlnrt
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public int updateTransport(Object daoObj, String toEmlnrt, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmomfDao dao = (SadmomfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadmomf set emlnrt = ? ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ? ");
+			
+			//params
+			int tmp = this.jdbcTemplate.update( sql.toString(), new Object[] { toEmlnrt, dao.getEmlnrt(), dao.getEmlnrm() } );
+			if(tmp >=0 ) {
+				retval = this.updateTransportHouses(daoObj, toEmlnrt, errorStackTrace);
+			}
+
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	private int updateTransportHouses(Object daoObj, String toEmlnrt, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmomfDao dao = (SadmomfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadmohf set ehlnrt = ? ");
+			//id's
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ? ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { toEmlnrt, dao.getEmlnrt(), dao.getEmlnrm() } );
+			
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
 	
 	/**
 	 * 

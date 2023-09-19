@@ -92,4 +92,21 @@ public class SADMOMF_U {
 		
 		return retval;
 	}
+	
+	public boolean isValidInputForChangeTransport(SadmomfDao dao, String user, String mode, String toEmlnrt){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
+			//check dao
+			
+			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>=0 && StringUtils.isNotEmpty(toEmlnrt) ){ 
+				//OK
+			} else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
 }
