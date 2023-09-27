@@ -46,6 +46,27 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 		}
 		return retval;
 	}
+	
+	private List getList(Integer ehlnrt, Integer ehlnrm, StringBuffer errorStackTrace){
+		List<SadmomfDao> retval = new ArrayList<SadmomfDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select * from " + TABLE_NAME);
+			sql.append(" where ehlnrt = ? ");
+			sql.append(" and ehlnrm = ? ");
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { ehlnrt, ehlnrm }, new BeanPropertyRowMapper(SadmohfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	/**
 	 * get a data set with where clause
 	 */
@@ -153,7 +174,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			
 			SadmohfDao dao = (SadmohfDao)daoObj;
 			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
-			List list = this.find(daoObj, errorStackTrace);
+			List list = this.getList(dao.getEhlnrt(), dao.getEhlnrm(), errorStackTrace);
 			logger.info(list.toString());
 			if(list==null || list.size()<=0 ) {
 				nextEhlnrh = 1;

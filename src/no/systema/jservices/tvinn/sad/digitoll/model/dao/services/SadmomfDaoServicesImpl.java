@@ -45,6 +45,26 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		}
 		return retval;
 	}
+	
+	private List getList(Integer id, StringBuffer errorStackTrace){
+		List<SadmomfDao> retval = new ArrayList<SadmomfDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select * from " + TABLE_NAME);
+			sql.append(" where emlnrt = ? ");	
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmomfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	/**
 	 * get a data set with where clause
 	 */
@@ -154,7 +174,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			
 			SadmomfDao dao = (SadmomfDao)daoObj;
 			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
-			List list = this.find(daoObj, errorStackTrace);
+			List list = this.getList(dao.getEmlnrt(), errorStackTrace);
 			logger.info(list.toString());
 			if(list==null || list.size()<=0 ) {
 				nextEmlnrm = 1;
