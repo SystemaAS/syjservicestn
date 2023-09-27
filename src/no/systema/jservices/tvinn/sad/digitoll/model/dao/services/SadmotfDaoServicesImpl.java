@@ -143,7 +143,31 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		
 		return retval;
 	}
-	
+
+	public List findHouseOpd (String opd, Object obj, StringBuffer errorStackTrace ){
+		SadmotfDao dao = (SadmotfDao)obj;
+		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
+		LinkedList<Object> params = new LinkedList<Object>();
+		
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select a.* from sadmotf a, sadmohf b " );
+			sql.append(" where a.etlnrt = b.ehlnrt " );
+			sql.append(" and b.ehtdn LIKE ? " );
+			sql.append(" order by etlnrt " );
+			 
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { "%" + opd + "%" }, new BeanPropertyRowMapper(SadmotfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	
 	/**
 	 * 

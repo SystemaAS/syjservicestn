@@ -70,6 +70,7 @@ public class JsonResponseOutputterController_SADMOTF {
 			logger.warn("Inside syjsSADMOTF");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
+			String house_opd = request.getParameter("opd");//special case for deep search
 			logger.warn("User:" + user);
 			
 			//Check ALWAYS user in BRIDF
@@ -89,21 +90,27 @@ public class JsonResponseOutputterController_SADMOTF {
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
-	            logger.warn("Before SELECT ...");
-	            if( StringUtils.isNotEmpty(dao.getEtmid()) ){
-					logger.warn("inside: findById");
-					list = this.sadmotfDaoServices.findById(dao.getEtmid(), dbErrorStackTrace);
-				}else if( this.isDoFind(dao) ){
-					logger.warn("inside: doFind");
-					list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
-				}else if( this.isDoFindByLrn(dao) ){
-					logger.warn("inside: doFindByLrn");
-					list = this.sadmotfDaoServices.findByLrn(dao.getEtuuid(), dbErrorStackTrace);
-				}else{
-					logger.warn("inside: getList (all)");
-					logger.warn("getList (all)");
-					list = this.sadmotfDaoServices.getList(dbErrorStackTrace);
-				}
+	            if(StringUtils.isEmpty(house_opd)) {
+		            logger.warn("Before SELECT ...");
+		            if( StringUtils.isNotEmpty(dao.getEtmid()) ){
+						logger.warn("inside: findById");
+						list = this.sadmotfDaoServices.findById(dao.getEtmid(), dbErrorStackTrace);
+					}else if( this.isDoFind(dao) ){
+						logger.warn("inside: doFind");
+						list = this.sadmotfDaoServices.find(dao, dbErrorStackTrace);
+					}else if( this.isDoFindByLrn(dao) ){
+						logger.warn("inside: doFindByLrn");
+						list = this.sadmotfDaoServices.findByLrn(dao.getEtuuid(), dbErrorStackTrace);
+					}else{
+						logger.warn("inside: getList (all)");
+						logger.warn("getList (all)");
+						list = this.sadmotfDaoServices.getList(dbErrorStackTrace);
+					}
+	            }else {
+	            	//special case for deep search towards opd (houses ehtdn) from a transport search
+	            	logger.warn("inside: doFindHouseOpd");
+					list = this.sadmotfDaoServices.findHouseOpd(house_opd, dao, dbErrorStackTrace);
+	            }
 	            logger.warn("After SELECT ..." );
 	            
 				//process result
