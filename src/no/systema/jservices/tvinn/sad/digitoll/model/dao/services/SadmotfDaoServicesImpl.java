@@ -143,7 +143,9 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		
 		return retval;
 	}
-
+	/**
+	 * 
+	 */
 	public List findHouseOpd (String opd, Object obj, StringBuffer errorStackTrace ){
 		SadmotfDao dao = (SadmotfDao)obj;
 		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
@@ -151,7 +153,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select a.* from sadmotf a, sadmohf b " );
+			sql.append(" select DISTINCT a.* from sadmotf a, sadmohf b " );
 			sql.append(" where a.etlnrt = b.ehlnrt " );
 			sql.append(" and b.ehtdn LIKE ? " );
 			sql.append(" order by etlnrt " );
