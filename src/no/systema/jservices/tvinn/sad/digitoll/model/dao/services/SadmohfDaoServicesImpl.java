@@ -186,7 +186,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( ehavd, ehpro, ehtdn, ehlnrt, ehlnrm, ehlnrh,  ");
-			sql.append(" ehst, ehst2, ehst3, ehuuid, ehmid, ehdts, ehtms, ehcnin, ehvkb, ehntk, ");
+			sql.append(" ehst, ehst2, ehst3, ehuuid, ehmid, ehdts, ehtms, ehrecid, ehcnin, ehvkb, ehntk, ");
 			sql.append(" ehvt, ehdkh, ehdkht, ehpr, ehprt, ehupr, ehuprt, ehrg, eh0068a, eh0068b, ehtrnr,  ");
 			sql.append(" ehtrty, ehetyp, ehetypt, eheid, ehkns, ehrgs, ehtpps, ehnas, ehna2s, ehad1s, ehnrs,  ");
 			//
@@ -197,7 +197,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			sql.append(" ehpsm, ehlkm, ehpbm, ehemm, ehemmt, ehlka, ehsda, ehsdat, ehlkd, ehsdd, ehsddt ) ");
 			
 			sql.append(" VALUES ( ?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
 			//
@@ -210,7 +210,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 			dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(),		
-			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(),
+			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhrecid(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(),
 			dao.getEhvt(), dao.getEhdkh(), dao.getEhdkht(), dao.getEhpr(), dao.getEhprt(), dao.getEhupr(), dao.getEhuprt(), dao.getEhrg(), dao.getEh0068a(), dao.getEh0068b(), dao.getEhtrnr(),
 			dao.getEhtrty(), dao.getEhetyp(), dao.getEhetypt(), dao.getEheid(), dao.getEhkns(), dao.getEhrgs(), dao.getEhtpps(), dao.getEhnas(), dao.getEhna2s(), dao.getEhad1s(), dao.getEhnrs(),
 			dao.getEhetyp2(), dao.getEhetypt2(), dao.getEheid2(), dao.getEhetyp3(), dao.getEhetypt3(), dao.getEheid3(), dao.getEhetyp4(), dao.getEhetypt4(), dao.getEheid4(), dao.getEhetyp5(), dao.getEhetypt5(), dao.getEheid5(),
@@ -248,7 +248,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET  ehavd = ?, ehpro = ?, ehtdn = ?,   ");
-			sql.append(" ehst = ?, ehst2 = ?, ehst3 = ?, ehuuid = ?, ehmid = ?, ehdts = ?, ehtms = ?, ehcnin = ?, ehvkb = ?, ehntk = ?, ");
+			sql.append(" ehst = ?, ehst2 = ?, ehst3 = ?, ehuuid = ?, ehmid = ?, ehdts = ?, ehtms = ?, ehrecid = ?, ehcnin = ?, ehvkb = ?, ehntk = ?, ");
 			sql.append(" ehvt = ?, ehdkh = ?, ehdkht = ?, ehpr = ?, ehprt = ?, ehupr = ?, ehuprt = ?, ehrg = ?, eh0068a = ?, eh0068b = ?, ehtrnr = ?,  ");
 			sql.append(" ehtrty = ?, ehetyp = ?, ehetypt = ?, eheid = ?, ehkns = ?, ehrgs = ?, ehtpps = ?, ehnas = ?, ehna2s = ?, ehad1s = ?, ehnrs = ?,  ");
 			//
@@ -263,7 +263,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 			dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), 		
-			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(),
+			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhrecid(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(),
 			dao.getEhvt(), dao.getEhdkh(), dao.getEhdkht(), dao.getEhpr(), dao.getEhprt(), dao.getEhupr(), dao.getEhuprt(), dao.getEhrg(), dao.getEh0068a(), dao.getEh0068b(), dao.getEhtrnr(),
 			dao.getEhtrty(), dao.getEhetyp(), dao.getEhetypt(), dao.getEheid(), dao.getEhkns(), dao.getEhrgs(), dao.getEhtpps(), dao.getEhnas(), dao.getEhna2s(), dao.getEhad1s(), dao.getEhnrs(),
 			//
