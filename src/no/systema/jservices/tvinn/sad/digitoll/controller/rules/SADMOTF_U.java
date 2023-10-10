@@ -74,7 +74,7 @@ public class SADMOTF_U {
 		
 		if( StringUtils.isNotEmpty(user)){
 			//check dao
-			if( dao.getEtlnrt()>= 0 && StringUtils.isNotEmpty(dao.getEtmid())  ){ 
+			if( StringUtils.isNotEmpty(dao.getEtmid())  ){ 
 				//OK
 			} else{
 				retval = false;

@@ -116,7 +116,7 @@ public class SADMOMF_U {
 		
 		if( StringUtils.isNotEmpty(user)){
 			//check dao
-			if( dao.getEmlnrt()> 0 && dao.getEmlnrm()>= 0 && StringUtils.isNotEmpty(dao.getEmmid())  ){ 
+			if(StringUtils.isNotEmpty(dao.getEmmid())  ){ 
 				//OK
 			} else{
 				retval = false;

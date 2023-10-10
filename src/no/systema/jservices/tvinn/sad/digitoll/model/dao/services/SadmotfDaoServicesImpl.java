@@ -442,11 +442,10 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE " + this.TABLE_NAME + " set etmid_own = ? ");
 			//id's
-			sql.append(" WHERE etlnrt = ? ");
-			sql.append(" and etmid = ? ");
+			sql.append(" WHERE etmid = ? ");
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtmid(), dao.getEtlnrt(), dao.getEtmid()} );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtmid(), dao.getEtmid()} );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

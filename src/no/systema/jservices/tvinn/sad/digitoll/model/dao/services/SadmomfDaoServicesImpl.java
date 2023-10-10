@@ -536,12 +536,10 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE " + this.TABLE_NAME + " set emmid_own = ? ");
 			//id's
-			sql.append(" WHERE emlnrt = ? ");
-			sql.append(" AND emlnrm = ?" );
-			sql.append(" AND emmid = ?" );
+			sql.append(" WHERE emmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmmid(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmmid(), dao.getEmmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

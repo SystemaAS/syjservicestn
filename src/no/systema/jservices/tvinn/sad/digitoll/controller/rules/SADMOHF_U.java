@@ -77,7 +77,7 @@ public class SADMOHF_U {
 		
 		if( StringUtils.isNotEmpty(user)){
 			//check dao
-			if( dao.getEhlnrt()> 0 && dao.getEhlnrm()> 0 && dao.getEhlnrh()>= 0 && StringUtils.isNotEmpty(dao.getEhmid())  ){ 
+			if( StringUtils.isNotEmpty(dao.getEhmid())  ){ 
 				//OK
 			} else{
 				retval = false;

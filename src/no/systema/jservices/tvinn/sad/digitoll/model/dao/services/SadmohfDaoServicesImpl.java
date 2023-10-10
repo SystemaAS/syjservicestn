@@ -486,13 +486,10 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" UPDATE "  + TABLE_NAME+ " set ehmid_own = ?  ");
 			//id's
-			sql.append(" WHERE ehlnrt = ? ");
-			sql.append(" AND ehlnrm = ?" );
-			sql.append(" AND ehlnrh = ?" );
-			sql.append(" AND ehmid = ?" );
+			sql.append(" WHERE ehmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhmid(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhmid(), dao.getEhmid() } );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
