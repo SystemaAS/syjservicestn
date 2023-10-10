@@ -10,7 +10,8 @@ public class SadmohfDao implements IDao  {
 	private String ehst2 = ""; //      tegn            1       1         2        begge    status 2    
 	private String ehst3 = ""; //      tegn            1       1         3        begge    status 3    
 	private String ehuuid = ""; //     tegn           36      36         4        begge    lrn         
-	private String ehmid = ""; //      tegn           18      18        40        begge    mrn           
+	private String ehmid = ""; //      tegn           18      18        40        begge    mrn     
+	private String ehmid_own = ""; //      tegn           18      18        40        begge    mrn back up
 	private Integer ehdts = 0; //      sonet        8  0       8        58        begge    sendingsdato  
 	private Integer ehtms = 0; //      sonet        6  0       6        66        begge    sendingstid   
 	private Integer ehpro = 0; //      sonet        8  0       8        72        begge    turnummer     

@@ -10,7 +10,8 @@ public class SadmomfDao implements IDao {
 	
 	private String emst  = "";  //tegn            1    status    
 	private String emuuid ="";  //tegn           36    lrn       
-	private String emmid = "";  //tegn           18    mrn       
+	private String emmid = "";  //tegn           18    mrn     
+	private String emmid_own = "";  //tegn           18    mrn back up
 	private Integer emavd = 0;  //sonet        4  0    avdeling     
 	private Integer empro= 0;  //sonet        8  0     turnummer    
 	private Integer emlnrt= 0;  //sonet        7  0    løpenummer (KEY i transport)            
