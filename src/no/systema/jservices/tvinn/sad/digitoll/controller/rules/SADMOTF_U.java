@@ -69,6 +69,21 @@ public class SADMOTF_U {
 		}
 		return retval;
 	}
+	public boolean isValidInputForUpdateMrnBup(SadmotfDao dao, String user){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user)){
+			//check dao
+			if( dao.getEtlnrt()>= 0 && StringUtils.isNotEmpty(dao.getEtmid())  ){ 
+				//OK
+			} else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
 	/**
 	 * 
 	 * @param dao

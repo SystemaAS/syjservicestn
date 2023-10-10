@@ -344,6 +344,85 @@ public class JsonResponseOutputterController_SADMOTF {
 		session.invalidate();
 		return sb.toString();
 	}
+	/**
+	 * 
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="syjsSADMOTF_U_BUP.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String syjsR_U_BUP( HttpSession session, HttpServletRequest request) {
+		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
+		StringBuffer sb = new StringBuffer();
+		
+		try{
+			logger.warn("Inside syjsSADMOTF_U_BUP.do");
+			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			String user = request.getParameter("user");
+			//String mode = request.getParameter("mode");
+			//Check ALWAYS user in BRIDF
+            String userName = this.bridfDaoServices.findNameById(user);
+            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
+            String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+			
+			//bind attributes is any
+			SadmotfDao dao = new SadmotfDao();
+			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+            binder.bind(request);
+            logger.warn("user:" + user);
+            logger.warn("etlnrt:" + dao.getEtlnrt().toString());
+            logger.warn("etmid:" + dao.getEtmid());
+            
+            //rules
+            SADMOTF_U rulerLord = new SADMOTF_U();
+			//Start processing now
+			if(userName!=null && !"".equals(userName)){
+				int dmlRetval = 0;
+				
+				  if(rulerLord.isValidInputForUpdateMrnBup(dao, userName)){
+						logger.warn("Before UPDATE MRN-BUP ...");
+						dmlRetval = this.sadmotfDaoServices.setMrnBup(dao, dbErrorStackTrace);
+				  }else{
+						//write JSON error output
+						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				  }
+				
+				//----------------------------------
+				//check returns from dml operations
+				//----------------------------------
+				if(dmlRetval<0){
+					//write JSON error output
+					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+					status = "error";
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}else{
+					//OK
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+				}
+				
+			}else{
+				//write JSON error output
+				errMsg = "ERROR on UPDATE";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+			
+		}catch(Exception e){
+			//write std.output error output
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+		session.invalidate();
+		return sb.toString();
+	}
 	
 	
 	

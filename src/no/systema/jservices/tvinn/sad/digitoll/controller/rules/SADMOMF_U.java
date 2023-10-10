@@ -3,6 +3,7 @@ package no.systema.jservices.tvinn.sad.digitoll.controller.rules;
 import org.apache.commons.lang3.StringUtils;
 
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 
 /**
  * 
@@ -100,6 +101,22 @@ public class SADMOMF_U {
 			//check dao
 			
 			if( dao.getEmlnrt()>0 && dao.getEmlnrm()>=0 && StringUtils.isNotEmpty(toEmlnrt) ){ 
+				//OK
+			} else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
+	
+	public boolean isValidInputForUpdateMrnBup(SadmomfDao dao, String user){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user)){
+			//check dao
+			if( dao.getEmlnrt()> 0 && dao.getEmlnrm()>= 0 && StringUtils.isNotEmpty(dao.getEmmid())  ){ 
 				//OK
 			} else{
 				retval = false;

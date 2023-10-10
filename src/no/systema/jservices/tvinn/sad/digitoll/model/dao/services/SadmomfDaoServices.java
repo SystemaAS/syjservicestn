@@ -16,5 +16,6 @@ public interface SadmomfDaoServices extends IDaoServices {
 	public int deleteLight(Object daoObj, StringBuffer errorStackTrace);
 	public int updateStatus(Object daoObj, StringBuffer errorStackTrace);
 	public int updateTransport(Object daoObj, String toEmlnrt, StringBuffer errorStackTrace);
+	public int setMrnBup(Object daoObj, StringBuffer errorStackTrace);
 	//public int updateManifestStatus(Object daoObj, StringBuffer errorStackTrace);
 }

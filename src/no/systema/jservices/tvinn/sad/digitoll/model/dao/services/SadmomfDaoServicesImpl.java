@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 import no.systema.main.util.DbErrorMessageManager;
 
 /**
@@ -519,7 +520,39 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		
 		return retval;
 	}
-	
+	/**
+	 * Back up to MRN in-case we loose the original MRN (emmid)
+	 * @param daoObj
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public int setMrnBup(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmomfDao dao = (SadmomfDao)daoObj;
+			//DEBUG logger.warn(daoObj.toString());	
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set emmid_own = ? ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ?" );
+			sql.append(" AND emmid = ?" );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmmid(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmmid() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
 	private int getNextEmlnrm(Integer emlnrt) {
 		int retval = 0;
 		logger.info("emlnrt for NextSeed:" + emlnrt);

@@ -469,6 +469,41 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 		
 		return retval;
 	}
+	
+	/**
+	 * Back up to MRN in-case we loose the original MRN (ehmid)
+	 * @param daoObj
+	 * @param errorStackTrace
+	 * @return
+	 */
+	public int setMrnBup(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmohfDao dao = (SadmohfDao)daoObj;
+			//DEBUG logger.warn(daoObj.toString());	
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehmid_own = ?  ");
+			//id's
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ?" );
+			sql.append(" AND ehlnrh = ?" );
+			sql.append(" AND ehmid = ?" );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhmid(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
 	/**
 	 * 
 	 * @param ehlnrt

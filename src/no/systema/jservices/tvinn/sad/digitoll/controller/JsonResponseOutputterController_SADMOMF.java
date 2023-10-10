@@ -19,7 +19,9 @@ import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
 import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOMF_U;
+import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOTF_U;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmomfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
 
@@ -420,6 +422,89 @@ public class JsonResponseOutputterController_SADMOMF {
 		session.invalidate();
 		return sb.toString();
 	}
+	
+	/**
+	 * 
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="syjsSADMOMF_U_BUP.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String syjsR_U_BUP( HttpSession session, HttpServletRequest request) {
+		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
+		StringBuffer sb = new StringBuffer();
+		
+		try{
+			logger.warn("Inside syjsSADMOMF_U_BUP.do");
+			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			String user = request.getParameter("user");
+			//String mode = request.getParameter("mode");
+			//Check ALWAYS user in BRIDF
+            String userName = this.bridfDaoServices.findNameById(user);
+            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
+            String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+			
+			//bind attributes is any
+			SadmomfDao dao = new SadmomfDao();
+			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+            binder.bind(request);
+            logger.warn("user:" + user);
+            logger.warn("emlnrt:" + dao.getEmlnrt().toString());
+            logger.warn("emlnrm:" + dao.getEmlnrm().toString());
+            logger.warn("emmid:" + dao.getEmmid());
+            
+            //rules
+            SADMOMF_U rulerLord = new SADMOMF_U();
+			//Start processing now
+			if(userName!=null && !"".equals(userName)){
+				int dmlRetval = 0;
+				
+				  if(rulerLord.isValidInputForUpdateMrnBup(dao, userName)){
+						logger.warn("Before UPDATE MRN-BUP ...");
+						dmlRetval = this.sadmomfDaoServices.setMrnBup(dao, dbErrorStackTrace);
+				  }else{
+						//write JSON error output
+						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				  }
+				
+				//----------------------------------
+				//check returns from dml operations
+				//----------------------------------
+				if(dmlRetval<0){
+					//write JSON error output
+					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+					status = "error";
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}else{
+					//OK
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+				}
+				
+			}else{
+				//write JSON error output
+				errMsg = "ERROR on UPDATE";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+			
+		}catch(Exception e){
+			//write std.output error output
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+		session.invalidate();
+		return sb.toString();
+	}
+	
+	
 	
 	//----------------
 	//WIRED SERVICES
