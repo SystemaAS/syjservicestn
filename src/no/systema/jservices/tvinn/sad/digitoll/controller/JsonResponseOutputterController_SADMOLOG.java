@@ -113,6 +113,7 @@ public class JsonResponseOutputterController_SADMOLOG {
 			return "ERROR [JsonResponseOutputterController]" + writer.toString();
 		}
 		session.invalidate();
+		//logger.debug(sb.toString());
 		return sb.toString();
 	}
 	
