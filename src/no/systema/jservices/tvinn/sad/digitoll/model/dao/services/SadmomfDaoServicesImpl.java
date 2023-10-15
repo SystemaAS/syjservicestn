@@ -450,6 +450,32 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		
 		return retval;
 	}
+	public int updateStatus3(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmomfDao dao = (SadmomfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadmomf set emst3 = ? ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emlnrm = ? ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmst3(), dao.getEmlnrt(), dao.getEmlnrm() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
 	
 	/**
 	 * 
