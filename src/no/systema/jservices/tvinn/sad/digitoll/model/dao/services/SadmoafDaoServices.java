@@ -8,6 +8,6 @@ import java.util.*;
  * @date Aug 2023
  * 
  */
-public interface SadmologDaoServices extends IDaoServices { 
-	public List find(Object dao,StringBuffer errorStackTrace);
+public interface SadmoafDaoServices extends IDaoServices { 
+
 }
