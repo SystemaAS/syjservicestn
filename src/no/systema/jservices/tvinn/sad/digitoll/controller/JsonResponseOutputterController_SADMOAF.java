@@ -76,10 +76,14 @@ public class JsonResponseOutputterController_SADMOAF {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            
-				
-				logger.warn("getList (all)");
-				list = this.sadmoafDaoServices.getList(dbErrorStackTrace);
-				
+				if(dao.getEtavd()!=null && dao.getEtavd()>0) {
+					logger.warn("getList (all)");
+					list = this.sadmoafDaoServices.findById(String.valueOf(dao.getEtavd()), dbErrorStackTrace);
+					
+				}else {
+					logger.warn("getList (all)");
+					list = this.sadmoafDaoServices.getList(dbErrorStackTrace);
+				}
 
 				//process result
 				if (list!=null){

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmoafDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmohfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmologDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmomfDao;
 import no.systema.main.util.DbErrorMessageManager;
@@ -53,8 +54,25 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 	 * 
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
-		//NA
-		return null;
+		List<SadmoafDao> retval = new ArrayList<SadmoafDao>();
+		try{
+			StringBuffer sql = new StringBuffer();
+			//WE must specify all the columns since there are numeric formats. All numeric formats are incompatible with JDBC template (at least in DB2)
+			//when issuing select * from ...
+			//The numeric formats MUST ALWAYS be converted to CHARs (IBM string equivalent to Oracle VARCHAR)
+			sql.append(" select * from " + TABLE_NAME+ " where etavd = ? ");
+			
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { id }, new BeanPropertyRowMapper(SadmoafDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
 	}
 	
 	
