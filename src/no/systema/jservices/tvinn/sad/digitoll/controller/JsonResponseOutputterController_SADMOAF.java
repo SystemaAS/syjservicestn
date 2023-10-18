@@ -180,6 +180,13 @@ public class JsonResponseOutputterController_SADMOAF {
 				//do ADD
 				if("A".equals(mode)){
 					dmlRetval = this.sadmoafDaoServices.insert(dao, dbErrorStackTrace);
+					
+				}else if("U".equals(mode)){
+					dmlRetval = this.sadmoafDaoServices.update(dao, dbErrorStackTrace);
+					
+				}else if("D".equals(mode)){
+					dmlRetval = this.sadmoafDaoServices.delete(dao, dbErrorStackTrace);
+					
 				}else{
 					//write JSON error output
 					errMsg = "ERROR on UPDATE: invalid mode for INSERT?";
