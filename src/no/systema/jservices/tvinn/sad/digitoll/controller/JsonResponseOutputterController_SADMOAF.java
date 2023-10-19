@@ -179,7 +179,18 @@ public class JsonResponseOutputterController_SADMOAF {
 				
 				//do ADD
 				if("A".equals(mode)){
-					dmlRetval = this.sadmoafDaoServices.insert(dao, dbErrorStackTrace);
+					if(dao.getEtavd()!=null && dao.getEtavd()>0) {
+						String avdId = String.valueOf(dao.getEtavd());
+						List tmpList= this.sadmoafDaoServices.findById(avdId, dbErrorStackTrace);
+						if(tmpList!=null && tmpList.size()>0) {
+							//nothing since this should have been and UPDATE on current avd. The caller is sending wrong mode=A
+						}else {
+							dmlRetval = this.sadmoafDaoServices.insert(dao, dbErrorStackTrace);
+						}
+					}else {
+						//we should allow for the insert of an anonymous avd = 0 
+						dmlRetval = this.sadmoafDaoServices.insert(dao, dbErrorStackTrace);
+					}
 					
 				}else if("U".equals(mode)){
 					dmlRetval = this.sadmoafDaoServices.update(dao, dbErrorStackTrace);
