@@ -76,8 +76,8 @@ public class JsonResponseOutputterController_SADMOAF {
 				//do SELECT
 	            logger.info("Before SELECT ...");
 	            
-				if(dao.getEtavd()!=null && dao.getEtavd()>0) {
-					logger.warn("getList (all)");
+				if(dao.getEtavd()!=null && dao.getEtavd() > -1) {
+					logger.warn("findById");
 					list = this.sadmoafDaoServices.findById(String.valueOf(dao.getEtavd()), dbErrorStackTrace);
 					
 				}else {
@@ -153,19 +153,9 @@ public class JsonResponseOutputterController_SADMOAF {
 			SadmoafDao dao = new SadmoafDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            /*
-            logger.warn("avd:" + dao.getElavd().toString());
-            logger.warn("pro:" + dao.getElpro().toString());
-            logger.warn("tdn:" + dao.getEltdn().toString());
-            
-            logger.warn("ellnrt:" + dao.getEllnrt().toString());
-            logger.warn("ellnrm:" + dao.getEllnrm().toString());
-            logger.warn("ellnrh:" + dao.getEllnrh().toString());
-            
-            logger.warn("elltxt:" + dao.getElltxt());
-            */
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
+            logger.warn("etavd:" + dao.getEtavd());
             
             
             //rules
@@ -179,16 +169,11 @@ public class JsonResponseOutputterController_SADMOAF {
 				
 				//do ADD
 				if("A".equals(mode)){
-					if(dao.getEtavd()!=null && dao.getEtavd()>0) {
-						String avdId = String.valueOf(dao.getEtavd());
-						List tmpList= this.sadmoafDaoServices.findById(avdId, dbErrorStackTrace);
-						if(tmpList!=null && tmpList.size()>0) {
-							//nothing since this should have been and UPDATE on current avd. The caller is sending wrong mode=A
-						}else {
-							dmlRetval = this.sadmoafDaoServices.insert(dao, dbErrorStackTrace);
-						}
+					String avdId = String.valueOf(dao.getEtavd());
+					List tmpList= this.sadmoafDaoServices.findById(avdId, dbErrorStackTrace);
+					if(tmpList!=null && tmpList.size()>0) {
+						//nothing since this should have been and UPDATE on current avd. The caller is sending wrong mode=A
 					}else {
-						//we should allow for the insert of an anonymous avd = 0 
 						dmlRetval = this.sadmoafDaoServices.insert(dao, dbErrorStackTrace);
 					}
 					

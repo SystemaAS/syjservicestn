@@ -7,7 +7,7 @@ import no.systema.jservices.model.dao.entities.IDao;
 public class SadmoafDao implements IDao {
 	
 	private String etst =""; //       status                                   1    1     1         a  
-	private Integer etavd = 0; //       avdeling                                 2    5     4   4   0 s  
+	private Integer etavd = -1; //       avdeling                                 2    5     4   4   0 s  
 	private Integer etpro = 0; //       turnummer                                6   13     8   8   0 s  
 	private Integer etlnrt  = 0; //    løpenummer                              14   20     7   7   0 s  
 	private Integer etdtr = 0; //     registreringsdato                       21   28     8   8   0 s  

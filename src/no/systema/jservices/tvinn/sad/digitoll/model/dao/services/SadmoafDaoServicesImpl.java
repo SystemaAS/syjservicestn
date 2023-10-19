@@ -88,7 +88,6 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 		int retval = 0;
 		
 		try{
-			//TODO
 			
 			SadmoafDao dao = (SadmoafDao)daoObj;
 			StringBuffer sql = new StringBuffer();
@@ -198,7 +197,7 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info("Exception in update Sadl:"+writer.toString());
+			logger.info("Exception in update Sadmoaf:"+writer.toString());
 			e.printStackTrace();
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
@@ -212,8 +211,29 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 	 * DELETE
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
-		//NA --> refer to update status. There is never a true DELETE
-		return 0;
+		int retval = 0;
+		try{
+			SadmoafDao dao = (SadmoafDao)daoObj;
+			StringBuffer sql = new StringBuffer();
+			//TRANSPORT
+			sql.append(" delete from "  + this.TABLE_NAME); 
+			sql.append(" WHERE etavd = ? ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+			//id's
+			dao.getEtavd(),
+			} );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in delete Sadmoaf:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		return retval;
 	}
 	
 	
