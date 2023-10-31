@@ -287,6 +287,18 @@ public class JsonResponseOutputterController_SADMOHF {
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
 							 
+						}else if("US2".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
+								dmlRetval = this.sadmohfDaoServices.updateStatus2(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on Update Status invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							 
 						}
 						
 				  }else{

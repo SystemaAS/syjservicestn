@@ -398,6 +398,37 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 		
 		return retval;
 	}
+	/**
+	 * 
+	 */
+	public int updateStatus2(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmohfDao dao = (SadmohfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE sadmohf set ehst2 = ? ");
+			//id's
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehlnrm = ? ");
+			sql.append(" AND ehlnrh = ? ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhst2(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh() } );
+			
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
 	
 	/**
 	 * 
