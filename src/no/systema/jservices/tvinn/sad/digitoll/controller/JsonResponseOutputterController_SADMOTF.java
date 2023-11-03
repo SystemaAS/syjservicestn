@@ -213,6 +213,13 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("etmid:" + dao.getEtmid());
             logger.warn("etsjaf:" + dao.getEtsjaf());
             
+            //clean
+            String tmp = dao.getEtsjaf();
+            dao.setEtsjaf(tmp.replaceAll("š", "s"));
+            //many more ...
+            
+            
+            
             //rules
             SADMOTF_U rulerLord = new SADMOTF_U();
 			//Start processing now
