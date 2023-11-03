@@ -291,7 +291,6 @@ public class JsonResponseOutputterController_SADMOMF {
 						}else if("US2".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
 								dmlRetval = this.sadmomfDaoServices.updateStatus2(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
@@ -303,7 +302,6 @@ public class JsonResponseOutputterController_SADMOMF {
 						}else if("US3".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-								//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
 								dmlRetval = this.sadmomfDaoServices.updateStatus3(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output

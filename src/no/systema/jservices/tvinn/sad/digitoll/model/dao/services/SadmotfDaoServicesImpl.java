@@ -386,6 +386,32 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		return retval;
 	}
 	
+	public int updateStatus3(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug..." + "etst3=" + dao.getEtst3() + " etlnrt=" + dao.getEtlnrt());
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etst3 = ? ");
+			//id's
+			sql.append(" WHERE etlnrt = ? ");
+			//params
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst3(), dao.getEtlnrt() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
 	/**
 	 * 
 	 * @param daoObj
