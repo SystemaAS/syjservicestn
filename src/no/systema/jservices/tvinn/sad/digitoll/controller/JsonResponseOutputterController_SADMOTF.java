@@ -211,6 +211,7 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("etst2:" + dao.getEtst2());
             logger.warn("etuuid:" + dao.getEtuuid());
             logger.warn("etmid:" + dao.getEtmid());
+            logger.warn("etsjaf:" + dao.getEtsjaf());
             
             //rules
             SADMOTF_U rulerLord = new SADMOTF_U();
