@@ -429,12 +429,12 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			//sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, emmid = ?, emdtin = ?, emst = ?, emst2 = ?, emst3 = ? ");
 			//id's
-			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etmid = ?, etdtin = ?, etst = ?, etst2 = ?, etst3 = ?  ");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etmid = ?, etdtin = ?, etst = ?, etst2 = ?  ");
 			sql.append(" WHERE etlnrt = ? ");
 			//sql.append(" AND etmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtmid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(), dao.getEtst3(), 
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtmid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(),  
 															dao.getEtlnrt() } );
 			
 		}catch(Exception e){
@@ -461,13 +461,13 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			//DEBUG logger.warn(daoObj.toString());	
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etdtin = ?, etst = ?, etst2 = ?, etst3 = ?  ");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid = ?, etdtin = ?, etst = ?, etst2 = ?  ");
 			//id's
 			sql.append(" WHERE etlnrt = ? ");
 			sql.append(" AND etmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(), dao.getEtst3(),
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtdtin(), dao.getEtst(), dao.getEtst2(),
 																	dao.getEtlnrt(), dao.getEtmid() } );
 			
 		}catch(Exception e){

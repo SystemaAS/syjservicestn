@@ -15,7 +15,6 @@ import no.systema.main.util.DbErrorMessageManager;
 
 /**
  * 
- * @author oscardelatorre
  * @date Aug 2023
  * 
  */
@@ -474,7 +473,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehmid = ?, ehdts = ?, ehst = ?, ehst2 = ?, ehst3 = ? ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehmid = ?, ehdts = ?, ehst = ?, ehst2 = ? ");
 			//id's
 			sql.append(" WHERE ehlnrt = ? ");
 			sql.append(" AND ehlnrm = ?" );
@@ -482,7 +481,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//sql.append(" AND ehmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),  
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(),   
 															dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh() } );
 			
 		}catch(Exception e){
@@ -509,7 +508,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//DEBUG logger.warn(daoObj.toString());	
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehdts = ?, ehst = ?, ehst2 = ?, ehst3 = ?  ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehdts = ?, ehst = ?, ehst2 = ?  ");
 			//id's
 			sql.append(" WHERE ehlnrt = ? ");
 			sql.append(" AND ehlnrm = ?" );
@@ -517,7 +516,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			sql.append(" AND ehmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getEhst3(),
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(),
 																dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
 			
 		}catch(Exception e){
