@@ -27,6 +27,7 @@ import no.systema.jservices.tvinn.sad.digitoll.controller.rules.SADMOTF_U;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmotfDao;
 import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmotfDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
+import no.systema.main.util.DiacriticalCharacterManager;
 
 
 //rules
@@ -214,11 +215,9 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("etmid:" + dao.getEtmid());
             logger.warn("etsjaf:" + dao.getEtsjaf());
             
-            //clean
-            String tmp = dao.getEtsjaf();
-            dao.setEtsjaf(tmp.replaceAll("š", "s"));
-            //many more ...
-            
+            //clean name
+            String washedDriversName = DiacriticalCharacterManager.stripDiacriticsKeepNordicLetters(dao.getEtsjaf());
+            dao.setEtsjaf(washedDriversName);
             
             
             //rules
