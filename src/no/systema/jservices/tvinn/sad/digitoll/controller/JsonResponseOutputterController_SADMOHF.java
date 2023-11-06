@@ -394,17 +394,29 @@ public class JsonResponseOutputterController_SADMOHF {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
-				
-				  if(rulerLord.isValidInputForUpdateMrnBup(dao, userName)){
+				if(StringUtils.isNotEmpty(dao.getEhmid())) {
+					if(rulerLord.isValidInputForUpdateMrnBup(dao, userName)){
 						logger.warn("Before UPDATE MRN-BUP ...");
 						dmlRetval = this.sadmohfDaoServices.setMrnBup(dao, dbErrorStackTrace);
-				  }else{
+					}else{
 						//write JSON error output
-						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+						errMsg = "ERROR on UPDATE  MRN-BUP: invalid (rulerLord)?  Try to check: <DaoServices>.update";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-				  }
-				
+					}
+				}else {
+					if(rulerLord.isValidInputForUpdateRequestIdBup(dao, userName)){
+						logger.warn("Before UPDATE RequestId-BUP ...");
+						dmlRetval = this.sadmohfDaoServices.setRequestIdBup(dao, dbErrorStackTrace);
+					}else{
+						//write JSON error output
+						errMsg = "ERROR on UPDATE RequestId-BUP: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}
+					
+					
+				}
 				//----------------------------------
 				//check returns from dml operations
 				//----------------------------------

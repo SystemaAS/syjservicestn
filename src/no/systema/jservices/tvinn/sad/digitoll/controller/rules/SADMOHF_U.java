@@ -87,6 +87,21 @@ public class SADMOHF_U {
 		}
 		return retval;
 	}
+	public boolean isValidInputForUpdateRequestIdBup(SadmohfDao dao, String user){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user)){
+			//check dao
+			if( StringUtils.isNotEmpty(dao.getEhuuid())  ){ 
+				//OK
+			} else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
 	/**
 	 * 
 	 * @param dao

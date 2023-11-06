@@ -406,21 +406,34 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("user:" + user);
             logger.warn("etlnrt:" + dao.getEtlnrt().toString());
             logger.warn("etmid:" + dao.getEtmid());
+            logger.warn("etuuid:" + dao.getEtuuid());
             
             //rules
             SADMOTF_U rulerLord = new SADMOTF_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
-				
-				  if(rulerLord.isValidInputForUpdateMrnBup(dao, userName)){
-						logger.warn("Before UPDATE MRN-BUP ...");
-						dmlRetval = this.sadmotfDaoServices.setMrnBup(dao, dbErrorStackTrace);
-				  }else{
-						//write JSON error output
-						errMsg = "ERROR on UPDATE: invalid (rulerLord)?  Try to check: <DaoServices>.update";
-						status = "error";
-						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				  if(StringUtils.isNotEmpty(dao.getEtmid())) {
+					  if(rulerLord.isValidInputForUpdateMrnBup(dao, userName)){
+							logger.warn("Before UPDATE MRN-BUP ...");
+							dmlRetval = this.sadmotfDaoServices.setMrnBup(dao, dbErrorStackTrace);
+					  }else{
+							//write JSON error output
+							errMsg = "ERROR on UPDATE MRN-BUP: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					  }
+				  }else  {
+					  if(rulerLord.isValidInputForUpdateRequestIdBup(dao, userName)){
+							logger.warn("Before UPDATE RequestId-BUP ...");
+							dmlRetval = this.sadmotfDaoServices.setRequestIdBup(dao, dbErrorStackTrace);
+					  }else{
+							//write JSON error output
+							errMsg = "ERROR on UPDATE RequestId-BUP: invalid (rulerLord)?  Try to check: <DaoServices>.update";
+							status = "error";
+							sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					  }
+					  
 				  }
 				
 				//----------------------------------

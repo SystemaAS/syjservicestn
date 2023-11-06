@@ -126,4 +126,20 @@ public class SADMOMF_U {
 		}
 		return retval;
 	}
+	
+	public boolean isValidInputForUpdateRequestIdBup(SadmomfDao dao, String user){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user)){
+			//check dao
+			if(StringUtils.isNotEmpty(dao.getEmuuid())  ){ 
+				//OK
+			} else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
 }

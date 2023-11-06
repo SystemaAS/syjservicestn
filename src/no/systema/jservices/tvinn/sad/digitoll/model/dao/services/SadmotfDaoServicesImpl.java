@@ -512,6 +512,32 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		return retval;
 	}
 	
+	public int setRequestIdBup(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+			//DEBUG logger.warn(daoObj.toString());	
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etuuid_own = ? ");
+			//id's
+			sql.append(" WHERE etlnrt = ? ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtuuid(), dao.getEtlnrt()} );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
 	
 	/**
 	 * 
