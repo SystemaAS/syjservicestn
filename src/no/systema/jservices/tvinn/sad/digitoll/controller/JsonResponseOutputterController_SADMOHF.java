@@ -388,6 +388,7 @@ public class JsonResponseOutputterController_SADMOHF {
             logger.warn("ehlnrm:" + dao.getEhlnrm().toString());
             logger.warn("ehlnrh:" + dao.getEhlnrh().toString());
             logger.warn("ehmid:" + dao.getEhmid());
+            logger.warn("ehuuid:" + dao.getEhuuid());
             
             //rules
             SADMOHF_U rulerLord = new SADMOHF_U();

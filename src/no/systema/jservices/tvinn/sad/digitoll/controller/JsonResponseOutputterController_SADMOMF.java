@@ -477,6 +477,7 @@ public class JsonResponseOutputterController_SADMOMF {
             logger.warn("emlnrt:" + dao.getEmlnrt().toString());
             logger.warn("emlnrm:" + dao.getEmlnrm().toString());
             logger.warn("emmid:" + dao.getEmmid());
+            logger.warn("emuuid:" + dao.getEmuuid());
             
             //rules
             SADMOMF_U rulerLord = new SADMOMF_U();
