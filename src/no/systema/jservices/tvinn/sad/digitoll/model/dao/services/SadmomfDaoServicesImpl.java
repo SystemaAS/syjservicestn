@@ -332,7 +332,8 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = '', emmid = '', emst2 = ?, emst3 = '', emdtin = ? ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set emuuid = '', emmid = '', emuuid_own = '', emmid_own = '', ");
+			sql.append(" emst2 = ?, emst3 = '', emdtin = ? ");  
 			//id's
 			sql.append(" WHERE emlnrt = ? ");
 			sql.append(" AND emlnrm = ?" );
