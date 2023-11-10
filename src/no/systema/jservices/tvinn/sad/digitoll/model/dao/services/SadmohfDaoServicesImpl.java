@@ -319,7 +319,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info("Exception in update Sadl:"+writer.toString());
+			logger.info("Exception in update Delete:"+writer.toString());
 			e.printStackTrace();
 			//Chop the message to comply to JSON-validation
 			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));

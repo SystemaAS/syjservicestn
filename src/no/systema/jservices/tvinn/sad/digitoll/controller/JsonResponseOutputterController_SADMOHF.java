@@ -208,7 +208,8 @@ public class JsonResponseOutputterController_SADMOHF {
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						//dmlRetval = this.sadexmfDaoServices.updateManifestStatus(dao, dbErrorStackTrace);
+						//Delete light means updating the record with blanks emuuid and emmid. The record will exists but without any id.
+						dmlRetval = this.sadmohfDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
