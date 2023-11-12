@@ -122,4 +122,20 @@ public class SADMOTF_U {
 		return retval;
 	}
 	
+	public boolean isValidInputForEntryComplete(SadmotfDao dao, String user){
+		boolean retval = true;
+		if( StringUtils.isNotEmpty(user)){
+			//check dao for etmid and etlnrt 
+			if( StringUtils.isNotEmpty(dao.getEtmid()) && dao.getEtlnrt() > 0 ) { 
+				//OK
+			}else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		
+		return retval;
+	}
+	
 }

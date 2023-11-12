@@ -544,6 +544,89 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 	
 	/**
 	 * 
+	 */
+	public int updateStatus2ForEntry(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug..." + "etst2=" + dao.getEtst2() + " etmid=" + dao.getEtmid());
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etst2 = ? ");
+			//id's
+			sql.append(" WHERE etmid = ? ");
+			//params
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst2(), dao.getEtmid() } );
+			if(retval>=0) {
+				retval = updateStatus2ForEntryMasters(dao.getEtlnrt(), dao.getEtst2(), errorStackTrace);
+				retval = updateStatus2ForEntryHouses(dao.getEtlnrt(), dao.getEtst2(), errorStackTrace);
+				
+			}
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
+	private int updateStatus2ForEntryMasters(Integer lnrt, String status, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+				
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug...masters " + "st2= " + status +  "lnrt=" + lnrt);
+			sql.append(" UPDATE sadmomf set emst2 = ? ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			//params
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { status, lnrt } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
+	private int updateStatus2ForEntryHouses(Integer lnrt, String status, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+				
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug...houses " + "st2= " + status +  "lnrt=" + lnrt);
+			sql.append(" UPDATE sadmohf set ehst2 = ? ");
+			//id's
+			sql.append(" WHERE ehlnrt = ? ");
+			//params
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { status, lnrt } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	private int getNextEtlnrt() {

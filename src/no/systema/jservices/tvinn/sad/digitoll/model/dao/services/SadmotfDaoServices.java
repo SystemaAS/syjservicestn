@@ -19,6 +19,8 @@ public interface SadmotfDaoServices extends IDaoServices {
 	public int updateStatus3(Object daoObj, StringBuffer errorStackTrace);
 	public int setMrnBup(Object daoObj, StringBuffer errorStackTrace);
 	public int setRequestIdBup(Object daoObj, StringBuffer errorStackTrace);
+	//Entry
+	public int updateStatus2ForEntry(Object daoObj, StringBuffer errorStackTrace);
 	
 	
 	public List findHouseOpd(String opd,Object dao,StringBuffer errorStackTrace);
