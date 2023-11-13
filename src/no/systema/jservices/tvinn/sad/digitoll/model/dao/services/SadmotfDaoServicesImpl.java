@@ -290,8 +290,40 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 	 * DELETE
 	 */
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
-		//NA --> refer to update status. There is never a true DELETE
-		return 0;
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append(" DELETE from "  + this.TABLE_NAME );
+			if(StringUtils.isNotEmpty(dao.getEtmid())) {
+				sql.append(" WHERE etmid = ? ");
+				logger.info(sql.toString() + " etmid:" + dao.getEtmid());
+				
+				//params
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getEtmid(),
+				} );
+			}else {
+				sql.append(" WHERE etlnrt = ? ");
+				logger.info(sql.toString() + " etlnrt:" + dao.getEtlnrt());
+				
+				//params
+				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+				dao.getEtlnrt(),
+				} );
+			}
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in update Sadl:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		return retval;
 	}
 	
 	/**
