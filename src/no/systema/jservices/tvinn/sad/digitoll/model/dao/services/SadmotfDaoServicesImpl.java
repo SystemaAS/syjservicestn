@@ -584,13 +584,18 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			SadmotfDao dao = (SadmotfDao)daoObj;
 				
 			StringBuffer sql = new StringBuffer();
-			logger.info("mydebug..." + "etst2=" + dao.getEtst2() + " etmid=" + dao.getEtmid());
-			sql.append(" UPDATE " + this.TABLE_NAME + " set etst2 = ? ");
+			logger.info("mydebug..." + "etst2=" + dao.getEtst2());
+			logger.info("mydebug..." + "etentval=" + dao.getEtentval() + " etentoff=" + dao.getEtentoff() + " etenttim=" + dao.getEtenttim() );
+			logger.info("mydebug..." + "etmid=" + dao.getEtmid() );
+			
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etst2 = ?, etentval = ?, etentoff = ?, etenttim = ? ");
 			//id's
 			sql.append(" WHERE etmid = ? ");
 			//params
 			logger.info(sql.toString());
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst2(), dao.getEtmid() } );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtst2(), dao.getEtentval(), dao.getEtentoff(), dao.getEtenttim(), 
+					//id
+					dao.getEtmid() } );
 			if(retval>=0) {
 				retval = updateStatus2ForEntryMasters(dao.getEtlnrt(), dao.getEtst2(), errorStackTrace);
 				retval = updateStatus2ForEntryHouses(dao.getEtlnrt(), dao.getEtst2(), errorStackTrace);

@@ -501,6 +501,11 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("etmid:" + dao.getEtmid());
             logger.warn("etlnrt:" + dao.getEtlnrt());
             
+            logger.warn("etentdval:" + dao.getEtentval());
+            logger.warn("etentoff:" + dao.getEtentoff());
+            logger.warn("etenttim:" + dao.getEtenttim());
+            
+            
             //rules
             SADMOTF_U rulerLord = new SADMOTF_U();
 			//Start processing now
