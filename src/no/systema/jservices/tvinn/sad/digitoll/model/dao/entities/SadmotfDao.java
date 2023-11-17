@@ -23,7 +23,7 @@ public class SadmotfDao implements IDao {
 	
 	private Integer etentval = 0;
 	private String etentoff = "";
-	private Double etenttim = 0D;
+	private String etenttim = "0";
 	
 	
 	private String etst3 = ""; // varchar(1) , Status om inpassering
