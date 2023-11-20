@@ -72,6 +72,7 @@ public class JsonResponseOutputterController_SADMOTF {
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String house_opd = request.getParameter("opd");//special case for deep search
+			String house_extref = request.getParameter("extref");//special case for deep search
 			logger.warn("User:" + user);
 			
 			//Check ALWAYS user in BRIDF
@@ -91,7 +92,7 @@ public class JsonResponseOutputterController_SADMOTF {
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
-	            if(StringUtils.isEmpty(house_opd)) {
+	            if(!isSpecialCaseDeepSearch(house_opd, house_extref)) {
 		            logger.warn("Before SELECT ...");
 		            if( StringUtils.isNotEmpty(dao.getEtmid()) ){
 						logger.warn("inside: findById");
@@ -108,9 +109,16 @@ public class JsonResponseOutputterController_SADMOTF {
 						list = this.sadmotfDaoServices.getList(dbErrorStackTrace);
 					}
 	            }else {
-	            	//special case for deep search towards opd (houses ehtdn) from a transport search
-	            	logger.warn("inside: doFindHouseOpd");
-					list = this.sadmotfDaoServices.findHouseOpd(house_opd, dao, dbErrorStackTrace);
+	            	if(StringUtils.isNotEmpty(house_opd)) {
+	            		//special case for deep search towards opd (houses ehtdn) from a transport search
+	            		logger.warn("inside: doFindHouseOpd");
+	            		list = this.sadmotfDaoServices.findHouseOpd(house_opd, dao, dbErrorStackTrace);
+	            	
+	            	}else if(StringUtils.isNotEmpty(house_extref)) {
+	            		//special case for deep search towards opd (houses ehtdn) from a transport search
+	            		logger.warn("inside: doFindHouseExtRef");
+	            		list = this.sadmotfDaoServices.findHouseExtRef(house_extref, dao, dbErrorStackTrace);
+	            	}
 	            }
 	            logger.warn("After SELECT ..." );
 	            
@@ -142,6 +150,19 @@ public class JsonResponseOutputterController_SADMOTF {
 		}
 		session.invalidate();
 		return sb.toString();
+	}
+	
+	private boolean isSpecialCaseDeepSearch(String house_opd, String house_extref) {
+		boolean retval = false;
+		if(StringUtils.isNotEmpty(house_opd)){
+			retval = true;
+		}
+		if(StringUtils.isNotEmpty(house_extref)){
+			retval = true;
+		}
+		
+		
+		return retval;
 	}
 	/**
 	 * To find if a deeper search of a dataset is needed

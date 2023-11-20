@@ -23,7 +23,8 @@ public class SadmohfDao implements IDao  {
 	private Integer ehlnrh = 0; //     sonet        4  0       4       102        begge    h-lnr innen master  
 	private String ehrecid = ""; //    tegn           35						  begge    ReceptacleId_No
 	private Integer ehcnin = 0; //     sonet        1  0       1       106        begge    container indikator 
-	private String ehvkb = ""; //      sonet       13  3      13       107        begge    total vekt          
+	private String ehvkb = ""; //      sonet       13  3      13       107        begge    total vekt   
+	private String ehextref = ""; //   tegn       	  35      35              	  begge    ext.ref
 	private Integer ehntk = 0; //      sonet        7  0       7       120        begge    total kolli         
 	private String ehvt = ""; //       tegn           50      50       127        begge    varebeskrivelse     
 	private String ehdkh = ""; //      tegn           50      50       177        begge    house dokumentnr    

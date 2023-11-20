@@ -24,5 +24,5 @@ public interface SadmotfDaoServices extends IDaoServices {
 	
 	
 	public List findHouseOpd(String opd,Object dao,StringBuffer errorStackTrace);
-	
+	public List findHouseExtRef (String extref, Object obj, StringBuffer errorStackTrace );
 }
