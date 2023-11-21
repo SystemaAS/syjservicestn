@@ -35,9 +35,32 @@ public class SadmohfDao implements IDao  {
 	private String ehuprt = ""; //     tegn           30      30       268        begge    outgoingpros. tekst  
 	private String ehrg = ""; //       tegn           11      11       298        begge    org.nr               
 	private Integer eh0068a = 0; //    sonet        8  0       8       309        begge    sendingsdato         
-	private Integer eh0068b = 0; //    sonet        6  0       6       317        begge    sendingssekv         
+	private Integer eh0068b = 0; //    sonet        6  0       6       317        begge    sendingssekv  
+	
 	private String ehtrnr = ""; //     tegn           18      18       323        begge    mrn-nr          
-	private String ehtrty = ""; //     tegn            4       4       341        begge    ref.type cude   
+	private String ehtrty = ""; //     tegn            4       4       341        begge    ref.type cude 
+	//flera transiteringar
+	private String ehtrnr2 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty2 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr3 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty3 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr4 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty4 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr5 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty5 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr6 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty6 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr7 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty7 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr8 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty8 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr9 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty9 = ""; //     tegn            4       4       341        begge    ref.type cude
+	private String ehtrnr10 = ""; //     tegn           18      18       323        begge    mrn-nr          
+	private String ehtrty10 = ""; //     tegn            4       4       341        begge    ref.type cude
+	
+	
+	
 	private String ehetyp = ""; //     tegn            2       2       345        begge    type            
 	private String ehetypt = ""; //    tegn           30      30       347        begge    type tekst      
 	private String eheid = ""; //      tegn           18      18       377        begge    eksport id    
