@@ -39,12 +39,18 @@ public class DiacriticalCharacterManager {
 		
 		StringBuilder sb = new StringBuilder();
 		Map<Character, Character> map = new HashMap<Character, Character>();
+		//Estland
 		map.put('á', 'a'); map.put('Á', 'A'); 
 		map.put('ě', 'e'); map.put('Ě', 'E');
 		map.put('č', 'c'); map.put('Č', 'C');
 		map.put('š', 's'); map.put('Š', 'S'); 
 		map.put('ž', 'z'); map.put('Ž', 'Z');
 		map.put('ž', 'z'); map.put('Ž', 'Z');
+		//Poland
+		map.put('ć', 'c'); map.put('ń', 'n');
+		map.put('ó', 'o'); map.put('ś', 's');
+		map.put('ź', 'z'); map.put('ą', 'a'); 
+		map.put('ę', 'e'); 
 		//extend to cover all the diacritics ... (a lot)
 		
 		
