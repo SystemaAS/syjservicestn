@@ -212,6 +212,9 @@
   <bean id="sadmoafDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmoafDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <bean id="sadmocfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmocfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
   
