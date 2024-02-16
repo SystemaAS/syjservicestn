@@ -190,7 +190,7 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 	 */
 	private String getSELECT_CLAUSE() {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" select a.siavd,a.sisg,a.sist,a.sitdn,a.sidt,a.sidtg,a.sitrid,a.sitle,a.sitll,a.sinas,a.sinak,a.sivkb,a.sign, ");
+		sql.append(" select distinct a.siavd,a.sisg,a.sist,a.sitdn,a.sidt,a.sidtg,a.sitrid,a.sitle,a.sitll,a.sinas,a.sinak,a.sivkb,a.sign, ");
 		sql.append(" b.etlnrt, b.etpro, b.etkmrk, ");
 		sql.append(" c.emdkm, d.ehrgm, d.ehpro, d.ehtdn, d.ehdkh, d.ehvkb, d.ehvt " );
 		//sql.append(" c.emdkm, d.ehrgm " );
