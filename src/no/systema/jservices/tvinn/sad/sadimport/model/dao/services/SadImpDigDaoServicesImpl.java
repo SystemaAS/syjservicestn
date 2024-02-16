@@ -68,7 +68,14 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 			//Eksped.sted
 			if(StringUtils.isNotEmpty(dao.getSitle())){ sql.append(" and a.sitle = ? "); params.add(dao.getSitle()); }
 			//Løpenr
-			if(StringUtils.isNotEmpty(dao.getSitle())){ sql.append(" and a.sitll = ? "); params.add(dao.getSitll()); }
+			if(StringUtils.isNotEmpty(dao.getSitll())){ sql.append(" and a.sitll = ? "); params.add(dao.getSitll()); }
+			//Bilnr
+			if(StringUtils.isNotEmpty(dao.getSitrid())){ sql.append(" and a.sitrid = ? "); params.add(dao.getSitrid()); }
+			//Godsnr
+			if(StringUtils.isNotEmpty(dao.getSign())){ sql.append(" and a.sign = ? "); params.add(dao.getSign()); }
+			//Parties
+			if(StringUtils.isNotEmpty(dao.getSinas())){ sql.append(" and a.sinas LIKE ? "); params.add(SQL_WILD_CARD + dao.getSinas() + SQL_WILD_CARD); }
+			if(StringUtils.isNotEmpty(dao.getSinak())){ sql.append(" and a.sinak LIKE ? "); params.add(SQL_WILD_CARD + dao.getSinak() + SQL_WILD_CARD); }
 			//Dates fom-tom
 			if(dao.getSidt()>0){ sql.append(" and a.sidt >= ? "); params.add(dao.getSidt()); }
 			if(dao.getSidt_to()>0){ sql.append(" and a.sidt <= ? "); params.add(dao.getSidt_to()); }

@@ -146,7 +146,9 @@ public class JsonResponseOutputterController_SADIMPDIG {
 		if(dao.getSiavd()>0 ){
 			retval = true;
 		}
-		if(dao.getSidt()>0 || StringUtils.isNotEmpty(dao.getSisg()) || StringUtils.isNotEmpty(dao.getSitle()) || StringUtils.isNotEmpty(dao.getSitll())  ){
+		if(dao.getSidt()>0 || StringUtils.isNotEmpty(dao.getSisg()) || StringUtils.isNotEmpty(dao.getSitle()) || StringUtils.isNotEmpty(dao.getSitll())
+				|| StringUtils.isNotEmpty(dao.getSign()) || StringUtils.isNotEmpty(dao.getSinas()) || StringUtils.isNotEmpty(dao.getSinak()) 
+				|| StringUtils.isNotEmpty(dao.getSitrid()) ){
 			retval = true;
 		}
 		
