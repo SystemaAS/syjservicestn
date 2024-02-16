@@ -215,7 +215,10 @@
   <bean id="sadmocfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmocfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <!-- SAD-Import and Digitoll V2 STATS -->
+  <bean id="sadImpDigDaoServices" class="no.systema.jservices.tvinn.sad.sadimport.model.dao.services.SadImpDigDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   
    <!-- NCTS5 NO FORTOLLING -->
