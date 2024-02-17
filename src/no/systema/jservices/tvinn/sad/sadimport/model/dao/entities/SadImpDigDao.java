@@ -25,6 +25,7 @@ public class SadImpDigDao implements IDao {
 	private Integer sitdn = 0;
 	private Integer sidt = 0;
 	private Integer sidt_to = 0; //only for date purposes in the select
+	private String sidtno = ""; //only for presentation purposes format NO (Norway)
 	private String sidtg = "";
 	private String sitrid = ""; //bilregnr
 	private String sitle = ""; //Exped.enhet

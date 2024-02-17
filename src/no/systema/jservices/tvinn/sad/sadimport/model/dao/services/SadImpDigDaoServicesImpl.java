@@ -33,7 +33,8 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 		try{
 			StringBuffer sql = new StringBuffer();
 			sql.append(this.getSELECT_CLAUSE());
-			sql.append(" order by a.sitdn desc, a.sidt desc ");
+			sql.append(" where a.sitdn > 0 "); //remove all omberegnings
+			sql.append(" order by a.sidt desc, a.sitdn desc  ");
 			sql.append(" FETCH FIRST 2000 ROWS ONLY ");
 			
 			logger.warn(sql.toString());
@@ -61,10 +62,12 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 			StringBuffer sql = new StringBuffer();
 			sql.append(this.getSELECT_CLAUSE());
 			//bara för att bli kvit WHERE
-			sql.append(" where a.sitdn LIKE ? "); params.add(SQL_WILD_CARD); 
+			sql.append(" where a.sitdn > 0 "); //remove all omberegnings
+			//sql.append(" where a.sitdn LIKE ? "); params.add(SQL_WILD_CARD); 
 			//let the show begin
 			if(dao.getSiavd()>0){ sql.append(" and a.siavd = ? "); params.add(dao.getSiavd()); }
 			if(StringUtils.isNotEmpty(dao.getSisg())){ sql.append(" and a.sisg = ? "); params.add(dao.getSisg()); }
+			if(StringUtils.isNotEmpty(dao.getSist())){ sql.append(" and a.sist = ? "); params.add(dao.getSist()); }
 			//Eksped.sted
 			if(StringUtils.isNotEmpty(dao.getSitle())){ sql.append(" and a.sitle = ? "); params.add(dao.getSitle()); }
 			//Løpenr
@@ -80,38 +83,13 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 			if(dao.getSidt()>0){ sql.append(" and a.sidt >= ? "); params.add(dao.getSidt()); }
 			if(dao.getSidt_to()>0){ sql.append(" and a.sidt <= ? "); params.add(dao.getSidt_to()); }
 			//order by
-			sql.append(" order by a.sitdn desc, a.sidt desc ");
+			sql.append(" order by a.sidt desc, a.sitdn desc  ");
 			
 			//security issue in case dates are empty since the whole db at a customer site is full of many years back
 			if(dao.getSidt()==0) {
 				sql.append(" FETCH FIRST 2000 ROWS ONLY ");
 			}
 			
-			
-			//sql.append(" select * from " + this.TABLE_NAME + " where etlnrt LIKE ?" );
-			//params.add(SQL_WILD_CARD);
-			
-			//walk through the filter fields
-			/*if(dao.getEtlnrt()>0){ sql.append(" and etlnrt = ? " ); params.add(dao.getEtlnrt()); }
-			if(dao.getEtavd()>0){ sql.append(" and etavd = ? " ); params.add(dao.getEtavd()); }
-			if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
-			if(StringUtils.isNotEmpty(dao.getEtsg())){ sql.append(" and etsg = ? "); params.add(dao.getEtsg()); }
-			if(StringUtils.isNotEmpty(dao.getEtst())){ sql.append(" and etst = ? "); params.add(dao.getEtst()); }
-			if(StringUtils.isNotEmpty(dao.getEtst2())){ sql.append(" and etst2 = ? "); params.add(dao.getEtst2()); }
-			//dates
-			if(dao.getEtdtr()>0){ 
-				sql.append(" and etdtr >= ? "); params.add(dao.getEtdtr()); 
-			}
-			if(dao.getEtdtr_to()>0){ 
-				sql.append(" and etdtr <= ? "); params.add(dao.getEtdtr_to()); 
-			}
-			if(dao.getEtetad()>0){ 
-				sql.append(" and etetad >= ? "); params.add(dao.getEtetad()); 
-			}
-			if(dao.getEtetad_to()>0){ 
-				sql.append(" and etetad <= ? "); params.add(dao.getEtetad_to()); 
-			}
-			*/
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
 			
@@ -198,6 +176,7 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 	private String getSELECT_CLAUSE() {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" select distinct a.siavd,a.sisg,a.sist,a.sitdn,a.sidt,a.sidtg,a.sitrid,a.sitle,a.sitll,a.sinas,a.sinak,a.sivkb,a.sign, ");
+		sql.append(" varchar_format(to_date(char(a.sidt),'YYYYMMDD'),'DDMMYY') sidtno, ");
 		sql.append(" b.etlnrt, b.etpro, b.etkmrk, ");
 		sql.append(" c.emdkm, d.ehrgm, d.ehpro, d.ehtdn, d.ehdkh, d.ehvkb, d.ehvt " );
 		//sql.append(" c.emdkm, d.ehrgm " );
