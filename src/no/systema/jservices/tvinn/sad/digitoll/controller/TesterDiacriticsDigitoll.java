@@ -20,6 +20,7 @@ public class TesterDiacriticsDigitoll {
 		String otherX = DiacriticalCharacterManager.stripDiacriticsApache(str);
 		System.out.println(otherX);
 		
+		//
 		
 	}
 }
