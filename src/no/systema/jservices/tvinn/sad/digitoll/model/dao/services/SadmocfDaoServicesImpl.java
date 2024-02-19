@@ -62,6 +62,8 @@ public class SadmocfDaoServicesImpl implements SadmocfDaoServices {
 				sql.append(" where name LIKE ? " ); params.add(this.SQL_WILD_CARD + dao.getName() + this.SQL_WILD_CARD); 
 			}else if(StringUtils.isNotEmpty(dao.getCommtype()) ){ 
 				sql.append(" where commtype LIKE ? " ); params.add(this.SQL_WILD_CARD + dao.getCommtype() + this.SQL_WILD_CARD); 
+			}else if(StringUtils.isNotEmpty(dao.getFormat()) ){ 
+				sql.append(" where format LIKE ? " ); params.add(this.SQL_WILD_CARD + dao.getFormat() + this.SQL_WILD_CARD); 
 			}
 			
 			logger.warn(sql.toString());

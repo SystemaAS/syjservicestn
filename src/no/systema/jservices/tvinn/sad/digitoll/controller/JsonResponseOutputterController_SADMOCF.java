@@ -78,15 +78,16 @@ public class JsonResponseOutputterController_SADMOCF {
 	            logger.warn("orgnr:" + dao.getOrgnr());
 	            logger.warn("name:" + dao.getName());
 	            logger.warn("commtype:" + dao.getCommtype());
+	            logger.warn("format:" + dao.getFormat());
 	            
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
 	            logger.warn("Before SELECT ...");
 	            if(StringUtils.isNotEmpty(dao.getOrgnr()) ) {
-					logger.warn("inside: findById (lineNr + lnr-keys...)");
+					logger.warn("inside: findById (orgnr...)");
 					list = this.sadmocfDaoServices.findById(dao.getOrgnr(), dbErrorStackTrace);
-				}else if( StringUtils.isNotEmpty(dao.getName()) || StringUtils.isNotEmpty(dao.getCommtype()) ){
+				}else if( StringUtils.isNotEmpty(dao.getName()) || StringUtils.isNotEmpty(dao.getCommtype()) || StringUtils.isNotEmpty(dao.getFormat()) ){
 					logger.warn("inside: find (dao)");
 					list = this.sadmocfDaoServices.find(dao, dbErrorStackTrace);
 				}else{

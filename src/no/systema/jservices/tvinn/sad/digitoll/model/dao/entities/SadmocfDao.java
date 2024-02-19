@@ -10,5 +10,11 @@ public class SadmocfDao implements IDao  {
 	private String name  = "";//      tegn      30  
 	private String commtype  = ""; //  tegn      10 (ftp, email, webserv)   
 	
+	private String format  = "";//      tegn    10  
+	private String xmlxsd  = "";//      tegn    25  
+	private String ftpserver  = "";//   tegn      70  
+	private String ftpuser  = "";//     tegn      35  
+	private String ftppwd  = "";//      tegn      70  
+	private String ftpdir  = "";//      tegn      70  
 
 }
