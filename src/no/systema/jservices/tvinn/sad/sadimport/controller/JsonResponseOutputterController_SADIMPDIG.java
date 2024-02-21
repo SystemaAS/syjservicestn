@@ -90,10 +90,12 @@ public class JsonResponseOutputterController_SADIMPDIG {
 	            List list = null;
 				//do SELECT
 	            logger.warn("Before SELECT ...");
-	            if( dao.getSitdn()>0){
+	            /*if( dao.getSitdn()>0){
 					logger.warn("inside: findById");
 					list = this.sadImpDigDaoServices.findById(String.valueOf(dao.getSitdn()), dbErrorStackTrace);
-				}else if( this.isDoFind(dao) ){
+				}else 
+				*/	
+				if( this.isDoFind(dao) ){
 					logger.warn("inside: doFind");
 					list = this.sadImpDigDaoServices.find(dao, dbErrorStackTrace);
 				}else{
@@ -143,7 +145,7 @@ public class JsonResponseOutputterController_SADIMPDIG {
 	private boolean isDoFind(SadImpDigDao dao){
 		boolean retval = false;
 		
-		if(dao.getSiavd()>0 || dao.getSidt()>0 || StringUtils.isNotEmpty(dao.getSisg()) || StringUtils.isNotEmpty(dao.getSitle()) || StringUtils.isNotEmpty(dao.getSitll())
+		if(dao.getSitdn()>0 || dao.getSiavd()>0 || dao.getSidt()>0 || StringUtils.isNotEmpty(dao.getSisg()) || StringUtils.isNotEmpty(dao.getSitle()) || StringUtils.isNotEmpty(dao.getSitll())
 				|| StringUtils.isNotEmpty(dao.getSign()) || StringUtils.isNotEmpty(dao.getSinas()) || StringUtils.isNotEmpty(dao.getSinak()) 
 				|| StringUtils.isNotEmpty(dao.getSist()) || StringUtils.isNotEmpty(dao.getSitrid()) ){
 			retval = true;

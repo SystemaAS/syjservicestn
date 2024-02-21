@@ -172,7 +172,8 @@ public class JsonResponseOutputterController_SADMOTF {
 	private boolean isDoFind(SadmotfDao dao){
 		boolean retval = false;
 		
-		if(dao.getEtlnrt()>0 || StringUtils.isNotEmpty(dao.getEtsg()) || StringUtils.isNotEmpty(dao.getEtst()) || StringUtils.isNotEmpty(dao.getEtst2())){
+		if(dao.getEtlnrt()>0 || StringUtils.isNotEmpty(dao.getEtsg()) || StringUtils.isNotEmpty(dao.getEtst()) || StringUtils.isNotEmpty(dao.getEtst2())
+				|| StringUtils.isNotEmpty(dao.getEtkmrk()) ){
 			retval = true;
 		}else if(dao.getEtdtr()>0 || dao.getEtetad()>0) {
 			retval = true;
