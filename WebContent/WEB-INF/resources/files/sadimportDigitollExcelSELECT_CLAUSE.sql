@@ -8,7 +8,8 @@ select distinct a.siavd,a.sisg,a.sist,a.sitdn,a.sidt,a.sidtg,a.sitrid,a.sitle,
  on a.sitrid = b.etkmrk 
  and a.sisg = b.etsg
  and YEAR(to_date(char(a.sidt),'YYYYMMDD')) >= 
- YEAR(CURRENT_DATE - 2 YEAR) 
+ YEAR(CURRENT_DATE - 2 YEAR)
+ and b.etst2 IN ('C','D','N')
  full outer join sadmomf AS c 
  on b.etlnrt = c.emlnrt 
  full outer join sadmohf AS d 
