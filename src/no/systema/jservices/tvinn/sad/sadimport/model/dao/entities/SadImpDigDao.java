@@ -43,6 +43,7 @@ public class SadImpDigDao implements IDao {
 	private Integer etetad = 0;
 	private String etetadno = ""; //only for presentation purposes format NO (Norway)
 	private String emdkm = ""; 
+	private String emvkb = "";
 	private String ehrgm = "";
 	private Integer ehpro = 0;
 	private Integer ehtdn = 0;
