@@ -182,7 +182,7 @@ public class JsonResponseOutputterController_ZADMOHF {
             logger.warn("mode:" + mode);
             logger.warn("ehst:" + dao.getEhst());
             logger.warn("ehst2:" + dao.getEhst2());
-            
+            logger.warn(dao.toString());
             
             //rules
             ZADMOHF_U rulerLord = new ZADMOHF_U();
@@ -210,10 +210,9 @@ public class JsonResponseOutputterController_ZADMOHF {
 							list = this.zadmohfDaoServices.find(dao, dbErrorStackTrace);
 							//check if there is already such a code. If it does, stop the update
 							if(list!=null && list.size()>0){
-								//write JSON error output
-								errMsg = "ERROR on UPDATE: Code exists already";
-								status = "error";
-								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+								logger.info("UPDATE instead of INSERT ..." );
+								dmlRetval = this.zadmohfDaoServices.update(dao, dbErrorStackTrace);
+								
 							}else{
 								logger.info("MODE:" + mode + " " + " INSERT...");
 								dmlRetval = this.zadmohfDaoServices.insert(dao, dbErrorStackTrace);

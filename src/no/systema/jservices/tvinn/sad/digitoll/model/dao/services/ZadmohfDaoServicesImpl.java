@@ -170,7 +170,6 @@ public class ZadmohfDaoServicesImpl implements ZadmohfDaoServices {
 	 */
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		int nextEhlnrh = -1;
 		
 		logger.info("before INSERT");
 		try{
@@ -180,7 +179,7 @@ public class ZadmohfDaoServicesImpl implements ZadmohfDaoServices {
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( ehavd, ehpro, ehtdn, ehlnrt, ehlnrm, ehlnrh, ehhdkm_fh,  ");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( ehavd, ehpro, ehtdn, ehlnrt, ehlnrm, ehlnrh, ehdkm_fh,  ");
 			sql.append(" ehst, ehst2, ehst3, ehuuid, ehmid, ehdts, ehtms, ehrecid, ehcnin, ehvkb, ehntk, ehextref, ");
 			sql.append(" ehvt, ehdkh, ehdkht, ehpr, ehprt, ehupr, ehuprt, ehrg, eh0068a, eh0068b, ehtrnr, ehtrty, ");
 			//
@@ -237,11 +236,81 @@ public class ZadmohfDaoServicesImpl implements ZadmohfDaoServices {
 			retval = -1;
 		}
 		
-		//in order to get the id for a "find"
-		if(retval >= 0) {
-			retval = nextEhlnrh;
+		
+		return retval;
+		
+	}
+	
+	public int insertTest(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		logger.info("before INSERT");
+		try{
+			
+			ZadmohfDao dao = (ZadmohfDao)daoObj;
+			
+			
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( ehavd, ehpro, ehtdn, ehlnrt, ehlnrm, ehlnrh, ehdkm_fh,  ");
+			sql.append(" ehst, ehst2, ehst3, ehuuid, ehmid, ehdts, ehtms, ehrecid, ehcnin, ehvkb, ehntk, ehextref, ");
+			sql.append(" ehvt, ehdkh, ehdkht, ehpr, ehprt, ehupr, ehuprt, ehrg, eh0068a, eh0068b, ehtrnr, ehtrty ) ");
+			//
+			/*sql.append(" ehtrnr2, ehtrty2, ehtrnr3, ehtrty3, ehtrnr4, ehtrty4, ehtrnr5, ehtrty5,  ehtrnr6, ehtrty6,  ");
+			sql.append(" ehtrnr7, ehtrty7, ehtrnr8, ehtrty8, ehtrnr9, ehtrty9, ehtrnr10, ehtrty10,   ");
+			//
+			sql.append(" ehetyp, ehetypt, eheid, ehkns, ehrgs, ehtpps, ehnas, ehna2s, ehad1s, ehnrs,  ");
+			//
+			sql.append(" ehetyp2, ehetypt2, eheid2, ehetyp3, ehetypt3, eheid3, ehetyp4, ehetypt4, eheid4, ehetyp5, ehetypt5, eheid5,   ");
+			sql.append(" ehetyp6, ehetypt6, eheid6, ehetyp7, ehetypt7, eheid7, ehetyp8, ehetypt8, eheid8, ehetyp9, ehetypt9, eheid9, ehetyp10, ehetypt10, eheid10,   ");
+			//
+			sql.append(" ehpns, ehpss, ehlks, ehpbs, ehems, ehemst, ehknm, ehrgm, ehtppm, ehnam,  ehna2m, ehad1m, ehnrm, ehpnm,  ");
+			sql.append(" ehpsm, ehlkm, ehpbm, ehemm, ehemmt, ehlka, ehsda, ehsdat, ehlkd, ehsdd, ehsddt ) ");
+			*/
+			sql.append(" VALUES ( ?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?) ");
+			/*
+			//flera transiteringar
+			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?, ");
+			//
+			sql.append(" ?,?,?,?,?,?,?,?,?,?, ");
+			//flera exporter
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,  ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
+			//
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,? ) ");
+			*/
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+			dao.getEhavd(), dao.getEhpro(), dao.getEhtdn(), dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhdkm_fh(),		
+			dao.getEhst(), dao.getEhst2(), dao.getEhst3(), dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhtms(), dao.getEhrecid(), dao.getEhcnin(), dao.getEhvkb(), dao.getEhntk(), dao.getEhextref(),
+			dao.getEhvt(), dao.getEhdkh(), dao.getEhdkht(), dao.getEhpr(), dao.getEhprt(), dao.getEhupr(), dao.getEhuprt(), dao.getEhrg(), dao.getEh0068a(), dao.getEh0068b(), dao.getEhtrnr(),dao.getEhtrty(), 
+			
+			/*//flera transiteringar
+			dao.getEhtrnr2(),dao.getEhtrty2(), dao.getEhtrnr3(),dao.getEhtrty3(), dao.getEhtrnr4(),dao.getEhtrty4(), dao.getEhtrnr5(),dao.getEhtrty5(), dao.getEhtrnr6(),dao.getEhtrty6(), 
+			dao.getEhtrnr7(),dao.getEhtrty7(), dao.getEhtrnr8(),dao.getEhtrty8(), dao.getEhtrnr9(),dao.getEhtrty9(), dao.getEhtrnr10(),dao.getEhtrty10(), 
+			//
+			dao.getEhetyp(), dao.getEhetypt(), dao.getEheid(), dao.getEhkns(), dao.getEhrgs(), dao.getEhtpps(), dao.getEhnas(), dao.getEhna2s(), dao.getEhad1s(), dao.getEhnrs(),
+			//flera exporter
+			dao.getEhetyp2(), dao.getEhetypt2(), dao.getEheid2(), dao.getEhetyp3(), dao.getEhetypt3(), dao.getEheid3(), dao.getEhetyp4(), dao.getEhetypt4(), dao.getEheid4(), dao.getEhetyp5(), dao.getEhetypt5(), dao.getEheid5(),
+			dao.getEhetyp6(), dao.getEhetypt6(), dao.getEheid6(), dao.getEhetyp7(), dao.getEhetypt7(), dao.getEheid7(), dao.getEhetyp8(), dao.getEhetypt8(), dao.getEheid8(), dao.getEhetyp9(), dao.getEhetypt9(), dao.getEheid9(), dao.getEhetyp10(), dao.getEhetypt10(), dao.getEheid10(),
+			//
+			dao.getEhpns(), dao.getEhpss(), dao.getEhlks(), dao.getEhpbs(), dao.getEhems(), dao.getEhemst(), dao.getEhknm(), dao.getEhrgm(), dao.getEhtppm(), dao.getEhnam(), dao.getEhna2m(), dao.getEhad1m(), dao.getEhnrm(), dao.getEhpnm(),
+			dao.getEhpsm(), dao.getEhlkm(), dao.getEhpbm(), dao.getEhemm(), dao.getEhemmt(), dao.getEhlka(), dao.getEhsda(), dao.getEhsdat(), dao.getEhlkd(), dao.getEhsdd(),  dao.getEhsddt(),
+			*/
+			} );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
 		}
-		logger.info("after INSERT --> retval:" + nextEhlnrh);
+		
 		return retval;
 		
 	}
