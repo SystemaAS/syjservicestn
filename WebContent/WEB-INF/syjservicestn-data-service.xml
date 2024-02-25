@@ -219,7 +219,9 @@
   <bean id="sadImpDigDaoServices" class="no.systema.jservices.tvinn.sad.sadimport.model.dao.services.SadImpDigDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <bean id="zadmohfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.ZadmohfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
    <!-- NCTS5 NO FORTOLLING -->
   <bean id="nctsecDaoServices" class="no.systema.jservices.tvinn.sad.ncts5export.model.dao.services.NctsecDaoServicesImpl">
