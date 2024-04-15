@@ -222,7 +222,10 @@
   <bean id="zadmohfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.ZadmohfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  
+  <!-- Digitoll främmande houses log -->
+  <bean id="sadmolffDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmolffDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
    <!-- NCTS5 NO FORTOLLING -->
   <bean id="nctsecDaoServices" class="no.systema.jservices.tvinn.sad.ncts5export.model.dao.services.NctsecDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
