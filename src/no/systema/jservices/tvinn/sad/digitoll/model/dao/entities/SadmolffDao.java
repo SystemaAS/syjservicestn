@@ -13,8 +13,10 @@ public class SadmolffDao implements IDao {
 	private String uuid = ""; //TEGN 36 messageId
 	private String emdkm = ""; //TEGN 50 master doc id
 	private String emlnrt  = "" ;  //TEGN   7 
+	private String avsid = ""; //TEGN 20 sender Orgnr
+	private String motid = ""; //TEGN 20 receiver Orgnr		
 	
-	private Integer date = 0; //numeric 8 (SONET 8,0)
-	private Integer time = 0; //numeric 6 (SONET 6,0)
+	private String date = ""; //TEGN 8 
+	private String time = ""; //TEGN 6 
 	
 }
