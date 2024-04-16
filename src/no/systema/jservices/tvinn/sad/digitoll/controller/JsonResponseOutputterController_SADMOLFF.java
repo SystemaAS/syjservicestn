@@ -165,7 +165,8 @@ public class JsonResponseOutputterController_SADMOLFF {
             //SADEXLOG_U rulerLord = new SADEXLOG_U();
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
-				if(StringUtils.isNotEmpty(dao.getUuid()) && StringUtils.isNotEmpty(dao.getEmdkm()) && StringUtils.isNotEmpty(dao.getEmlnrt()) ) {
+				if(StringUtils.isNotEmpty(dao.getUuid()) && StringUtils.isNotEmpty(dao.getEmdkm()) && StringUtils.isNotEmpty(dao.getAvsid()) 
+						&& StringUtils.isNotEmpty(dao.getMotid()) ) {
 					int dmlRetval = 0;
 					
 					logger.warn("Before INSERT ...");

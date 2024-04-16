@@ -51,6 +51,7 @@ public class SadmolffDaoServicesImpl implements SadmolffDaoServices {
 			//walk through the filter fields
 			
 			if(StringUtils.isNotEmpty(dao.getStatus())){ sql.append(" and status = ? " ); params.add(dao.getStatus()); }
+			
 			if(StringUtils.isNotEmpty(dao.getUuid())){ sql.append(" and uuid = ? "); params.add(dao.getUuid()); }
 			if(StringUtils.isNotEmpty(dao.getEmdkm())){ sql.append(" and emdkm = ? "); params.add(dao.getEmdkm()); } 
 			if(StringUtils.isNotEmpty(dao.getAvsid())){ sql.append(" and avsid = ? "); params.add(dao.getAvsid()); } 
@@ -97,16 +98,21 @@ public class SadmolffDaoServicesImpl implements SadmolffDaoServices {
 		try{
 			SadmolffDao dao = (SadmolffDao)daoObj;
 			//date-time
-			dao.setDate(dateTimeMgr.getCurrentDate_ISO());
-		    dao.setTime(dateTimeMgr.getCurrentTimeHHmmss());
+			if(dao.getDate().isEmpty()) {
+				dao.setDate(dateTimeMgr.getCurrentDate_ISO());
+			}
+			if(dao.getTime().isEmpty()) {
+				dao.setTime(dateTimeMgr.getCurrentTimeHHmmss());
+			}
+			
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO " + DB_TABLE + "  ( status, uuid, emdkm, emlnrt, date, time, avsid, motid ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,? ) ");
+			sql.append(" INSERT INTO " + DB_TABLE + "  ( status, statustxt, uuid, emdkm, emlnrt, date, time, avsid, motid ) ");
+			sql.append(" VALUES(?,?,?,?,?,?,?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getStatus(), dao.getUuid(), dao.getEmdkm(), dao.getEmlnrt(), dao.getDate(), dao.getTime(), 
+					dao.getStatus(), dao.getStatustxt(), dao.getUuid(), dao.getEmdkm(), dao.getEmlnrt(), dao.getDate(), dao.getTime(), 
 					dao.getAvsid(), dao.getMotid()
 					} );
 			
