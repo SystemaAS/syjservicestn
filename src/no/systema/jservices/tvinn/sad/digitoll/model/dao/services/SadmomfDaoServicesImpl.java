@@ -91,6 +91,8 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			if(dao.getEmdtr()>0){ 
 				sql.append(" and emdtr >= ? "); params.add(dao.getEmdtr()); 
 			}
+			if(StringUtils.isNotEmpty(dao.getEmdkm())){ sql.append(" and emdkm = ? "); params.add(dao.getEmdkm()); }
+			
 			//if(dao.getOwn_efdtr()>0){ sql.append(" and emdtr <= ? "); params.add(dao.getOwn_efdtr()); }
 			//if(dao.getEfeta()>0){ sql.append(" and emetad >= ? "); params.add(dao.getEmetad()); }
 			//if(dao.getOwn_efeta()>0){ sql.append(" and emetad <= ? "); params.add(dao.getOwn_efeta()); }

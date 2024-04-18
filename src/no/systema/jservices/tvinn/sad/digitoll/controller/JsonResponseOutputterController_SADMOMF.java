@@ -140,8 +140,10 @@ public class JsonResponseOutputterController_SADMOMF {
 		boolean retval = false;
 		if(dao.getEmlnrt()>0 || dao.getEmlnrm()>0 || StringUtils.isNotEmpty(dao.getEmsg())){
 			retval = true;
-		}//else if(dao.getEmdtr()>0 || dao.getEmetad()>0) {
-		else if(dao.getEmdtr()>0 ) {
+			
+		}else if(dao.getEmdtr()>0 ) {
+			retval = true;
+		}else if(StringUtils.isNotEmpty(dao.getEmdkm())) {
 			retval = true;
 		}
 		
