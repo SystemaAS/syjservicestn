@@ -10,6 +10,7 @@ import no.systema.jservices.model.dao.entities.IDao;
 public class ZadmomlfDao implements IDao {
 
 	private String emdkm = ""; //TEGN 50 master doc id
+	private String emdkmt = ""; //TEGN 4 master doc type
 	private String empro  = "" ;  //TEGN 20 (including AVD-TUR)
 	
 	private String avsna = ""; //TEGN 50 sender name
@@ -19,7 +20,7 @@ public class ZadmomlfDao implements IDao {
 	
 	private String trreforg = ""; //TEGN 50 carrier Orgnr	
 	private String trrefreg = ""; //TEGN 50 carrier regnr	
-	private String date = ""; //TEGN 8 
-	private String time = ""; //TEGN 6 
+	private Integer date = 0; //TEGN 8 
+	private Integer time = 0; //TEGN 6 
 	
 }

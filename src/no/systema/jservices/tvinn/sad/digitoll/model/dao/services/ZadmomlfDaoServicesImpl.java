@@ -53,8 +53,8 @@ public class ZadmomlfDaoServicesImpl implements ZadmomlfDaoServices {
 			if(StringUtils.isNotEmpty(dao.getEmdkm())){ sql.append(" and emdkm = ? "); params.add(dao.getEmdkm()); } 
 			if(StringUtils.isNotEmpty(dao.getAvsid())){ sql.append(" and avsid = ? "); params.add(dao.getAvsid()); } 
 			if(StringUtils.isNotEmpty(dao.getMotid())){ sql.append(" and motid = ? "); params.add(dao.getMotid()); } 
-			if(StringUtils.isNotEmpty(dao.getDate())){ sql.append(" and date = ? "); params.add(dao.getDate()); }
-			if(StringUtils.isNotEmpty(dao.getTime())){ sql.append(" and time = ? "); params.add(dao.getTime()); }
+			if(dao.getDate()>0){ sql.append(" and date >= ? "); params.add(dao.getDate()); }
+			if(dao.getTime()>0){ sql.append(" and time >= ? "); params.add(dao.getTime()); }
 			if(StringUtils.isNotEmpty(dao.getTrreforg())){ sql.append(" and trreforg = ? "); params.add(dao.getTrreforg()); } 
 			if(StringUtils.isNotEmpty(dao.getTrrefreg())){ sql.append(" and trrefreg = ? "); params.add(dao.getTrrefreg()); } 
 			
@@ -96,21 +96,21 @@ public class ZadmomlfDaoServicesImpl implements ZadmomlfDaoServices {
 		try{
 			ZadmomlfDao dao = (ZadmomlfDao)daoObj;
 			//date-time
-			if(dao.getDate().isEmpty()) {
-				dao.setDate(dateTimeMgr.getCurrentDate_ISO());
+			if(dao.getDate()>0) {
+				dao.setDate(Integer.valueOf(dateTimeMgr.getCurrentDate_ISO()));
 			}
-			if(dao.getTime().isEmpty()) {
-				dao.setTime(dateTimeMgr.getCurrentTimeHHmmss());
+			if(dao.getTime()>0) {
+				dao.setTime(Integer.valueOf(dateTimeMgr.getCurrentTimeHHmmss()));
 			}
 			
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, empro, date, time, trreforg, trrefreg, avsna, avsid, motna, motid ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,? ) ");
+			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, emdkmt, empro, date, time, trreforg, trrefreg, avsna, avsid, motna, motid ) ");
+			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getEmdkm(), dao.getEmpro(), dao.getDate(), dao.getTime(), dao.getTrreforg(), dao.getTrrefreg(), 
+					dao.getEmdkm(), dao.getEmdkmt(), dao.getEmpro(), dao.getDate(), dao.getTime(), dao.getTrreforg(), dao.getTrrefreg(), 
 					dao.getAvsna(), dao.getAvsid(), dao.getMotna(), dao.getMotid()
 					} );
 			

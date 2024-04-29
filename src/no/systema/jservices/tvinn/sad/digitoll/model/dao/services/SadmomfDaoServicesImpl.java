@@ -194,7 +194,8 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			sql.append(" emknm, emrgm, emtppm, emnam, emna2m, emad1m, emnrm, empnm, empsm, emlkm, empbm, ememm, ememmt,  ");
 			sql.append(" emkns, emrgs, emtpps, emnas, emna2s, emad1s, emnrs, empns, empss, emlks, empbs, emems, ememst,  ");
 			sql.append(" emdkm, emdkmt, emc1ty, emc1ps, emc1ss, emc1id, emc2ty, emc2ps, emc2ss, emc2id,  emc3ty, emc3ps, emc3ss, emc3id,  ");
-			sql.append(" emlkl, emsdl, emsdlt, emlku, emsdu, emsdut, emlkd, emsdd, emsddt ) ");
+			sql.append(" emlkl, emsdl, emsdlt, emlku, emsdu, emsdut, emlkd, emsdd, emsddt,  ");
+			sql.append(" emdkm_ff, emdkmt_ff, emrgt_ff ) ");
 			
 			sql.append(" VALUES ( ?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
@@ -202,8 +203,8 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,? ) ");
-			
+			sql.append(" ?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmknt(), dao.getEmrgt(),		
@@ -214,6 +215,8 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmna2s(), dao.getEmad1s(), dao.getEmnrs(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
 			dao.getEmdkm(), dao.getEmdkmt(), dao.getEmc1ty(), dao.getEmc1ps(), dao.getEmc1ss(), dao.getEmc1id(), dao.getEmc2ty(), dao.getEmc2ps(), dao.getEmc2ss(), dao.getEmc2id(), dao.getEmc3ty(), dao.getEmc3ps(), dao.getEmc3ss(), dao.getEmc3id(),
 			dao.getEmlkl(), dao.getEmsdl(), dao.getEmsdlt(), dao.getEmlku(), dao.getEmsdu(), dao.getEmsdut(), dao.getEmlkd(), dao.getEmsdd(), dao.getEmsddt(),
+			//främmande master ids
+			dao.getEmdkm_ff(), dao.getEmdkmt_ff(), dao.getEmrgt_ff(),
 			
 			} );
 			
@@ -249,8 +252,8 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			sql.append(" emknm = ? , emrgm = ? , emtppm = ? ,emnam = ?, emna2m = ?, emad1m = ?, emnrm = ?, empnm = ?, empsm = ?, emlkm = ?, empbm = ?, ememm = ?, ememmt = ?, ");
 			sql.append(" emkns = ? , emrgs = ? , emtpps = ? , emnas = ?, emna2s = ?, emad1s = ?, emnrs = ?, empns = ?, empss = ?, emlks = ?, empbs = ?, emems = ?, ememst = ?, ");
 			sql.append(" emdkm = ? , emdkmt = ? , emc1ty = ? , emc1ps = ? , emc1ss = ?, emc1id = ?, emc2ty = ? , emc2ps = ? , emc2ss = ?, emc2id = ?,  emc3ty = ? , emc3ps = ? , emc3ss = ?, emc3id = ?, ");
-			sql.append(" emlkl = ? , emsdl = ? , emsdlt = ?, emlku = ?, emsdu = ?, emsdut = ?, emlkd = ?, emsdd = ?, emsddt = ? ");
-			
+			sql.append(" emlkl = ? , emsdl = ? , emsdlt = ?, emlku = ?, emsdu = ?, emsdut = ?, emlkd = ?, emsdd = ?, emsddt = ?, ");
+			sql.append(" emdkm_ff = ? , emdkmt_ff = ? , emrgt_ff = ?  ");
 			//id's
 			sql.append(" WHERE emlnrt = ? AND emlnrm = ? ");
 			
@@ -263,6 +266,7 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmna2s(), dao.getEmad1s(), dao.getEmnrs(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
 			dao.getEmdkm(), dao.getEmdkmt(), dao.getEmc1ty(), dao.getEmc1ps(), dao.getEmc1ss(), dao.getEmc1id(), dao.getEmc2ty(), dao.getEmc2ps(), dao.getEmc2ss(), dao.getEmc2id(), dao.getEmc3ty(), dao.getEmc3ps(), dao.getEmc3ss(), dao.getEmc3id(),
 			dao.getEmlkl(), dao.getEmsdl(), dao.getEmsdlt(), dao.getEmlku(), dao.getEmsdu(), dao.getEmsdut(), dao.getEmlkd(), dao.getEmsdd(), dao.getEmsddt(),
+			dao.getEmdkm_ff(), dao.getEmdkmt_ff(), dao.getEmrgt_ff(),
 			//id's
 			dao.getEmlnrt(), dao.getEmlnrm(),
 			} );
