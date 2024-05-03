@@ -222,8 +222,12 @@
   <bean id="zadmohfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.ZadmohfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
-  <!-- Digitoll främmande houses log -->
+  <!-- Digitoll främmande houses-masterid log -->
   <bean id="sadmolffDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmolffDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  <!-- Digitoll främmande houses-house log -->
+  <bean id="sadmolhffDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmolhffDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   <!-- Digitoll master id inbound file for a receiver part getting a masterID -->
