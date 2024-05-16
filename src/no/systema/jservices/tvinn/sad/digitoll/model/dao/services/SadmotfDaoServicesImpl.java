@@ -82,6 +82,7 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			if(dao.getEtetad_to()>0){ 
 				sql.append(" and etetad <= ? "); params.add(dao.getEtetad_to()); 
 			}
+			sql.append(" order by etlnrt asc ");
 			logger.warn(sql.toString());
 			logger.warn(params.toString());
 			retval = this.jdbcTemplate.query( sql.toString(), params.toArray(new Object[0]), new BeanPropertyRowMapper(SadmotfDao.class));
