@@ -157,51 +157,60 @@ public class JsonResponseOutputterController_ZADMOMLF {
 
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
-				if(StringUtils.isNotEmpty(dao.getEmdkm()) && StringUtils.isNotEmpty(dao.getAvsid()) && StringUtils.isNotEmpty(dao.getAvsna())
+				int dmlRetval = 0;
+				if("D".equals(mode)){
+					
+					if(StringUtils.isNotEmpty(dao.getEmdkm()) ){
+						logger.warn("Before DELETE ...");
+						dmlRetval = this.zadmomlfDaoServices.delete(dao, dbErrorStackTrace);
+						
+					}else {
+						//write JSON error output
+						errMsg = "ERROR on DELETE: emdkm-id is empty ??? ";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}
+				}else if("A".equals(mode)){
+					
+				    if(StringUtils.isNotEmpty(dao.getEmdkm()) && StringUtils.isNotEmpty(dao.getAvsid()) && StringUtils.isNotEmpty(dao.getAvsna())
 						&& StringUtils.isNotEmpty(dao.getTrreforg()) && StringUtils.isNotEmpty(dao.getTrrefreg())
 						&& StringUtils.isNotEmpty(dao.getMotna()) && StringUtils.isNotEmpty(dao.getMotid()) ) {
-					int dmlRetval = 0;
-					
-					logger.warn("Before INSERT ...");
-					List<ZadmomlfDao> list = new ArrayList<ZadmomlfDao>();
-					
-					//do ADD
-					if("A".equals(mode)){
+						
+						logger.warn("Before INSERT ...");
+						List<ZadmomlfDao> list = new ArrayList<ZadmomlfDao>();
+						
+						//do ADD
 						dmlRetval = this.zadmomlfDaoServices.insert(dao, dbErrorStackTrace);
-					}else{
-						//write JSON error output
-						errMsg = "ERROR on UPDATE: invalid mode for INSERT?";
+					
+				    }else {
+				    	//write JSON error output
+						errMsg = "ERROR on INSERT/UPDATE";
 						status = "error";
+						dbErrorStackTrace.append("request input parameters are invalid: <mandatory fields>");
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-					}
-					
-					//----------------------------------
-					//check returns from dml operations
-					//----------------------------------
-					if(dmlRetval<0){
-						//write JSON error output
-						errMsg = "ERROR on INSERT/UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
-						status = "error";
-						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-					}else{
-						//OK UPDATE
-						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
-					}
-					
-				}else {
-					//write JSON error output
-					errMsg = "ERROR on UPDATE";
-					status = "error";
-					dbErrorStackTrace.append("request input parameters are invalid: <mandatory fields>");
-					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
-					
+				    	
+				    }
 				}
-			}else{
+				//----------------------------------
+				//check returns from dml operations
+				//----------------------------------
+				if(dmlRetval<0){
+					//write JSON error output
+					errMsg = "ERROR on INSERT/UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+					status = "error";
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}else{
+					//OK UPDATE
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+				}
+					
+			}else {
 				//write JSON error output
-				errMsg = "ERROR on UPDATE";
+				errMsg = "ERROR on INSERT/UPDATE";
 				status = "error";
-				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				dbErrorStackTrace.append("request input parameters are invalid: <mandatory fields>");
 				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					
 			}
 			
 		}catch(Exception e){
