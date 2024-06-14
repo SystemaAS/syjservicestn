@@ -389,9 +389,7 @@ public class ZadmohfDaoServicesImpl implements ZadmohfDaoServices {
 			logger.info(sql.toString() + " ehdkm_fh:" + dao.getEhdkm_fh() + " ehdkh:" + dao.getEhdkh());
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-			dao.getEhlnrt(), dao.getEhdkm_fh(), dao.getEhdkh(),
-			} );
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhdkm_fh(), dao.getEhdkh()} );
 		
 			
 		}catch(Exception e){
