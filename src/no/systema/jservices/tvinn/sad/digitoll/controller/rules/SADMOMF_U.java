@@ -111,6 +111,23 @@ public class SADMOMF_U {
 		return retval;
 	}
 	
+	public boolean isValidInputForUpdateExernalMaster(SadmomfDao dao, String user, String mode){
+		boolean retval = true;
+		
+		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode)){
+			//check dao
+			
+			if( dao.getEmlnrt()>0){ 
+				//OK
+			} else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		return retval;
+	}
+	
 	public boolean isValidInputForUpdateMrnBup(SadmomfDao dao, String user){
 		boolean retval = true;
 		

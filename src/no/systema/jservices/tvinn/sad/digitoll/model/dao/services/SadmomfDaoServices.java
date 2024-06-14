@@ -20,5 +20,7 @@ public interface SadmomfDaoServices extends IDaoServices {
 	public int updateTransport(Object daoObj, String toEmlnrt, StringBuffer errorStackTrace);
 	public int setMrnBup(Object daoObj, StringBuffer errorStackTrace);
 	public int setRequestIdBup(Object daoObj, StringBuffer errorStackTrace);
+	
+	public int insertExternalMaster(Object daoObj, StringBuffer errorStackTrace);
 	//public int updateManifestStatus(Object daoObj, StringBuffer errorStackTrace);
 }

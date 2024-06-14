@@ -236,6 +236,53 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		return retval;
 		
 	}
+	
+	public int insertExternalMaster(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		int nextEmlnrm = -1;
+		
+		logger.info("before INSERT");
+		try{
+			
+			SadmomfDao dao = (SadmomfDao)daoObj;
+			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
+			List list = this.getList(dao.getEmlnrt(), errorStackTrace);
+			logger.info(list.toString());
+			if(list==null || list.size()<=0 ) {
+				nextEmlnrm = 1;
+			}else {
+				nextEmlnrm =  getNextEmlnrm( dao.getEmlnrt());
+			}
+			dao.setEmlnrm(nextEmlnrm);
+			
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( emlnrt, emlnrm, emdkm, emdkmt, emmid ) ");
+			sql.append(" VALUES ( ?,?,?,?,? ) ");
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+			dao.getEmlnrt(), dao.getEmlnrm(), 		
+			dao.getEmdkm(), dao.getEmdkmt(), "EXTERNAL"
+			
+			} );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		//in order to get the id for a "find"
+		if(retval >= 0) {
+			retval = nextEmlnrm;
+		}
+		logger.info("after INSERT --> retval:" + nextEmlnrm);
+		return retval;
+		
+	}
 	/**
 	 * UPDATE
 	 */
