@@ -150,7 +150,8 @@ public class JsonResponseOutputterController_ZADMOMLF {
             
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
-            logger.warn("emdkm:" + dao.getEmdkm().toString());
+            logger.warn("emdkm:" + dao.getEmdkm());
+            logger.warn("emdkmt:" + dao.getEmdkmt());
             logger.warn("avsid:" + dao.getAvsid());
             logger.warn("motid:" + dao.getMotid());
             logger.info("dao:" + dao.toString());
@@ -177,6 +178,24 @@ public class JsonResponseOutputterController_ZADMOMLF {
 						&& StringUtils.isNotEmpty(dao.getMotna()) && StringUtils.isNotEmpty(dao.getMotid()) ) {
 						
 						logger.warn("Before INSERT ...");
+						List<ZadmomlfDao> list = new ArrayList<ZadmomlfDao>();
+						
+						//do ADD
+						dmlRetval = this.zadmomlfDaoServices.insert(dao, dbErrorStackTrace);
+					
+				    }else {
+				    	//write JSON error output
+						errMsg = "ERROR on INSERT/UPDATE";
+						status = "error";
+						dbErrorStackTrace.append("request input parameters are invalid: <mandatory fields>");
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				    	
+				    }
+				}else if("AL".equals(mode)){
+					
+				    if(StringUtils.isNotEmpty(dao.getEmdkm()) && StringUtils.isNotEmpty(dao.getEmdkmt()) ) {
+						
+						logger.warn("Before INSERT LIGHT ...");
 						List<ZadmomlfDao> list = new ArrayList<ZadmomlfDao>();
 						
 						//do ADD

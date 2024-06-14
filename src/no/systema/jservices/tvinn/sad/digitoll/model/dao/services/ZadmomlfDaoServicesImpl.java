@@ -126,6 +126,41 @@ public class ZadmomlfDaoServicesImpl implements ZadmomlfDaoServices {
 		return retval;
 		
 	}
+	public int insertLight(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			ZadmomlfDao dao = (ZadmomlfDao)daoObj;
+			//date-time
+			if(dao.getDate()>0) {
+				dao.setDate(Integer.valueOf(dateTimeMgr.getCurrentDate_ISO()));
+			}
+			if(dao.getTime()>0) {
+				dao.setTime(Integer.valueOf(dateTimeMgr.getCurrentTimeHHmmss()));
+			}
+			
+			
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, emdkmt ) ");
+			sql.append(" VALUES(?,? ) ");
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
+					dao.getEmdkm(), dao.getEmdkmt()
+					} );
+			
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+		
+	}
 	/**
 	 * UPDATE
 	 */

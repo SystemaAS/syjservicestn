@@ -10,4 +10,5 @@ import java.util.*;
  */
 public interface ZadmomlfDaoServices extends IDaoServices { 
 	public List find(Object dao,StringBuffer errorStackTrace);
+	public int insertLight(Object daoObj, StringBuffer errorStackTrace);
 }
