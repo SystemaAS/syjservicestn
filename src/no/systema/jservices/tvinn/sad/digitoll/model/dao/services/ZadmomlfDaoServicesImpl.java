@@ -132,21 +132,21 @@ public class ZadmomlfDaoServicesImpl implements ZadmomlfDaoServices {
 		try{
 			ZadmomlfDao dao = (ZadmomlfDao)daoObj;
 			//date-time
-			if(dao.getDate()>0) {
+			if(dao.getDate() == null || dao.getDate() == 0) {
 				dao.setDate(Integer.valueOf(dateTimeMgr.getCurrentDate_ISO()));
 			}
-			if(dao.getTime()>0) {
+			if(dao.getTime() == null || dao.getTime() == 0) {
 				dao.setTime(Integer.valueOf(dateTimeMgr.getCurrentTimeHHmmss()));
 			}
 			
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, emdkmt ) ");
-			sql.append(" VALUES(?,? ) ");
+			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, emdkmt,date,time ) ");
+			sql.append(" VALUES(?,?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getEmdkm(), dao.getEmdkmt()
+					dao.getEmdkm(), dao.getEmdkmt(), dao.getDate(), dao.getTime()
 					} );
 			
 			

@@ -199,7 +199,8 @@ public class JsonResponseOutputterController_ZADMOMLF {
 						List<ZadmomlfDao> list = new ArrayList<ZadmomlfDao>();
 						
 						//do ADD
-						dmlRetval = this.zadmomlfDaoServices.insert(dao, dbErrorStackTrace);
+						dmlRetval = this.zadmomlfDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.zadmomlfDaoServices.insertLight(dao, dbErrorStackTrace);
 					
 				    }else {
 				    	//write JSON error output
