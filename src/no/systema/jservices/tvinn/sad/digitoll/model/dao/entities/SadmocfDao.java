@@ -19,6 +19,7 @@ public class SadmocfDao implements IDao  {
 	private String ftpdir  = "";//      tegn      70  
 	private String ftptmp  = "";//      tegn      70  
 	private String ftpbupdir  = ""; //ftpbupdir char(70)
+	private String sftpdir_ps  = "";//      tegn      70
 	private String wsendpoint  = ""; //wsendpoint char(200) 
 	//
 	private String avsorgnr  = "";//      tegn      30     
