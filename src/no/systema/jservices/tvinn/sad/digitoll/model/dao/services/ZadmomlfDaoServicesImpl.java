@@ -106,12 +106,12 @@ public class ZadmomlfDaoServicesImpl implements ZadmomlfDaoServices {
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, emdkmt, empro, date, time, trreforg, trrefreg, avsna, avsid, motna, motid ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,? ) ");
+			sql.append(" INSERT INTO " + DB_TABLE + "  ( emdkm, emdkmt, empro, date, time, trreforg, trrefreg, avsna, avsid, motna, motid, custoff ) ");
+			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					dao.getEmdkm(), dao.getEmdkmt(), dao.getEmpro(), dao.getDate(), dao.getTime(), dao.getTrreforg(), dao.getTrrefreg(), 
-					dao.getAvsna(), dao.getAvsid(), dao.getMotna(), dao.getMotid()
+					dao.getAvsna(), dao.getAvsid(), dao.getMotna(), dao.getMotid(), dao.getCustoff()
 					} );
 			
 			

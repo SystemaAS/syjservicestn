@@ -22,5 +22,6 @@ public class ZadmomlfDao implements IDao {
 	private String trrefreg = ""; //TEGN 50 carrier regnr	
 	private Integer date = 0; //TEGN 8 
 	private Integer time = 0; //TEGN 6 
+	private String custoff = ""; //TEGN 35
 	
 }
