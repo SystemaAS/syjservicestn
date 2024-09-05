@@ -57,8 +57,8 @@ public class SadmolhffDaoServicesImpl implements SadmolhffDaoServices {
 			if(StringUtils.isNotEmpty(dao.getAvsid())){ sql.append(" and avsid = ? "); params.add(dao.getAvsid()); } 
 			if(StringUtils.isNotEmpty(dao.getMotid())){ sql.append(" and motid = ? "); params.add(dao.getMotid()); } 
 			if(StringUtils.isNotEmpty(dao.getEhlnrt())){ sql.append(" and ehlnrt = ? " ); params.add(dao.getEhlnrt()); }
-			if(StringUtils.isNotEmpty(dao.getDate())){ sql.append(" and date = ? "); params.add(dao.getDate()); }
-			if(StringUtils.isNotEmpty(dao.getTime())){ sql.append(" and time = ? "); params.add(dao.getTime()); }
+			if(StringUtils.isNotEmpty(dao.getDate())){ sql.append(" and date >= ? "); params.add(dao.getDate()); }
+			if(StringUtils.isNotEmpty(dao.getTime())){ sql.append(" and time >= ? "); params.add(dao.getTime()); }
 			
 			
 			logger.warn(sql.toString());
