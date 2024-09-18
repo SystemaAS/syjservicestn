@@ -234,6 +234,12 @@
   <bean id="zadmomlfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.ZadmomlfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  
+  <!-- Digitoll master id inbound file for a receiver part getting a masterID -->
+  <bean id="sadmobuplogDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplogDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
    <!-- NCTS5 NO FORTOLLING -->
   <bean id="nctsecDaoServices" class="no.systema.jservices.tvinn.sad.ncts5export.model.dao.services.NctsecDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
