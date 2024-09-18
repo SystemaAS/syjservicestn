@@ -146,8 +146,8 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             logger.warn("file:" + dao.getFile());
-            logger.warn("date:" + dao.getDate());
-            logger.warn("time:" + dao.getTime());
+            //logger.warn("date:" + dao.getDate());
+            //logger.warn("time:" + dao.getTime());
             
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
@@ -162,7 +162,7 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 				
 				//do ADD
 				if("A".equals(mode)){
-					if(StringUtils.isNotEmpty(dao.getFile()) && StringUtils.isNotEmpty(dao.getDate()) && StringUtils.isNotEmpty(dao.getTime())) {
+					if(StringUtils.isNotEmpty(dao.getFile())) {
 						dmlRetval = this.sadmobuplogDaoServices.insert(dao, dbErrorStackTrace);
 					}else {
 						//write JSON error output
