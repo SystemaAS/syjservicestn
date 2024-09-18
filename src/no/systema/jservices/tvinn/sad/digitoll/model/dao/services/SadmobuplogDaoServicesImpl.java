@@ -112,10 +112,10 @@ public class SadmobuplogDaoServicesImpl implements SadmobuplogDaoServices {
 		try{
 			SadmobuplogDao dao = (SadmobuplogDao)daoObj;
 			//date-time
-			if(StringUtils.isNotEmpty(dao.getDate())) {
+			if(StringUtils.isEmpty(dao.getDate())) {
 				dao.setDate(dateTimeMgr.getCurrentDate_ISO());
 			}
-			if(StringUtils.isNotEmpty(dao.getTime())) {
+			if(StringUtils.isEmpty(dao.getTime())) {
 				dao.setTime(dateTimeMgr.getCurrentTimeHHmmss());
 			}
 			
