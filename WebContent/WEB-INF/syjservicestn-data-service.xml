@@ -236,7 +236,7 @@
   </bean>
   
   <!-- Digitoll master id inbound file for a receiver part getting a masterID -->
-  <bean id="sadmobuplogDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplogDaoServicesImpl">
+  <bean id="sadmobuplgDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplgDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   

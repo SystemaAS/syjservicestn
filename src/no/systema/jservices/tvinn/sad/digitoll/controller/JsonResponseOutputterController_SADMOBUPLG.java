@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import no.systema.jservices.model.dao.services.BridfDaoServices;
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmobuplogDao;
-import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplogDaoServices;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.entities.SadmobuplgDao;
+import no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplgDaoServices;
 import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnMaintFellesResponseWriter;
 
 
@@ -37,27 +37,27 @@ import no.systema.jservices.tvinn.sad.z.maintenance.felles.jsonwriter.JsonTvinnM
  */
 
 @Controller
-public class JsonResponseOutputterController_SADMOBUPLOG {
-	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_SADMOBUPLOG.class.getName());
+public class JsonResponseOutputterController_SADMOBUPLG {
+	private static Logger logger = LoggerFactory.getLogger(JsonResponseOutputterController_SADMOBUPLG.class.getName());
 	/**
 	 * FreeForm Source:
-	 * 	 File: 		SADMOBUPLOG
+	 * 	 File: 		SADMOBUPLG
 	 * 	 Member: 	SAD DIGITOLL - SELECT LIST or SELECT SPECIFIC
 	 *  
 	 * 
 	 * @return
-	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADMOBUPLOG.do?user=OSCAR
-	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADMOBUPLOG.do?user=OSCAR&orgnr=...
+	 * @Example SELECT *: http://gw.systema.no:8080/syjservicestn/syjsSADMOBUPLG.do?user=OSCAR
+	 * @Example SELECT specific: http://gw.systema.no:8080/syjservicestn/syjsSADMOBUPLG.do?user=OSCAR&orgnr=...
 	 * 
 	 */
-	@RequestMapping(value="syjsSADMOBUPLOG.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSADMOBUPLG.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsRList( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsSADMOBUPLOG");
+			logger.warn("Inside syjsSADMOBUPLG");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			logger.warn("User:" + user);
@@ -72,7 +72,7 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				//bind attributes is any
-				SadmobuplogDao dao = new SadmobuplogDao();
+				SadmobuplgDao dao = new SadmobuplgDao();
 				ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
 	            binder.bind(request);
 	            logger.warn("file:" + dao.getFile());
@@ -85,10 +85,11 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 	            logger.warn("Before SELECT ...");
 	            if(StringUtils.isNotEmpty(dao.getFile()) ) {
 					logger.warn("inside: findById (file...)");
-					list = this.sadmobuplogDaoServices.findById(dao.getFile(), dbErrorStackTrace);
+					list = this.sadmobuplgDaoServices.findById(dao.getFile(), dbErrorStackTrace);
+					
 				}else{
 					logger.warn("inside: find (dao)");
-					list = this.sadmobuplogDaoServices.find(dao, dbErrorStackTrace);
+					list = this.sadmobuplgDaoServices.find(dao, dbErrorStackTrace);
 				}
 	            logger.warn("After SELECT ..." );
 	            
@@ -123,14 +124,14 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 	}
 	
 	
-	@RequestMapping(value="syjsSADMOBUPLOG_U.do", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="syjsSADMOBUPLG_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
 		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsSADMOBUPLOG_U.do");
+			logger.warn("Inside syjsSADMOBUPLG_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -142,7 +143,7 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadmobuplogDao dao = new SadmobuplogDao();
+			SadmobuplgDao dao = new SadmobuplgDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
             logger.warn("file:" + dao.getFile());
@@ -158,21 +159,30 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 				int dmlRetval = 0;
 				
 				logger.warn("Before INSERT ...");
-				List<SadmobuplogDao> list = new ArrayList<SadmobuplogDao>();
+				List<SadmobuplgDao> list = new ArrayList<SadmobuplgDao>();
 				
 				//do ADD
 				if("A".equals(mode)){
 					if(StringUtils.isNotEmpty(dao.getFile())) {
-						dmlRetval = this.sadmobuplogDaoServices.insert(dao, dbErrorStackTrace);
+						dmlRetval = this.sadmobuplgDaoServices.insert(dao, dbErrorStackTrace);
 					}else {
 						//write JSON error output
 						errMsg = "ERROR on INSERT: invalid values (file, date ,time) for INSERT?";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
+				}else if("U".equals(mode)){
+					if(StringUtils.isNotEmpty(dao.getFile())) {
+						dmlRetval = this.sadmobuplgDaoServices.update(dao, dbErrorStackTrace);
+					}else {
+						//write JSON error output
+						errMsg = "ERROR on UPDATE: invalid values (msgid, peppolid) for UPDATE?";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}
 				}else if("D".equals(mode)){
 					if(StringUtils.isNotEmpty(dao.getFile())) {
-						dmlRetval = this.sadmobuplogDaoServices.delete(dao, dbErrorStackTrace);
+						dmlRetval = this.sadmobuplgDaoServices.delete(dao, dbErrorStackTrace);
 					}else {
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid id (file) for DELETE?";
@@ -223,7 +233,7 @@ public class JsonResponseOutputterController_SADMOBUPLOG {
 	//WIRED SERVICES
 	//----------------
 	@Autowired
-	private SadmobuplogDaoServices sadmobuplogDaoServices;
+	private SadmobuplgDaoServices sadmobuplgDaoServices;
 	
 	@Autowired
 	private BridfDaoServices bridfDaoServices;
