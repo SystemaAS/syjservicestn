@@ -73,6 +73,8 @@ public class JsonResponseOutputterController_SADMOTF {
 			String user = request.getParameter("user");
 			String house_opd = request.getParameter("opd");//special case for deep search
 			String house_extref = request.getParameter("extref");//special case for deep search
+			String master_id = request.getParameter("masterid");//special case for master id search
+			
 			logger.warn("User:" + user);
 			
 			//Check ALWAYS user in BRIDF
@@ -92,7 +94,7 @@ public class JsonResponseOutputterController_SADMOTF {
 	            //At this point we now know if we are selecting a specific or all the db-table content (select *)
 	            List list = null;
 				//do SELECT
-	            if(!isSpecialCaseDeepSearch(house_opd, house_extref)) {
+	            if(!isSpecialCaseDeepSearch(house_opd, house_extref, master_id)) {
 		            logger.warn("Before SELECT ...");
 		            if( StringUtils.isNotEmpty(dao.getEtmid()) ){
 						logger.warn("inside: findById");
@@ -109,7 +111,13 @@ public class JsonResponseOutputterController_SADMOTF {
 						list = this.sadmotfDaoServices.getList(dbErrorStackTrace);
 					}
 	            }else {
-	            	if(StringUtils.isNotEmpty(house_opd)) {
+	            	
+	            	if(StringUtils.isNotEmpty(master_id)) {
+	            		//special case for deep search towards opd (houses ehtdn) from a transport search
+	            		logger.warn("inside: doFindMasterId");
+	            		list = this.sadmotfDaoServices.findMasterId(master_id, dao, dbErrorStackTrace);
+	            	
+	            	}else if(StringUtils.isNotEmpty(house_opd)) {
 	            		//special case for deep search towards opd (houses ehtdn) from a transport search
 	            		logger.warn("inside: doFindHouseOpd");
 	            		list = this.sadmotfDaoServices.findHouseOpd(house_opd, dao, dbErrorStackTrace);
@@ -152,7 +160,7 @@ public class JsonResponseOutputterController_SADMOTF {
 		return sb.toString();
 	}
 	
-	private boolean isSpecialCaseDeepSearch(String house_opd, String house_extref) {
+	private boolean isSpecialCaseDeepSearch(String house_opd, String house_extref, String master_id) {
 		boolean retval = false;
 		if(StringUtils.isNotEmpty(house_opd)){
 			retval = true;
@@ -160,7 +168,9 @@ public class JsonResponseOutputterController_SADMOTF {
 		if(StringUtils.isNotEmpty(house_extref)){
 			retval = true;
 		}
-		
+		if(StringUtils.isNotEmpty(master_id)){
+			retval = true;
+		}
 		
 		return retval;
 	}

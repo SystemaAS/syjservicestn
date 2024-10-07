@@ -199,6 +199,31 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		return retval;
 	}
 	
+	
+	public List findMasterId (String masterId, Object obj, StringBuffer errorStackTrace ){
+		SadmotfDao dao = (SadmotfDao)obj;
+		List<SadmotfDao> retval = new ArrayList<SadmotfDao>();
+		LinkedList<Object> params = new LinkedList<Object>();
+		
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append(" select DISTINCT a.* from sadmotf a, sadmomf b " );
+			sql.append(" where a.etlnrt = b.emlnrt " );
+			sql.append(" and b.emdkm LIKE ? " );
+			sql.append(" order by etlnrt " );
+			 
+			logger.warn(sql.toString());
+			retval = this.jdbcTemplate.query( sql.toString(), new Object[] { "%" + masterId + "%" }, new BeanPropertyRowMapper(SadmotfDao.class));
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = null;
+		}
+		return retval;
+	}
 	/**
 	 * 
 	 * @param dao
