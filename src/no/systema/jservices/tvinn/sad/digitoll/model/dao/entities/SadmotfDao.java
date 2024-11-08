@@ -78,6 +78,15 @@ public class SadmotfDao implements IDao {
 	private String ettsd = ""; // varchar(8), Passeringstollsted
 	private String emerr = ""; // varchar(50), Feilmelding ved SND
 		
+	//extra for status with multiple filter on GUI
+	//extra filter
+	private String cb_C = "";
+	private String cb_N = "";
+	private String cb_M = "";
+	private String cb_K = "";
+	private String cb_D = "";
+	private String cb_S = "";
+	private String cb_EMPTY = "";
 	
 }
 

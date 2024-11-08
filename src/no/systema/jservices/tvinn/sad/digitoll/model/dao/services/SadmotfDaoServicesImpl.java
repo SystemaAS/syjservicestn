@@ -67,7 +67,12 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
 			if(StringUtils.isNotEmpty(dao.getEtsg())){ sql.append(" and etsg = ? "); params.add(dao.getEtsg()); }
 			if(StringUtils.isNotEmpty(dao.getEtst())){ sql.append(" and etst = ? "); params.add(dao.getEtst()); }
-			if(StringUtils.isNotEmpty(dao.getEtst2())){ sql.append(" and etst2 = ? "); params.add(dao.getEtst2()); }
+			
+			//if(StringUtils.isNotEmpty(dao.getEtst2())){ sql.append(" and etst2 = ? "); params.add(dao.getEtst2()); }
+			String inClauseStatus = this.getStatusClause(dao, params);
+			if(StringUtils.isNotEmpty(sql.append(inClauseStatus)));
+			
+			
 			if(StringUtils.isNotEmpty(dao.getEtkmrk())){ sql.append(" and etkmrk = ? "); params.add(dao.getEtkmrk()); }
 			//dates
 			if(dao.getEtdtr()>0){ 
@@ -95,6 +100,60 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			retval = null;
 		}
 		return retval;
+	}
+	
+	/**
+	 * 
+	 * @param dao
+	 * @return
+	 */
+	private String getStatusClause(SadmotfDao dao, LinkedList<Object> params) {
+		String result = "";
+		
+		StringBuilder retval = new StringBuilder();
+		retval.append(" and etst2 IN ( ");
+		
+		boolean infected = false;
+		
+		if(StringUtils.isNotEmpty(dao.getCb_C())){
+			infected = true;
+			retval.append("?,");
+			params.add(dao.getCb_C());
+		}
+		if (StringUtils.isNotEmpty(dao.getCb_N())){
+			infected = true;
+			retval.append("?,");
+			params.add(dao.getCb_N());
+		}
+		if (StringUtils.isNotEmpty(dao.getCb_M())) {
+			infected = true;
+			retval.append("?,");
+			params.add(dao.getCb_M());
+		}
+		
+		if (StringUtils.isNotEmpty(dao.getCb_D())) {
+			infected = true;
+			retval.append("?,");
+			params.add(dao.getCb_D());
+		}
+		if (StringUtils.isNotEmpty(dao.getCb_S())) {
+			infected = true;
+			retval.append("?,");
+			params.add(dao.getCb_S());
+		}
+		if (StringUtils.isNotEmpty(dao.getCb_EMPTY())) {
+			infected = true;
+			retval.append("?,");
+			params.add(" ");
+		}
+		
+		if (infected){
+			retval.append(")");
+			result = retval.toString();
+			result = result.replace(",)" , ")");
+		}
+		
+		return result;
 	}
 	
 	/**
