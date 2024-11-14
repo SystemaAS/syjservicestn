@@ -187,7 +187,8 @@ public class JsonResponseOutputterController_SADMOTF {
 			retval = true;
 		}else if(dao.getEtdtr()>0 || dao.getEtetad()>0) {
 			retval = true;
-		}else if(dao.getEtavd()>0 || dao.getEtpro()>0) { //usually from web-GUI
+		//removed to permit -1 or 0 in etpro --->}else if(dao.getEtavd()>0 || dao.getEtpro()>0) { //usually from web-GUI
+		}else if(dao.getEtavd()>0 || dao.getEtpro()>0 || dao.getEtpro()<0 ) { //usually from web-GUI (minus is for external houses
 			retval = true;
 		//for multiple status from GUI	
 		}else if(StringUtils.isNotEmpty(dao.getCb_C()) || StringUtils.isNotEmpty(dao.getCb_N()) || StringUtils.isNotEmpty(dao.getCb_M()) 

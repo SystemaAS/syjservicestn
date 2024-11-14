@@ -64,7 +64,8 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			//walk through the filter fields
 			if(dao.getEtlnrt()>0){ sql.append(" and etlnrt = ? " ); params.add(dao.getEtlnrt()); }
 			if(dao.getEtavd()>0){ sql.append(" and etavd = ? " ); params.add(dao.getEtavd()); }
-			if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
+			//if(dao.getEtpro()>0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
+			if(dao.getEtpro()>0 || dao.getEtpro()<0){ sql.append(" and etpro = ? "); params.add(dao.getEtpro()); }
 			if(StringUtils.isNotEmpty(dao.getEtsg())){ sql.append(" and etsg = ? "); params.add(dao.getEtsg()); }
 			if(StringUtils.isNotEmpty(dao.getEtst())){ sql.append(" and etst = ? "); params.add(dao.getEtst()); }
 			
