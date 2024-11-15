@@ -116,6 +116,11 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		
 		boolean infected = false;
 		
+		if (StringUtils.isNotEmpty(dao.getCb_EMPTY())) {
+			infected = true;
+			retval.append("?,");
+			params.add(" ");
+		}
 		if(StringUtils.isNotEmpty(dao.getCb_C())){
 			infected = true;
 			retval.append("?,");
@@ -142,10 +147,11 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			retval.append("?,");
 			params.add(dao.getCb_S());
 		}
-		if (StringUtils.isNotEmpty(dao.getCb_EMPTY())) {
+		
+		if (StringUtils.isNotEmpty(dao.getCb_Z())) {
 			infected = true;
 			retval.append("?,");
-			params.add(" ");
+			params.add(dao.getCb_Z());
 		}
 		
 		if (infected){

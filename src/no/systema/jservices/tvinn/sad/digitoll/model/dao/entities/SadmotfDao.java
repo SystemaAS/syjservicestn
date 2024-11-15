@@ -87,7 +87,7 @@ public class SadmotfDao implements IDao {
 	private String cb_D = "";
 	private String cb_S = "";
 	private String cb_EMPTY = "";
-	
+	private String cb_Z = "";
 }
 
 

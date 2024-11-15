@@ -192,7 +192,8 @@ public class JsonResponseOutputterController_SADMOTF {
 			retval = true;
 		//for multiple status from GUI	
 		}else if(StringUtils.isNotEmpty(dao.getCb_C()) || StringUtils.isNotEmpty(dao.getCb_N()) || StringUtils.isNotEmpty(dao.getCb_M()) 
-				|| StringUtils.isNotEmpty(dao.getCb_D()) || StringUtils.isNotEmpty(dao.getCb_S()) || StringUtils.isNotEmpty(dao.getCb_EMPTY())) { //usually from web-GUI
+				|| StringUtils.isNotEmpty(dao.getCb_D()) || StringUtils.isNotEmpty(dao.getCb_S()) || StringUtils.isNotEmpty(dao.getCb_EMPTY())
+				|| StringUtils.isNotEmpty(dao.getCb_Z())) { //usually from web-GUI
 			retval = true;
 		}
 		
