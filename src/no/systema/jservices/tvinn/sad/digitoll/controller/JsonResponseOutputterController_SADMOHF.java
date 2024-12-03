@@ -451,6 +451,111 @@ public class JsonResponseOutputterController_SADMOHF {
 		return sb.toString();
 	}
 	
+	/**
+	 * Change of Houses on parent Transport when consolidating AUTO-GENERATED transports-master-house
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="syjsSADMOHF_U_CONS.do", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String syjsR_U_CONS( HttpSession session, HttpServletRequest request) {
+		JsonTvinnMaintFellesResponseWriter jsonWriter = new JsonTvinnMaintFellesResponseWriter();
+		StringBuffer sb = new StringBuffer();
+		
+		try{
+			logger.warn("Inside syjsSADMOHF_U_CONS.do");
+			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
+			String user = request.getParameter("user");
+			//String mode = request.getParameter("mode");
+			//Check ALWAYS user in BRIDF
+            String userName = this.bridfDaoServices.findNameById(user);
+            //DEBUG --> logger.info("USERNAME:" + userName + "XX");
+            String errMsg = "";
+			String status = "ok";
+			StringBuffer dbErrorStackTrace = new StringBuffer();
+			
+			//bind attributes is any
+			SadmohfDao dao = new SadmohfDao();
+			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
+            binder.bind(request);
+            logger.warn("user:" + user);
+            logger.warn("ehlnrt:" + dao.getEhlnrt().toString());
+            logger.warn("ehlnrm:" + dao.getEhlnrm().toString());
+            logger.warn("ehlnrh:" + dao.getEhlnrh().toString());
+            logger.warn("ehpro:" + dao.getEhpro().toString());
+            //where clause ids
+            String ehlnrtWhere = request.getParameter("ehlnrt_w");
+            String ehlnrmWhere = request.getParameter("ehlnrm_w");
+            String ehlnrhWhere = request.getParameter("ehlnrh_w");
+            
+            
+            //Start processing now
+			if(userName!=null && !"".equals(userName)){
+				int dmlRetval = 0;
+				if(this.isValidConsolidated(dao, ehlnrtWhere, ehlnrmWhere, ehlnrhWhere )) {
+					logger.warn("Before UPDATE CONSOLIDATED ...");
+					dmlRetval = this.sadmohfDaoServices.updateConsolidatedHouse(dao, ehlnrtWhere, ehlnrmWhere, ehlnrhWhere, dbErrorStackTrace);
+					
+				}else {
+					//write JSON error output
+					errMsg = "ERROR on UPDATE RequestId-CONS: invalid (params)?  Try to check: <DaoServices>.update";
+					status = "error";
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					
+				}
+				//----------------------------------
+				//check returns from dml operations
+				//----------------------------------
+				if(dmlRetval<0){
+					//write JSON error output
+					errMsg = "ERROR on UPDATE: invalid?  Try to check: <DaoServices>.insert/update/delete";
+					status = "error";
+					sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+				}else{
+					//OK
+					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
+				}
+				
+			}else{
+				//write JSON error output
+				errMsg = "ERROR on UPDATE";
+				status = "error";
+				dbErrorStackTrace.append("request input parameters are invalid: <user>, <other mandatory fields>");
+				sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+			}
+			
+		}catch(Exception e){
+			//write std.output error output
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+			return "ERROR [JsonResponseOutputterController]" + writer.toString();
+		}
+		session.invalidate();
+		return sb.toString();
+	}
+	/**
+	 * 
+	 * @param dao
+	 * @param ehlnrtSource
+	 * @param ehlnrmSource
+	 * @param ehlnrhSource
+	 * @return
+	 */
+	private boolean isValidConsolidated(SadmohfDao dao, String ehlnrtWhere, String ehlnrmWhere, String ehlnrhWhere) {
+		boolean retval = false;
+		
+		
+		if(dao.getEhlnrt()>0 && dao.getEhlnrm()>0 && dao.getEhlnrh()>0 && dao.getEhpro()>0 &&  
+			StringUtils.isNotEmpty(ehlnrtWhere) && StringUtils.isNotEmpty(ehlnrmWhere) && StringUtils.isNotEmpty(ehlnrhWhere)) {
+			retval = true;
+		}
+		
+		return retval;
+		
+	}
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
