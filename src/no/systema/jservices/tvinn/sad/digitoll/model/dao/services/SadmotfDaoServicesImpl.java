@@ -443,6 +443,82 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		return retval;
 	}
 	
+	public int deleteConsolidated(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append(" DELETE from "  + this.TABLE_NAME );
+			sql.append(" WHERE etlnrt = ? ");
+			logger.info(sql.toString() + " etlnrt:" + dao.getEtlnrt());
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtlnrt() } );
+			if(retval >= 0) {
+				retval = this.deleteMastersConsolidated(dao.getEtlnrt(), errorStackTrace);
+				if(retval >= 0) {
+					retval = this.deleteHousesConsolidated(dao.getEtlnrt(), errorStackTrace);
+				}
+			}
+			
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in update Sadl:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		return retval;
+	}
+	
+	
+	private int deleteMastersConsolidated(Integer lnrt, StringBuffer errorStackTrace){
+		int retval = 0;
+		StringBuffer sql = new StringBuffer();
+		
+		try{
+			sql.append(" DELETE from sadmomf WHERE emlnrt = ?");
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { lnrt } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in update Sadmomf:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		logger.info("DELETE cascade Masters-consolidated: SUCCESS");
+		return retval;
+	}
+	
+	private int deleteHousesConsolidated(Integer lnrt, StringBuffer errorStackTrace){
+		int retval = 0;
+		StringBuffer sql = new StringBuffer();
+		
+		try{
+			sql.append(" DELETE from sadmohf WHERE ehlnrt = ?");
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { lnrt } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info("Exception in update sadmohf:"+writer.toString());
+			e.printStackTrace();
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		logger.info("DELETE cascade Houses-consolidated: SUCCESS");
+		return retval;
+	}
+	
+	
 	/**
 	 * DELETE Light
 	 * Happens when the record must be retained and not removed. 
@@ -796,6 +872,8 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		return retval;
 
 	}
+	
+	
 	/**                                                                                                  
 	 * Wires jdbcTemplate                                                                                
 	 *                                                                                                   

@@ -336,6 +336,18 @@ public class JsonResponseOutputterController_SADMOTF {
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
+						}else if("DC".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								logger.info(mode + " " + " DELETE CONSOLIDATED...");
+								//Delete consolidated. Only when all digitoll-levels have been created automatically from the transpor-system integration
+								dmlRetval = this.sadmotfDaoServices.deleteConsolidated(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on DELETE-LIGHT invalid (rulerLord)?  Try to check: <DaoServices>.deleteLight";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
 						}else if("US".equals(mode)){
 							logger.warn("MODE:" + mode);
 							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
