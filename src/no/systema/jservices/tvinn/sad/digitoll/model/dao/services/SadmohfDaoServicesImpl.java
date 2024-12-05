@@ -653,7 +653,9 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), //dao.getEhpro(), kanske ???
 																ehlnrtWhere, ehlnrmWhere, ehlnrhWhere } );
-			
+			logger.debug(sql.toString());
+			logger.debug("PARAMS --> SET:" + dao.getEhlnrt() + " " + dao.getEhlnrm() + " " + dao.getEhlnrh() + " WHERE:" + ehlnrtWhere + " " +ehlnrmWhere 
+													 + " " +ehlnrhWhere );
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
