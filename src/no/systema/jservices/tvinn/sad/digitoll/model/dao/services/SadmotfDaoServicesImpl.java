@@ -23,6 +23,8 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 	private static Logger logger = LoggerFactory.getLogger(SadmotfDaoServicesImpl.class.getName());
 	private DbErrorMessageManager dbErrorMessageMgr = new DbErrorMessageManager();
 	private String SQL_WILD_CARD = "%";
+	private String EMPTY_STRING = "";
+	private String Z_STATUS = "Z";
 	private String TABLE_NAME = "sadmotf";
 	
 	/**
@@ -854,7 +856,69 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		
 		return retval;
 	}
-	
+	/**
+	 * 
+	 */
+	public int updateAutoGenChildren(Object daoObj, StringBuffer errorStackTrace) {
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+			
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug...updateAutoGenChildren lnrt=" + dao.getEtlnrt());
+			sql.append(" UPDATE sadmomf set emsg = ?, emrgt = ?, emst2 = ? ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			sql.append(" AND emst2 = ? ");
+			
+			//params
+			logger.info(sql.toString());
+			logger.info("PARAMS:" + dao.getEtsg() + " " + dao.getEtrgt()+ " " +  this.EMPTY_STRING + " " +  dao.getEtlnrt() + " " +  this.Z_STATUS);
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtsg(), dao.getEtrgt(), this.EMPTY_STRING, dao.getEtlnrt(), this.Z_STATUS } );
+			if(retval>= 0) {
+				this.updateAutoGenHouses(dao, errorStackTrace);
+			}
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+		
+	}
+	private int updateAutoGenHouses(SadmotfDao dao, StringBuffer errorStackTrace) {
+		int retval = 0;
+		
+		try{
+			
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug...updateAutoGenHouses lnrt=" + dao.getEtlnrt());
+			sql.append(" UPDATE sadmohf set ehst2 = ? ");
+			//id's
+			sql.append(" WHERE ehlnrt = ? ");
+			sql.append(" AND ehst2 = ? ");
+			
+			//params
+			logger.info(sql.toString());
+			logger.info("PARAMS:" + this.EMPTY_STRING + " " +  dao.getEtlnrt() + " " +  this.Z_STATUS);
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { this.EMPTY_STRING, dao.getEtlnrt(), this.Z_STATUS } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+		
+	}
 	/**
 	 * 
 	 * @return

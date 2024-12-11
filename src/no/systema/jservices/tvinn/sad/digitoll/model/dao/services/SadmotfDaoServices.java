@@ -23,6 +23,8 @@ public interface SadmotfDaoServices extends IDaoServices {
 	public int setRequestIdBup(Object daoObj, StringBuffer errorStackTrace);
 	//Entry
 	public int updateStatus2ForEntry(Object daoObj, StringBuffer errorStackTrace);
+	//AUTO-GENERATED children
+	public int updateAutoGenChildren(Object daoObj, StringBuffer errorStackTrace);
 	
 	
 	public List findHouseOpd(String opd,Object dao,StringBuffer errorStackTrace);
