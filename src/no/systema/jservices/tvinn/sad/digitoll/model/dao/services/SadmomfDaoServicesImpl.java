@@ -627,6 +627,34 @@ public class SadmomfDaoServicesImpl implements SadmomfDaoServices {
 		
 		return retval;
 	}
+	
+	public int updateMasterTransportOrgNr(Object daoObj, StringBuffer errorStackTrace) {
+		int retval = 0;
+		
+		try{
+			SadmomfDao dao = (SadmomfDao)daoObj;
+			//DEBUG logger.warn(daoObj.toString());	
+			StringBuffer sql = new StringBuffer();
+			//DEBUG --> logger.info("mydebug");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set emrgt = ?  ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			//sql.append(" AND emlnrm = ?" );
+			
+			//params
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEmrgt(), dao.getEmlnrt() } );
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+		
+	}
 	/**
 	 * Back up to MRN in-case we loose the original MRN (emmid)
 	 * @param daoObj
