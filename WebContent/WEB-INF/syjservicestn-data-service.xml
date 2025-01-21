@@ -235,8 +235,13 @@
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
-  <!-- Digitoll master id inbound file for a receiver part getting a masterID -->
+  <!-- Digitoll  -->
   <bean id="sadmobuplgDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplgDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
+  
+  <!-- Digitoll RoutingId thing -->
+  <bean id="sadmoroidDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmoroidDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
   
