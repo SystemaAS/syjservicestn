@@ -198,6 +198,8 @@ public class JsonResponseOutputterController_SADMOHF {
             logger.warn("ehst2:" + dao.getEhst2());
             logger.warn("ehuuid:" + dao.getEhuuid());
             logger.warn("ehmid:" + dao.getEhmid());
+            logger.warn("incltdoc:" + dao.getIncltdoc());
+            
             
             
             

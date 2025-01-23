@@ -496,7 +496,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 				
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehmid = ?, ehdts = ?, ehst = ?, ehst2 = ? ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehmid = ?, ehdts = ?, ehst = ?, ehst2 = ?, incltdoc = ? ");
 			//id's
 			sql.append(" WHERE ehlnrt = ? ");
 			sql.append(" AND ehlnrm = ?" );
@@ -504,7 +504,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//sql.append(" AND ehmid = '' " );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(),   
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhmid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getIncltdoc(),   
 															dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh() } );
 			
 		}catch(Exception e){
@@ -531,7 +531,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			//DEBUG logger.warn(daoObj.toString());	
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehdts = ?, ehst = ?, ehst2 = ?  ");
+			sql.append(" UPDATE "  + TABLE_NAME+ " set ehuuid = ?, ehdts = ?, ehst = ?, ehst2 = ?, incltdoc = ?  ");
 			//id's
 			sql.append(" WHERE ehlnrt = ? ");
 			sql.append(" AND ehlnrm = ?" );
@@ -539,7 +539,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			sql.append(" AND ehmid = ?" );
 			
 			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(),
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEhuuid(), dao.getEhdts(), dao.getEhst(), dao.getEhst2(), dao.getIncltdoc(),
 																dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(), dao.getEhmid() } );
 			
 		}catch(Exception e){

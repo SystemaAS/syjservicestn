@@ -126,4 +126,6 @@ public class SadmohfDao implements IDao  {
 	private String ehlkd = ""; //      tegn            2       2       896        begge    land of delivery     
 	private String ehsdd = ""; //      tegn            5       5       898        begge    place of delivery    
 	private String ehsddt = ""; //     tegn           30      30       903        begge    place of delivery
+	//
+	private String incltdoc = ""; //tegn 70
 }
