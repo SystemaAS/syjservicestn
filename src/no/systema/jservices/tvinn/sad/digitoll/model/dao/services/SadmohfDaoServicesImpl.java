@@ -274,7 +274,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			sql.append(" ehetyp6 = ?, ehetypt6 = ?, eheid6 = ?, ehetyp7 = ?, ehetypt7 = ?, eheid7 = ?, ehetyp8 = ?, ehetypt8 = ?, eheid8 = ?, ehetyp9 = ?, ehetypt9 = ?, eheid9 = ?, ehetyp10 = ?, ehetypt10 = ?, eheid10 = ?,   ");
 			//
 			sql.append(" ehpns = ?, ehpss = ?, ehlks = ?, ehpbs = ?, ehems = ?, ehemst = ?, ehknm = ?, ehrgm = ?, ehtppm = ?, ehnam = ?,  ehna2m = ?, ehad1m = ?, ehnrm = ?, ehpnm = ?,  ");
-			sql.append(" ehpsm = ?, ehlkm = ?, ehpbm = ?, ehemm = ?, ehemmt = ?, ehlka = ?, ehsda = ?, ehsdat = ?, ehlkd = ?, ehsdd = ?, ehsddt = ?  ");
+			sql.append(" ehpsm = ?, ehlkm = ?, ehpbm = ?, ehemm = ?, ehemmt = ?, ehlka = ?, ehsda = ?, ehsdat = ?, ehlkd = ?, ehsdd = ?, ehsddt = ?, incltdoc = ?  ");
 			//id's
 			sql.append(" WHERE ehlnrt = ? AND ehlnrm = ? AND ehlnrh = ? ");
 			
@@ -293,7 +293,7 @@ public class SadmohfDaoServicesImpl implements SadmohfDaoServices {
 			dao.getEhetyp6(), dao.getEhetypt6(), dao.getEheid6(), dao.getEhetyp7(), dao.getEhetypt7(), dao.getEheid7(), dao.getEhetyp8(), dao.getEhetypt8(), dao.getEheid8(), dao.getEhetyp9(), dao.getEhetypt9(), dao.getEheid9(), dao.getEhetyp10(), dao.getEhetypt10(), dao.getEheid10(),
 			//
 			dao.getEhpns(), dao.getEhpss(), dao.getEhlks(), dao.getEhpbs(), dao.getEhems(), dao.getEhemst(), dao.getEhknm(), dao.getEhrgm(), dao.getEhtppm(), dao.getEhnam(), dao.getEhna2m(), dao.getEhad1m(), dao.getEhnrm(), dao.getEhpnm(),
-			dao.getEhpsm(), dao.getEhlkm(), dao.getEhpbm(), dao.getEhemm(), dao.getEhemmt(), dao.getEhlka(), dao.getEhsda(), dao.getEhsdat(), dao.getEhlkd(), dao.getEhsdd(),  dao.getEhsddt(),
+			dao.getEhpsm(), dao.getEhlkm(), dao.getEhpbm(), dao.getEhemm(), dao.getEhemmt(), dao.getEhlka(), dao.getEhsda(), dao.getEhsdat(), dao.getEhlkd(), dao.getEhsdd(),  dao.getEhsddt(), dao.getIncltdoc(),
 			//id's
 			dao.getEhlnrt(), dao.getEhlnrm(), dao.getEhlnrh(),
 			} );
