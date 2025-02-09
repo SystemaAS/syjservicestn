@@ -239,6 +239,9 @@
   <bean id="sadmobuplgDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplgDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <bean id="sadmodoclgDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmodoclgDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   <!-- Digitoll RoutingId thing -->
   <bean id="sadmoroidDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmoroidDaoServicesImpl">
