@@ -6,7 +6,8 @@ import no.systema.jservices.model.dao.entities.IDao;
 @Data
 public class SadmodoclgDao implements IDao  {
 
-	private String docId = "";	//char(100),          
+	private String resultapi = ""; //(200) NOT NULL,
+	private String docId = "";	//char(100) NOT NULL,          
 	private String deklid = ""; //char (100) NOT NULL
 	private String doctyp = ""; //char(30) NOT NULL, 
 	private String doclnk = ""; //char(200) NOT NULL,

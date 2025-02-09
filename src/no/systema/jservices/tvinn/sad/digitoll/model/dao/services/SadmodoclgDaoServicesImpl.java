@@ -46,18 +46,18 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from " + DB_TABLE + " where docid LIKE ?" );
+			sql.append(" select * from " + DB_TABLE + " where doctyp LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
 			
 			
-			if(StringUtils.isNotEmpty(dao.getDocId())){ sql.append(" and msgid = ? "); params.add(dao.getDocId()); } 
-			if(StringUtils.isNotEmpty(dao.getDeklid())){ sql.append(" and peppolid = ? "); params.add(dao.getDeklid()); } 
-			if(StringUtils.isNotEmpty(dao.getDoctyp())){ sql.append(" and peppolid = ? "); params.add(dao.getDoctyp()); } 
-			if(StringUtils.isNotEmpty(dao.getDoclnk())){ sql.append(" and peppolid = ? "); params.add(dao.getDoclnk()); } 
-			if(StringUtils.isNotEmpty(dao.getDeklnr())){ sql.append(" and peppolid = ? "); params.add(dao.getDeklnr()); } 
-			if(StringUtils.isNotEmpty(dao.getDekldate())){ sql.append(" and peppolid = ? "); params.add(dao.getDekldate()); } 
-			if(StringUtils.isNotEmpty(dao.getDeklsekv())){ sql.append(" and peppolid = ? "); params.add(dao.getDeklsekv()); } 
+			if(StringUtils.isNotEmpty(dao.getDocId())){ sql.append(" and docid = ? "); params.add(dao.getDocId()); } 
+			if(StringUtils.isNotEmpty(dao.getDeklid())){ sql.append(" and deklid = ? "); params.add(dao.getDeklid()); } 
+			if(StringUtils.isNotEmpty(dao.getDoctyp())){ sql.append(" and doctyp = ? "); params.add(dao.getDoctyp()); } 
+			if(StringUtils.isNotEmpty(dao.getDoclnk())){ sql.append(" and doclnk = ? "); params.add(dao.getDoclnk()); } 
+			if(StringUtils.isNotEmpty(dao.getDeklnr())){ sql.append(" and deklnr = ? "); params.add(dao.getDeklnr()); } 
+			if(StringUtils.isNotEmpty(dao.getDekldate())){ sql.append(" and dekldate = ? "); params.add(dao.getDekldate()); } 
+			if(StringUtils.isNotEmpty(dao.getDeklsekv())){ sql.append(" and deklsekv = ? "); params.add(dao.getDeklsekv()); } 
 			
 			if(StringUtils.isNotEmpty(dao.getSenddate())){ sql.append(" and senddate = ? "); params.add(dao.getSenddate()); } 
 			if(StringUtils.isNotEmpty(dao.getSendtime())){ sql.append(" and sendtime = ? "); params.add(dao.getSendtime()); } 
@@ -79,7 +79,7 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 	}
 	
 	/**
-	 * 
+	 * NOT APPLICABLE ... we do use find above!
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
 		List<SadmodoclgDao> retval = new ArrayList<SadmodoclgDao>();
@@ -131,11 +131,12 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 			
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" INSERT INTO " + DB_TABLE + "  ( docid, deklid, doctyp, doclnk, deklnr, dekldate, deklsekv, senddate, sendtime ) ");
-			sql.append(" VALUES(?,?,?,?,?,?,?,?,? ) ");
+			sql.append(" INSERT INTO " + DB_TABLE + "  ( resultapi, docid, deklid, doctyp, doclnk, deklnr, dekldate, deklsekv, senddate, sendtime ) ");
+			sql.append(" VALUES(?,?,?,?,?,?,?,?,?,? ) ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getDocId(), dao.getDeklid(), dao.getDoctyp(), dao.getDoclnk(), dao.getDeklnr(), dao.getDekldate(), dao.getDeklsekv(), dao.getSenddate(), dao.getSendtime() 
+					dao.getResultapi(), dao.getDocId(), dao.getDeklid(), dao.getDoctyp(), dao.getDoclnk(), dao.getDeklnr(), dao.getDekldate(), 
+					dao.getDeklsekv(), dao.getSenddate(), dao.getSendtime() 
 					} );
 			
 			
@@ -157,28 +158,7 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		try{
-			SadmodoclgDao dao = (SadmodoclgDao)daoObj;
-			
-			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE " + DB_TABLE + " set deklid = ?, doctyp = ?, doclnk = ?, deklnr = ?, dekldate = ?, deklsekv = ?, senddate = ?, sendtime = ? ");
-			sql.append(" WHERE docid = ? ");
-			//params
-			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getDeklid(), dao.getDoctyp(), dao.getDoclnk(), dao.getDeklnr(), dao.getDekldate(), dao.getDeklsekv(), dao.getSenddate(), dao.getSendtime(),
-					//id
-					dao.getDocId()
-					} );
-			
-			
-		}catch(Exception e){
-			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
-			logger.info(writer.toString());
-			//Chop the message to comply to JSON-validation
-			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
-			retval = -1;
-		}
+		//not applicable
 		return retval;
 		
 	}
@@ -188,6 +168,8 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		try{
+			/**not applicable
+			
 			SadmodoclgDao dao = (SadmodoclgDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
@@ -196,7 +178,7 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					dao.getDocId(), dao.getDeklid()
 					} );
-			
+			**/
 			
 		}catch(Exception e){
 			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);

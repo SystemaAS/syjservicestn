@@ -82,14 +82,9 @@ public class JsonResponseOutputterController_SADMODOCLG {
 	            List list = null;
 				//do SELECT
 	            logger.warn("Before SELECT ...");
-	            if(StringUtils.isNotEmpty(dao.getDeklid()) ) {
-					logger.warn("inside: findById (file...)");
-					list = this.sadmodoclgDaoServices.findById(dao.getDeklid(), dbErrorStackTrace);
-					
-				}else{
-					logger.warn("inside: find (dao)");
-					list = this.sadmodoclgDaoServices.find(dao, dbErrorStackTrace);
-				}
+	            logger.warn("inside: find (dao)");
+				list = this.sadmodoclgDaoServices.find(dao, dbErrorStackTrace);
+				
 	            logger.warn("After SELECT ..." );
 	            
 				//process result
