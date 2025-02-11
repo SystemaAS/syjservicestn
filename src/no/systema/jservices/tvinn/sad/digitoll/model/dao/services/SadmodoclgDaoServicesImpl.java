@@ -51,7 +51,7 @@ public class SadmodoclgDaoServicesImpl implements SadmodoclgDaoServices {
 			//walk through the filter fields
 			
 			
-			if(StringUtils.isNotEmpty(dao.getDocId())){ sql.append(" and docid = ? "); params.add(dao.getDocId()); } 
+			if(StringUtils.isNotEmpty(dao.getDocId())){ sql.append(" and docId = ? "); params.add(dao.getDocId()); } 
 			if(StringUtils.isNotEmpty(dao.getDeklid())){ sql.append(" and deklid = ? "); params.add(dao.getDeklid()); } 
 			if(StringUtils.isNotEmpty(dao.getDoctyp())){ sql.append(" and doctyp = ? "); params.add(dao.getDoctyp()); } 
 			if(StringUtils.isNotEmpty(dao.getDoclnk())){ sql.append(" and doclnk = ? "); params.add(dao.getDoclnk()); } 
