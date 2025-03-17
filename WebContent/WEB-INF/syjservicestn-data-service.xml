@@ -234,6 +234,10 @@
   <bean id="zadmomlfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.ZadmomlfDaoServicesImpl">
       <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
   </bean>
+  <!-- Digitoll attachments when främmande houses/master/transport are acting -->
+  <bean id="zadmoattfDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.ZadmoattfDaoServicesImpl">
+      <property name="jdbcTemplate"><ref bean="jdbcTemplate"/></property>
+  </bean>
   
   <!-- Digitoll  -->
   <bean id="sadmobuplgDaoServices" class="no.systema.jservices.tvinn.sad.digitoll.model.dao.services.SadmobuplgDaoServicesImpl">
