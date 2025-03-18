@@ -153,8 +153,10 @@ public class JsonResponseOutputterController_ZADMOATTF {
             logger.warn("id:" + dao.getId());
             logger.warn("avsid:" + dao.getAvsid());
             logger.warn("motid:" + dao.getMotid());
-            logger.info("dao:" + dao.toString());
-
+            logger.warn("docname:" + dao.getDocname());
+            logger.warn("typref:" + dao.getTypref());
+            logger.warn("docref:" + dao.getDocref());
+            
 			//Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
@@ -175,8 +177,6 @@ public class JsonResponseOutputterController_ZADMOATTF {
 				    if(StringUtils.isNotEmpty(dao.getId()) && StringUtils.isNotEmpty(dao.getAvsid()) && StringUtils.isNotEmpty(dao.getMotid()) ) {
 						
 						logger.warn("Before INSERT ...");
-						List<ZadmoattfDao> list = new ArrayList<ZadmoattfDao>();
-						
 						//do ADD
 						dmlRetval = this.zadmoattfDaoServices.insert(dao, dbErrorStackTrace);
 					

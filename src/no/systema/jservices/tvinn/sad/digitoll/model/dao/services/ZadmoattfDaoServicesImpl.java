@@ -97,10 +97,10 @@ public class ZadmoattfDaoServicesImpl implements ZadmoattfDaoServices {
 		try{
 			ZadmoattfDao dao = (ZadmoattfDao)daoObj;
 			//date-time
-			if(dao.getDate()>0) {
+			if(dao.getDate()<=0) {
 				dao.setDate(Integer.valueOf(dateTimeMgr.getCurrentDate_ISO()));
 			}
-			if(dao.getTime()>0) {
+			if(dao.getTime()<=0) {
 				dao.setTime(Integer.valueOf(dateTimeMgr.getCurrentTimeHHmmss()));
 			}
 			
