@@ -46,7 +46,7 @@ public class ZadmoattfDaoServicesImpl implements ZadmoattfDaoServices {
 		
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append(" select * from " + DB_TABLE + " where emdkm LIKE ?" );
+			sql.append(" select * from " + DB_TABLE + " where typref LIKE ?" );
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
 			
@@ -57,6 +57,7 @@ public class ZadmoattfDaoServicesImpl implements ZadmoattfDaoServices {
 			if(dao.getTime()>0){ sql.append(" and time >= ? "); params.add(dao.getTime()); }
 			if(StringUtils.isNotEmpty(dao.getDocname())){ sql.append(" and docname = ? "); params.add(dao.getDocname()); } 
 			if(StringUtils.isNotEmpty(dao.getTypref())){ sql.append(" and typref = ? "); params.add(dao.getTypref()); } 
+			if(StringUtils.isNotEmpty(dao.getDocref())){ sql.append(" and docref = ? "); params.add(dao.getDocref()); } 
 			
 			
 			logger.warn(sql.toString());
