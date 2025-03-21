@@ -147,10 +147,10 @@ public class ZadmoattfDaoServicesImpl implements ZadmoattfDaoServices {
 			ZadmoattfDao dao = (ZadmoattfDao)daoObj;
 			StringBuffer sql = new StringBuffer();
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" DELETE FROM " + DB_TABLE + "  WHERE id = ? ");
+			sql.append(" DELETE FROM " + DB_TABLE + "  WHERE id = ? AND docref = ? ");
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getId()
+					dao.getId(), dao.getDocref()
 					} );
 			
 			

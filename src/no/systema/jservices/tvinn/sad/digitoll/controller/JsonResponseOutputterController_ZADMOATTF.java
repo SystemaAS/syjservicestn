@@ -162,13 +162,13 @@ public class JsonResponseOutputterController_ZADMOATTF {
 				int dmlRetval = 0;
 				if("D".equals(mode)){
 					
-					if(StringUtils.isNotEmpty(dao.getId()) && StringUtils.isNotEmpty(dao.getAvsid()) ){
+					if(StringUtils.isNotEmpty(dao.getId()) && StringUtils.isNotEmpty(dao.getDocref()) ){
 						logger.warn("Before DELETE ...");
 						dmlRetval = this.zadmoattfDaoServices.delete(dao, dbErrorStackTrace);
 						
 					}else {
 						//write JSON error output
-						errMsg = "ERROR on DELETE: emdkm-id is empty ??? ";
+						errMsg = "ERROR on DELETE-ZADMOATTF: id and docref are empty ??? ";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
