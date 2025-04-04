@@ -79,7 +79,9 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 			//bara för att bli kvit WHERE
 			sql.append(" where a.sitdn > 0 "); //remove all omberegnings
 			sql.append(" and b.etetad >= a.sidt " ); //only when ETA digitoll >= Tolldekl.date
-			sql.append(" and a.sist = 'P' ");
+			
+			//sql.append(" and a.sist = 'P' "); removed 3.Apr.2025 for DSV-requirement ... ? it was already parametrizied below ... duplicates without knowing ... 
+			
 			//sql.append(" where a.sitdn LIKE ? "); params.add(SQL_WILD_CARD); 
 			//let the show begin
 			if(dao.getSitdn()>0){ sql.append(" and a.sitdn = ? "); params.add(dao.getSitdn()); }
@@ -130,7 +132,7 @@ public class SadImpDigDaoServicesImpl implements SadImpDigDaoServices {
 	}
 	
 	/**
-	 * 
+	 * Seems to be "NOT USED...". Refer to find-method above
 	 */
 	public List findById (String id, StringBuffer errorStackTrace ){
 		List<SadImpDigDao> retval = new ArrayList<SadImpDigDao>();
