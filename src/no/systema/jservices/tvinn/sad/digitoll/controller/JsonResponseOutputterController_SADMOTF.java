@@ -382,6 +382,17 @@ public class JsonResponseOutputterController_SADMOTF {
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
 							 
+						}else if("REASSIGN".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForDelete(dao, userName, mode)){
+								dmlRetval = this.sadmotfDaoServices.reassignSignature(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on Update Status3 invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							 
 						}
 						
 				  }else{

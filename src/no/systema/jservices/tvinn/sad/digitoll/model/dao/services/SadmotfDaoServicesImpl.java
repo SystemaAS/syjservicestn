@@ -642,6 +642,62 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 		return retval;
 	}
 	
+	public int reassignSignature(Object daoObj, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+			SadmotfDao dao = (SadmotfDao)daoObj;
+				
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug... reassign to:" + "etsg=" + dao.getEtsg() + " etlnrt=" + dao.getEtlnrt());
+			sql.append(" UPDATE " + this.TABLE_NAME + " set etsg = ? ");
+			//id's
+			sql.append(" WHERE etlnrt = ? ");
+			//params
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtsg(), dao.getEtlnrt() } );
+			if(retval >= 0) {
+				//go to master-children and update it/them
+				retval = reassignSignatureOnMaster(dao, errorStackTrace);
+			}
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
+	private int reassignSignatureOnMaster(SadmotfDao dao, StringBuffer errorStackTrace){
+		int retval = 0;
+		
+		try{
+				
+			StringBuffer sql = new StringBuffer();
+			logger.info("mydebug... reassign to:" + "etsg=" + dao.getEtsg() + " etlnrt=" + dao.getEtlnrt());
+			sql.append(" UPDATE sadmomf set emsg = ? ");
+			//id's
+			sql.append(" WHERE emlnrt = ? ");
+			//params
+			logger.info(sql.toString());
+			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { dao.getEtsg(), dao.getEtlnrt() } );
+			
+			
+		}catch(Exception e){
+			Writer writer = this.dbErrorMessageMgr.getPrintWriter(e);
+			logger.info(writer.toString());
+			//Chop the message to comply to JSON-validation
+			errorStackTrace.append(this.dbErrorMessageMgr.getJsonValidDbException(writer));
+			retval = -1;
+		}
+		
+		return retval;
+	}
+	
 	/**
 	 * 
 	 * @param daoObj
