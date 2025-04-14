@@ -122,6 +122,22 @@ public class SADMOTF_U {
 		return retval;
 	}
 	
+	public boolean isValidInputForResetMrn(SadmotfDao dao, String user, String mode){
+		boolean retval = true;
+		if( StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(mode )){
+			//check dao for lnrt and status=D
+			if( dao.getEtlnrt()>0 && !dao.getEtmid_own().isEmpty() ){ 
+				//OK
+			}else{
+				retval = false;
+			}
+		}else{
+			retval = false;
+		}
+		
+		return retval;
+	}
+	
 	public boolean isValidInputForEntryComplete(SadmotfDao dao, String user){
 		boolean retval = true;
 		if( StringUtils.isNotEmpty(user)){

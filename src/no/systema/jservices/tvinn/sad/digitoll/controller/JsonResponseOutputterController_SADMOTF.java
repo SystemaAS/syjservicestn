@@ -388,7 +388,18 @@ public class JsonResponseOutputterController_SADMOTF {
 								dmlRetval = this.sadmotfDaoServices.reassignSignature(dao, dbErrorStackTrace);
 							}else {
 								//write JSON error output
-								errMsg = "ERROR on Update Status3 invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								errMsg = "ERROR on ReassingSignature invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							 
+						}else if("RESET_MRN".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForResetMrn(dao, userName, mode)){
+								dmlRetval = this.sadmotfDaoServices.resetMrn(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on ResetMrn invalid (rulerLord)?  Try to check: <DaoServices>.update";
 								status = "error";
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
