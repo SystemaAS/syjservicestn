@@ -115,7 +115,7 @@ public class SadmocfDaoServicesImpl implements SadmocfDaoServices {
 	public int insert(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		logger.info("before INSERT");
-		
+	
 		try{
 			SadmocfDao dao = (SadmocfDao)daoObj;
 			//we must check if this is not the record nr 1 otherwise there will fail in: getNext...
@@ -124,15 +124,21 @@ public class SadmocfDaoServicesImpl implements SadmocfDaoServices {
 			if(list==null || list.size()<=0 ) {
 				StringBuffer sql = new StringBuffer();
 				//DEBUG --> logger.info("mydebug");
-				sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( orgnr, name, commtype ) ");
-				sql.append(" VALUES ( ?,?,? ");
+				sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( orgnr, name, commtype, format, xmlxsd,  ");
+				sql.append(" ftpserver, ftpport, ftpuser, ftppwd, ftpdir, ftptmp, ftpbupdir,  ");
+				sql.append(" sftpdir_ps, wsendpoint, avsorgnr, avsname  )");
+				sql.append(" VALUES ( ?,?,?,?,?, ");
+				sql.append(" ?,?,?,?,?,?,?, ");
+				sql.append(" ?,?,?,? ) ");
 				
 				//params
 				retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-						dao.getOrgnr(), dao.getName(), dao.getCommtype()
+						dao.getOrgnr(), dao.getName(), dao.getCommtype(), dao.getFormat(), dao.getXmlxsd(),
+						dao.getFtpserver(), dao.getFtpport(), dao.getFtpuser(), dao.getFtppwd(), dao.getFtpdir(), dao.getFtptmp(), dao.getFtpbupdir(),
+						dao.getSftpdir_ps(), dao.getWsendpoint(), dao.getAvsorgnr(), dao.getAvsname()
 						});	
 			}else {
-				logger.error("RECORD exists already ? (check orgnr, name, commtype)");
+				logger.error("RECORD exists already ? (check orgnr, name, commtype ...)");
 			}
 			
 			
@@ -159,13 +165,17 @@ public class SadmocfDaoServicesImpl implements SadmocfDaoServices {
 			StringBuffer sql = new StringBuffer();
 			
 			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET  name = ?, commtype = ? ");
+			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET  name = ?, commtype = ?, format = ?, xmlxsd = ?, ");
+			sql.append(" ftpserver = ?, ftpport = ?, ftpuser = ?, ftppwd = ?, ftpdir = ?, ftptmp = ?, ftpbupdir = ?, ");
+			sql.append(" sftpdir_ps = ?, wsendpoint = ?, avsorgnr = ?, avsname = ?  ");
 			//id's
 			sql.append(" WHERE orgnr = ?  ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-			dao.getName(), dao.getCommtype(),
+			dao.getName(), dao.getCommtype(), dao.getFormat(), dao.getXmlxsd(),
+			dao.getFtpserver(), dao.getFtpport(), dao.getFtpuser(), dao.getFtppwd(), dao.getFtpdir(), dao.getFtptmp(), dao.getFtpbupdir(),
+			dao.getSftpdir_ps(), dao.getWsendpoint(), dao.getAvsorgnr(), dao.getAvsname(),
 			//id's
 			dao.getOrgnr()
 			} );
@@ -185,6 +195,7 @@ public class SadmocfDaoServicesImpl implements SadmocfDaoServices {
 	/**
 	 * DELETE
 	 */
+	
 	public int delete(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
 		try{

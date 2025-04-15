@@ -127,7 +127,7 @@ public class JsonResponseOutputterController_SADMOCF {
 		return sb.toString();
 	}
 	
-	/*
+	
 	@RequestMapping(value="syjsSADMOCF_U.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String syjsR_U( HttpSession session, HttpServletRequest request) {
@@ -135,7 +135,7 @@ public class JsonResponseOutputterController_SADMOCF {
 		StringBuffer sb = new StringBuffer();
 		
 		try{
-			logger.warn("Inside syjsSADMOIF_U.do");
+			logger.warn("Inside syjsSADMOCF_U.do");
 			//TEST-->logger.info("Servlet root:" + AppConstants.VERSION_SYJSERVICES);
 			String user = request.getParameter("user");
 			String mode = request.getParameter("mode");
@@ -147,29 +147,22 @@ public class JsonResponseOutputterController_SADMOCF {
 			StringBuffer dbErrorStackTrace = new StringBuffer();
 			
 			//bind attributes is any
-			SadmoifDao dao = new SadmoifDao();
+			SadmocfDao dao = new SadmocfDao();
 			ServletRequestDataBinder binder = new ServletRequestDataBinder(dao);
             binder.bind(request);
-            logger.warn("avd:" + dao.getEiavd().toString());
-            logger.warn("pro:" + dao.getEipro().toString());
-            logger.warn("eilnrt:" + dao.getEilnrt().toString());
-            logger.warn("eilnrm:" + dao.getEilnrm().toString());
-            logger.warn("eilnrh:" + dao.getEilnrh().toString());
             logger.warn("user:" + user);
             logger.warn("mode:" + mode);
-            logger.warn("eist:" + dao.getEist());
+            logger.warn("orgnr:" + dao.getOrgnr());
+            logger.warn("name:" + dao.getName());
+            logger.warn("commtype:" + dao.getCommtype());
+            logger.warn("format:" + dao.getFormat());
             
-            
-            
-            
-            //rules
-            SADMOIF_U rulerLord = new SADMOIF_U();
-			//Start processing now
+            //Start processing now
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				if("D".equals(mode)){
-					if(rulerLord.isValidInputForDelete(dao, userName, mode)){
-						dmlRetval = this.sadmoifDaoServices.delete(dao, dbErrorStackTrace);
+					if(StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(dao.getOrgnr())){
+						dmlRetval = this.sadmocfDaoServices.delete(dao, dbErrorStackTrace);
 					}else{
 						//write JSON error output
 						errMsg = "ERROR on DELETE: invalid?  Try to check: <DaoServices>.delete";
@@ -177,16 +170,16 @@ public class JsonResponseOutputterController_SADMOCF {
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}
 				}else{
-				  if(rulerLord.isValidInputForUpdate(dao, userName, mode)){
+				  if(StringUtils.isNotEmpty(user) && StringUtils.isNotEmpty(dao.getOrgnr()) && StringUtils.isNotEmpty(dao.getCommtype()) && StringUtils.isNotEmpty(dao.getFormat())){
 						logger.warn("Before UPDATE ...");
 						//do ADD
 						if("A".equals(mode)){
 							logger.info("MODE:" + mode + " " + " INSERT...");
-							dmlRetval = this.sadmoifDaoServices.insert(dao, dbErrorStackTrace);
+							dmlRetval = this.sadmocfDaoServices.insert(dao, dbErrorStackTrace);
 							
 						}else if("U".equals(mode)){
 							logger.info("MODE:" + mode + " " + " UPDATE...");
-							dmlRetval = this.sadmoifDaoServices.update(dao, dbErrorStackTrace);
+							dmlRetval = this.sadmocfDaoServices.update(dao, dbErrorStackTrace);
 							 
 						}
 						
@@ -208,12 +201,10 @@ public class JsonResponseOutputterController_SADMOCF {
 				}else{
 					//OK INSERT/UPDATE
 					if("A".equals(mode)){
-						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dao.getEilnrt(), dao.getEilnrm(), dao.getEilnrh(), dmlRetval ));
+						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status, dao.getOrgnr(), dao.getName(), dao.getCommtype(), dao.getFormat(), dmlRetval ));
 					}else {
 						sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
 					}
-					
-					sb.append(jsonWriter.setJsonSimpleValidResult(userName, status));
 				}
 				
 			}else{
@@ -234,7 +225,7 @@ public class JsonResponseOutputterController_SADMOCF {
 		session.invalidate();
 		return sb.toString();
 	}
-	*/
+	
 	//----------------
 	//WIRED SERVICES
 	//----------------
