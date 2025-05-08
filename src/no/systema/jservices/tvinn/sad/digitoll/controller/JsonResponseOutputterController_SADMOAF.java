@@ -164,11 +164,11 @@ public class JsonResponseOutputterController_SADMOAF {
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				
-				logger.warn("Before INSERT ...");
 				List<SadmoafDao> list = new ArrayList<SadmoafDao>();
 				
 				//do ADD
 				if("A".equals(mode)){
+					logger.warn("Before INSERT ...");
 					String avdId = String.valueOf(dao.getEtavd());
 					List tmpList= this.sadmoafDaoServices.findById(avdId, dbErrorStackTrace);
 					if(tmpList!=null && tmpList.size()>0) {
@@ -178,9 +178,12 @@ public class JsonResponseOutputterController_SADMOAF {
 					}
 					
 				}else if("U".equals(mode)){
+					logger.warn("Before UPDATE ...");
 					dmlRetval = this.sadmoafDaoServices.update(dao, dbErrorStackTrace);
 					
 				}else if("D".equals(mode)){
+					
+					logger.warn("Before DELETE ...");
 					dmlRetval = this.sadmoafDaoServices.delete(dao, dbErrorStackTrace);
 					
 				}else{

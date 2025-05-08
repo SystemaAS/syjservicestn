@@ -101,7 +101,6 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			sql.append(" emavd, empro, emlnrt, emlnrm, emknt, emrgt, ");
 			sql.append(" emdtr, emsg, emst, emst2, emuuid, emmid, emst3, emdtin, ematdd, emcn, emvkb, ");
 			sql.append(" emrcem1, emrcem2, emrcem3, ");
-			//
 			sql.append(" emknm, emrgm, emtppm, emnam, emna2m, emad1m, emnrm, empnm, empsm, emlkm, empbm, ememm, ememmt,  ");
 			sql.append(" emkns, emrgs, emtpps, emnas, emna2s, emad1s, emnrs, empns, empss, emlks, empbs, emems, ememst,  ");
 			sql.append(" emdkm, emdkmt, emc1ty, emc1ps, emc1ss, emc1id, emc2ty, emc2ps, emc2ss, emc2id,  emc3ty, emc3ps, emc3ss, emc3id,  ");
@@ -169,11 +168,14 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			sql.append(" etknt = ?, etrgt = ?, etnat = ?, etad1t = ?, etpnt = ?, etpst = ?, etlkt = ?, etemt = ?, etemtt = ?, ");
 			sql.append(" etdkm = ? , etdkmt = ? , ettsd = ?, ");
 			//MASTER
-			sql.append(" emavd = ? , empro = ? , emrcem1 = ? , emrcem2 = ?, emrcem3 = ?, emcn = ?, emvkb = ?, emknt = ?, emrgt = ?, ");
-			sql.append(" emknm = ?, emrgm = ?, emtppm = ?, emnam = ?, emad1m = ?, empnm = ?, empsm = ?, emlkm = ?, ememm = ?, ememmt = ?, ");
-			sql.append(" emkns = ?, emrgs = ?, emtpps = ?, emnas = ?, emad1s = ?, empns = ?, empss = ?, emlks = ?, emems = ?, ememst = ?, ");
-			sql.append(" emdkm = ? , emdkmt = ? , emc1ty = ? , emc1ps = ? , emc1ss = ?, emc1id = ?, emc2ty = ? , emc2ps = ? , emc2ss = ?, emc2id = ?,  emc3ty = ? , emc3ps = ? , emc3ss = ?, emc3id = ?, ");
-			sql.append(" emlkl = ? , emsdl = ? , emsdlt = ?, emlku = ?, emsdu = ?, emsdut = ?, emlkd = ?, emsdd = ?, emsddt = ? ");
+			sql.append(" emavd= ? , empro= ? , emlnrt= ? , emlnrm= ? , emknt= ? , emrgt= ? , ");
+			sql.append(" emdtr= ? , emsg= ? , emst= ? , emst2= ? , emuuid= ? , emmid= ? , emst3= ? , emdtin= ? , ematdd= ? , emcn= ? , emvkb= ? , ");
+			sql.append(" emrcem1= ? , emrcem2= ? , emrcem3= ? , ");
+			sql.append(" emknm= ? , emrgm= ? , emtppm= ? , emnam= ? , emna2m= ? , emad1m= ? , emnrm= ? , empnm= ? , empsm= ? , emlkm= ? , empbm= ? , ememm= ? , ememmt= ? ,  ");
+			sql.append(" emkns= ? , emrgs= ? , emtpps= ? , emnas= ? , emna2s= ? , emad1s= ? , emnrs= ? , empns= ? , empss= ? , emlks= ? , empbs= ? , emems= ? , ememst= ? ,  ");
+			sql.append(" emdkm= ? , emdkmt= ? , emc1ty= ? , emc1ps= ? , emc1ss= ? , emc1id= ? , emc2ty= ? , emc2ps= ? , emc2ss= ? , emc2id= ? ,  emc3ty= ? , emc3ps= ? , emc3ss= ? , emc3id= ? ,  ");
+			sql.append(" emlkl= ? , emsdl= ? , emsdlt= ? , emlku= ? , emsdu= ? , emsdut= ? , emlkd= ? , emsdd= ? , emsddt= ? ");
+			
 			//id's
 			sql.append(" WHERE etavd = ? ");
 			
@@ -186,11 +188,14 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtad1t(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtemt(), dao.getEtemtt(),
 			dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(),
 			//MASTER
-			dao.getEmavd(), dao.getEmpro(), dao.getEmrcem1(), dao.getEmrcem2(), dao.getEmrcem3(), dao.getEmcn(), dao.getEmvkb(), dao.getEmknt(), dao.getEmrgt(),
-			dao.getEmknm(), dao.getEmrgm(), dao.getEmtppm(), dao.getEmnam(), dao.getEmad1m(), dao.getEmpnm(), dao.getEmpsm(), dao.getEmlkm(), dao.getEmemm(), dao.getEmemmt(),
-			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmad1s(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmems(), dao.getEmemst(),
+			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmknt(), dao.getEmrgt(),	
+			dao.getEmdtr(), dao.getEmsg(), dao.getEmst(), dao.getEmst2(), dao.getEmuuid(), dao.getEmmid(), dao.getEmst3(), dao.getEmdtin(), dao.getEmatdd(), dao.getEmcn(), dao.getEmvkb(),
+			dao.getEmrcem1(), dao.getEmrcem2(), dao.getEmrcem3(),
+			dao.getEmknm(), dao.getEmrgm(), dao.getEmtppm(), dao.getEmnam(), dao.getEmna2m(), dao.getEmad1m(), dao.getEmnrm(), dao.getEmpnm(), dao.getEmpsm(), dao.getEmlkm(), dao.getEmpbm(), dao.getEmemm(), dao.getEmemmt(),
+			dao.getEmkns(), dao.getEmrgs(), dao.getEmtpps(), dao.getEmnas(), dao.getEmna2s(), dao.getEmad1s(), dao.getEmnrs(), dao.getEmpns(), dao.getEmpss(), dao.getEmlks(), dao.getEmpbs(), dao.getEmems(), dao.getEmemst(),
 			dao.getEmdkm(), dao.getEmdkmt(), dao.getEmc1ty(), dao.getEmc1ps(), dao.getEmc1ss(), dao.getEmc1id(), dao.getEmc2ty(), dao.getEmc2ps(), dao.getEmc2ss(), dao.getEmc2id(), dao.getEmc3ty(), dao.getEmc3ps(), dao.getEmc3ss(), dao.getEmc3id(),
 			dao.getEmlkl(), dao.getEmsdl(), dao.getEmsdlt(), dao.getEmlku(), dao.getEmsdu(), dao.getEmsdut(), dao.getEmlkd(), dao.getEmsdd(), dao.getEmsddt(),
+			
 			//id's
 			dao.getEtavd(),
 			} );

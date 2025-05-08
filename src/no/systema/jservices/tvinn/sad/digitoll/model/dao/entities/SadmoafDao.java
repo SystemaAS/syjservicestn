@@ -63,7 +63,7 @@ public class SadmoafDao implements IDao {
 	private String emuuid =""; //      lrn                                    877  912    36         a  
 	private String emmid  =""; //      mrn                                    913  930    18         a  
 	private String emmid_own =""; //   mrn backup                             931  948    18         a  
-	private Integer emavd = 0; //      avdeling                               949  952     4   4   0 s  
+	private Integer emavd = 0; //      avdeling                               949  952     4   4   0 s 
 	private Integer empro = 0; //      turnummer                              953  960     8   8   0 s  
 	private Integer emlnrt = 0; //     løpenummer                             961  967     7   7   0 s  
 	private Integer emlnrm = 0; //     m-lnr innen transp                     968  971     4   4   0 s  
