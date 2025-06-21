@@ -22,6 +22,7 @@ public interface SadmotfDaoServices extends IDaoServices {
 	public int setMrnBup(Object daoObj, StringBuffer errorStackTrace);
 	public int setRequestIdBup(Object daoObj, StringBuffer errorStackTrace);
 	public int resetMrn(Object daoObj, StringBuffer errorStackTrace);
+	public int resetMrnManually(Object daoObj, StringBuffer errorStackTrace);
 	public int reassignSignature(Object daoObj, StringBuffer errorStackTrace);
 	//Entry
 	public int updateStatus2ForEntry(Object daoObj, StringBuffer errorStackTrace);

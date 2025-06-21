@@ -411,6 +411,17 @@ public class JsonResponseOutputterController_SADMOTF {
 								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 							}
 							 
+						}else if("RESET_MRN_MANUALLY".equals(mode)){
+							logger.warn("MODE:" + mode);
+							if(rulerLord.isValidInputForResetMrn(dao, userName, mode)){
+								dmlRetval = this.sadmotfDaoServices.resetMrnManually(dao, dbErrorStackTrace);
+							}else {
+								//write JSON error output
+								errMsg = "ERROR on ResetMrn invalid (rulerLord)?  Try to check: <DaoServices>.update";
+								status = "error";
+								sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+							}
+							 
 						}
 						
 				  }else{
