@@ -255,16 +255,24 @@ public class JsonResponseOutputterController_SADMOTF {
             logger.warn("etmid:" + dao.getEtmid());
             logger.warn("etsjaf:" + dao.getEtsjaf());
             
-            //clean name
+            //clean driver's name
             String washedDriversName = DiacriticalCharacterManager.stripDiacriticsKeepNordicLetters(dao.getEtsjaf());
             dao.setEtsjaf(washedDriversName);
+            logger.warn("etsjaf - washed:" + dao.getEtsjaf());
+            
             //clean carrier's name
             String washedCarrierName = SpecialCharactersManager.cleanRecord(dao.getEtnat());
             dao.setEtnat(washedCarrierName);
+            
+            //clean carrier's address
+            logger.warn("etad1t:" + dao.getEtad1t());
+            String washedCarrierAddress = DiacriticalCharacterManager.stripDiacriticsKeepNordicLetters(dao.getEtad1t());
+            dao.setEtad1t(washedCarrierAddress);
+            logger.warn("etad1t - washed:" + dao.getEtad1t());
+            
             //clean representative's name
             String washedRepresentativeName = SpecialCharactersManager.cleanRecord(dao.getEtnar());
             dao.setEtnar(washedRepresentativeName);
-            
             
             //rules
             SADMOTF_U rulerLord = new SADMOTF_U();
