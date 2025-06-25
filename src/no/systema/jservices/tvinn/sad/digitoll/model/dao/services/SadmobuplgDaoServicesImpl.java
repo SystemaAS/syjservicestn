@@ -50,7 +50,7 @@ public class SadmobuplgDaoServicesImpl implements SadmobuplgDaoServices {
 			params.add(SQL_WILD_CARD);
 			//walk through the filter fields
 			
-			if(StringUtils.isNotEmpty(dao.getDate())){ sql.append(" and date = ? "); params.add(dao.getDate()); } 
+			if(StringUtils.isNotEmpty(dao.getDate())){ sql.append(" and date >= ? "); params.add(dao.getDate()); } 
 			if(StringUtils.isNotEmpty(dao.getTime())){ sql.append(" and time = ? "); params.add(dao.getTime()); } 
 			if(StringUtils.isNotEmpty(dao.getMsgid())){ sql.append(" and msgid = ? "); params.add(dao.getMsgid()); } 
 			if(StringUtils.isNotEmpty(dao.getPeppolid())){ sql.append(" and peppolid = ? "); params.add(dao.getPeppolid()); } 
