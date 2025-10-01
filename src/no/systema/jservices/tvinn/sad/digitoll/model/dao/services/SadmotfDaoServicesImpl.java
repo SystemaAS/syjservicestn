@@ -321,24 +321,24 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			//DEBUG --> logger.info("mydebug");
 			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( etst, etavd, etpro, etlnrt, etdtr, etsg, etst2, etst3, etdtin, ");
 			sql.append(" etetad, etetat, etshed, etshet, ");
-			sql.append(" etknr, etrgr, etnar, etna2r, etad1r, etnrr, etpnr, etpsr, etlkr, etpbr, etemr, etemrt, etkmrk, etktm, ");
+			sql.append(" etknr, etrgr, etnar, etna2r, etad1r, etnrr, etpnr, etpsr, etlkr, etpbr, etemr, etemrt, etemrx, etemrtx, etkmrk, etktm, ");
 			sql.append(" etktyp, etklk, etcref, etktkd, etsjaf, etems, etemst,  ");
-			sql.append(" etknt, etrgt, etnat, etna2t, etad1t, etnrt, etpnt, etpst, etlkt, etpbt, etemt, etemtt, etdkm, etdkmt, ettsd ) ");
+			sql.append(" etknt, etrgt, etnat, etna2t, etad1t, etnrt, etpnt, etpst, etlkt, etpbt, etemt, etemtt, etemtx, etemttx, etdkm, etdkmt, ettsd ) ");
 			
 			sql.append(" VALUES (?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ) ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ) ");
 			
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					
 			dao.getEtst(), dao.getEtavd(), dao.getEtpro(), dao.getEtlnrt(), dao.getEtdtr(), dao.getEtsg(), dao.getEtst2(), dao.getEtst3(), dao.getEtdtin(),
 			dao.getEtetad(), dao.getEtetat(), dao.getEtshed(), dao.getEtshet(),  
-			dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtna2r(), dao.getEtad1r(), dao.getEtnrr(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtpbr(), dao.getEtemr(), dao.getEtemrt(), dao.getEtkmrk(), dao.getEtktm(),
+			dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtna2r(), dao.getEtad1r(), dao.getEtnrr(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtpbr(), dao.getEtemr(), dao.getEtemrt(), dao.getEtemrx(), dao.getEtemrtx(), dao.getEtkmrk(), dao.getEtktm(),
 			dao.getEtktyp(), dao.getEtklk(), dao.getEtcref(), dao.getEtktkd(), dao.getEtsjaf(), dao.getEtems(), dao.getEtemst(),
-			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtna2t(), dao.getEtad1t(), dao.getEtnrt(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtpbt(), dao.getEtemt(), dao.getEtemtt(), dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(),
+			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtna2t(), dao.getEtad1t(), dao.getEtnrt(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtpbt(), dao.getEtemt(), dao.getEtemtt(), dao.getEtemtx(), dao.getEtemttx(), dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(),
 
 			} );
 			
@@ -374,9 +374,9 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 			
 			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET etdtr = ?, etsg = ?, etst = ?, etst2 = ?, etuuid = ?, etmid = ?, etst3 = ?, etdtin = ?, etetad = ?, etetat = ?,  ");
 			sql.append(" etshed = ? , etshet = ? , etknr = ? , etrgr = ? , etnar = ?, etna2r = ?, etad1r = ?, etnrr = ?, etpnr = ?, etpsr = ?, etlkr = ?, etpbr = ?, ");
-			sql.append(" etemr = ? , etemrt = ? , etkmrk = ? , etktm = ? , etktyp = ?, etklk = ?, etcref = ?, etktkd = ?, etsjaf = ?, etems = ?, etemst = ?, ");
+			sql.append(" etemr = ? , etemrt = ? , etemrx = ? , etemrtx = ? , etkmrk = ? , etktm = ? , etktyp = ?, etklk = ?, etcref = ?, etktkd = ?, etsjaf = ?, etems = ?, etemst = ?, ");
 			sql.append(" etknt = ? , etrgt = ? , etnat = ?, etna2t = ?, etad1t = ?, etnrt = ?, etpnt = ?, etpst = ?, etlkt = ?, etpbt = ?, ");
-			sql.append(" etemt = ? , etemtt = ? , etdkm = ? , etdkmt = ? , ettsd = ? ");
+			sql.append(" etemt = ? , etemtt = ? , etemtx = ? , etemttx = ? , etdkm = ? , etdkmt = ? , ettsd = ? ");
 			
 			//id's
 			sql.append(" WHERE etlnrt = ? ");
@@ -386,9 +386,9 @@ public class SadmotfDaoServicesImpl implements SadmotfDaoServices {
 					
 			dao.getEtdtr(), dao.getEtsg(), dao.getEtst(), dao.getEtst2(), dao.getEtuuid(), dao.getEtmid(), dao.getEtst3(), dao.getEtdtin(), dao.getEtetad(), dao.getEtetat(),
 			dao.getEtshed(), dao.getEtshet(), dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtna2r(), dao.getEtad1r(), dao.getEtnrr(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtpbr(),
-			dao.getEtemr(), dao.getEtemrt(), dao.getEtkmrk(), dao.getEtktm(), dao.getEtktyp(), dao.getEtklk(), dao.getEtcref(), dao.getEtktkd(), dao.getEtsjaf(), dao.getEtems(), dao.getEtemst(),
+			dao.getEtemr(), dao.getEtemrt(), dao.getEtemrx(), dao.getEtemrtx(), dao.getEtkmrk(), dao.getEtktm(), dao.getEtktyp(), dao.getEtklk(), dao.getEtcref(), dao.getEtktkd(), dao.getEtsjaf(), dao.getEtems(), dao.getEtemst(),
 			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtna2t(), dao.getEtad1t(), dao.getEtnrt(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtpbt(),
-			dao.getEtemt(), dao.getEtemtt(), dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(), 
+			dao.getEtemt(), dao.getEtemtt(), dao.getEtemtx(), dao.getEtemttx(), dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(), 
 			//id's
 			dao.getEtlnrt(),
 			} );

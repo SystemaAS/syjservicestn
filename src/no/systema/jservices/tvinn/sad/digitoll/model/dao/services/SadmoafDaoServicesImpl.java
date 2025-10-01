@@ -93,9 +93,9 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//TRANSPORT data
 			sql.append(" INSERT INTO "  + this.TABLE_NAME +  "( etavd, etsg, etpro, etetad, etetat, etshed, etshet, ");
-			sql.append(" etknr, etrgr, etnar, etna2r, etad1r, etnrr, etpnr, etpsr, etlkr, etpbr, etemr, etemrt, etkmrk, etktm, ");
+			sql.append(" etknr, etrgr, etnar, etna2r, etad1r, etnrr, etpnr, etpsr, etlkr, etpbr, etemr, etemrt, etemrx, etemrtx, etkmrk, etktm, ");
 			sql.append(" etktyp, etklk, etcref, etktkd, etsjaf, etems, etemst,  ");
-			sql.append(" etknt, etrgt, etnat, etna2t, etad1t, etnrt, etpnt, etpst, etlkt, etpbt, etemt, etemtt, etdkm, etdkmt, ettsd, ");
+			sql.append(" etknt, etrgt, etnat, etna2t, etad1t, etnrt, etpnt, etpst, etlkt, etpbt, etemt, etemtt, etemtx, etemttx, etdkm, etdkmt, ettsd, ");
 			
 			//MASTER data
 			sql.append(" emavd, empro, emlnrt, emlnrm, emknt, emrgt, ");
@@ -109,9 +109,9 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			//VALUES
 			//TRANSPORT data
 			sql.append(" VALUES (?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?, ");
-			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,  ");
+			sql.append(" ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,  ");
 			//MASTER data
 			sql.append(" ?,?,?,?,?,?, ");
 			sql.append(" ?,?,?,?,?,?,?,?,?,?,?, ");
@@ -126,9 +126,9 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 					
 			dao.getEtavd(), dao.getEtsg(), dao.getEtpro(), dao.getEtetad(), dao.getEtetat(), dao.getEtshed(), dao.getEtshet(),  
-			dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtna2r(), dao.getEtad1r(), dao.getEtnrr(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtpbr(), dao.getEtemr(), dao.getEtemrt(), dao.getEtkmrk(), dao.getEtktm(),
+			dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtna2r(), dao.getEtad1r(), dao.getEtnrr(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtpbr(), dao.getEtemr(), dao.getEtemrt(), dao.getEtemrx(), dao.getEtemrtx(), dao.getEtkmrk(), dao.getEtktm(),
 			dao.getEtktyp(), dao.getEtklk(), dao.getEtcref(), dao.getEtktkd(), dao.getEtsjaf(), dao.getEtems(), dao.getEtemst(),
-			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtna2t(), dao.getEtad1t(), dao.getEtnrt(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtpbt(), dao.getEtemt(), dao.getEtemtt(), dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(),
+			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtna2t(), dao.getEtad1t(), dao.getEtnrt(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtpbt(), dao.getEtemt(), dao.getEtemtt(), dao.getEtemtx(), dao.getEtemttx(), dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(),
 			//MASTER data
 			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmknt(), dao.getEmrgt(),	
 			dao.getEmdtr(), dao.getEmsg(), dao.getEmst(), dao.getEmst2(), dao.getEmuuid(), dao.getEmmid(), dao.getEmst3(), dao.getEmdtin(), dao.getEmatdd(), dao.getEmcn(), dao.getEmvkb(),
@@ -163,9 +163,9 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			StringBuffer sql = new StringBuffer();
 			//TRANSPORT
 			sql.append(" UPDATE "  + this.TABLE_NAME +  " SET etst = ?, etsg = ?, etpro = ?, etetad = ?, etetat = ?, ");
-			sql.append(" etknr = ?, etrgr = ?, etnar = ?, etad1r = ?, etpnr = ?, etpsr = ?, etlkr = ?, etemr = ?, etemrt = ?, etkmrk = ?, etktyp = ?, ");
+			sql.append(" etknr = ?, etrgr = ?, etnar = ?, etad1r = ?, etpnr = ?, etpsr = ?, etlkr = ?, etemr = ?, etemrt = ?, etemrx = ?, etemrtx = ?, etkmrk = ?, etktyp = ?, ");
 			sql.append(" etktm = ?, etklk = ?, etcref = ?, etktkd = ?, etsjaf = ?, etems = ?, etemst = ?, ");
-			sql.append(" etknt = ?, etrgt = ?, etnat = ?, etad1t = ?, etpnt = ?, etpst = ?, etlkt = ?, etemt = ?, etemtt = ?, ");
+			sql.append(" etknt = ?, etrgt = ?, etnat = ?, etad1t = ?, etpnt = ?, etpst = ?, etlkt = ?, etemt = ?, etemtt = ?, etemtx = ?, etemttx = ?, ");
 			sql.append(" etdkm = ? , etdkmt = ? , ettsd = ?, ");
 			//MASTER
 			sql.append(" emavd= ? , empro= ? , emlnrt= ? , emlnrm= ? , emknt= ? , emrgt= ? , ");
@@ -183,9 +183,9 @@ public class SadmoafDaoServicesImpl implements SadmoafDaoServices {
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
 			//TRANSPORT
 			dao.getEtst(), dao.getEtsg(), dao.getEtpro(), dao.getEtetad(), dao.getEtetat(),	
-			dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtad1r(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtemr(), dao.getEtemrt(), dao.getEtkmrk(), dao.getEtktyp(),	
+			dao.getEtknr(), dao.getEtrgr(), dao.getEtnar(), dao.getEtad1r(), dao.getEtpnr(), dao.getEtpsr(), dao.getEtlkr(), dao.getEtemr(), dao.getEtemrt(), dao.getEtemrx(), dao.getEtemrtx(), dao.getEtkmrk(), dao.getEtktyp(),	
 			dao.getEtktm(), dao.getEtklk(), dao.getEtcref(), dao.getEtktkd(), dao.getEtsjaf(), dao.getEtems(), dao.getEtemst(),
-			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtad1t(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtemt(), dao.getEtemtt(),
+			dao.getEtknt(), dao.getEtrgt(), dao.getEtnat(), dao.getEtad1t(), dao.getEtpnt(), dao.getEtpst(), dao.getEtlkt(), dao.getEtemt(), dao.getEtemtt(), dao.getEtemtx(), dao.getEtemttx(),
 			dao.getEtdkm(), dao.getEtdkmt(), dao.getEttsd(),
 			//MASTER
 			dao.getEmavd(), dao.getEmpro(), dao.getEmlnrt(), dao.getEmlnrm(), dao.getEmknt(), dao.getEmrgt(),	
