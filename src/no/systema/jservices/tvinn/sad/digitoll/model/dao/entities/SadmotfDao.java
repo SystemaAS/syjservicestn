@@ -1,12 +1,13 @@
 package no.systema.jservices.tvinn.sad.digitoll.model.dao.entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map; 
 import lombok.Data;
 import no.systema.jservices.model.dao.entities.IDao;
 
 @Data
-public class SadmotfDao implements IDao {
+public class SadmotfDao implements Serializable, IDao {
 	
 	private String etst = ""; // varchar(1) , 
 	private Integer etavd = 0; // numeric(4) default 0,

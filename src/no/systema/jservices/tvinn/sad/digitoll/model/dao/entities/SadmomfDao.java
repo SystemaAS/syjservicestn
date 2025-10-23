@@ -1,12 +1,13 @@
 package no.systema.jservices.tvinn.sad.digitoll.model.dao.entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map; 
 import lombok.Data;
 import no.systema.jservices.model.dao.entities.IDao;
 
 @Data
-public class SadmomfDao implements IDao {
+public class SadmomfDao implements Serializable, IDao {
 	
 	private String emst  = "";  //tegn            1    status    
 	private String emuuid ="";  //tegn           36    lrn  

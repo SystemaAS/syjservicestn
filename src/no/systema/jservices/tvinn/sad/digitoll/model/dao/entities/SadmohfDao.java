@@ -1,10 +1,12 @@
 package no.systema.jservices.tvinn.sad.digitoll.model.dao.entities;
 
+import java.io.Serializable;
+
 import lombok.Data;
 import no.systema.jservices.model.dao.entities.IDao;
 
 @Data
-public class SadmohfDao implements IDao  {
+public class SadmohfDao implements  Serializable, IDao  {
 	
 	private String ehst = ""; //       tegn            1       1         1        begge    status      
 	private String ehst2 = ""; //      tegn            1       1         2        begge    status 2    
