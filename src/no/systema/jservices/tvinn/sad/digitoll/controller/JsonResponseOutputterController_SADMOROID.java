@@ -155,16 +155,28 @@ public class JsonResponseOutputterController_SADMOROID {
 			if(userName!=null && !"".equals(userName)){
 				int dmlRetval = 0;
 				
-				logger.warn("Before INSERT ...");
 				List<SadmoroidDao> list = new ArrayList<SadmoroidDao>();
 				
 				//do ADD
 				if("A".equals(mode)){
+					logger.warn("Before INSERT ...");
+					
 					if(StringUtils.isNotEmpty(dao.getRid()) && StringUtils.isNotEmpty(dao.getFdate())) {
 						dmlRetval = this.sadmoroidDaoServices.insert(dao, dbErrorStackTrace);
 					}else {
 						//write JSON error output
 						errMsg = "ERROR on INSERT: invalid values (rid, fdate) for INSERT?";
+						status = "error";
+						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
+					}	
+				}else if("U".equals(mode)){
+					logger.warn("Before UPDATE ...");
+					
+					if(StringUtils.isNotEmpty(dao.getRid())) {
+						dmlRetval = this.sadmoroidDaoServices.update(dao, dbErrorStackTrace);
+					}else {
+						//write JSON error output
+						errMsg = "ERROR on INSERT: invalid values (rid) for UPDATE?";
 						status = "error";
 						sb.append(jsonWriter.setJsonSimpleErrorResult(userName, errMsg, status, dbErrorStackTrace));
 					}	

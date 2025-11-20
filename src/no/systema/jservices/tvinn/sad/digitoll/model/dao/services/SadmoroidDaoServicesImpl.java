@@ -160,21 +160,24 @@ public class SadmoroidDaoServicesImpl implements SadmoroidDaoServices {
 	 */
 	public int update(Object daoObj, StringBuffer errorStackTrace){
 		int retval = 0;
-		//N/A
 		
-		/*
+		
 		try{
 			SadmoroidDao dao = (SadmoroidDao)daoObj;
+			dao.setFdate(dateTimeMgr.getCurrentDate_ISO());
 			
 			StringBuffer sql = new StringBuffer();
-			//DEBUG --> logger.info("mydebug");
-			sql.append(" UPDATE " + DB_TABLE + " set msgid = ?, peppolid = ? ");
-			sql.append(" WHERE file = ? ");
+			//DEBUG --> 
+			logger.info("fdate:" + dao.getFdate());
+			sql.append(" UPDATE " + DB_TABLE + " set rid = ?, fdate = ? ");
+			logger.info("sql:" + sql.toString());
+			logger.info("rid:" + dao.getRid());
+			logger.info("fdate:" + dao.getFdate());
 			//params
 			retval = this.jdbcTemplate.update( sql.toString(), new Object[] { 
-					dao.getMsgid(), dao.getPeppolid(),
-					//id
-					dao.getFile()
+					dao.getRid(), 
+					//date
+					dao.getFdate()
 					} );
 			
 			
@@ -186,8 +189,7 @@ public class SadmoroidDaoServicesImpl implements SadmoroidDaoServices {
 			retval = -1;
 		}
 		return retval;
-		*/
-		return 0;
+	
 	}
 	/**
 	 * DELETE
